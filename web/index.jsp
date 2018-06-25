@@ -70,37 +70,36 @@
             </nav>
         </div>
 <!FINAL - BARRA DE NAVEGACIÓN FIXED>   
-    <div class="container">
-      <div class="row">
-        <div class="col m12">
-          <div class="card">
-            <div class="card-content">
-                 <div class="row">
-                    <form class="col m12">
-                      <div class="row">
-                        <div class="input-field col m12">
-                          <input id="last_name" type="text" class="validate">
-                          <label for="last_name">Nombre de Usuario</label>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="input-field col m12">
-                          <input id="password" type="password" class="validate">
-                          <label for="password">Password</label>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-            </div>
-          </div>
+  <div class="col m3 m3">
+    <div class="card horizontal">
+      <div class="card-image">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          <p>Bienvenido a æLita.</p>
+        </div>
+        <div class="row">
+            <form>
+                <div class="input-field col m12">
+                    <input id="last_name" type="text" class="validate">
+                    <label for="last_name">Last Name</label>
+                </div>
+                <div class="input-field col m12">
+                    <input id="password" type="password" class="validate">
+                    <label for="password">Password</label>
+                </div>
+                <a class="waves-effect waves-light btn right">Ingresar</a>
+            </form>  
+        </div>  
+        <div class="card-action">
+            <a class="waves-effect waves-light btn">Registrarse</a>
         </div>
       </div>
     </div>
+  </div>
 
 
-
-
-    <!--
+<!--
         <footer class="page-footer blue-grey">
             <div class="container">
                 <div class="row">
