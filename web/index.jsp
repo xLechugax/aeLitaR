@@ -70,7 +70,8 @@
             </nav>
         </div>
 <!FINAL - BARRA DE NAVEGACIÓN FIXED>   
-  <div class="col m3 m3">
+ <div class="container"> 
+    <div class="col m3 m3">
     <div class="card horizontal">
       <div class="card-image">
       </div>
@@ -97,7 +98,7 @@
       </div>
     </div>
   </div>
-
+</div>
 
 <!--
         <footer class="page-footer blue-grey">
