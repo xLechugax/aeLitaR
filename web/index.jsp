@@ -79,19 +79,24 @@
         <div class="card-content">
           <p>Bienvenido a æLita.</p>
         </div>
-        <div class="row">
-            <form>
-                <div class="input-field col m12">
-                    <input id="last_name" type="text" class="validate">
-                    <label for="last_name">Last Name</label>
-                </div>
-                <div class="input-field col m12">
-                    <input id="password" type="password" class="validate">
-                    <label for="password">Password</label>
-                </div>
-                <a class="waves-effect waves-light btn right">Ingresar</a>
-            </form>  
-        </div>  
+        <div class="container">  
+            <div class="row">
+                <form>
+                    <div class="input-field col m3">
+                        <input id="last_name" type="text" class="validate">
+                        <label for="last_name">Nombre de Usuario</label>
+                    </div>
+                    <div class="input-field col m3">
+                        <input id="password" type="password" class="validate">
+                        <label for="password">Contraseña</label>
+                    </div>
+                    <br/>
+                    <div class="input-field col m3">
+                        <a class="waves-effect waves-light btn right">Ingresar</a>
+                    </div>
+                </form>  
+            </div>  
+        </div>     
         <div class="card-action">
             <a class="waves-effect waves-light btn">Registrarse</a>
         </div>
@@ -120,7 +125,7 @@
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                    © 2014 Copyright Text
+                    © 2018 æLita Copyright
                     <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
                 </div>
             </div>
