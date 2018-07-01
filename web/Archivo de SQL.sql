@@ -17,12 +17,8 @@ COLLATE='latin1_swedish_ci'
 ENGINE=InnoDB
 AUTO_INCREMENT=3
 ;
-
 DROP TABLE USUARIO
-
 SELECT * FROM USUARIO usuario
-
-
 INSERT INTO usuario (nombre,apellido,nombreUsuario,sexo,email,telefono,area_departamento,direccion,tipoCuenta,clave,activo) VALUES
 ('Patricio','Contreras','PATRICIO.CONTRERAS','M','patricio.a.contreras@clarochile.cl','225811562','MANTENCION','Fanor Verlasco #50','A','Teleco123','S'),
 ('Alvaro','Soto','ALVARO.SOTO','M','alvaro.soto@clarochile.cl','225811559','MANTENCION','Alfonso Vial #1079','A','Teleco123','N');

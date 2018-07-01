@@ -46,6 +46,9 @@
                 <div class="nav-wrapper blue-grey darken-3">
                     <a href="#!" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;æLita</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registro</a></li>
+                    </ul>
                 </div>
             </nav>
         </div>

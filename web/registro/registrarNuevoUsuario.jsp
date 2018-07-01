@@ -44,7 +44,7 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper blue-grey darken-3">
-                    <a href="#!" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;æLita</a>
+                    <a href="/aeLita/index.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;æLita</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 </div>
             </nav>
@@ -59,91 +59,84 @@
                         <br/><br/>  
                         <div class="container">  
                             <div class="row">
-                                <form class="col s12">
+                                <form class="col s12" action="RegistroUsuarioSub.jsp" method="post">
                                     <div class="row">
                                         <div class="input-field col s6">
-                                            <input id="first_name" type="text" class="validate" style="text-transform: uppercase">
+                                            <input name="nombre" type="text" class="validate" style="text-transform: uppercase" required="">
                                             <label>Nombre</label>
                                         </div>
                                         <div class="input-field col s6">
-                                            <input id="last_name" type="text" class="validate" style="text-transform: uppercase">
+                                            <input name="apellido" type="text" class="validate" style="text-transform: uppercase" required="">
                                             <label>Apellido</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <input id="correo" type="email" class="validate">
+                                            <input name="correo" type="email" class="validate" required="">
                                             <label>Correo</label>
                                         </div>
                                     </div>
                                     <div class="row">
+                                        <div class="input-field col s12">
+                                            <input name="confirmar_correo" type="email" class="validate" required="">
+                                            <label>Confirmar Correo</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="input-field col s6">
-                                            <input id="first_name" type="number" class="validate">
+                                            <input name="telefono_m" type="number" class="validate" required="">
                                             <label>Teléfono Móvil</label>
                                         </div>
                                         <div class="input-field col s6">
-                                            <input id="last_name" type="number" class="validate">
+                                            <input name="telefono_f" type="number" class="validate" required="">
                                             <label>Teléfono Fijo</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <input id="otro" type="text" class="validate">
+                                            <input name="area_departamento" type="text" class="validate" required="">
                                             <label>Area / Departamento</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s6">
-                                            <input id="password" type="password" class="validate">
+                                            <input name="clave" type="password" class="validate" required="">
                                             <label>Contraseña</label>
                                         </div>
                                         <div class="input-field col s6">
-                                            <input id="password" type="password" class="validate">
+                                            <input name="confirmar_clave" type="password" class="validate" required="">
                                             <label>Confirmar Contraseña</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <input id="otro" type="text" class="validate">
+                                            <input name="direccion" type="text" class="validate" required="">
                                             <label>Dirección</label>
                                         </div>
                                     </div>
+                                    <a>
+                                        Rol
+                                    </a>
                                     <div class="row">
-                                        <div class="input-field col s12">
-                                            <input id="otro" type="text" class="validate">
-                                            <label>Dirección</label>
-                                            <p>
-                                                <label>
-                                                    <input name="group1" type="radio" checked />
-                                                    <span>Red</span>
-                                                </label>
-                                            </p>
-                                            <p>
-                                                <label>
-                                                    <input name="group1" type="radio" />
-                                                    <span>Yellow</span>
-                                                </label>
-                                            </p>
-                                            <p>
-                                                <label>
-                                                    <input class="with-gap" name="group1" type="radio"  />
-                                                    <span>Green</span>
-                                                </label>
-                                            </p>
-                                            <p>
-                                                <label>
-                                                    <input name="group1" type="radio" disabled="disabled" />
-                                                    <span>Brown</span>
-                                                </label>
-                                            </p>
-                                        </div>
+                                        <p>
+                                            <input name="rol" type="radio" id="rolAdministrador"  required=""/>
+                                            <label for="rolAdministrador">Administrador</label>
+                                        </p>
+                                        <p>
+                                            <input name="rol" type="radio" id="rolSupervisor"  required=""/>
+                                            <label for="rolSupervisor">Supervisor</label>
+                                        </p>
+                                        <p>
+                                            <input name="rol" type="radio" id="rolEjecutor"   required=""/>
+                                            <label for="rolEjecutor">Ejecutor</label>
+                                        </p> 
                                     </div>
+                                    <center>
+                                        <input class="waves-effect waves-light btn" type="submit" value="Crear Usuario" />
+                                    </center>
                                 </form>
                             </div>
                         </div>     
-                        <div class="card-action">
-                            <a class="waves-effect waves-light btn">Registrarse</a>
-                        </div>
                     </div>
                 </div>
             </div>
