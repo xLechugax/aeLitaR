@@ -16,7 +16,7 @@
     <li><a href="/aeLita/administrador/gestorEstados.jsp">Gestor Estados</a></li>
     <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li>
 </ul>
-<ul id="DropDownDelNavVar" class="dropdown-content blue-grey lighten-5">
+<ul id="dropdown1" class="dropdown-content">
     <li><a href="/aeLita/materiales/escalamientos/index.jsp">Escalamientos</a></li>
     <li><a href="/aeLita/materiales/manuales/index.jsp">Manuales</a></li>
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
