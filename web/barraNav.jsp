@@ -24,7 +24,7 @@
     <li><a href="/aeLita/materiales/escalamientos/index.jsp">Escalamientos</a></li>
     <li><a href="/aeLita/materiales/manuales/index.jsp">Manuales</a></li>
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
-    <li><a href="/aeLita/materiales/teléfonos/index.jsp">Teléfonos</a></li>
+    <li><a href="/aeLita/materiales/telefonos/index.jsp">Teléfonos</a></li>
     <li><a href="/aeLita/materiales/procedimientos/index.jsp">Procedimientos</a></li>
 </ul>
 <div class="navbar-fixed">
@@ -69,7 +69,7 @@
     <li><a href="/aeLita/materiales/escalamientos/index.jsp">Escalamientos</a></li>
     <li><a href="/aeLita/materiales/manuales/index.jsp">Manuales</a></li>
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
-    <li><a href="/aeLita/materiales/teléfonos/index.jsp">Teléfonos</a></li>
+    <li><a href="/aeLita/materiales/telefonos/index.jsp">Teléfonos</a></li>
     <li><a href="/aeLita/materiales/procedimientos/index.jsp">Procedimientos</a></li>
 </ul>
 <div class="navbar-fixed">
@@ -108,7 +108,7 @@
     <li><a href="/aeLita/materiales/escalamientos/index.jsp">Escalamientos</a></li>
     <li><a href="/aeLita/materiales/manuales/index.jsp">Manuales</a></li>
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
-    <li><a href="/aeLita/materiales/teléfonos/index.jsp">Teléfonos</a></li>
+    <li><a href="/aeLita/materiales/telefonos/index.jsp">Teléfonos</a></li>
     <li><a href="/aeLita/materiales/procedimientos/index.jsp">Procedimientos</a></li>
 </ul>
 <div class="navbar-fixed">
