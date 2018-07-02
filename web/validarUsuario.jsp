@@ -28,9 +28,9 @@
                 if(tipoCuenta.equals("Administrador"))
                         response.sendRedirect("/aeLita/administrador/inicioAdmin.jsp");
                 if(tipoCuenta.equals("Supervisor"))
-                        response.sendRedirect("/aeLita/Supervisor/inicioSupervisor.jsp");
+                        response.sendRedirect("/aeLita/supervisor/inicioSupervisor.jsp");
                 if(tipoCuenta.equals("Ejecutor"))
-                        response.sendRedirect("/aeLita/Ejecutor/inicioEjecutor.jsp");
+                        response.sendRedirect("/aeLita/ejecutor/inicioEjecutor.jsp");
             }else{%>
 <html>
     <head>
