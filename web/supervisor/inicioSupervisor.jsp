@@ -6,7 +6,7 @@
     if (hs == null || hs.getAttribute("tipoCuenta") == null
             || !hs.getAttribute("tipoCuenta").equals("Supervisor")) {
 %>
-    <%@ include file="accesoDenegado.jsp" %>
+    <%@ include file="../accesoDenegado.jsp" %>
 <%        
         return;
     }

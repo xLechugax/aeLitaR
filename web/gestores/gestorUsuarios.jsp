@@ -7,7 +7,7 @@
     if (hs == null || hs.getAttribute("tipoCuenta") == null
             || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
 %>
-    <%@ include file="accesoDenegado.jsp" %>
+    <%@ include file="../accesoDenegado.jsp" %>
 <%   
         return;
     }
@@ -98,7 +98,7 @@
     </style>
     <main>
         <body class="blue-grey lighten-5">
-            <%@ include file="barraNav.jsp" %>
+            <%@ include file="../barraNav.jsp" %>
             <div class=""> 
                 <div class="col m3 m3">
                     <div class="card horizontal">
@@ -137,7 +137,7 @@
                                                 <%
                                                     if (rsUsuarios.getString("activo").equals("S")) {
                                                 %>
-                                                <img src="img/circuloverde.png" title="Desactivar" />
+                                                <img src="img/c" title="Desactivar" />
                                                 <% } else { %>
                                                 <img src="img/circulorojo.png" title="Activar"/>
                                                 <% }%>  
