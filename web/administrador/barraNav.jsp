@@ -8,7 +8,7 @@
 </ul>
 <ul class="side-nav" id="mobile-demo">
     <li><a class="dropdown-button" href="#!" data-activates="DropDownDelNavVar">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
-    <li><a href="/aeLita/administrador/gestorOT/inicioGestor.jsp">Gestor OT</a></li>
+    <li><a href="/aeLita/administrador/gestorOT.jsp">Gestor OT</a></li>
     <li><a href="/aeLita/administrador/gestorTareas/inicioGestorTareas.jsp">Gestor Tareas</a></li>
     <li><a href="/aeLita/administrador/gestorProcedimientos.jsp">Gestor Procedimientos</a></li>
     <li><a href="/aeLita/administrador/gestorReportes.jsp">Gestor Reportes</a></li>
@@ -30,7 +30,7 @@
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
-                <li><a href="/aeLita/administrador/gestorOT/inicioGestor.jsp">Gestor OT</a></li>
+                <li><a href="/aeLita/administrador/gestorOT.jsp">Gestor OT</a></li>
                 <li><a href="/aeLita/administrador/gestorTareas/inicioGestorTareas.jsp">Gestor Tareas</a></li>
                 <li><a href="/aeLita/administrador/gestorProcedimientos.jsp">Gestor Procedimientos</a></li>
                 <li><a href="/aeLita/administrador/gestorReportes.jsp">Gestor Reportes</a></li>

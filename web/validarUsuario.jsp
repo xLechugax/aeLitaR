@@ -2,7 +2,7 @@
 <%
     // 1.- Recuperar los datos del formulario de 'login'.
     String nombreUsuario  = request.getParameter("nombreUsuario").trim().toUpperCase();
-    String clave = request.getParameter("clave");
+    String clave = request.getParameter("clave").trim();
     ResultSet rsUsuario = null;
     
     HttpSession hs = request.getSession(true);
@@ -36,6 +36,7 @@
     <head>
         <meta http-equiv="Refresh" content="5;url=/aeLita/index.jsp">
         <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body class="blue-grey lighten-5">
         <br /><br /><br /><br /><br /><br /><br /><br /><br />
@@ -69,9 +70,9 @@
     <head>
         <meta http-equiv="Refresh" content="5;url=/aeLita/index.jsp">
         <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body class="blue-grey lighten-5">
-        <br /><br /><br /><br /><br /><br /><br /><br /><br />
         <center>
             <div class="row">
                 <div class="col s12 m12">

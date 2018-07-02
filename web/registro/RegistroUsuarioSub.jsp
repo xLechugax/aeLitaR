@@ -49,18 +49,26 @@
     <head>
         <meta http-equiv="Refresh" content="5;url=/aeLita/index.jsp">
         <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
-    <body>
+    <body class="blue-grey lighten-5">
         <br /><br /><br /><br /><br /><br /><br /><br />
-        <table align="center" height="200" width="800">
-            <tr>
-                <td style="font-family: sans-serif; font-size: 20px;"><br /><br /><center>¡Tus datos han sido ingresados correctamente!<br /><br />
-                Te estamos redirigendo al comienzo, si no quieres esperar haz click<br/><br/>
-                <a href="index.jsp">  ¡AQUÍ! </a></p>
-            </center></td>
-    </tr>
-</table>
-</body>
+        <center>
+            <div class="row">
+                <div class="col s12 m12">
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">¡Cuenta Creada!</span>
+                            <p>Tus datos se han ingresado correctamente, te estamos redirigendo al comienzo,si no quieres esperar haz click...</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="/aeLita/index.jsp">¡AQUÍ!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </center>
+    </body>
 </html>
 <%        }
     } catch (Exception e) {

@@ -43,7 +43,7 @@
                     </div>
                     <div class="card-stacked">
                         <div class="card-content">
-                            <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p>
+                            <p>Gestión de Órdenes de Trabajo</p>
                         </div>
                         <div class="container">  
                             <div class="row">
