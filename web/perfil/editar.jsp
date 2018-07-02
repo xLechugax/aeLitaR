@@ -118,7 +118,7 @@
         </body>   
     </main>
     <%@ include file="/footer.jsp" %>
-    <script type="text/javascript" src="../js/code.jquery.com_jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
     <script>
         $(document).ready(function () {
