@@ -6,7 +6,7 @@
     if (hs == null || hs.getAttribute("tipoCuenta") == null
             || !hs.getAttribute("tipoCuenta").equals("Ejecutor")) {
 %>
-    <%@ include file="accesoDenegado.jsp" %>
+    <%@ include file="/aeLita/accesoDenegado.jsp" %>
 <%        
         return;
     }
@@ -35,7 +35,7 @@
     </style>
     <main>
         <body class="blue-grey lighten-5">
-            <%@ include file="barraNav.jsp" %>
+            <%@ include file="/aeLita/barraNav.jsp" %>
             <div class="container"> 
             <div class="col m3 m3">
                 <div class="card horizontal">

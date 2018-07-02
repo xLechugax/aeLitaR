@@ -3,13 +3,7 @@
 <%
     HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
 
-    if (hs == null || hs.getAttribute("tipoCuenta") == null
-            || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
-%>
-    <%@ include file="accesoDenegado.jsp" %>
-<%        
-        return;
-    }
+
 %>
 <!DOCTYPE html>
 <html>
@@ -35,7 +29,7 @@
     </style>
     <main>
         <body class="blue-grey lighten-5">
-            <%@ include file="barraNav.jsp" %>
+            <%@ include file="../barraNav.jsp" %>
             <div class="container"> 
             <div class="col m3 m3">
                 <div class="card horizontal">

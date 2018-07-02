@@ -6,7 +6,7 @@
     if (hs == null || hs.getAttribute("tipoCuenta") == null
             || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
 %>
-    <%@ include file="accesoDenegado.jsp" %>
+    <%@ include file="../accesoDenegado.jsp" %>
 <%        
         return;
     }
@@ -35,7 +35,7 @@
     </style>
     <main>
         <body class="blue-grey lighten-5">
-            <%@ include file="barraNav.jsp" %>
+            <%@ include file="../barraNav.jsp" %>
             <div class="container"> 
             <div class="col m3 m3">
                 <div class="card horizontal">
@@ -43,7 +43,7 @@
                     </div>
                     <div class="card-stacked">
                         <div class="card-content">
-                            <p>Gestión de Órdenes de Trabajo</p>
+                            <p>Gestión de Tareas</p>
                         </div>
                         <div class="container">  
                             <div class="row">

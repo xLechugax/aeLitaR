@@ -35,7 +35,7 @@
     </style>
     <main>
         <body class="blue-grey lighten-5">
-            <%@ include file="barraNav.jsp" %>
+            <%@ include file="../barraNav.jsp" %>
             <div class="container"> 
             <div class="col m3 m3">
                 <div class="card horizontal">
