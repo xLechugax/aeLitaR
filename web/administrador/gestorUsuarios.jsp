@@ -38,14 +38,14 @@
     <main>
         <body class="blue-grey lighten-5">
         <%@ include file="/aeLita/navVar.jsp" %>
-            <div class="container"> 
+        <div class="container"> 
             <div class="col m3 m3">
                 <div class="card horizontal">
                     <div class="card-image">
                     </div>
                     <div class="card-stacked">
                         <div class="card-content">
-                            <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p>
+                            <p>Bienvenido a æLita <%=hs.getAttribute("nombreUsuario")%>.</p>
                         </div>
                         <div class="container">  
                             <div class="row">
@@ -56,7 +56,7 @@
             </div>
         </div>
     </main>
-    <%@ include file="/footer.jsp" %>
+    <%@ include file="/aeLita/footer.jsp" %>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
     <script>

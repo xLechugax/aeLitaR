@@ -64,21 +64,21 @@
                         </div>
                         <div class="container">  
                             <div class="row">
-                                <form class="col s12">
+                                <form class="col s12" action="/aeLita/validarUsuario.jsp">
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <input id="nombreUsuario" type="text" class="validate" style="text-transform: uppercase">
+                                            <input name="nombreUsuario" id="nombreUsuario" type="text" class="validate" style="text-transform: uppercase" required="">
                                             <label>Nombre de Usuario</label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <input id="claveUsuario" type="password" class="validate">
+                                            <input name="clave" id="claveUsuario" type="password" class="validate" required="">
                                             <label>Contraseña</label>
                                         </div>
                                     </div>
                                     <center>
-                                        <a class="waves-effect waves-light btn">Ingresar</a>
+                                        <input class="waves-effect waves-light btn" type="submit" value="Ingresar" />
                                     </center>
                                 </form>
                             </div>

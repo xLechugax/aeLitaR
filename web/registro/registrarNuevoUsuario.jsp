@@ -39,7 +39,7 @@
         <body class="blue-grey lighten-5">
             <!INICIO - BARRA DE NAVEGACIÓN FIXED>
         <ul class="side-nav" id="mobile-demo">
-            <li><a href="pagina.jsp">Registro</a></li>
+            <li><a href="/aeLita/index.jsp">Volver</a></li>
         </ul>
         <div class="navbar-fixed">
             <nav>
@@ -62,11 +62,11 @@
                                 <form class="col s12" action="RegistroUsuarioSub.jsp" method="post">
                                     <div class="row">
                                         <div class="input-field col s6">
-                                            <input name="nombre" type="text" class="validate" style="text-transform: uppercase" required="">
+                                            <input name="nombre" type="text" class="validate" required="">
                                             <label>Nombre</label>
                                         </div>
                                         <div class="input-field col s6">
-                                            <input name="apellido" type="text" class="validate" style="text-transform: uppercase" required="">
+                                            <input name="apellido" type="text" class="validate" required="">
                                             <label>Apellido</label>
                                         </div>
                                     </div>
@@ -84,11 +84,11 @@
                                     </div>
                                     <div class="row">
                                         <div class="input-field col s6">
-                                            <input name="telefono_m" type="number" class="validate" required="">
+                                            <input placeholder="+569" name="telefono_m" type="number" class="validate" required="">
                                             <label>Teléfono Móvil</label>
                                         </div>
                                         <div class="input-field col s6">
-                                            <input name="telefono_f" type="number" class="validate" required="">
+                                            <input name="telefono_f" placeholder="+562" type="number" class="validate" required="">
                                             <label>Teléfono Fijo</label>
                                         </div>
                                     </div>
@@ -119,15 +119,15 @@
                                     </a>
                                     <div class="row">
                                         <p>
-                                            <input name="rol" type="radio" id="rolAdministrador"  required=""/>
+                                            <input name="rol" type="radio" id="rolAdministrador" value="Administrador" required=""/>
                                             <label for="rolAdministrador">Administrador</label>
                                         </p>
                                         <p>
-                                            <input name="rol" type="radio" id="rolSupervisor"  required=""/>
+                                            <input name="rol" type="radio" id="rolSupervisor" value="Supervisor" required=""/>
                                             <label for="rolSupervisor">Supervisor</label>
                                         </p>
                                         <p>
-                                            <input name="rol" type="radio" id="rolEjecutor"   required=""/>
+                                            <input name="rol" type="radio" id="rolEjecutor" value="Ejecutor" required=""/>
                                             <label for="rolEjecutor">Ejecutor</label>
                                         </p> 
                                     </div>
