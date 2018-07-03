@@ -1,3 +1,8 @@
+DROP TABLE area_departamento;
+DROP TABLE estado;
+DROP TABLE tarea;
+DROP TABLE usuario;
+
 CREATE TABLE `area_departamento` (
 	`idAreaDepartamento` INT(11) NOT NULL AUTO_INCREMENT,
 	`nombreAreaDepartamento` VARCHAR(50) NULL DEFAULT '0',
