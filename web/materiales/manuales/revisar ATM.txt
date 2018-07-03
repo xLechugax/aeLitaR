@@ -1,0 +1,27 @@
+sergio.miranda@marilyn:~$ telnet 10.21.61.12
+ 
+smiranda
+aimash4F
+ 
+clatts1> sh vlan 218
+VLAN Name                             Status    IfIndex Mod/Ports, Vlans
+---- -------------------------------- --------- ------- ------------------------
+218  IN-PUBLIVIA_06-01-0000000043     active    37      2/1-2
+                                                        5/18
+ 
+ 
+clatts1> sh port  5/18
+Port  Name               Status     Vlan       Level  Duplex Speed Type
+----- ------------------ ---------- ---------- ------ ------ ----- ------------
+5/18 0601-43Publivia    connected  218        normal   full   100 10/100BaseTX
+ 
+Port  AuxiliaryVlan AuxVlan-Status
+ 
+ 
+clatts1> sh cam dyn 5/18
+* = Static Entry. + = Permanent Entry. # = System Entry. R = Router Entry.
+X = Port Security Entry
+ 
+VLAN  Dest MAC/Route Des    [CoS]  Destination Ports or VCs / [Protocol Type]
+----  ------------------    -----  -------------------------------------------
+clatts1>

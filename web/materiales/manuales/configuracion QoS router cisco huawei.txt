@@ -1,0 +1,553 @@
+Respaldo Sitio Central Cliente 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+      Procedimiento Configuración 
+       
+      QoS equipamiento Router
+       
+      CISCO / HUAWEI
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+      Grupo de Soporte
+      Oscar Pardo 
+      Claudio Perdic
+       
+
+ 
+      1.- Objetivo
+       
+       
+      Presentar a través del presente documento la información necesaria para la 
+      configuración de QoS en los equipos CPE, para lograr una priorización de 
+      los paquetes de voz sobre los paquetas de datos.
+       
+       
+      2.- Antecedentes
+       
+       
+      Calidad de Servicio (QoS) se refiere a la capacidad de una red para 
+      proveer un mejor servicio a cierto tráfico de la red sobre varias 
+      tecnologías, que incluyen Frame Relay, Asyncronous Transfer Mode (ATM), 
+      Ethernet y redes 802.1, SONET, y redes ruteadas IP que puedan usar todas 
+      estas tecnologías.  El primer objetivo de QoS es proveer prioridad que 
+      incluya ancho de banda dedicado, Jitter (variación del retardo) y latencia 
+      que requieren las aplicaciones de tiempo real y tráfico interactivo, y 
+      características mejoradas de perdidas.
+       
+      Debido a que el tráfico de voz compite con el tráfico de datos para la 
+      entrega de su carga a tiempo (payload), se deben aplicar ciertas 
+      herramientas para asegurar la calidad de la voz. Estas herramientas puedan 
+      separarse en principio en las siguientes cuatro Áreas Primarias: 
+       
+      Clasificación
+      Priorización
+      Eficiencia de enlaces de baja velocidad
+      Modelamiento de Tráfico (Traffic Shaping)
+       
+      En este documento solo atenderemos las dos primeras herramientas.
+       
+       
+      3.- Configuración de CPE Cisco con tráfico de Voz por interface Ethernet
+       
+       
+      Las tareas asignadas al router consisten en Clasificar el tráfico de los 
+      diferentes servicios, en nuestro caso voz y datos, y priorizar los flujos 
+      de datos. En un escenario con tráfico de voz entrando por una interface 
+      Ethernet LAN y tráfico de datos y voz saliendo por una interface Ethernet 
+      WAN se tiene que priorizar la voz por sobre los datos.
+       
+      Para esto definiremos dos tipos de tráfico:
+       
+      Tráfico de voz VoIP               Precedencia  5 (dscp ef)
+      Tráfico de datos           Datos               Precedencia  0 (dscp af)
+       
+      Es necesario notar que podemos agregar mas tipos ocupando otros valores 
+      del campo ToS del paquete IP.
+       
+       
+      3.1.- Configuración de la Clasificación 
+       
+      Centraremos nuestra atención en el tráfico de voz en la clasificación 
+      dejando el tráfico de datos como tráfico por defecto. Para realizar esta 
+      clasificación es necesario conocer el segmento que cliente esta ocupando 
+      para su tráfico de voz.
+       
+      Suponiendo un segmento 10.10.10.0 /24 que debe priorizarse por sobre otras 
+      redes generaremos la siguiente lista de acceso
+       
+
+ 
+router#conf t
+router(config)#ip access-list extended clasifica
+router(config-ext-nacl)#permit ip 10.10.10.0 255.255.255.0 any 
+ 
+ 
+ 
+3.2.- Creación de la clase para diferenciar el tráfico.
+ 
+Para configurar la clase que clasifica el tráfico procederemos de la siguiente 
+forma.
+class-map match-all voip
+  match access-group name clasifica
+ 
+Con esto relacionamos la lista de acceso con la clase voip.
+ 
+ 
+3.3.- Marcado de paquetes de entrada (LAN de voz)
+ 
+Es necesario marcar el tráfico que pretendemos priorizar, para esto utilizamos 
+la clase definida 
+anteriormente y se aplica de entrada en las interfaces que miran hacia la LAN de 
+cliente.
+ 
+policy-map clasificación
+   class voip 
+       set ip precedence 5
+ 
+ 
+ 
+3.4.- Aplicación de policy map a la interfaz (LAN de voz)
+ 
+El marcado de los paquetes se debe aplicar a las interfaces que miran a la LAN 
+de cliente
+interface Ethernet 0
+ip address 10.10.10.1 255.255.255.0 
+service-policy input clasificacion
+ 
+ 
+ 
+4.- Priorización del tráfico por categoría 
+ 
+La priorización de tráfico se realiza en la interfaz que mira hacia la red MPLS 
+(WAN Ethernet)
+ 
+ 
+4.1.- Creación de la clase para precedencia.
+ 
+La clasificación previa al encolamiento se realiza mediante la definición de la 
+siguiente clase
+ 
+class-map match-all Prec5
+match ip precedence 5
+ 
+ 
+ 
+4.2.- Creación del policy-map de salida 
+ 
+ 
+policy-map prioriza
+class Prec5
+  priority BW
+ 
+ 
+Donde BW es el ancho de banda que será reservado, en caso de congestión, para el 
+tráfico 
+de voz. Como referencia podemos considerar 90 kbps por canal de voz habilitado.
+ 
+ 
+4.3.- Aplicación de policy-map hacia la red MPLS (WAN Ethernet)
+ 
+ 
+interface ethernet 1
+service-police output prioriza
+ 
+ 
+Con esta configuración se relaciona la interfaz de salida con el policy-map 
+prioriza      
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+A continuación se presenta la configuración tipo, siguiendo el procedimiento y 
+suponiendo un 
+BW de 400Kbps (4 anexos).
+ 
+Ejemplo 1
+class-map match-all voip
+  description clasifica los paquetes de voz
+  match access-group name clasifica
+!
+class-map match-all Prec5
+  description selecciona los paquetes con ip precence 5
+  match ip precedence 5
+¡
+!
+policy-map clasificación
+  description marca los paquetes con ip precedence 5
+  class voip 
+  set ip precedence 5
+!
+policy-map prioriza
+  description prioriza en la interfaz de salida voz sobre datos
+  class Prec5
+  priority 400
+  class default
+  fair-queue
+!
+!
+interface Ethernet 0
+  description LAN VOZ
+  ip address 10.10.10.1 255.255.255.1
+  service-policy input clasificacion
+!
+interface ethernet 1
+  description WAN VOZ
+  ip address 192.168.20.1 255.255.255.0
+  service-police output prioriza
+!
+ip access-list extended clasifica 
+permit ip 10.10.10.0 255.255.255.0 any 
+!
+end
+ 
+                        
+ 
+ 
+ 
+ 
+5.- Configuración de CPE Huawei con tráfico de Voz por interfaz Ethernet
+ 
+ 
+5.1.- Configuración de la Clasificación 
+ 
+Centraremos nuestra atención en el tráfico de voz en la clasificación dejando el 
+tráfico 
+de datos como tráfico por defecto. Para realizar esta clasificación es necesario 
+conocer el 
+segmento que cliente esta ocupando para su tráfico de voz.
+ 
+Suponiendo un segmento 10.10.10.0 /24 asociado a paquetes de voz, que deben 
+priorizarse. 
+En el caso Huawei se prioriza en base al parámetro “dscp ef”
+ 
+Generaremos la siguiente lista de acceso
+[huawei]acl number 3001
+[huawei-acl-adv-3001]
+[huawei-acl-adv-3001]rule permit ip source 10.10.10.0 255.255.255.0 destination 
+any
+ 
+ 
+ 
+5.2.- Creación de la clasificación para diferenciar el tráfico.
+ 
+Para configurar la clase que clasifica el tráfico procederemos de la siguiente 
+forma.
+traffic classifier voip operator or
+  if-match acl 3001
+ 
+Con esto relacionamos la lista de acceso con la clase VoIP.
+ 
+ 
+5.3.- Marcado de paquetes
+ 
+Es necesario marcar el tráfico que pretendemos priorizar, para esto creamos una 
+política de marcado.
+traffic behavior marcavoz                 
+  remark dscp ef    
+ 
+ 
+ 
+5.4.- Configuración de la política de QoS de marcado
+ 
+qos policy voz_remark
+classifier voip behavior marcavoz
+ 
+ 
+ 
+5.5.- Aplicación de la política a la interfaz Ethernet LAN
+ 
+El marcado de los paquetes se debe aplicar a las interfaces que miran a la LAN 
+de cliente
+interface Ethernet 0/0
+  ip address 10.10.10.1 255.255.255.0 
+  qos apply policy voz_remark inbound
+ 
+ 
+ 
+6.- Priorización del tráfico por categoría para la salida a la interfaz WAN
+ 
+La priorización de tráfico se realiza en la interfaz que mira hacia la red MPLS 
+ 
+ 
+6.1.- Creación de la clase para precedencia.
+ 
+La clasificación previa al encolamiento se realiza mediante la definición de la 
+siguiente clase. Esta 
+clasifica los paquetes marcados con “dscp ef”
+ 
+traffic classifier matchvoz operator and  
+ if-match dscp ef
+ 
+ 
+6.2.- Creación de la política de ancho de banda que se asigna para voz 
+ 
+ 
+traffic behavior voz-ethernet-wan
+  queue ef bandwidth BW
+ 
+ 
+ 
+Donde BW es el ancho de banda que será reservado, en caso de congestión, para el 
+tráfico de voz. 
+Como referencia podemos considerar 90 kbps por canal de voz habilitado.
+ 
+ 
+6.3.- Configuración de la política de QoS a aplicar
+ 
+qos policy voz-wan
+  classifier matchvoz behavior voz-ethernet-wan  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+6.4.- Aplicación de la política de QoS hacia la red MPLS.
+ 
+ 
+interface ethernet 1/0
+  qos apply policy voz-wan outbound
+ 
+ 
+ 
+ 
+A continuación se presenta la configuración tipo, siguiendo el procedimiento y 
+suponiendo un BW de 400Kbps. 
+ 
+ 
+Ejemplo 2
+ 
+[huawei]displ curr
+#
+ sysname sfb
+#
+ l2tp domain suffix-separator @
+#
+radius scheme system
+#
+ip vpn-instance internet
+ route-distinguisher 10:10
+#
+domain system
+#
+local-user ftp
+ password simple ftp
+ service-type ftp
+#
+traffic classifier voip operator or
+  if-match acl 3001
+#
+traffic behavior marcavoz                 
+  remark dscp ef    
+#
+traffic classifier matchvoz operator and
+ if-match dscp ef
+#
+traffic behavior voz-ethernet-wan
+  queue ef bandwidth 400 cbs 75000
+#
+qos policy voz_remark
+ classifier voip behavior marcavoz
+#
+qos policy voz-wan                            
+ classifier matchvoz behavior voz-ethernet-wan
+#
+interface Aux0
+# 
+async mode flow
+#
+interface Ethernet0/0
+ duplex full
+ qos apply policy voz-wan outbound
+#
+interface Ethernet0/0.1
+ description internet
+ ip binding vpn-instance internet
+ ip address 192.168.122.138 255.255.255.252
+ vlan-type dot1q vid 851
+#
+interface Ethernet0/0.2
+ description ngn_wan
+ ip address 192.168.213.230 255.255.255.252
+ vlan-type dot1q vid 852                  
+#
+interface Ethernet0/1
+ duplex full
+ 
+interface Ethernet0/1.1
+ duplex full
+ description Lan_Internet
+ vlan-type dot1q vid 68
+ ip address 190.54.46.201 255.255.255.248
+ #
+interface Ethernet0/1.2
+ duplex full
+ description Lan_voz
+ vlan-type dot1q vid 686
+ ip address 10.10.10.2 255.255.255.0
+ qos apply policy voz_remark inbound
+#
+#
+interface NULL0
+#         
+ 
+                               
+ 
+ 
+#
+acl number 3001
+ rule 0 permit ip source 10.10.10.0 255.255.255.0
+#
+user-interface con 0
+ set authentication password cipher H)1;`GT/CU\X!X<]K3BK;Q!!
+user-interface aux 0
+user-interface vty 0 4
+ user privilege level 3
+ set authentication password cipher H)1;`GT/CU\X!X<]K3BK;Q!!
+#
+return
+[huawei]
+ 
+ 
+ 
+En este ejemplo (cliente real) se muestra la forma de clasificar paquetes de voz 
+cuando 
+estos están asociados a tramas E1 (interfaz serial del router). En este caso 
+particular no se 
+remarcan los paquetes de entrada.
+ 
+ 
+Ejemplo 2
+ 
+[huawei]displ curr
+#
+ sysname huawei
+#
+ l2tp domain suffix-separator @
+#
+radius scheme system
+#
+ip vpn-instance internet
+ route-distinguisher 10:10
+#
+domain system
+#
+local-user ftp
+ password simple ftp
+ service-type ftp
+#
+traffic classifier Voz1 operator or
+ if-match dscp ef
+ if-match inbound-interface Serial1/0:15
+#
+ 
+traffic behavior Voz2
+  queue ef bandwidth 3000 cbs 75000
+#
+qos policy VOZ                            
+ classifier Voz1 behavior Voz2
+#
+controller E1 1/0
+ pri-set
+#
+interface Aux0
+ async mode flow
+#
+interface Ethernet0/0
+ duplex full
+ qos apply policy VOZ outbound
+#
+interface Ethernet0/0.1
+ description internet
+ ip binding vpn-instance internet
+ ip address 192.168.122.138 255.255.255.252
+ vlan-type dot1q vid 851
+#
+interface Ethernet0/0.2
+ description ngn_wan
+ ip address 192.168.213.230 255.255.255.252
+ vlan-type dot1q vid 852                  
+#
+interface Ethernet0/1
+ duplex full
+ description Lan_Internet
+ ip binding vpn-instance internet
+ ip address 190.54.46.201 255.255.255.248
+ ip address 200.27.231.161 255.255.255.240 sub
+#
+interface Serial0/0
+ clock DTECLK1
+ link-protocol ppp
+#
+interface Serial1/0:15
+ link-protocol ppp
+ isdn ignore hlc
+ isdn ignore sending-complete
+ isdn ignore connect-ack
+ isdn overlap-sending
+ isdn l3-timer T302 5
+#
+interface NULL0
+#
+voice-setup
+  #
+  sip
+    source-ip 192.168.213.230
+    sip-server master 10.99.250.10 port default all
+  #
+  dial-program
+    #
+    entity 200 pots
+      compression 1st-level  g711alaw
+      fax protocol pcm g711alaw
+      match-template 71435..
+      line 1/0:15
+      send-number all
+    #
+    entity 333 voip
+      compression 1st-level  g711alaw
+      description Voip
+      fax protocol pcm g711alaw
+      fax support-mode sip-udp
+      match-template T                    
+      address sip proxy
+   #
+  gk-client
+  #
+  subscriber-line 1/0:15
+#
+ ip route-static 0.0.0.0 0.0.0.0 192.168.213.229 preference 60
+ ip route-static vpn-instance internet 0.0.0.0 0.0.0.0 192.168.122.137  
+preference 60
+#
+user-interface con 0
+ set authentication password cipher H)1;`GT/CU\X!X<]K3BK;Q!!
+user-interface aux 0
+user-interface vty 0 4
+ user privilege level 3
+ set authentication password cipher H)1;`GT/CU\X!X<]K3BK;Q!!
+#
+return
+[huawei]

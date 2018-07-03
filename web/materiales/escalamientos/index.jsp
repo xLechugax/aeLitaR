@@ -36,21 +36,21 @@
         <body class="blue-grey lighten-5">
             <%@ include file="../../barraNav.jsp" %>
             <div class="container"> 
-            <div class="col m3 m3">
-                <div class="card horizontal">
-                    <div class="card-image">
-                    </div>
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p>Escalamientos</p>
-                        </div>
-                        <div class="container">  
-                            <div class="row">
-                            </div>  
-                        </div>     
+            <div class="row">
+                    <div class="col s12 m12">
+                      <div class="card blue-grey darken-1">
+                            <div class="card-content white-text">
+                            <h5 class="white-text">Escalamientos</h5>
+                                <ul>
+                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/ENTEL.PDF"><i class="material-icons">picture_as_pdf</i>Escalamientos Entel</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/MOVISTAR.PDF"><i class="material-icons">picture_as_pdf</i>Escalamientos Movistar</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/GTD.PDF"><i class="material-icons">picture_as_pdf</i>Escalamientos GTD</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/INOC.PDF"><i class="material-icons">picture_as_pdf</i>Escalamientos INOC</a></li>
+                                </ul>
+                            </div>
+                      </div>
                     </div>
                 </div>
-            </div>
         </div>
     </main>
     <%@ include file="/footer.jsp" %>

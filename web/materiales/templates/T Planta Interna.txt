@@ -1,0 +1,8 @@
+Nombre Cliente		: 
+Pre Diagnostico Técnico	: 
+Dirección Nodo			: 
+Posición en Nodo		: 
+Asignada a			: 
+Tipo de Enlace			: 
+Número de servicio		: 
+Observación			: Seguir desde SW a ODF para verificar POS.

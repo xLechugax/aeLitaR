@@ -1,0 +1,4 @@
+Nodo Full Duplex 100 Forzado
+Cliente Half Duplex 100 automatico
+
+Si se fuerza en cliente a 100 Full Duplex y no levanta es problema de los conversores.

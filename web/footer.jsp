@@ -3,7 +3,7 @@
             <div class="row">
                 <div class="col l6 s12">
                     <h5 class="white-text">¿Tienes algún problema?</h5> 
-                    <p class="grey-text text-lighten-4">Contactanos...</p>
+                    <p class="grey-text text-lighten-4">Contáctanos...</p>
                 </div>
             </div>
         </div>

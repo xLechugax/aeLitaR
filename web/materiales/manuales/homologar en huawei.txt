@@ -1,0 +1,9 @@
+system-view
+
+interface "nº"
+
+undo speed
+undo duplex 
+
+speed auto
+speed duplex

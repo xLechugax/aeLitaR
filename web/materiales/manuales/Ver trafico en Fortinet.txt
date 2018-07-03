@@ -1,0 +1,5 @@
+Hacer filtro de tráfico en Fortinet 
+
+diagnose sniffer packet port2 none 4
+
+diagnose sniffer packet port2 'host 192.168.1.103' 1

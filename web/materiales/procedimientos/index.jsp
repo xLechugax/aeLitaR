@@ -42,7 +42,7 @@
                     </div>
                     <div class="card-stacked">
                         <div class="card-content">
-                            <p>Procedimientos</p>
+                            <p>Material aún no liberado...</p>
                         </div>
                         <div class="container">  
                             <div class="row">
