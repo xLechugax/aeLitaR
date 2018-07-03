@@ -3,11 +3,18 @@
 <%
     HttpSession hs = request.getSession(false);  // RECUPERAR LA SESIÓN YA ABIERTA PARA EL USUARIO.
     ResultSet rsUsuarios = null;
+    ResultSet rsAreaDepa = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "select * from usuario";
         PreparedStatement pst = conn.prepareStatement(sql);
         rsUsuarios = pst.executeQuery();
+        
+        String sqlAreaDepa = "select * from area_departamento";
+        PreparedStatement pstAreaDepa = conn.prepareStatement(sqlAreaDepa);
+        rsAreaDepa = pstAreaDepa.executeQuery();
+
+        
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -92,12 +99,7 @@
                                             <label>Teléfono Fijo</label>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="input-field col s12">
-                                            <input name="area_departamento" type="text" class="validate" required="">
-                                            <label>Area / Departamento</label>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="row">
                                         <div class="input-field col s6">
                                             <input name="clave" type="password" class="validate" required="">
@@ -142,6 +144,7 @@
             </div>
         </div>
     </main>
+    
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
@@ -149,6 +152,7 @@
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
+            $("select[required]").css({display: "block", height: 0, padding: 0, width: 0, position: 'absolute'});
         });
     </script>
 </body>
