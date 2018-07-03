@@ -9,13 +9,26 @@
 <%@ include file="../accesoDenegado.jsp" %>
 <%        return;
     }
+    String idTarea = request.getParameter("idTarea");
 
-    ResultSet rsEstados = null;
+    ResultSet rsTareas = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from estado";
+        String sql = "select * from tarea";
         PreparedStatement pst = conn.prepareStatement(sql);
-        rsEstados = pst.executeQuery();
+        rsTareas = pst.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+
+    ResultSet rsTareaSeleccionada = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select * from tarea where idTarea=" + idTarea;
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsTareaSeleccionada = pst.executeQuery();
+        rsTareaSeleccionada.next();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -52,23 +65,25 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Crear Estados</a> 
-                                <form action="gestorEstadosAgregar.jsp" method="post">
+                                <a>Modificar Tarea</a> 
+                                <form action="gestorTareasModificarSub.jsp" method="post">
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table>
                                         <tbody>
-                                            <tr>
-                                                <td>Nombre Estado:</td>
-                                                <td><input name="nombre_estado" class="validate" required=""></td>
-                                            </tr>
+                                            <tr> 
+                                                <td>Nombre Tarea:</td>
+                                                <td><input name="nombre_tarea" class="validate" required="" placeholder="<%= rsTareaSeleccionada.getString("nombreTarea")%>"></td>
+                                        <input name="idTarea" type="hidden" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
+                                        </tr>
                                         </tbody>
                                     </table>
                                     <div class="input-field col s12">
-                                        <textarea name="detalle_estado" class="materialize-textarea" data-length="120" required=""></textarea>
-                                        <label for="textarea1">Detalle de estado</label>
+                                        <textarea name="detalle_tarea" class="materialize-textarea" data-length="120" required="" placeholder="<%= rsTareaSeleccionada.getString("detalleTarea")%>"></textarea>
+                                        <label for="textarea1">Detalle de tarea</label>
                                     </div>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Estado" />
+                                        <input class="btn" type="submit" value="Modificar Tarea" /><br/><br/>
+                                        <a href="gestorTareas.jsp" class="btn left-align">Cancelar</a>
                                     </center>
                                 </form>
                             </div>
@@ -83,20 +98,20 @@
                                     <thead>
                                         <tr>
                                             <td>ID</td>
-                                            <td>Estado</td>
+                                            <td>Tarea</td>
                                             <td>Operaciones</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% while (rsEstados.next()) {%>
+                                        <% while (rsTareas.next()) {%>
                                         <tr>
-                                            <td><%= rsEstados.getString("idEstado") %></td>
-                                            <td><%= rsEstados.getString("nombreEstado") %></td>
+                                            <td><%= rsTareas.getString("idTarea")%></td>
+                                            <td><%= rsTareas.getString("nombreTarea")%></td>
                                             <td>
-                                                <a href="gestorEstadosEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                <a href="gestorTareasEliminar.jsp?idTarea=<%=rsTareas.getLong("idTarea")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
-                                                <a href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                <a href="gestorTareasModificar.jsp?idTarea=<%=rsTareas.getLong("idTarea")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
                                             </td>

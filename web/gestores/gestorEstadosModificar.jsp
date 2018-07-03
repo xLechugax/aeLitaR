@@ -9,6 +9,7 @@
 <%@ include file="../accesoDenegado.jsp" %>
 <%        return;
     }
+    String idEstado = request.getParameter("idEstado");
 
     ResultSet rsEstados = null;
     try {
@@ -16,6 +17,18 @@
         String sql = "select * from estado";
         PreparedStatement pst = conn.prepareStatement(sql);
         rsEstados = pst.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+
+    ResultSet rsEstadoSeleccionado = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select * from estado where idEstado=" + idEstado;
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsEstadoSeleccionado = pst.executeQuery();
+        rsEstadoSeleccionado.next();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -52,23 +65,25 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Crear Estados</a> 
-                                <form action="gestorEstadosAgregar.jsp" method="post">
+                                <a>Modificar Estado</a> 
+                                <form action="gestorEstadosModificarSub.jsp" method="post">
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table>
                                         <tbody>
-                                            <tr>
+                                            <tr> 
                                                 <td>Nombre Estado:</td>
-                                                <td><input name="nombre_estado" class="validate" required=""></td>
-                                            </tr>
+                                                <td><input name="nombre_estado" class="validate" required="" placeholder="<%= rsEstadoSeleccionado.getString("nombreEstado")%>"></td>
+                                        <input name="idEstado" type="hidden" value="<%= rsEstadoSeleccionado.getString("idEstado")%>">
+                                        </tr>
                                         </tbody>
                                     </table>
                                     <div class="input-field col s12">
-                                        <textarea name="detalle_estado" class="materialize-textarea" data-length="120" required=""></textarea>
+                                        <textarea name="detalle_estado" class="materialize-textarea" data-length="120" required="" placeholder="<%= rsEstadoSeleccionado.getString("detalleEstado")%>"></textarea>
                                         <label for="textarea1">Detalle de estado</label>
                                     </div>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Estado" />
+                                        <input class="btn" type="submit" value="Modificar Estado" /><br/><br/>
+                                        <a href="gestorEstados.jsp" class="btn left-align">Cancelar</a>
                                     </center>
                                 </form>
                             </div>
@@ -90,8 +105,8 @@
                                     <tbody>
                                         <% while (rsEstados.next()) {%>
                                         <tr>
-                                            <td><%= rsEstados.getString("idEstado") %></td>
-                                            <td><%= rsEstados.getString("nombreEstado") %></td>
+                                            <td><%= rsEstados.getString("idEstado")%></td>
+                                            <td><%= rsEstados.getString("nombreEstado")%></td>
                                             <td>
                                                 <a href="gestorEstadosEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>

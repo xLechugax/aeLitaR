@@ -2,14 +2,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
-
-    if (hs == null || hs.getAttribute("tipoCuenta") == null
-        || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
-%>
-    <%@ include file="../accesoDenegado.jsp" %>
-<%        
-        return;
-    }
 %>
 <!DOCTYPE html>
 <html>
