@@ -6,7 +6,7 @@
     ResultSet rsUsuario = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from usuario where idUsuario=" + hs.getAttribute("idUsuarioSesion");
+        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and usuario.idUsuario=32";
         PreparedStatement pst = conn.prepareStatement(sql);
         rsUsuario = pst.executeQuery();
         rsUsuario.next();
@@ -71,6 +71,10 @@
                                         <tr>
                                             <td>Dirección:</td>
                                             <td><%= rsUsuario.getString("direccion")%></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Área/Departamento:</td>
+                                            <td><%= rsUsuario.getString("nombreAreaDepartamento")%></td>
                                         </tr>
                                         <tr>
                                             <td>Clave:</td>

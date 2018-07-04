@@ -45,8 +45,8 @@
                 <div class="col s12 m12">
                     <div class="card blue-grey darken-1">
                         <div class="card-content white-text">
-                            <span class="card-title">¡Error!</span>
-                            <p>La cuenta esta deshabilitada...</p>
+                            <span class="card-title">¡Oh no!</span>
+                            <p>La cuenta esta deshabilitada...<br/> Contácta al administrador.</p>
                         </div>
                     </div>
                 </div>

@@ -7,12 +7,9 @@
     if (hs == null || hs.getAttribute("tipoCuenta") == null
             || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
 %>
-    <%@ include file="../accesoDenegado.jsp" %>
-<%   
-        return;
+<%@ include file="../accesoDenegado.jsp" %>
+<%        return;
     }
-
-    ResultSet rsUsuarios = null;
 
     String accion = request.getParameter("accion");
     int ava = 0;
@@ -22,7 +19,7 @@
 
             // Recuperar el estado actual del registros del usuario.
             Connection conn = ConexionBD.getConexion();
- 
+
             String sql = "select activo from usuario where idUsuario=?";
             PreparedStatement pst1 = conn.prepareStatement(sql);
             pst1.setLong(1, idUsuario);
@@ -64,14 +61,41 @@
             }
         }
     }
+
+    String textobusqueda = request.getParameter("textobusqueda");
+    String tipobusqueda = request.getParameter("tipobusqueda");
+
+    // 3.- Si la accion es igual a '2', entonces eliminar al usuario indicado.
+    ResultSet rsUsuarios = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from usuario";
-        PreparedStatement pst = conn.prepareStatement(sql);
-        rsUsuarios = pst.executeQuery();
+        Statement st = conn.createStatement();
+        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento";
+
+        // 2.- Aplicar un filtro de búsqueda si es necesario
+        if (textobusqueda != null && tipobusqueda != null) {
+            // Aplicar el filtro respectivo...
+            if (tipobusqueda.equals("nombre")) {
+                sql = sql + " and usuario.nombre like '%" + textobusqueda + "%'";
+            } else if (tipobusqueda.equals("apellido")) {
+                sql = sql + " and usuario.apellido like '%" + textobusqueda + "%'";
+            } else if (tipobusqueda.equals("dire")) {
+                sql = sql + " and usuario.direccion = " + textobusqueda;
+            } else if (tipobusqueda.equals("correo")) {
+                sql = sql + " and usuario.email like '%" + textobusqueda + "%'";
+            } else if (tipobusqueda.equals("movil")) {
+                sql = sql + " and usuario.telefono_m like '%" + textobusqueda + "%'";
+            } else if (tipobusqueda.equals("fijo")) {
+                sql = sql + " and usuario.telefono_f like '%" + textobusqueda + "%'";
+            } else if (tipobusqueda.equals("area_departamento")) {
+                sql = sql + " and area_departamento.nombreAreaDepartamento like '%" + textobusqueda + "%'";
+            } else if (tipobusqueda.equals("rol")) {
+                sql = sql + " and usuario.tipoCuenta like '%" + textobusqueda + "%'";
+            }
+        }
+        rsUsuarios = st.executeQuery(sql);
     } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
+        out.println("Excepción de SQL: " + e);
     }
 %>
 <!DOCTYPE html>
@@ -99,68 +123,95 @@
     <main>
         <body class="blue-grey lighten-5">
             <%@ include file="../barraNav.jsp" %>
-            <div class=""> 
-                <div class="col m3 m3">
-                    <div class="card horizontal">
-                        <div class="card-image">
-                        </div>
-                        <div class="card-stacked">
-                            <div class="card-content">
-                                <table class="highlight bordered">
-                                    <tr>
-                                        <td>ID</td>
-                                        <td>Nombre</td>
-                                        <td>Nombre Usuario</td>
-                                        <td>Dirección</td>
-                                        <td>Correo</td>
-                                        <td>Celular</td>
-                                        <td>Fijo</td>
-                                        <td>Área/Departamento</td>
-                                        <td>Rol</td>
-                                        <td>Activo</td>
-                                        <td>Operaciones</td>
-                                    </tr>            
-                                    <% while (rsUsuarios.next()) {%>
-                                    <tr>
-                                        <td><%=rsUsuarios.getLong("idUsuario")%></td>
-                                        <td><%=rsUsuarios.getString("nombre") + " " + rsUsuarios.getString("apellido")%></td>
-                                        <td><%=rsUsuarios.getString("nombreUsuario")%></td>
-                                        <td><%=rsUsuarios.getString("direccion")%></td>
-                                        <td><%=rsUsuarios.getString("email")%></td>
-                                        <td><%=rsUsuarios.getString("telefono_m")%></td>
-                                        <td><%=rsUsuarios.getString("telefono_f")%></td>
-                                        <td><%=rsUsuarios.getString("area_departamento")%></td>
-                                        <td><%=rsUsuarios.getString("tipoCuenta")%></td>
-                                        </td>
-                                        <td><center>
-                                            <a href="gestorUsuarios.jsp?accion=1&id=<%=rsUsuarios.getLong("idUsuario")%>">
-                                                <%
-                                                    if (rsUsuarios.getString("activo").equals("S")) {
-                                                %>
-                                                <img src="img/circuloverde.png" title="Desactivar" />
-                                                <% } else { %>
-                                                <img src="img/circulorojo.png" title="Activar"/>
-                                                <% }%>  
-                                            </a></center>
-                                        </td>
-                                        <td><center>
-                                            <a href="gestorUsuarios.jsp?accion=2&id=<%=rsUsuarios.getLong("idUsuario")%>">
-                                                <img src="img/eliminar.png" title="Eliminar"/>
-                                            </a>
-                                            &nbsp;
-                                            <a href="FormModificacionUsuario.jsp?id=<%=rsUsuarios.getLong("idUsuario")%>">
-                                                <img src="img/modificar.jpg" title="Modificar"/>
-                                            </a></center>
-                                        </td>
-                                        </tr>
-                                        <% }%>
-                                </table>
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">search</i>Filtro de busqueda</div>
+                    <div class="collapsible-body white">
+                        <form method="post" action="gestorUsuarios.jsp">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input name="textobusqueda" id="nombreUsuario" type="text" class="validate" style="text-transform: uppercase">
+                                    <label>Texto de busqueda...</label>
+                                </div>
+                                <div class="input-field col s12">
+                                    <select name="tipobusqueda">
+                                        <option value="" selected="" disabled="">No filtrar</option>
+                                        <option value="nombre">Nombre</option>
+                                        <option value="apellido">Apellido</option>
+                                        <option value="dire">Dirección</option>
+                                        <option value="correo">Correo</option>
+                                        <option value="movil">Teléfono Móvil</option>                
+                                        <option value="fijo">Teléfono Fijo</option>                
+                                        <option value="area_departamento">Area/Departamento</option>                
+                                        <option value="rol">Rol</option>                
+                                    </select>   
+                                    <input class="btn" type="submit" value="¡Realizar búsqueda!" />
+                                </div>
                             </div>
-                            <div class="container">  
-                                <div class="row">
-                                </div>  
-                            </div>     
+                        </form>
+                    </div>
+                </li>
+            </ul>
+            <div class="col m3 m3">
+                <div class="card horizontal">
+                    <div class="card-image">
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <table class="highlight bordered">
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Nombre</td>
+                                    <td>Nombre Usuario</td>
+                                    <td>Dirección</td>
+                                    <td>Correo</td>
+                                    <td>Celular</td>
+                                    <td>Fijo</td>
+                                    <td>Área/Departamento</td>
+                                    <td>Rol</td>
+                                    <td>Activo</td>
+                                    <td>Operaciones</td>
+                                </tr>            
+                                <% while (rsUsuarios.next()) {%>
+                                <tr>
+                                    <td><%=rsUsuarios.getLong("idUsuario")%></td>
+                                    <td><%=rsUsuarios.getString("nombre") + " " + rsUsuarios.getString("apellido")%></td>
+                                    <td><%=rsUsuarios.getString("nombreUsuario")%></td>
+                                    <td><%=rsUsuarios.getString("direccion")%></td>
+                                    <td><%=rsUsuarios.getString("email")%></td>
+                                    <td><%=rsUsuarios.getString("telefono_m")%></td>
+                                    <td><%=rsUsuarios.getString("telefono_f")%></td>
+                                    <td><%=rsUsuarios.getString("nombreAreaDepartamento")%></td>
+                                    <td><%=rsUsuarios.getString("tipoCuenta")%></td>
+                                    </td>
+                                    <td><center>
+                                    <a href="gestorUsuarios.jsp?accion=1&id=<%=rsUsuarios.getLong("idUsuario")%>">
+                                        <%
+                                            if (rsUsuarios.getString("activo").equals("S")) {
+                                        %>
+                                        <img src="img/circuloverde.png" title="Desactivar" />
+                                        <% } else { %>
+                                        <img src="img/circulorojo.png" title="Activar"/>
+                                        <% }%>  
+                                    </a></center>
+                                </td>
+                                <td><center>
+                                    <a href="gestorUsuarios.jsp?accion=2&id=<%=rsUsuarios.getLong("idUsuario")%>">
+                                        <img src="img/eliminar.png" title="Eliminar"/>
+                                    </a>
+                                    &nbsp;
+                                    <a href="FormModificacionUsuario.jsp?id=<%=rsUsuarios.getLong("idUsuario")%>">
+                                        <img src="img/modificar.jpg" title="Modificar"/>
+                                    </a></center>
+                                </td>
+                                </tr>
+                                <% }%>
+                            </table>
                         </div>
+                        <div class="container">  
+                            <div class="row">
+                            </div>  
+                        </div>     
                     </div>
                 </div>
             </div>
@@ -172,6 +223,13 @@
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
+            $('select').material_select();
+            $('.collapsible').collapsible();
+            $("select[required]").css({display: "block", height: 0, padding: 0, width: 0, position: 'absolute'});
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.collapsible');
+            var instances = M.Collapsible.init(elems, options);
         });
     </script>
 </body>
