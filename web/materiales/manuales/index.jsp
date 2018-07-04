@@ -1,7 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
-    HttpSession hs = request.getSession(false); //RECUPERA LA SESIÃ“N DEL USUARIO YA INICIADO
+    HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
 
     if (hs == null || hs.getAttribute("tipoCuenta") == null) {
 %>
@@ -19,7 +19,7 @@
         <link type="text/css" rel="stylesheet" href="/aeLita/css/materialize.min.css"  media="screen,projection"/>
 
         <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <style>
         body {
@@ -57,23 +57,23 @@
                                                 <li><a class="grey-text text-lighten-3" href="../datos/IP Accounintg.txt"><i class=material-icons>picture_as_pdf</i>Realizar IP Accounintg</a></li>
                                                 <li><a class="grey-text text-lighten-3" href="../datos/Configurar LOG en RT.txt"><i class=material-icons>picture_as_pdf</i>Configurar LOG de Eventos en Cisco</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../datos/QG_Alta Disponibilidad.pdf"><i class=material-icons>picture_as_pdf</i>Comandos HSRP / Alta Disponibilidad</a></li>
-                                            <li><a class="grey-text text-lighten-3" href="../datos/Ejemplo configuraciÃ³n BGP con telefonia.txt"><i class=material-icons>picture_as_pdf</i>Ejemplo configuraciÃ³n BGP con telefonia</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../datos/Ejemplo configuración BGP con telefonia.txt"><i class=material-icons>picture_as_pdf</i>Ejemplo configuración BGP con telefonia</a></li>
                                             <br/>
                                         </ul>    
                                     </div>
                                     <div class="col s6 m6">
                                         <h5 class="white-text">Manuales</h5>
                                         <ul>
-                                            <li><a class="grey-text text-lighten-3" href="../datos/Como revisar un servicio de Datos.pdf"><i class=material-icons>picture_as_pdf</i>CÃ³mo revisar un servicio de Datos</a></li>
-                                            <li><a class="grey-text text-lighten-3" href="../datos/Claro IntroducciÃ³n IOS XR.ppt"><i class=material-icons>picture_as_pdf</i>IntroducciÃ³n a IOS XR</a></li>
-                                            <li><a class="grey-text text-lighten-3" href="../datos/Comandos para revisar router Cisco.docx"><i class=material-icons>picture_as_pdf</i>Comandos bÃ¡sicos para revisar router Cisco</a></li>
-                                            <li><a class="grey-text text-lighten-3" href="../datos/Alta Disponibilidad.pdf"><i class=material-icons>picture_as_pdf</i>Cenceptos bÃ¡sicos de Alta Disponibilidad / Cisco</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../datos/Como revisar un servicio de Datos.pdf"><i class=material-icons>picture_as_pdf</i>Cómo revisar un servicio de Datos</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../datos/Claro Introducción IOS XR.ppt"><i class=material-icons>picture_as_pdf</i>Introducción a IOS XR</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../datos/Comandos para revisar router Cisco.docx"><i class=material-icons>picture_as_pdf</i>Comandos básicos para revisar router Cisco</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../datos/Alta Disponibilidad.pdf"><i class=material-icons>picture_as_pdf</i>Cenceptos básicos de Alta Disponibilidad / Cisco</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../datos/Quick Guide_Como seguir una VLAN.pdf"><i class=material-icons>picture_as_pdf</i>Quick Guide - Como seguir una VLAN</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../datos/comandos-huawei-Cisco.pdf"><i class=material-icons>picture_as_pdf</i>Comandos de Huawei a Cisco y Cisco a Huawei</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../datos/Como revisar un servicio de Datos que esta encapsulado en Q-in-Q.docx"><i class=material-icons>picture_as_pdf</i>Como revisar Datos encapsulado en Q-in-Q</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../datos/Anchos_BandaATM.xls"><i class=material-icons>picture_as_pdf</i>Anchos de Banda en ATM</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../datos/configuracion QoS router cisco huawei.txt"><i class=material-icons>picture_as_pdf</i>Configurar QoS router Cisco y Huawei</a></li>
-                                            <li><a class="grey-text text-lighten-3" href="../datos/Como se sigue una VLAN.pdf"><i class=material-icons>picture_as_pdf</i>CÃ³mo se sigue una VLAN?</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../datos/Como se sigue una VLAN.pdf"><i class=material-icons>picture_as_pdf</i>Cómo se sigue una VLAN?</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../datos/MANUAL_IMC-Media Converter.pdf"><i class=material-icons>picture_as_pdf</i>Equipo IMC Media Converter</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../datos/Port-Channel Acceso Clientes.pdf"><i class=material-icons>picture_as_pdf</i>Guia del Port-Channel / Acceso Clientes</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../datos/QoS Cisco.xlsx"><i class=material-icons>picture_as_pdf</i>QoS Cisco</a></li>
@@ -97,23 +97,23 @@
                             <div class="card-content white-text">
                                 <div class="row">
                                     <div class="col s6 m6">
-                                        <h5 class="white-text">Manuales de TelÃ©fonia</h5>    
+                                        <h5 class="white-text">Manuales de Teléfonia</h5>    
                                         <ul>
                                             <li><a class="grey-text text-lighten-3" href="../telefonia/Capacitacion CCE Trazas CC08 y NGN.pdf"><i class=material-icons>picture_as_pdf</i>Capacitacion CCE Trazas CC08 y NGN</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../telefonia/CC08 NGN.docx"><i class=material-icons>picture_as_pdf</i>Manual CC08 NGN</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../telefonia/Comandos PRA NGN.txt"><i class=material-icons>picture_as_pdf</i>Comandos PRA NGN</a></li>
-                                            <li><a class="grey-text text-lighten-3" href="../telefonia/ConfiguraciÃ³n telâ€šfono SIP Trunk para pruebas en terreno..pdf"><i class=material-icons>picture_as_pdf</i>ConfiguraciÃ³n de telÃ©fono SIP Trunk para pruebas en terreno</a></li>
-                                            <li><a class="grey-text text-lighten-3" href="../telefonia/Datos para configuraciÃ³n de E1 PRI Claro 2015.doc"><i class=material-icons>picture_as_pdf</i>Datos para configuraciÃ³n de E1 PRI Claro 2015</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../telefonia/Configuración tel?fono SIP Trunk para pruebas en terreno..pdf"><i class=material-icons>picture_as_pdf</i>Configuración de teléfono SIP Trunk para pruebas en terreno</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../telefonia/Datos para configuración de E1 PRI Claro 2015.doc"><i class=material-icons>picture_as_pdf</i>Datos para configuración de E1 PRI Claro 2015</a></li>
                                         </ul>    
                                     </div>
                                     <div class="col s6 m6">
                                         <br/><br/>
                                         <ul>
                                             <li><a class="grey-text text-lighten-3" href="../telefonia/FAX MEDIANT.txt"><i class=material-icons>picture_as_pdf</i>Codecs necesarios para habilitar FAX en Mediant</a></li>
-                                            <li><a class="grey-text text-lighten-3" href="../telefonia/Revision Call Manager Basica.txt"><i class=material-icons>picture_as_pdf</i>Revision Call Manager BÃ¡sica</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../telefonia/Revision Call Manager Basica.txt"><i class=material-icons>picture_as_pdf</i>Revision Call Manager Básica</a></li>
                                             <li><a class="grey-text text-lighten-3" href="../telefonia/Tracear PRA NGN.docx"><i class=material-icons>picture_as_pdf</i>Tracear PRA en NGN</a></li>
-                                            <li><a class="grey-text text-lighten-3" href="../telefonia/tutorial telefonia final.docx"><i class=material-icons>picture_as_pdf</i>Tutorial TefÃ©fonia Final</a></li>
-                                            <li><a class="grey-text text-lighten-3" href="../telefonia/Ver el Traducido de un 600.txt"><i class=material-icons>picture_as_pdf</i>Ver el Traducido de un NÂ° 600 en NGN</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../telefonia/tutorial telefonia final.docx"><i class=material-icons>picture_as_pdf</i>Tutorial Teféfonia Final</a></li>
+                                            <li><a class="grey-text text-lighten-3" href="../telefonia/Ver el Traducido de un 600.txt"><i class=material-icons>picture_as_pdf</i>Ver el Traducido de un N° 600 en NGN</a></li>
                                         </ul>
                                     </div>
                                 </div>

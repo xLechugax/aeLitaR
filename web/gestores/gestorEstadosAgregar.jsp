@@ -1,7 +1,7 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%
-    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESIÃ“N YA
+    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESIÓN YA
     // ABIERTA para el usuario.
 
     if (hs == null || hs.getAttribute("tipoCuenta") == null
@@ -22,6 +22,6 @@
         pst.execute();
         response.sendRedirect("gestorEstados.jsp");
     } catch (Exception e) {
-        out.println("ExcepciÃ³n de SQL (RegistroUsuario.jsp): " + e);
+        out.println("Excepción de SQL (RegistroUsuario.jsp): " + e);
     }
 %>

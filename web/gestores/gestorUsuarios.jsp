@@ -1,7 +1,7 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%
-    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESI脫N YA
+    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESI覰 YA
     // ABIERTA para el usuario.
 
     if (hs == null || hs.getAttribute("tipoCuenta") == null
@@ -72,7 +72,7 @@
         Statement st = conn.createStatement();
         String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento";
 
-        // 2.- Aplicar un filtro de b煤squeda si es necesario
+        // 2.- Aplicar un filtro de b鷖queda si es necesario
         if (textobusqueda != null && tipobusqueda != null) {
             // Aplicar el filtro respectivo...
             if (tipobusqueda.equals("nombre")) {
@@ -95,7 +95,7 @@
         }
         rsUsuarios = st.executeQuery(sql);
     } catch (SQLException e) {
-        out.println("Excepci贸n de SQL: " + e);
+        out.println("Excepci髇 de SQL: " + e);
     }
 %>
 <!DOCTYPE html>
@@ -107,7 +107,7 @@
         <link type="text/css" rel="stylesheet" href="/aeLita/css/materialize.min.css"  media="screen,projection"/>
 
         <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <style>
         body {
@@ -138,14 +138,14 @@
                                         <option value="" selected="" disabled="">No filtrar</option>
                                         <option value="nombre">Nombre</option>
                                         <option value="apellido">Apellido</option>
-                                        <option value="dire">Direcci贸n</option>
+                                        <option value="dire">Direcci髇</option>
                                         <option value="correo">Correo</option>
-                                        <option value="movil">Tel茅fono M贸vil</option>                
-                                        <option value="fijo">Tel茅fono Fijo</option>                
+                                        <option value="movil">Tel閒ono M髒il</option>                
+                                        <option value="fijo">Tel閒ono Fijo</option>                
                                         <option value="area_departamento">Area/Departamento</option>                
                                         <option value="rol">Rol</option>                
                                     </select>   
-                                    <input class="btn" type="submit" value="隆Realizar b煤squeda!" />
+                                    <input class="btn" type="submit" value="ealizar b鷖queda!" />
                                 </div>
                             </div>
                         </form>
@@ -163,11 +163,11 @@
                                     <td>ID</td>
                                     <td>Nombre</td>
                                     <td>Nombre Usuario</td>
-                                    <td>Direcci贸n</td>
+                                    <td>Direcci髇</td>
                                     <td>Correo</td>
                                     <td>Celular</td>
                                     <td>Fijo</td>
-                                    <td>脕rea/Departamento</td>
+                                    <td>羠ea/Departamento</td>
                                     <td>Rol</td>
                                     <td>Activo</td>
                                     <td>Operaciones</td>

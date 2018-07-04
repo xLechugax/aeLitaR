@@ -1,7 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
-    HttpSession hs = request.getSession(false); //RECUPERA LA SESI√ìN DEL USUARIO YA INICIADO
+    HttpSession hs = request.getSession(false); //RECUPERA LA SESI”N DEL USUARIO YA INICIADO
 
     ResultSet rsUsuario = null;
     try {
@@ -11,7 +11,7 @@
         rsUsuario = pst.executeQuery();
         rsUsuario.next();
     } catch (SQLException e) {
-        out.println("Excepci√≥n de SQL:" + e);
+        out.println("ExcepciÛn de SQL:" + e);
         return;
     }
 %>
@@ -24,7 +24,7 @@
         <link type="text/css" rel="stylesheet" href="/aeLita/css/materialize.min.css"  media="screen,projection"/>
 
         <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <style>
         body {
@@ -61,19 +61,19 @@
                                             <td><%= rsUsuario.getString("email")%></td>
                                         </tr>
                                         <tr>
-                                            <td>Tel√©fono Fijo:</td>
+                                            <td>TelÈfono Fijo:</td>
                                             <td><%= rsUsuario.getString("telefono_f")%></td>
                                         </tr>
                                         <tr>
-                                            <td>Tel√©fono M√≥vil:</td>
+                                            <td>TelÈfono MÛvil:</td>
                                             <td><%= rsUsuario.getString("telefono_m")%></td>
                                         </tr>
                                         <tr>
-                                            <td>Direcci√≥n:</td>
+                                            <td>DirecciÛn:</td>
                                             <td><%= rsUsuario.getString("direccion")%></td>
                                         </tr>
                                         <tr>
-                                            <td>√Årea/Departamento:</td>
+                                            <td>¡rea/Departamento:</td>
                                             <td><%= rsUsuario.getString("nombreAreaDepartamento")%></td>
                                         </tr>
                                         <tr>

@@ -1,7 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
-    HttpSession hs = request.getSession(false); //RECUPERA LA SESI√ìN DEL USUARIO YA INICIADO
+    HttpSession hs = request.getSession(false); //RECUPERA LA SESI”N DEL USUARIO YA INICIADO
 
     ResultSet rsUsuario = null;
     ResultSet rsAreaDepa = null;
@@ -17,7 +17,7 @@
         rsAreaDepa = pstAreaDepa.executeQuery();
 
     } catch (SQLException e) {
-        out.println("Excepci√≥n de SQL:" + e);
+        out.println("ExcepciÛn de SQL:" + e);
         return;
     }
 %>
@@ -30,7 +30,7 @@
         <link type="text/css" rel="stylesheet" href="/aeLita/css/materialize.min.css"  media="screen,projection"/>
 
         <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <style>
         body {
@@ -74,7 +74,7 @@
                                                 <td><input name="confirmar_correo" class="validate" type="email" required=""></td>
                                             </tr>
                                             <tr>
-                                                <td>√Årea/Departamento:</td>
+                                                <td>¡rea/Departamento:</td>
                                                 <td>
                                                     <select required name="area_departamento">
                                                         <option value="">Seleccione...</option>
@@ -85,15 +85,15 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Tel√©fono Fijo:</td>
+                                                <td>TelÈfono Fijo:</td>
                                                 <td><input name="telefono_f" class="validate" placeholder="+562" required=""></td>
                                             </tr>
                                             <tr>
-                                                <td>Tel√©fono M√≥vil:</td>
+                                                <td>TelÈfono MÛvil:</td>
                                                 <td><input name="telefono_m" class="validate" placeholder="+569" required=""></td>                                        
                                             </tr>
                                             <tr>
-                                                <td>Direcci√≥n:</td>
+                                                <td>DirecciÛn:</td>
                                                 <td><input name="direccion" class="validate" required=""></td>
                                             </tr>
                                             <tr>

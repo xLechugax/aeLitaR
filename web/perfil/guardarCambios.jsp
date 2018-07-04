@@ -1,7 +1,7 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%
-    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESIÃ“N YA
+    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESIÓN YA
     // ABIERTA para el usuario.
     String correo = request.getParameter("correo");
     String confirmar_correo = request.getParameter("confirmar_correo");
@@ -39,6 +39,6 @@
             response.sendRedirect("miperfil.jsp");
             }
     } catch (Exception e) {
-        out.println("ExcepciÃ³n de SQL (RegistroUsuario.jsp): " + e +sql);
+        out.println("Excepción de SQL (RegistroUsuario.jsp): " + e +sql);
     }
 %>

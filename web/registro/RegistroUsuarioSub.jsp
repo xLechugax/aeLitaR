@@ -1,5 +1,4 @@
 <%@page import="java.sql.*, bd.ConexionBD" %>
-<link rel="stylesheet" type="text/css" href="newcss.css"><link>
 <%
     String nombre = request.getParameter("nombre");
     String apellido = request.getParameter("apellido");
@@ -49,7 +48,7 @@
     <head>
         <meta http-equiv="Refresh" content="5;url=/aeLita/index.jsp">
         <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <body class="blue-grey lighten-5">
         <br /><br /><br /><br /><br /><br /><br /><br />

@@ -1,7 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
-    HttpSession hs = request.getSession(false); //RECUPERA LA SESIÃ“N DEL USUARIO YA INICIADO
+    HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
 
     if (hs == null || hs.getAttribute("tipoCuenta") == null) {
 %>
@@ -18,7 +18,7 @@
         <link type="text/css" rel="stylesheet" href="/aeLita/css/materialize.min.css"  media="screen,projection"/>
 
         <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <style>
         body {
@@ -66,9 +66,9 @@
                                         <ul>
                                             <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Sebastian Cancino- 42149</a></li>
                                             <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Daniel Arenas - 42139</a></li>
-                                            <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Camilo YaÃ±ez - 42138</a></li>
+                                            <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Camilo Yañez - 42138</a></li>
                                             <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Oriel Pincheira - 42137</a></li>
-                                            <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Rodrigo CarreÃ±o - 42135</a></li>
+                                            <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Rodrigo Carreño - 42135</a></li>
                                             <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Gisselle San Martin - 42132</a></li>
                                             <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Fernando San Juan - 42131</a></li>
                                             <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Patricio Contreras - 42130</a></li>
@@ -77,7 +77,7 @@
                                             <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Alonso Pineda - 42127</a></li>
                                             <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Simon Nahuelan - 42121</a></li>
                                             <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Jorge Salgado - 42115</a></li>
-                                            <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Alvaro Soto Â - 42109</a></li>
+                                            <li><a class="text-lighten-3"><i class=material-icons>telephone</i>Alvaro Soto  - 42109</a></li>
                                         </ul>
                                         <h5>Sonda</h5>
                                         <ul>

@@ -1,7 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
-    HttpSession hs = request.getSession(false); //RECUPERA LA SESIÃ“N DEL USUARIO YA INICIADO
+    HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
 
     if (hs == null || hs.getAttribute("tipoCuenta") == null
             || !hs.getAttribute("tipoCuenta").equals("Ejecutor")) {
@@ -20,7 +20,7 @@
         <link type="text/css" rel="stylesheet" href="/aeLita/css/materialize.min.css"  media="screen,projection"/>
 
         <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <style>
         body {
@@ -43,7 +43,7 @@
                     </div>
                     <div class="card-stacked">
                         <div class="card-content">
-                            <p>Bienvenido a Ã¦Lita <%=hs.getAttribute("nombre")%>.</p>
+                            <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p>
                         </div>
                         <div class="container">  
                             <div class="row">

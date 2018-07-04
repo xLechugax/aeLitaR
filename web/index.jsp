@@ -1,7 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
-    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESI√ìN YA ABIERTA PARA EL USUARIO.
+    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESI”N YA ABIERTA PARA EL USUARIO.
     ResultSet rsUsuarios = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -9,7 +9,7 @@
         PreparedStatement pst = conn.prepareStatement(sql);
         rsUsuarios = pst.executeQuery();
     } catch (SQLException e) {
-        out.println("Excepci√≥n de SQL:" + e);
+        out.println("ExcepciÛn de SQL:" + e);
         return;
     }
 %>
@@ -20,9 +20,8 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="/aeLita/css/materialize.min.css"  media="screen,projection"/>
-
         <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <style>
         body {
@@ -37,14 +36,14 @@
     </style>
     <main>
         <body class="blue-grey lighten-5">
-            <!INICIO - BARRA DE NAVEGACI√ìN FIXED>
+            <!INICIO - BARRA DE NAVEGACI”N FIXED>
         <ul class="side-nav" id="mobile-demo">
             <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registro</a></li>
         </ul>
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper blue-grey darken-3">
-                    <a href="#!" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;√¶Lita</a>
+                    <a href="#!" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registro</a></li>
@@ -52,7 +51,7 @@
                 </div>
             </nav>
         </div>
-        <!FINAL - BARRA DE NAVEGACI√ìN FIXED>   
+        <!FINAL - BARRA DE NAVEGACI”N FIXED>   
         <div class="container"> 
             <div class="col m3 m3">
                 <div class="card horizontal">
@@ -60,7 +59,7 @@
                     </div>
                     <div class="card-stacked">
                         <div class="card-content">
-                            <p>Bienvenido a √¶Lita.</p>
+                            <p>Bienvenido a ÊLita.</p>
                         </div>
                         <div class="container">  
                             <div class="row">
@@ -74,7 +73,7 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <input name="clave" id="claveUsuario" type="password" class="validate" required="">
-                                            <label>Contrase√±a</label>
+                                            <label>ContraseÒa</label>
                                         </div>
                                     </div>
                                     <center>
