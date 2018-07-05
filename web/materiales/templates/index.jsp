@@ -42,9 +42,9 @@
                                 <div class="col s6 m6">
                                     <h5 class="white-text">Templates</h5>    
                                     <ul>
+                                        <li><a class="grey-text text-lighten-3" href="wea.xlsx"><i class=material-icons>picture_as_pdf</i>Planitalla Templates Actualizados</a></li>
                                         <li><a class="grey-text text-lighten-3" href="Cierre con EDAC.txt"><i class=material-icons>picture_as_pdf</i>T. Cierre con EDAC</a></li>
                                         <li><a class="grey-text text-lighten-3" href="PBX 2018.xls"><i class=material-icons>picture_as_pdf</i>T. Plantilla PBX 2018</a></li>
-                                        <li><a class="grey-text text-lighten-3" href="Primer Contacto.txt"><i class=material-icons>picture_as_pdf</i>T. Primer Contacto</a></li>
                                         <li><a class="grey-text text-lighten-3" href="Sonda.txt"><i class=material-icons>picture_as_pdf</i>T. Sonda</a></li>
                                         <li><a class="grey-text text-lighten-3" href="Suministro.txt"><i class=material-icons>picture_as_pdf</i>T. Suministro</a></li>
                                     </ul>    
@@ -52,11 +52,8 @@
                                 <div class="col s6 m6">
                                     <br/><br/>
                                     <ul>
-                                        <li><a class="grey-text text-lighten-3" href="T Bramy.txt"><i class=material-icons>picture_as_pdf</i>T. Bramy</a></li>
-                                        <li><a class="grey-text text-lighten-3" href="T Datos.txt"><i class=material-icons>picture_as_pdf</i>T. Datos</a></li>
                                         <li><a class="grey-text text-lighten-3" href="T Planta Interna.txt"><i class=material-icons>picture_as_pdf</i>T. Planta Interna</a></li>
                                         <li><a class="grey-text text-lighten-3" href="T Proveedores.txt"><i class=material-icons>picture_as_pdf</i>T. Proveedores</a></li>
-                                        <li><a class="grey-text text-lighten-3" href="T Telefonia.txt"><i class=material-icons>picture_as_pdf</i>T. Telefonia</a></li>
                                     </ul>
                                 </div>
                             </div>

@@ -31,22 +31,25 @@
         <body class="blue-grey lighten-5">
             <%@ include file="../barraNav.jsp" %>
             <div class="container"> 
-            <div class="col m3 m3">
-                <div class="card horizontal">
-                    <div class="card-image">
-                    </div>
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p>
-                        </div>
-                        <div class="container">  
-                            <div class="row">
-                            </div>  
-                        </div>     
+                        <div class="row">
+                    <div class="col s12 m12">
+                      <div class="card blue-grey darken-1">
+                            <div class="card-content white-text">
+                                <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p>
+                            <h5 class="white-text">Links de Útilidad</h5>
+                                <ul>
+                                    <li><a class="grey-text text-lighten-3" href="http://172.17.40.45/plataforma_datos/vis_equipos_datoslist.asp?cmd=resetall"><i class="material-icons">router</i>Equipos Actualizados</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="http://despachonacional.cl/despachonacional/siad_pyme/index.php/Login"><i class="material-icons">dashboard</i>SIAD Pyme</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="https://macvendors.com/"><i class="material-icons">fingerprint</i>MacVendors</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="http://10.41.4.141/sac/Login_input"><i class="material-icons">keyboard</i>HFC Incognito</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="http://agenda/Organigrama/"><i class="material-icons">local_phone</i>Organigrama</a></li>
+                                </ul>
+                            </div>
+                      </div>
                     </div>
                 </div>
-            </div>
         </div>
+                        
     </main>
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>

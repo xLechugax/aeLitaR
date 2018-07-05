@@ -1,8 +1,0 @@
-023306: Apr  8 18:17:48.456 CHILE: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0 (100), with ECLANTSW001 GigabitEthernet0/1 (1).
-023307: Apr  8 18:18:48.610 CHILE: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0 (100), with ECLANTSW001 GigabitEthernet0/1 (1).
-023308: Apr  8 18:19:48.772 CHILE: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0 (100), with ECLANTSW001 GigabitEthernet0/1 (1).
-023309: Apr  8 18:20:48.921 CHILE: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0 (100), with ECLANTSW001 GigabitEthernet0/1 (1).
-023310: Apr  8 18:21:49.079 CHILE: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0 (100), with ECLANTSW001 GigabitEthernet0/1 (1).
-023311: Apr  8 18:22:49.257 CHILE: %CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0 (100), with ECLANTSW001 GigabitEthernet0/1 (1).
-
-RT892_Danone_Afta(config)#no ip cef optimize neighbor resolution 

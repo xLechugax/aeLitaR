@@ -1,8 +1,0 @@
-Configurar en Mediant 
-
-Protocol Configuration
-	Coders And Profile Definitions
-		Coders ---->Codec T-38
-
-Codec T-38
-

@@ -1,4 +1,0 @@
-user: root
-pass: router
-
-10.18.25.250
