@@ -70,7 +70,7 @@
     try {
         Connection conn = ConexionBD.getConexion();
         Statement st = conn.createStatement();
-        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento";
+        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento ";
 
         // 2.- Aplicar un filtro de búsqueda si es necesario
         if (textobusqueda != null && tipobusqueda != null) {
@@ -200,7 +200,7 @@
                                         <img src="img/eliminar.png" title="Eliminar"/>
                                     </a>
                                     &nbsp;
-                                    <a href="FormModificacionUsuario.jsp?id=<%=rsUsuarios.getLong("idUsuario")%>">
+                                    <a href="gestorUsuariosEditar.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>">
                                         <img src="img/modificar.jpg" title="Modificar"/>
                                     </a></center>
                                 </td>

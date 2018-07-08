@@ -3,11 +3,13 @@
 <%
     HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
 
+    String idUsuario = request.getParameter("idUsuario");
+
     ResultSet rsUsuario = null;
     ResultSet rsAreaDepa = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from usuario where idUsuario=" + hs.getAttribute("idUsuarioSesion");
+        String sql = "select * from usuario where idUsuario=" + idUsuario;
         PreparedStatement pst = conn.prepareStatement(sql);
         rsUsuario = pst.executeQuery();
         rsUsuario.next();
@@ -38,7 +40,6 @@
             min-height: 100vh;
             flex-direction: column;
         }
-
         main {
             flex: 1 0 auto;
         }
@@ -53,11 +54,11 @@
                         </div>
                         <div class="card-stacked">
                             <div class="card-content">
-                                <p>Hola <%=hs.getAttribute("nombre")%>, estos son los datos de tu perfil </p>
+                                <p>Hola <%=hs.getAttribute("nombre")%>, aca puedes modificar los datos del perfil seleccionado... </p>
                             </div>
                             <div class="container">
                                 <form action="guardarCambios.jsp" method="post">
-                                    <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion") %>" type="hidden"></td>
+                                    <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table class="highlight">
                                         <tbody>
                                             <tr>
@@ -67,13 +68,12 @@
                                             </tr>
                                             <tr>
                                                 <td>Correo:</td>
-                                                <td><input placeholder="<%= rsUsuario.getString("email") %>" name="correo" type="email" class="validate" required=""></td>
+                                                <td><input name="correo" type="email" class="validate" required=""></td>
                                             </tr>
                                             <tr>
                                                 <td>Confirmar Correo:</td>
-                                                <td><input placeholder="<%= rsUsuario.getString("email") %>" name="confirmar_correo" class="validate" type="email" required=""></td>
+                                                <td><input name="confirmar_correo" class="validate" type="email" required=""></td>
                                             </tr>
-                                            <!--
                                             <tr>
                                                 <td>Área/Departamento:</td>
                                                 <td>
@@ -85,26 +85,25 @@
                                                     </select>
                                                 </td>
                                             </tr>
-                                            -->
                                             <tr>
                                                 <td>Teléfono Fijo:</td>
-                                                <td><input placeholder="<%= rsUsuario.getString("telefono_f") %>" name="telefono_f" class="validate" placeholder="+562" required=""></td>
+                                                <td><input name="telefono_f" class="validate" placeholder="+562" required=""></td>
                                             </tr>
                                             <tr>
                                                 <td>Teléfono Móvil:</td>
-                                                <td><input placeholder="<%= rsUsuario.getString("telefono_m") %>" name="telefono_m" class="validate" placeholder="+569" required=""></td>                                        
+                                                <td><input name="telefono_m" class="validate" placeholder="+569" required=""></td>                                        
                                             </tr>
                                             <tr>
                                                 <td>Dirección:</td>
-                                                <td><input placeholder="<%= rsUsuario.getString("direccion") %>" name="direccion" class="validate" required=""></td>
+                                                <td><input name="direccion" class="validate" required=""></td>
                                             </tr>
                                             <tr>
                                                 <td>Clave:</td>
-                                                <td><input placeholder="*************" name="clave" class="validate" type="password" required=""></td>
+                                                <td><input name="clave" class="validate" type="password" required=""></td>
                                             </tr>
                                             <tr>
                                                 <td>Confirmar Clave:</td>
-                                                <td><input placeholder="*************" name="confirmar_clave" class="validate" type="password" required=""></td>
+                                                <td><input name="confirmar_clave" class="validate" type="password" required=""></td>
                                             </tr>
                                         </tbody>
                                     </table>
