@@ -58,7 +58,7 @@
                             </div>
                             <div class="container">
                                 <form action="/aeLita/gestores/guardarCambios.jsp" method="post">
-                                    <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
+                                    <input name="idUsuario" value="<%= rsUsuario.getString("idUsuario") %>" type="hidden"></td>
                                     <table class="highlight">
                                         <tbody>
                                             <tr>

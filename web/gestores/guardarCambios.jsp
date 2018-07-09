@@ -2,7 +2,6 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%
     HttpSession hs = request.getSession(false);  // RECUPERAR LA SESIÓN YA
-    // ABIERTA para el usuario.
     String correo = request.getParameter("correo");
     String confirmar_correo = request.getParameter("confirmar_correo");
     String area_departamento = request.getParameter("area_departamento");
@@ -36,7 +35,7 @@
             pst.setString(7, idUsuario);
 
             pst.execute();
-            response.sendRedirect("gestorUsuarios.jsp");
+            response.sendRedirect("/aeLita/gestores/gestorUsuarios.jsp");
             }
     } catch (Exception e) {
         out.println("Excepción de SQL (RegistroUsuario.jsp): " + e +sql);
