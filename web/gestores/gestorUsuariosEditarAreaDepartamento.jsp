@@ -53,27 +53,11 @@
                         <div class="card-image">
                         </div>
                         <div class="card-stacked">
-                            <div class="card-content">
-                                <p>Hola <%=hs.getAttribute("nombre")%>, aca puedes modificar los datos del perfil seleccionado... </p>
-                            </div>
                             <div class="container">
                                 <form action="guardarCambios.jsp" method="post">
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table class="highlight">
                                         <tbody>
-                                            <tr>
-                                                <td>Nombre:</td>
-                                                <td><%= rsUsuario.getString("nombre") + " " + rsUsuario.getString("apellido")%></td>
-                                            </tr>
-                                            </tr>
-                                            <tr>
-                                                <td>Correo:</td>
-                                                <td><input placeholder="<%= rsUsuario.getString("email") %>" name="correo" type="email" class="validate" required=""></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Confirmar Correo:</td>
-                                                <td><input placeholder="<%= rsUsuario.getString("email") %>" name="confirmar_correo" class="validate" type="email" required=""></td>
-                                            </tr>
                                             <tr>
                                                 <td>Área/Departamento:</td>
                                                 <td>
@@ -84,26 +68,6 @@
                                                         <% }%>
                                                     </select>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Teléfono Fijo:</td>
-                                                <td><input placeholder="<%= rsUsuario.getString("telefono_f") %>" name="telefono_f" class="validate" placeholder="+562" required=""></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Teléfono Móvil:</td>
-                                                <td><input placeholder="<%= rsUsuario.getString("telefono_m") %>" name="telefono_m" class="validate" placeholder="+569" required=""></td>                                        
-                                            </tr>
-                                            <tr>
-                                                <td>Dirección:</td>
-                                                <td><input placeholder="<%= rsUsuario.getString("direccion") %>" name="direccion" class="validate" required=""></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Clave:</td>
-                                                <td><input placeholder="****************" name="clave" class="validate" type="password" required=""></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Confirmar Clave:</td>
-                                                <td><input placeholder="****************" name="confirmar_clave" class="validate" type="password" required=""></td>
                                             </tr>
                                         </tbody>
                                     </table>

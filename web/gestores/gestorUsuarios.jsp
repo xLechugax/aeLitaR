@@ -181,7 +181,11 @@
                                     <td><%=rsUsuarios.getString("email")%></td>
                                     <td><%=rsUsuarios.getString("telefono_m")%></td>
                                     <td><%=rsUsuarios.getString("telefono_f")%></td>
-                                    <td><%=rsUsuarios.getString("nombreAreaDepartamento")%></td>
+                                    <td>
+                                        <a href="gestorUsuariosEditarAreaDepartamento.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>">
+                                            <%=rsUsuarios.getString("nombreAreaDepartamento")%>
+                                        </a>
+                                    </td>
                                     <td><%=rsUsuarios.getString("tipoCuenta")%></td>
                                     </td>
                                     <td><center>
