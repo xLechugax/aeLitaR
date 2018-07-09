@@ -80,7 +80,7 @@
             } else if (tipobusqueda.equals("apellido")) {
                 sql = sql + " and usuario.apellido like '%" + textobusqueda + "%'";
             } else if (tipobusqueda.equals("dire")) {
-                sql = sql + " and usuario.direccion = " + textobusqueda;
+                sql = sql + " and usuario.direccion like '%" + textobusqueda + "%'";
             } else if (tipobusqueda.equals("correo")) {
                 sql = sql + " and usuario.email like '%" + textobusqueda + "%'";
             } else if (tipobusqueda.equals("movil")) {
@@ -130,7 +130,7 @@
                         <form method="post" action="gestorUsuarios.jsp">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input name="textobusqueda" id="nombreUsuario" type="text" class="validate" style="text-transform: uppercase">
+                                    <input name="textobusqueda" id="nombreUsuario" type="text" class="validate">
                                     <label>Texto de busqueda...</label>
                                 </div>
                                 <div class="input-field col s12">

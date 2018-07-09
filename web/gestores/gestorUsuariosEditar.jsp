@@ -57,7 +57,7 @@
                                 <p>Hola <%=hs.getAttribute("nombre")%>, aca puedes modificar los datos del perfil seleccionado... </p>
                             </div>
                             <div class="container">
-                                <form action="guardarCambios.jsp" method="post">
+                                <form action="/aeLita/gestores/guardarCambios.jsp" method="post">
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table class="highlight">
                                         <tbody>

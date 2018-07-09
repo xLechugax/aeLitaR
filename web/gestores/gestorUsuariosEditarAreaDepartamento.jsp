@@ -51,11 +51,14 @@
                 <div class="col m3 m3">
                     <div class="card horizontal">
                         <div class="card-image">
+                            
                         </div>
                         <div class="card-stacked">
                             <div class="container">
-                                <form action="guardarCambios.jsp" method="post">
-                                    <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
+                                <br/>
+                                <p>Estamos editando el Área/Departamento de <%= rsUsuario.getString("nombre") %> <%= rsUsuario.getString("Apellido") %> </p>
+                                <form action="guardarCambiosAreaDepartamento.jsp" method="post">
+                                    <input name="idUsuario" value="<%= rsUsuario.getString("idUsuario")%>" type="hidden"></td>
                                     <table class="highlight">
                                         <tbody>
                                             <tr>

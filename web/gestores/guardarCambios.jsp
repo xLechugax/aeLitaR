@@ -5,7 +5,7 @@
     // ABIERTA para el usuario.
     String correo = request.getParameter("correo");
     String confirmar_correo = request.getParameter("confirmar_correo");
-    //String area_departamento = request.getParameter("area_departamento");
+    String area_departamento = request.getParameter("area_departamento");
     String telefono_f = request.getParameter("telefono_f");
     String telefono_m = request.getParameter("telefono_m");
     String direccion = request.getParameter("direccion");
@@ -25,17 +25,18 @@
             out.print("<meta http-equiv='Refresh' content='2;url=/aeLita/registro/registrarNuevoUsuario.jsp'>");
             return;
         } else {
-            sql = "update USUARIO set email=?,telefono_m=?,telefono_f=?,direccion=?,clave=? where idUsuario=?";
+            sql = "update USUARIO set email=?,telefono_m=?,telefono_f=?,area_departamento=?,direccion=?,clave=? where idUsuario=?";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, correo);
             pst.setString(2, telefono_m);
             pst.setString(3, telefono_f);
-            pst.setString(4, direccion);
-            pst.setString(5, clave);
-            pst.setString(6, idUsuario);
+            pst.setString(4, area_departamento);
+            pst.setString(5, direccion);
+            pst.setString(6, clave);
+            pst.setString(7, idUsuario);
 
             pst.execute();
-            response.sendRedirect("miperfil.jsp");
+            response.sendRedirect("gestorUsuarios.jsp");
             }
     } catch (Exception e) {
         out.println("Excepción de SQL (RegistroUsuario.jsp): " + e +sql);

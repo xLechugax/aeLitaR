@@ -6,7 +6,7 @@
     ResultSet rsUsuario = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and usuario.idUsuario="+hs.getAttribute("idUsuarioLogeado");
+        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and usuario.idUsuario="+hs.getAttribute("idUsuarioSesion");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsUsuario = pst.executeQuery();
         rsUsuario.next();
