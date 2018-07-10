@@ -1,4 +1,4 @@
-<%
+ <%
     if (hs.getAttribute("tipoCuenta").equals("Administrador")){
 %>
 <html>

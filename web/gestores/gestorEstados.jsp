@@ -59,7 +59,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>Nombre Estado:</td>
-                                                <td><input name="nombre_estado" class="validate" required=""></td>
+                                                <td><input placeholder="Nombre..." name="nombre_estado" class="validate" required=""></td>
                                             </tr>
                                         </tbody>
                                     </table>

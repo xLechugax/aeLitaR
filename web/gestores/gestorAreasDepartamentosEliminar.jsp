@@ -10,17 +10,15 @@
 <%@ include file="../accesoDenegado.jsp" %>
 <%            return;
     }
-    String nombreEstado = request.getParameter("nombre_estado");
-    String detalleEstado = request.getParameter("detalle_estado");
+    String idAreaDepartamento = request.getParameter("idAreaDepartamento");
 
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "insert into estado (nombreEstado,detalleEstado) values (?,?)";
+        String sql = "delete area_departamento from area_departamento where idAreaDepartamento=?";
         PreparedStatement pst = conn.prepareStatement(sql);
-        pst.setString(1, nombreEstado);
-        pst.setString(2, detalleEstado);
+        pst.setString(1, idAreaDepartamento);
         pst.execute();
-        response.sendRedirect("gestorEstados.jsp");
+        response.sendRedirect("/aeLita/gestores/gestorAreasDepartamentos.jsp");
     } catch (Exception e) {
         out.println("Excepción de SQL (RegistroUsuario.jsp): " + e);
     }

@@ -9,13 +9,26 @@
 <%@ include file="../accesoDenegado.jsp" %>
 <%        return;
     }
+    String idAreaDepartamento = request.getParameter("idAreaDepartamento");
 
-    ResultSet rsEstados = null;
+    ResultSet rsAreasDepartamentos = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from estado";
+        String sql = "select * from area_departamento";
         PreparedStatement pst = conn.prepareStatement(sql);
-        rsEstados = pst.executeQuery();
+        rsAreasDepartamentos = pst.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+
+    ResultSet rsAreaDepartamentoSeleccionada = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select * from area_departamento where idAreaDepartamento=" + idAreaDepartamento;
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsAreaDepartamentoSeleccionada = pst.executeQuery();
+        rsAreaDepartamentoSeleccionada.next();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -52,23 +65,25 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Crear Estados</a> 
-                                <form action="gestorEstadosAgregar.jsp" method="post">
+                                <a>Modificar Estado</a> 
+                                <form action="gestorAreasDepartamentosModificarSub.jsp" method="post">
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table>
                                         <tbody>
-                                            <tr>
-                                                <td>Nombre Estado:</td>
-                                                <td><input name="nombre_estado" class="validate" required=""></td>
-                                            </tr>
+                                            <tr> 
+                                                <td>Nombre Área/Departamento:</td>
+                                                <td><input name="nombre_areaDepartamento" class="validate" required="" placeholder="<%= rsAreaDepartamentoSeleccionada.getString("nombreAreaDepartamento")%>"></td>
+                                                <input name="idAreaDepartamento" type="hidden" value="<%= rsAreaDepartamentoSeleccionada.getString("idAreaDepartamento")%>">
+                                        </tr>
                                         </tbody>
                                     </table>
                                     <div class="input-field col s12">
-                                        <textarea name="detalle_estado" class="materialize-textarea" data-length="120" required=""></textarea>
-                                        <label for="textarea1">Detalle de estado</label>
+                                        <textarea name="detalle_areaDepartamento" class="materialize-textarea" data-length="120" required="" placeholder="<%= rsAreaDepartamentoSeleccionada.getString("detalleAreaDepartamento")%>"></textarea>
+                                        <label for="textarea1">Detalle de Área/Departamento</label>
                                     </div>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Estado" />
+                                        <input class="btn" type="submit" value="Modificar Estado" /><br/><br/>
+                                        <a href="/aeLita/gestores/gestorAreasDepartamentos.jsp" class="btn left-align">Cancelar</a>
                                     </center>
                                 </form>
                             </div>
@@ -83,20 +98,20 @@
                                     <thead>
                                         <tr>
                                             <td>ID</td>
-                                            <td>Estado</td>
+                                            <td>Área/Departamento</td>
                                             <td>Operaciones</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% while (rsEstados.next()) {%>
+                                        <% while (rsAreasDepartamentos.next()) {%>
                                         <tr>
-                                            <td><%= rsEstados.getString("idEstado") %></td>
-                                            <td><%= rsEstados.getString("nombreEstado") %></td>
+                                            <td><%= rsAreasDepartamentos.getString("idAreaDepartamento")%></td>
+                                            <td><%= rsAreasDepartamentos.getString("nombreAreaDepartamento")%></td>
                                             <td>
-                                                <a href="gestorEstadosEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                <a href="gestorAreasDepartamentosEliminar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
-                                                <a href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                <a href="gestorAreasDepartamentosModificar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
                                             </td>

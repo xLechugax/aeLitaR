@@ -6,10 +6,21 @@
     if (hs == null || hs.getAttribute("tipoCuenta") == null
             || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
 %>
-    <%@ include file="../accesoDenegado.jsp" %>
-<%        
+<%@ include file="../accesoDenegado.jsp" %>
+<%        return;
+    }
+
+    ResultSet rsAreasDepartamentos = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select * from area_departamento";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsAreasDepartamentos = pst.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
         return;
     }
+
 %>
 <!DOCTYPE html>
 <html>
@@ -36,23 +47,68 @@
     <main>
         <body class="blue-grey lighten-5">
             <%@ include file="../barraNav.jsp" %>
-            <div class="container"> 
-            <div class="col m3 m3">
-                <div class="card horizontal">
-                    <div class="card-image">
-                    </div>
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p>Gestión de Áreas y Departamentos</p>
+            <div class="row">
+                <div class="col m5">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-action">
+                                <a>Crear Áreas/Departamentos</a> 
+                                <form action="gestorAreasDepartamentosAgregar.jsp" method="post">
+                                    <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>Nombre Área/Departamento:</td>
+                                                <td><input placeholder="Nombre..." name="nombre_areaDepartamento" class="validate" required=""></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="input-field col s12"> 
+                                        <textarea name="detalle_areaDepartamento" class="materialize-textarea" data-length="120" required=""></textarea>
+                                        <label for="textarea1">Detalle del Área/Departamento</label>
+                                    </div>
+                                    <center>
+                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Área/Departamento" />
+                                    </center>
+                                </form>
+                            </div>
                         </div>
-                        <div class="container">  
-                            <div class="row">
-                            </div>  
-                        </div>     
+                    </div>
+                </div>
+                <div class="col m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <table class="highlight">
+                                    <thead>
+                                        <tr>
+                                            <td>ID</td>
+                                            <td>Área/Departamento</td>
+                                            <td>Operaciones</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% while (rsAreasDepartamentos.next()) {%>
+                                        <tr>
+                                            <td><%= rsAreasDepartamentos.getString("idAreaDepartamento") %></td>
+                                            <td><%= rsAreasDepartamentos.getString("nombreAreaDepartamento") %></td>
+                                            <td>
+                                                <a href="gestorAreasDepartamentosEliminar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
+                                                    <img src="img/eliminar.png" title="Eliminar"/>
+                                                </a>
+                                                <a href="gestorAreasDepartamentosModificar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
+                                                    <img src="img/modificar.jpg" title="Modificar"/>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </main>
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>

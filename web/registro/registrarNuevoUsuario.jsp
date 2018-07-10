@@ -101,7 +101,7 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <select required name="area_departamento">
-                                                <option value="">Seleccione...</option>
+                                                <option value="">Seleccione Área/Departamento...</option>
                                                 <% while (rsAreaDepa.next()) {%>
                                                 <option value="<%= rsAreaDepa.getString("idAreaDepartamento")%>"><%= rsAreaDepa.getString("nombreAreaDepartamento")%></option>
                                                 <% }%>

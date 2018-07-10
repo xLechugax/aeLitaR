@@ -53,7 +53,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>Nombre Tarea:</td>
-                                                <td><input name="nombre_tarea" class="validate" required=""></td>
+                                                <td><input placeholder="Nombre..." name="nombre_tarea" class="validate" required=""></td>
                                             </tr>
                                         </tbody>
                                     </table>
