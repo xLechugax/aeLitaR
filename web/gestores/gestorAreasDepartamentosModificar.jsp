@@ -22,13 +22,13 @@
         return;
     }
 
-    ResultSet rsTareaSeleccionada = null;
+    ResultSet rsAreaDepartamento = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "select * from area_departamento where idAreaDepartamento=" + idAreaDepartamento;
         PreparedStatement pst = conn.prepareStatement(sql);
-        rsTareaSeleccionada = pst.executeQuery();
-        rsTareaSeleccionada.next();
+        rsAreaDepartamento = pst.executeQuery();
+        rsAreaDepartamento.next();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -71,13 +71,13 @@
                                         <tbody> 
                                             <tr> 
                                                 <td>Nombre Área/Departamento:</td>
-                                                <input name="idAreaYDepartamento" type="hidden" value="<%= rsTareaSeleccionada.getString("idAreaDepartamento")%>">
-                                                <td><input name="nombreAreaYDepartamento" class="validate" required="" placeholder="<%= rsTareaSeleccionada.getString("nombreAreaDepartamento")%>"></td>
+                                                <input name="idAreaYDepartamento" type="hidden" value="<%= rsAreaDepartamento.getString("idAreaDepartamento")%>">
+                                                <td><input name="nombreAreaYDepartamento" class="validate" required="" placeholder="<%= rsAreaDepartamento.getString("nombreAreaDepartamento")%>"></td>
                                         </tr>
                                         </tbody>
                                     </table>
                                     <div class="input-field col s12">
-                                        <textarea name="detalleAreaYDepartamento" class="materialize-textarea" data-length="120" required="" placeholder="<%= rsTareaSeleccionada.getString("detalleAreaDepartamento")%>"></textarea>
+                                        <textarea name="detalleAreaYDepartamento" class="materialize-textarea" data-length="120" required="" placeholder="<%= rsAreaDepartamento.getString("detalleAreaDepartamento")%>"></textarea>
                                         <label for="textarea1">Detalle de tarea</label>
                                     </div>
                                     <center>
