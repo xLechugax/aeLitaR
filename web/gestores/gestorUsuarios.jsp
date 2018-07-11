@@ -6,8 +6,8 @@
 
     if (hs == null || hs.getAttribute("tipoCuenta") == null
             || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
-%>
-<%@ include file="../accesoDenegado.jsp" %>
+%>   
+    <%@ include file="../barraNav.jsp" %>
 <%        return;
     }
 

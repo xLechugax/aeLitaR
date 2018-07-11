@@ -2,14 +2,22 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
     HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
-
+    
+    String idTarea = request.getParameter("idTarea");
 
     ResultSet rsTareas = null;
+    ResultSet rsTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "select * from tarea";
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTareas = pst.executeQuery();
+        
+        String sqlTareaSeleccionada = "select * from tarea where idTarea="+idTarea;
+        PreparedStatement pstTareaSeleccionada = conn.prepareCall(sqlTareaSeleccionada);
+        rsTareaSeleccionada = pstTareaSeleccionada.executeQuery();
+        rsTareaSeleccionada.next();
+        
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -46,25 +54,12 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Crear Tarea</a> 
-                                <form action="gestorTareasAgregar.jsp" method="post">
-                                    <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td>Nombre Tarea:</td>
-                                                <td><input placeholder="Nombre..." name="nombre_tarea" class="validate" required=""></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="input-field col s12">
-                                        <textarea name="detalle_tarea" class="materialize-textarea" data-length="120" required=""></textarea>
-                                        <label for="textarea1">Detalle de tarea</label>
-                                    </div>
+                                <a>Confirmación de Eliminación</a> 
+                                    <p class="center-align">¿<%= hs.getAttribute("nombre")%> estas seguro de querer eliminar la tarea <%= rsTareaSeleccionada.getString("nombreTarea")%>?</p>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Tarea" />
+                                        <a class="btn" href="gestorTareasEliminar.jsp?idTarea=<%= rsTareaSeleccionada.getString("idTarea")%>">SI</a>
+                                        <a class="btn" href="gestorTareas.jsp">NO</a>
                                     </center>
-                                </form>
                             </div>
                         </div>
                     </div>

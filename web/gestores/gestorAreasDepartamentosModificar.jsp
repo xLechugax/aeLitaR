@@ -78,10 +78,10 @@
                                     </table>
                                     <div class="input-field col s12">
                                         <textarea name="detalleAreaYDepartamento" class="materialize-textarea" data-length="120" required="" placeholder="<%= rsAreaDepartamento.getString("detalleAreaDepartamento")%>"></textarea>
-                                        <label for="textarea1">Detalle de tarea</label>
+                                        <label for="textarea1">Detalle Área/Departamento</label>
                                     </div>
                                     <center>
-                                        <input class="btn" type="submit" value="Modificar Tarea" /><br/><br/>
+                                        <input class="btn" type="submit" value="Modificar Área/Departamento" /><br/><br/>
                                         <a href="gestorAreasDepartamentos.jsp" class="btn left-align">Cancelar</a>
                                     </center>
                                 </form>
