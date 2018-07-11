@@ -9,7 +9,7 @@
 <%@ include file="../accesoDenegado.jsp" %>
 <%        return;
     }
-    String idAreaDepartamento = request.getParameter("idAreaDepartamento");
+    String idAreaDepartamento2 = request.getParameter("idAreaDepartamento");
 
     ResultSet rsAreasDepartamentos = null;
     try {
@@ -25,7 +25,7 @@
     ResultSet rsAreaDepartamentoSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from area_departamento where idAreaDepartamento=" + idAreaDepartamento;
+        String sql = "select * from area_departamento where idAreaDepartamento=" + idAreaDepartamento2;
         PreparedStatement pst = conn.prepareStatement(sql);
         rsAreaDepartamentoSeleccionada = pst.executeQuery();
         rsAreaDepartamentoSeleccionada.next();
@@ -65,22 +65,21 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Modificar Estado</a> 
-                                <form action="gestorAreasDepartamentosModificarSub.jsp" method="post">
-                                    <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
+                                <a>Modificar 햞ea/Departamento</a> 
+                                <form action="/aeLita/gestores/gestorAreasDepartamentosModificarSub.jsp" method="post">
                                     <table>
                                         <tbody>
                                             <tr> 
                                                 <td>Nombre 햞ea/Departamento:</td>
-                                                <td><input name="nombre_areaDepartamento" class="validate" required="" placeholder="<%= rsAreaDepartamentoSeleccionada.getString("nombreAreaDepartamento")%>"></td>
                                                 <input name="idAreaDepartamento" type="hidden" value="<%= rsAreaDepartamentoSeleccionada.getString("idAreaDepartamento")%>">
+                                                <td><input name="nombre_areaDepartamento" class="validate" required="" placeholder="<%= rsAreaDepartamentoSeleccionada.getString("nombreAreaDepartamento")%>"></td>
                                         </tr>
                                         </tbody>
                                     </table>
                                     <div class="input-field col s12">
                                         <textarea name="detalle_areaDepartamento" class="materialize-textarea" data-length="120" required="" placeholder="<%= rsAreaDepartamentoSeleccionada.getString("detalleAreaDepartamento")%>"></textarea>
                                         <label for="textarea1">Detalle de 햞ea/Departamento</label>
-                                    </div>
+                                    </div> 
                                     <center>
                                         <input class="btn" type="submit" value="Modificar Estado" /><br/><br/>
                                         <a href="/aeLita/gestores/gestorAreasDepartamentos.jsp" class="btn left-align">Cancelar</a>
@@ -99,22 +98,13 @@
                                         <tr>
                                             <td>ID</td>
                                             <td>햞ea/Departamento</td>
-                                            <td>Operaciones</td>
-                                        </tr>
+                                        </tr> 
                                     </thead>
                                     <tbody>
                                         <% while (rsAreasDepartamentos.next()) {%>
                                         <tr>
                                             <td><%= rsAreasDepartamentos.getString("idAreaDepartamento")%></td>
                                             <td><%= rsAreasDepartamentos.getString("nombreAreaDepartamento")%></td>
-                                            <td>
-                                                <a href="gestorAreasDepartamentosEliminar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
-                                                    <img src="img/eliminar.png" title="Eliminar"/>
-                                                </a>
-                                                <a href="gestorAreasDepartamentosModificar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
-                                                    <img src="img/modificar.jpg" title="Modificar"/>
-                                                </a>
-                                            </td>
                                         </tr>
                                         <%}%>
                                     </tbody>

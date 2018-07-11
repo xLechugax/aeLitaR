@@ -15,7 +15,7 @@
     String detalle_areaDepartamento = request.getParameter("detalle_areaDepartamento");
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "update area_departamento set nombreAreaDepartamento=?,detalleAreaDepartamento=? where idAreaDepartamento=?";
+        String sql = "update area_departamento set nombreAreaDepartamento=?, detalleAreaDepartamento=? where idAreaDepartamento=?";
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, idAreaDepartamento);
         pst.setString(2, nombre_areaDepartamento);

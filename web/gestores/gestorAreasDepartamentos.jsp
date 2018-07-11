@@ -54,7 +54,6 @@
                             <div class="card-action">
                                 <a>Crear Áreas/Departamentos</a> 
                                 <form action="gestorAreasDepartamentosAgregar.jsp" method="post">
-                                    <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table>
                                         <tbody>
                                             <tr>
