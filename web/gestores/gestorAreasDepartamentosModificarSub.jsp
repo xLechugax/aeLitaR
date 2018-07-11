@@ -10,16 +10,16 @@
 <%        return;
         }
 
-    String idAreaDepartamento = request.getParameter("idAreaDepartamento");
-    String nombre_areaDepartamento = request.getParameter("nombre_areaDepartamento");
-    String detalle_areaDepartamento = request.getParameter("detalle_areaDepartamento");
+    String aa = request.getParameter("idAreaYDepartamento");
+    String ee = request.getParameter("nombreAreaYDepartamento");
+    String ii = request.getParameter("detalleAreaYDepartamento");
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "update area_departamento set nombreAreaDepartamento=?, detalleAreaDepartamento=? where idAreaDepartamento=?";
         PreparedStatement pst = conn.prepareStatement(sql);
-        pst.setString(1, idAreaDepartamento);
-        pst.setString(2, nombre_areaDepartamento);
-        pst.setString(3, detalle_areaDepartamento);
+        pst.setString(1, aa);
+        pst.setString(2, ee);
+        pst.setString(3, ii);
         pst.execute();
         response.sendRedirect("/aeLita/gestores/gestorAreasDepartamentos.jsp");
     } catch (SQLException e) {
