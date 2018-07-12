@@ -6,10 +6,10 @@
     if (hs == null || hs.getAttribute("tipoCuenta") == null
             || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
 %>
-<%@ include file="../accesoDenegado.jsp" %>
-<%        return;
+    <%@ include file="../accesoDenegado.jsp" %>
+<%        
+    return;
     }
-
     ResultSet rsAreasDepartamentos = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -92,7 +92,7 @@
                                             <td><%= rsAreasDepartamentos.getString("idAreaDepartamento") %></td>
                                             <td><%= rsAreasDepartamentos.getString("nombreAreaDepartamento") %></td>
                                             <td>
-                                                <a href="gestorAreasDepartamentosEliminar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
+                                                <a href="gestorAreasDepartamentosConfirmarEliminar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
                                                 <a href="gestorAreasDepartamentosModificar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">

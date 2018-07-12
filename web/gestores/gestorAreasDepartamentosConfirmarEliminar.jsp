@@ -9,7 +9,8 @@
 <%@ include file="../accesoDenegado.jsp" %>
 <%        return;
     }
-    String idAreaDepartamento = request.getParameter("idAreaDepartamento");
+    
+    String idAreaDepartamentoEliminar = request.getParameter("idAreaDepartamento");
 
     ResultSet rsAreasDepartamentos = null;
     try {
@@ -17,18 +18,6 @@
         String sql = "select * from area_departamento";
         PreparedStatement pst = conn.prepareStatement(sql);
         rsAreasDepartamentos = pst.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    }
-
-    ResultSet rsAreaDepartamento = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sql = "select * from area_departamento where idAreaDepartamento=" + idAreaDepartamento;
-        PreparedStatement pst = conn.prepareStatement(sql);
-        rsAreaDepartamento = pst.executeQuery();
-        rsAreaDepartamento.next();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -65,24 +54,22 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Modificar Tarea</a> 
-                                <form action="gestorAreasDepartamentosModificarSub.jsp" method="post">
+                                <a>Confirmar eliminación Áreas/Departamentos</a> 
+                                <form action="gestorAreasDepartamentosAgregar.jsp" method="post">
                                     <table>
-                                        <tbody> 
-                                            <tr> 
+                                        <tbody>
+                                            <tr>
                                                 <td>Nombre Área/Departamento:</td>
-                                                <input name="idAreaYDepartamento" type="hidden" value="<%= rsAreaDepartamento.getString("idAreaDepartamento")%>">
-                                                <td><input name="nombreAreaYDepartamento" class="validate" required="" placeholder="<%= rsAreaDepartamento.getString("nombreAreaDepartamento")%>"></td>
-                                        </tr>
+                                                <td><input placeholder="Nombre..." name="nombre_areaDepartamento" class="validate" required=""></td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                    <div class="input-field col s12">
-                                        <textarea name="detalleAreaYDepartamento" class="materialize-textarea" data-length="120" required="" placeholder="<%= rsAreaDepartamento.getString("detalleAreaDepartamento")%>"></textarea>
-                                        <label for="textarea1">Detalle Área/Departamento</label>
+                                    <div class="input-field col s12"> 
+                                        <textarea name="detalle_areaDepartamento" class="materialize-textarea" data-length="120" required=""></textarea>
+                                        <label for="textarea1">Detalle del Área/Departamento</label>
                                     </div>
                                     <center>
-                                        <input class="btn" type="submit" value="Modificar Área/Departamento" /><br/><br/>
-                                        <a href="gestorAreasDepartamentos.jsp" class="btn left-align">Cancelar</a>
+                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Área/Departamento" />
                                     </center>
                                 </form>
                             </div>
@@ -97,18 +84,18 @@
                                     <thead>
                                         <tr>
                                             <td>ID</td>
-                                            <td>Tarea</td>
+                                            <td>Área/Departamento</td>
                                             <td>Operaciones</td>
                                         </tr>
-                                    </thead> 
+                                    </thead>
                                     <tbody>
                                         <% while (rsAreasDepartamentos.next()) {%>
                                         <tr>
-                                            <td><%= rsAreasDepartamentos.getString("idAreaDepartamento")%></td>
-                                            <td><%= rsAreasDepartamentos.getString("nombreAreaDepartamento")%></td>
+                                            <td><%= rsAreasDepartamentos.getString("idAreaDepartamento") %></td>
+                                            <td><%= rsAreasDepartamentos.getString("nombreAreaDepartamento") %></td>
                                             <td>
-                                                <a href="gestorAreasDepartamentosConfirmarEliminar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
-                                                    <img src="img/eliminar.png" title="Eliminar"/> 
+                                                <a href="gestorAreasDepartamentosEliminar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
+                                                    <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
                                                 <a href="gestorAreasDepartamentosModificar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>

@@ -9,7 +9,8 @@
         String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and usuario.idUsuario="+hs.getAttribute("idUsuarioSesion");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsUsuario = pst.executeQuery();
-        rsUsuario.next();
+        System.out.println(sql); 
+        rsUsuario.next(); 
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
