@@ -78,7 +78,7 @@
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper blue-grey darken-3">
-            <a href="/aeLita/administrador/inicioAdmin.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
+            <a href="/aeLita/supervisor/inicioSupervisor.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
@@ -117,7 +117,7 @@
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper blue-grey darken-3">
-            <a href="/aeLita/administrador/inicioAdmin.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
+            <a href="/aeLita/ejecutor/inicioEjecutor.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>

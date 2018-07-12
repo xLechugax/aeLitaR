@@ -42,10 +42,10 @@
                             <div class="card-content white-text">
                             <h5 class="white-text">Escalamientos</h5>
                                 <ul>
-                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/ENTEL.PDF"><i class="material-icons">picture_as_pdf</i>Escalamientos Entel</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/MOVISTAR.PDF"><i class="material-icons">picture_as_pdf</i>Escalamientos Movistar</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/GTD.PDF"><i class="material-icons">picture_as_pdf</i>Escalamientos GTD</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/INOC.PDF"><i class="material-icons">picture_as_pdf</i>Escalamientos INOC</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/ENTEL.PDF" target="_blank"><i class="material-icons">picture_as_pdf</i>Escalamientos Entel</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/MOVISTAR.PDF" target="_blank"><i class="material-icons">picture_as_pdf</i>Escalamientos Movistar</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/GTD.PDF" target="_blank"><i class="material-icons">picture_as_pdf</i>Escalamientos GTD</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="../escalamientos/INOC.PDF" target="_blank"><i class="material-icons">picture_as_pdf</i>Escalamientos INOC</a></li>
                                 </ul>
                             </div>
                       </div>

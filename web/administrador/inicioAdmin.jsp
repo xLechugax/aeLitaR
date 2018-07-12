@@ -76,11 +76,11 @@
                                 <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p>
                             <h5 class="white-text">Links de Útilidad</h5>
                                 <ul>
-                                    <li><a class="grey-text text-lighten-3" href="http://172.17.40.45/plataforma_datos/vis_equipos_datoslist.asp?cmd=resetall"><i class="material-icons">router</i>Equipos Actualizados</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://despachonacional.cl/despachonacional/siad_pyme/index.php/Login"><i class="material-icons">dashboard</i>SIAD Pyme</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="https://macvendors.com/"><i class="material-icons">fingerprint</i>MacVendors</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://10.41.4.141/sac/Login_input"><i class="material-icons">keyboard</i>HFC Incognito</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://agenda/Organigrama/"><i class="material-icons">local_phone</i>Organigrama</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="http://172.17.40.45/plataforma_datos/vis_equipos_datoslist.asp?cmd=resetall" target="_blank"><i class="material-icons">router</i>Equipos Actualizados</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="http://despachonacional.cl/despachonacional/siad_pyme/index.php/Login" target="_blank"><i class="material-icons">dashboard</i>SIAD Pyme</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="https://macvendors.com/"><i class="material-icons" target="_blank">fingerprint</i>MacVendors</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="http://10.41.4.141/sac/Login_input"><i class="material-icons" target="_blank">keyboard</i>HFC Incognito</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="http://agenda/Organigrama/"><i class="material-icons" target="_blank">local_phone</i>Organigrama</a></li>
                                 </ul>
                             </div>
                       </div>
