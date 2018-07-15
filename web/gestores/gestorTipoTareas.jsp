@@ -2,27 +2,17 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
     HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
-    
-    String idTarea = request.getParameter("idTarea");
 
     ResultSet rsTareas = null;
-    ResultSet rsTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from tarea";
+        String sql = "select * from tipo_tarea";
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTareas = pst.executeQuery();
-        
-        String sqlTareaSeleccionada = "select * from tarea where idTarea="+idTarea;
-        PreparedStatement pstTareaSeleccionada = conn.prepareCall(sqlTareaSeleccionada);
-        rsTareaSeleccionada = pstTareaSeleccionada.executeQuery();
-        rsTareaSeleccionada.next();
-        
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
     }
-
 %>
 <!DOCTYPE html>
 <html>
@@ -43,12 +33,24 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Confirmación de Eliminación</a> 
-                                    <p class="center-align">¿<%= hs.getAttribute("nombre")%> estas seguro de querer eliminar la tarea <%= rsTareaSeleccionada.getString("nombreTarea")%>?</p>
+                                <a>Crear Tipo de Tarea</a> 
+                                <form action="gestorTipoTareasAgregar.jsp" method="post">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>Nombre Tipo Tarea:</td>
+                                                <td><input placeholder="Nombre..." name="nombre_tipo_tarea" class="validate" required=""></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="input-field col s12">
+                                        <textarea name="detalle_tipo_tarea" class="materialize-textarea" data-length="120" required=""></textarea>
+                                        <label for="textarea1">Detalle de tipo tarea</label>
+                                    </div>
                                     <center>
-                                        <a class="btn" href="gestorTareasEliminar.jsp?idTarea=<%= rsTareaSeleccionada.getString("idTarea")%>">SI</a>
-                                        <a class="btn" href="gestorTareas.jsp">NO</a>
+                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Tipo de Tarea " />
                                     </center>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -61,20 +63,20 @@
                                     <thead>
                                         <tr>
                                             <td>ID</td>
-                                            <td>Tarea</td>
+                                            <td>Tipo de Tarea</td>
                                             <td>Operaciones</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <% while (rsTareas.next()) {%>
                                         <tr>
-                                            <td><%= rsTareas.getString("idTarea") %></td>
-                                            <td><%= rsTareas.getString("nombreTarea") %></td>
+                                            <td><%= rsTareas.getString("idTipoTarea")%></td>
+                                            <td><%= rsTareas.getString("nombreTipoTarea")%></td>
                                             <td>
-                                                <a href="gestorTareasConfirmarEliminar.jsp?idTarea=<%=rsTareas.getLong("idTarea")%>">
+                                                <a href="gestorTipoTareasConfirmarEliminar.jsp?idTipoTarea=<%=rsTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
-                                                <a href="gestorTareasModificar.jsp?idTarea=<%=rsTareas.getLong("idTarea")%>">
+                                                <a href="gestorTipoTareasModificar.jsp?idTipoTarea=<%=rsTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
                                             </td>

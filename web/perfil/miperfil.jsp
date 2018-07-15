@@ -43,27 +43,27 @@
                                 <table class="highlight">
                                     <tbody>
                                         <tr>
-                                            <td>Nombre:</td>
+                                            <td><b>Nombre</b></td>
                                             <td><%= rsUsuario.getString("nombre") + " " + rsUsuario.getString("apellido")%></td>
                                         </tr>
                                         <tr>
-                                            <td>Correo:</td>
+                                            <td><b>Correo</b></td>
                                             <td><%= rsUsuario.getString("email")%></td>
                                         </tr>
                                         <tr>
-                                            <td>Teléfono Fijo:</td>
+                                            <td><b>Teléfono Fijo</b></td>
                                             <td><%= rsUsuario.getString("telefono_f")%></td>
                                         </tr>
                                         <tr>
-                                            <td>Teléfono Móvil:</td>
+                                            <td><b>Teléfono Móvil</b></td>
                                             <td><%= rsUsuario.getString("telefono_m")%></td>
                                         </tr>
                                         <tr>
-                                            <td>Dirección:</td>
+                                            <td><b>Dirección</b></td>
                                             <td><%= rsUsuario.getString("direccion")%></td>
                                         </tr>
                                         <tr>
-                                            <td>Área/Departamento:</td>
+                                            <td><b>Área/Departamento</b></td>
                                             <td><%= rsUsuario.getString("nombreAreaDepartamento")%></td>
                                         </tr>
                                     </tbody>

@@ -10,15 +10,15 @@
 <%@ include file="../accesoDenegado.jsp" %>
 <%            return;
     }
-    String idTarea = request.getParameter("idTarea");
+    String idTarea = request.getParameter("idTipoTarea");
 
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "delete tarea from tarea where idTarea=?";
+        String sql = "delete tipo_tarea from tipo_tarea where idTipoTarea=?";
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, idTarea);
         pst.execute();
-        response.sendRedirect("gestorTareas.jsp");
+        response.sendRedirect("gestorTipoTareas.jsp");
     } catch (Exception e) {
         out.println("Excepción de SQL (RegistroUsuario.jsp): " + e);
     }

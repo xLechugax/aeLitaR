@@ -31,7 +31,7 @@
 <ul class="side-nav" id="mobile-demo">
     <li><a class="dropdown-button" href="#!" data-activates="DropDownDelNavVar">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
     <li><a href="/aeLita/gestores/gestorOT.jsp">Gestor OT</a></li>
-    <li><a href="/aeLita/gestores/gestorTareas.jsp">Gestor Tareas</a></li>
+    <li><a href="/aeLita/gestores/gestorTipoTareas.jsp">Gestor Tipo Tareas</a></li>
     <li><a href="/aeLita/gestores/gestorProcedimientos.jsp">Gestor Procedimientos</a></li>
     <li><a href="/aeLita/gestores/gestorReportes.jsp">Gestor Reportes</a></li>
     <li><a href="/aeLita/gestores/gestorUsuarios.jsp">Gestor Usuarios</a></li>
@@ -49,7 +49,7 @@
 </ul>
 <ul id="DropDownGestores" class="dropdown-content">
     <li><a href="/aeLita/gestores/gestorOT.jsp">Órdenes de Trabajo</a></li>
-    <li><a href="/aeLita/gestores/gestorTareas.jsp">Tareas</a></li>
+    <li><a href="/aeLita/gestores/gestorTipoTareas.jsp">Tipo Tareas</a></li>
     <li><a href="/aeLita/gestores/gestorUsuarios.jsp"> Usuarios</a></li>
     <li><a href="/aeLita/gestores/gestorReportes.jsp"> Reportes</a></li>
     <li><a href="/aeLita/gestores/gestorEstados.jsp"> Estados</a></li>

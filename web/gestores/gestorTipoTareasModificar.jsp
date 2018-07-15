@@ -3,13 +3,32 @@
 <%
     HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
 
+    if (hs == null || hs.getAttribute("tipoCuenta") == null
+            || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
+%>
+<%@ include file="../accesoDenegado.jsp" %>
+<%        return;
+    }
+    String idTipoTarea = request.getParameter("idTipoTarea");
 
-    ResultSet rsTareas = null;
+    ResultSet rsTipoTareas = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from tarea";
+        String sql = "select * from tipo_tarea";
         PreparedStatement pst = conn.prepareStatement(sql);
-        rsTareas = pst.executeQuery();
+        rsTipoTareas = pst.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+
+    ResultSet rsTipoTareaSeleccionada = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select * from tipo_tarea where idTipoTarea=" + idTipoTarea;
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsTipoTareaSeleccionada = pst.executeQuery();
+        rsTipoTareaSeleccionada.next();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -35,23 +54,25 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Crear Tarea</a> 
-                                <form action="gestorTareasAgregar.jsp" method="post">
+                                <a>Modificar Tipo de Tarea</a> 
+                                <form action="gestorTipoTareasModificarSub.jsp" method="post">
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table>
                                         <tbody>
-                                            <tr>
-                                                <td>Nombre Tarea:</td>
-                                                <td><input placeholder="Nombre..." name="nombre_tarea" class="validate" required=""></td>
-                                            </tr>
+                                            <tr> 
+                                                <td>Nombre Tipo de Tarea:</td>
+                                                <td><input name="nombre_tipo_tarea" class="validate" required="" placeholder="<%= rsTipoTareaSeleccionada.getString("nombreTipoTarea")%>"></td>
+                                        <input name="idTipoTarea" type="hidden" value="<%= rsTipoTareaSeleccionada.getString("idTipoTarea")%>">
+                                        </tr>
                                         </tbody>
                                     </table>
                                     <div class="input-field col s12">
-                                        <textarea name="detalle_tarea" class="materialize-textarea" data-length="120" required=""></textarea>
-                                        <label for="textarea1">Detalle de tarea</label>
+                                        <textarea name="detalle_tipo_tarea" class="materialize-textarea" data-length="120" required="" placeholder="<%= rsTipoTareaSeleccionada.getString("detalleTipoTarea")%>"></textarea>
+                                        <label for="textarea1">Detalle tipo de tarea...</label>
                                     </div>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Tarea" />
+                                        <input class="btn" type="submit" value="Modificar Tipo de Tarea" /><br/><br/>
+                                        <a href="gestorTipoTareas.jsp" class="btn left-align">Cancelar</a>
                                     </center>
                                 </form>
                             </div>
@@ -66,20 +87,20 @@
                                     <thead>
                                         <tr>
                                             <td>ID</td>
-                                            <td>Tarea</td>
+                                            <td>Tipo de Tarea</td>
                                             <td>Operaciones</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% while (rsTareas.next()) {%>
+                                        <% while (rsTipoTareas.next()) {%>
                                         <tr>
-                                            <td><%= rsTareas.getString("idTarea") %></td>
-                                            <td><%= rsTareas.getString("nombreTarea") %></td>
+                                            <td><%= rsTipoTareas.getString("idTipoTarea")%></td>
+                                            <td><%= rsTipoTareas.getString("nombreTipoTarea")%></td>
                                             <td>
-                                                <a href="gestorTareasConfirmarEliminar.jsp?idTarea=<%=rsTareas.getLong("idTarea")%>">
+                                                <a href="gestorTipoTareasEliminar.jsp?idTipoTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
-                                                <a href="gestorTareasModificar.jsp?idTarea=<%=rsTareas.getLong("idTarea")%>">
+                                                <a href="gestorTipoTareasModificar.jsp?idTipoTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
                                             </td>

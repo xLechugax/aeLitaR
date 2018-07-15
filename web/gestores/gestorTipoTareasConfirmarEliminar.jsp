@@ -2,33 +2,22 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
     HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
+    
+    String idTipoTarea = request.getParameter("idTipoTarea");
 
-    if (hs == null || hs.getAttribute("tipoCuenta") == null
-            || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
-%>
-<%@ include file="../accesoDenegado.jsp" %>
-<%        return;
-    }
-    String idTarea = request.getParameter("idTarea");
-
-    ResultSet rsTareas = null;
+    ResultSet rsTipoTareas = null;
+    ResultSet rsTipoTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from tarea";
+        String sql = "select * from tipo_tarea";
         PreparedStatement pst = conn.prepareStatement(sql);
-        rsTareas = pst.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    }
-
-    ResultSet rsTareaSeleccionada = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sql = "select * from tarea where idTarea=" + idTarea;
-        PreparedStatement pst = conn.prepareStatement(sql);
-        rsTareaSeleccionada = pst.executeQuery();
-        rsTareaSeleccionada.next();
+        rsTipoTareas = pst.executeQuery();
+        
+        String sqlTareaSeleccionada = "select * from tipo_tarea where idTipoTarea="+idTipoTarea;
+        PreparedStatement pstTipoTareaSeleccionada = conn.prepareCall(sqlTareaSeleccionada);
+        rsTipoTareaSeleccionada = pstTipoTareaSeleccionada.executeQuery();
+        rsTipoTareaSeleccionada.next();
+        
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -54,27 +43,12 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Modificar Tarea</a> 
-                                <form action="gestorTareasModificarSub.jsp" method="post">
-                                    <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
-                                    <table>
-                                        <tbody>
-                                            <tr> 
-                                                <td>Nombre Tarea:</td>
-                                                <td><input name="nombre_tarea" class="validate" required="" placeholder="<%= rsTareaSeleccionada.getString("nombreTarea")%>"></td>
-                                        <input name="idTarea" type="hidden" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="input-field col s12">
-                                        <textarea name="detalle_tarea" class="materialize-textarea" data-length="120" required="" placeholder="<%= rsTareaSeleccionada.getString("detalleTarea")%>"></textarea>
-                                        <label for="textarea1">Detalle de tarea</label>
-                                    </div>
+                                <a>Confirmación de Eliminación</a> 
+                                    <p class="center-align">¿<%= hs.getAttribute("nombre")%> estas seguro de querer eliminar el tipo de tarea <%= rsTipoTareaSeleccionada.getString("nombreTipoTarea")%>?</p>
                                     <center>
-                                        <input class="btn" type="submit" value="Modificar Tarea" /><br/><br/>
-                                        <a href="gestorTareas.jsp" class="btn left-align">Cancelar</a>
+                                        <a class="btn" href="gestorTipoTareasEliminar.jsp?idTipoTarea=<%= rsTipoTareaSeleccionada.getString("idTipoTarea")%>">SI</a>
+                                        <a class="btn" href="gestorTipoTareas.jsp">NO</a>
                                     </center>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -87,20 +61,20 @@
                                     <thead>
                                         <tr>
                                             <td>ID</td>
-                                            <td>Tarea</td>
+                                            <td>Tipo de Tarea</td>
                                             <td>Operaciones</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% while (rsTareas.next()) {%>
+                                        <% while (rsTipoTareas.next()) {%>
                                         <tr>
-                                            <td><%= rsTareas.getString("idTarea")%></td>
-                                            <td><%= rsTareas.getString("nombreTarea")%></td>
+                                            <td><%= rsTipoTareas.getString("idTipoTarea") %></td>
+                                            <td><%= rsTipoTareas.getString("nombreTipoTarea") %></td>
                                             <td>
-                                                <a href="gestorTareasEliminar.jsp?idTarea=<%=rsTareas.getLong("idTarea")%>">
+                                                <a href="gestorTipoTareasConfirmarEliminar.jsp?idTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
-                                                <a href="gestorTareasModificar.jsp?idTarea=<%=rsTareas.getLong("idTarea")%>">
+                                                <a href="gestorTipoTareasModificar.jsp?idTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
                                             </td>

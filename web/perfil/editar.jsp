@@ -42,7 +42,7 @@
                         </div>
                         <div class="card-stacked">
                             <div class="card-content">
-                                <p>Hola <%=hs.getAttribute("nombre")%>, estos son los datos de tu perfil </p>
+                                <p><%=hs.getAttribute("nombre")%>, acá puedes editar los datos de tu perfil.</p>
                             </div>
                             <div class="container">
                                 <form action="guardarCambios.jsp" method="post">
