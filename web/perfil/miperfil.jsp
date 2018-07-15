@@ -77,10 +77,6 @@
                                             <td>Área/Departamento:</td>
                                             <td><%= rsUsuario.getString("nombreAreaDepartamento")%></td>
                                         </tr>
-                                        <tr>
-                                            <td>Clave:</td>
-                                            <td>*****************</td>
-                                        </tr>
                                     </tbody>
                                 </table>
                                 <div class="collection">

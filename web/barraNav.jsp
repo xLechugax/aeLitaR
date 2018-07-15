@@ -1,5 +1,24 @@
 <%
-    if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
+    if (hs == null || hs.getAttribute("tipoCuenta") == null) {
+%>
+        <!INICIO - BARRA DE NAVEGACI”N FIXED>
+        <ul class="side-nav" id="mobile-demo">
+            <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registro</a></li>
+        </ul>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper blue-grey darken-3">
+                    <a href="/aeLita/index.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registro</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!FINAL - BARRA DE NAVEGACI”N FIXED>  
+<% 
+}  else  if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
 %>
 <!INICIO - BARRA DE NAVEGACI”N FIXED>
 <ul id="DropDownDelNavVar" class="dropdown-content blue-grey lighten-5">

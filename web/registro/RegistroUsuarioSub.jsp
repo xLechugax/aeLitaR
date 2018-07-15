@@ -12,8 +12,8 @@
     String direccion = request.getParameter("direccion");
     String rol = request.getParameter("rol");
 
-    String nombreUsuario = nombre.trim().toUpperCase() + "." + apellido.trim().replaceAll("\\s", "").toUpperCase();
-
+    String nombreUsuario = nombre.trim().replaceAll("\\s", "").toUpperCase() + "." + apellido.trim().replaceAll("\\s", "").toUpperCase();
+    
     String sql = null;
     try {
         Connection conn = ConexionBD.getConexion();

@@ -7,7 +7,7 @@
     if (hs == null || hs.getAttribute("tipoCuenta") == null
             || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
 %>   
-    <%@ include file="../barraNav.jsp" %>
+<%@ include file="../barraNav.jsp" %>
 <%        return;
     }
 
@@ -16,9 +16,38 @@
     if (accion != null) {
         if (accion.equals("1")) {
             long idUsuario = Long.parseLong(request.getParameter("id"));
-
             // Recuperar el estado actual del registros del usuario.
             Connection conn = ConexionBD.getConexion();
+
+            if (idUsuario == 1) {
+%>
+<html>
+    <head>
+        <meta http-equiv="Refresh" content="5;url=/aeLita/gestores/gestorUsuarios.jsp">
+        <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
+    </head>
+    <body class="blue-grey lighten-5">
+        <br /><br /><br /><br /><br /><br /><br /><br />
+    <center>
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">¡Hey, cuidado!</span>
+                        <p>No puedes desactivar la cuenta del administrador principal...</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="/aeLita/gestores/gestorUsuarios.jsp">Volver...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
+<%      return;
+                }
 
             String sql = "select activo from usuario where idUsuario=?";
             PreparedStatement pst1 = conn.prepareStatement(sql);
@@ -44,10 +73,36 @@
         } else if (accion.equals("2")) {
             long idUsuario = Long.parseLong(request.getParameter("id"));
             String idUsuarioSesion = request.getParameter("id");
-
             //Impide la eliminiacion del Admin Principal.
             if (idUsuario == 1) {
-                out.println("Error: no se puede eliminar al administrador principal.");
+%>
+<html>
+    <head>
+        <meta http-equiv="Refresh" content="5;url=/aeLita/gestores/gestorUsuarios.jsp">
+        <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
+    </head>
+    <body class="blue-grey lighten-5">
+        <br /><br /><br /><br /><br /><br /><br /><br />
+    <center>
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">¡Hey, cuidado!</span>
+                        <p>No puedes eliminar al administrador principal...</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="/aeLita/gestores/gestorUsuarios.jsp">Volver...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
+<%
+                return;
                 //Impide la eliminacion del Admin actual.
             } else if (hs.getAttribute("idUsuarioSesion").equals(idUsuarioSesion)) {
                 out.println("Error: no se puede eliminar al administrador en sesion.");

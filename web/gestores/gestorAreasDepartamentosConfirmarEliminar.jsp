@@ -13,11 +13,18 @@
     String idAreaDepartamentoEliminar = request.getParameter("idAreaDepartamento");
 
     ResultSet rsAreasDepartamentos = null;
+    ResultSet rsAreaDepartamentoAEliminar = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "select * from area_departamento";
         PreparedStatement pst = conn.prepareStatement(sql);
         rsAreasDepartamentos = pst.executeQuery();
+
+        String sqlAreaDepartamentoAEliminar = "select * from area_departamento where idAreaDepartamento=" + idAreaDepartamentoEliminar;
+        PreparedStatement pstAreaDepartamentoAEliminar = conn.prepareStatement(sqlAreaDepartamentoAEliminar);
+        rsAreaDepartamentoAEliminar = pstAreaDepartamentoAEliminar.executeQuery();
+        rsAreaDepartamentoAEliminar.next();
+
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -54,24 +61,12 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Confirmar eliminación Áreas/Departamentos</a> 
-                                <form action="gestorAreasDepartamentosAgregar.jsp" method="post">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td>Nombre Área/Departamento:</td>
-                                                <td><input placeholder="Nombre..." name="nombre_areaDepartamento" class="validate" required=""></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="input-field col s12"> 
-                                        <textarea name="detalle_areaDepartamento" class="materialize-textarea" data-length="120" required=""></textarea>
-                                        <label for="textarea1">Detalle del Área/Departamento</label>
-                                    </div>
+                                <a>Confirmación de Eliminación</a> 
+                                    <p class="center-align">¿<%= hs.getAttribute("nombre")%> estas seguro de querer eliminar el área/departamento <%= rsAreaDepartamentoAEliminar.getString("nombreAreaDepartamento")%>?</p>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Área/Departamento" />
+                                        <a class="btn" href="gestorAreasDepartamentosEliminar.jsp?idAreaDepartamento=<%= rsAreaDepartamentoAEliminar.getString("idAreaDepartamento")%>">SI</a>
+                                        <a class="btn" href="gestorAreasDepartamentos.jsp">NO</a>
                                     </center>
-                                </form>
                             </div>
                         </div>
                     </div>

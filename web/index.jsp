@@ -36,56 +36,41 @@
     </style>
     <main>
         <body class="blue-grey lighten-5">
-            <!INICIO - BARRA DE NAVEGACI”N FIXED>
-        <ul class="side-nav" id="mobile-demo">
-            <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registro</a></li>
-        </ul>
-        <div class="navbar-fixed">
-            <nav>
-                <div class="nav-wrapper blue-grey darken-3">
-                    <a href="#!" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
-                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registro</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-        <!FINAL - BARRA DE NAVEGACI”N FIXED>   
-        <div class="container"> 
-            <div class="col m3 m3">
-                <div class="card horizontal">
-                    <div class="card-image">
-                    </div>
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p>Bienvenido a ÊLita.</p>
+            <%@ include file="../barraNav.jsp" %>
+            <div class="container"> 
+                <div class="col m3 m3">
+                    <div class="card horizontal">
+                        <div class="card-image">
                         </div>
-                        <div class="container">  
-                            <div class="row">
-                                <form class="col s12" action="/aeLita/validarUsuario.jsp">
-                                    <div class="row">
-                                        <div class="input-field col s12">
-                                            <input name="nombreUsuario" id="nombreUsuario" type="text" class="validate" style="text-transform: uppercase" required="">
-                                            <label>Nombre de Usuario</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s12">
-                                            <input name="clave" id="claveUsuario" type="password" class="validate" required="">
-                                            <label>ContraseÒa</label>
-                                        </div>
-                                    </div>
-                                    <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Ingresar" />
-                                    </center>
-                                </form>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <p>Bienvenido a ÊLita.</p>
                             </div>
-                        </div>     
+                            <div class="container">  
+                                <div class="row">
+                                    <form class="col s12" action="/aeLita/validarUsuario.jsp">
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <input name="nombreUsuario" id="nombreUsuario" type="text" class="validate" style="text-transform: uppercase" required="">
+                                                <label>Nombre de Usuario</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <input name="clave" id="claveUsuario" type="password" class="validate" required="">
+                                                <label>ContraseÒa</label>
+                                            </div>
+                                        </div>
+                                        <center>
+                                            <input class="waves-effect waves-light btn" type="submit" value="Ingresar" />
+                                        </center>
+                                    </form>
+                                </div>
+                            </div>     
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </main>
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="js/code.jquery.com_jquery-3.2.1.min.js"></script>

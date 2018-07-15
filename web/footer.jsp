@@ -3,7 +3,7 @@
             <div class="row">
                 <div class="col l6 s12">
                     <h5 class="white-text">¿Tienes algún problema?</h5> 
-                    <a href="#!" class="grey-text text-lighten-4">Contáctanos...</a>
+                    <a href="/aeLita/contacto.jsp" class="grey-text text-lighten-4">Contáctanos...</a>
                 </div>
             </div>
         </div>
