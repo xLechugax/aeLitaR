@@ -1,4 +1,15 @@
-    <footer class="page-footer blue-grey">
+<style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+</style>
+<footer class="page-footer blue-grey">
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">

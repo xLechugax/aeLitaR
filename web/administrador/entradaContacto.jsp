@@ -85,17 +85,6 @@
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
-    <style>
-        body {
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
-        }
-
-        main {
-            flex: 1 0 auto;
-        }
-    </style>
     <main>
         <body class="blue-grey lighten-5">
             <%@ include file="../barraNav.jsp" %>
@@ -105,7 +94,7 @@
                         <div class="card white"> 
                             <% if ( rsContactosContador.next() == false ) {%>
                             <div class="card-content">
-                                <p><%=hs.getAttribute("nombre")%>, no hay contactos.</p>
+                                <p><%=hs.getAttribute("nombre")%>, no hay contactos en la bandeja de entrada.</p>
                             </div>        
                             <%} else { %>
                             <div class="card-content">
