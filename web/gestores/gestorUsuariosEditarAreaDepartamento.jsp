@@ -49,7 +49,7 @@
                                 <p>Estamos editando el Área/Departamento de <%= rsUsuario.getString("nombre") %> <%= rsUsuario.getString("Apellido") %> </p>
                                 <form action="guardarCambiosAreaDepartamento.jsp" method="post">
                                     <input name="idUsuario" value="<%= rsUsuario.getString("idUsuario")%>" type="hidden"></td>
-                                    <table class="highlight">
+                                    <table class="">
                                         <tbody>
                                             <tr>
                                                 <td>Área/Departamento:</td>

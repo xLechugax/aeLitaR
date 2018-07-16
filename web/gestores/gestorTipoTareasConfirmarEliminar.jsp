@@ -71,10 +71,10 @@
                                             <td><%= rsTipoTareas.getString("idTipoTarea") %></td>
                                             <td><%= rsTipoTareas.getString("nombreTipoTarea") %></td>
                                             <td>
-                                                <a href="gestorTipoTareasConfirmarEliminar.jsp?idTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
+                                                <a href="gestorTipoTareasConfirmarEliminar.jsp?idTipoTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
-                                                <a href="gestorTipoTareasModificar.jsp?idTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
+                                                <a href="gestorTipoTareasModificar.jsp?idTipoTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
                                             </td>

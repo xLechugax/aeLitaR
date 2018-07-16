@@ -125,27 +125,27 @@
     try {
         Connection conn = ConexionBD.getConexion();
         Statement st = conn.createStatement();
-        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento ";
+        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento";
 
         // 2.- Aplicar un filtro de búsqueda si es necesario
         if (textobusqueda != null && tipobusqueda != null) {
             // Aplicar el filtro respectivo...
             if (tipobusqueda.equals("nombre")) {
-                sql = sql + " and usuario.nombre like '%" + textobusqueda + "%'";
+                sql = sql + " and usuario.nombre like '%" + textobusqueda + "%' order by usuario.idUsuario";
             } else if (tipobusqueda.equals("apellido")) {
-                sql = sql + " and usuario.apellido like '%" + textobusqueda + "%'";
+                sql = sql + " and usuario.apellido like '%" + textobusqueda + "%' order by usuario.idUsuario";
             } else if (tipobusqueda.equals("dire")) {
-                sql = sql + " and usuario.direccion like '%" + textobusqueda + "%'";
+                sql = sql + " and usuario.direccion like '%" + textobusqueda + "%' order by usuario.idUsuario";
             } else if (tipobusqueda.equals("correo")) {
-                sql = sql + " and usuario.email like '%" + textobusqueda + "%'";
+                sql = sql + " and usuario.email like '%" + textobusqueda + "%' order by usuario.idUsuario";
             } else if (tipobusqueda.equals("movil")) {
-                sql = sql + " and usuario.telefono_m like '%" + textobusqueda + "%'";
+                sql = sql + " and usuario.telefono_m like '%" + textobusqueda + "%' order by usuario.idUsuario";
             } else if (tipobusqueda.equals("fijo")) {
-                sql = sql + " and usuario.telefono_f like '%" + textobusqueda + "%'";
+                sql = sql + " and usuario.telefono_f like '%" + textobusqueda + "%' order by usuario.idUsuario";
             } else if (tipobusqueda.equals("area_departamento")) {
-                sql = sql + " and area_departamento.nombreAreaDepartamento like '%" + textobusqueda + "%'";
+                sql = sql + " and area_departamento.nombreAreaDepartamento like '%" + textobusqueda + "%' order by usuario.idUsuario";
             } else if (tipobusqueda.equals("rol")) {
-                sql = sql + " and usuario.tipoCuenta like '%" + textobusqueda + "%'";
+                sql = sql + " and usuario.tipoCuenta like '%" + textobusqueda + "%' order by usuario.idUsuario";
             }
         }
         rsUsuarios = st.executeQuery(sql);

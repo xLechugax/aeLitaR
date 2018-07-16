@@ -97,7 +97,7 @@
                                             <td><%= rsEstados.getString("idEstado")%></td>
                                             <td><%= rsEstados.getString("nombreEstado")%></td>
                                             <td>
-                                                <a href="gestorEstadosEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                <a href="gestorEstadosConfirmarEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
                                                 <a href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">

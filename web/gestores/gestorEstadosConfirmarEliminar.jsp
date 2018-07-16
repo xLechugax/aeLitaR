@@ -2,34 +2,26 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
     HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
-
-    if (hs == null || hs.getAttribute("tipoCuenta") == null
-            || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
-%>
-<%@ include file="../accesoDenegado.jsp" %>
-<%        return;
-    }
     
-    String idAreaDepartamentoEliminar = request.getParameter("idAreaDepartamento");
+    String idTipoTarea = request.getParameter("idEstado");
 
-    ResultSet rsAreasDepartamentos = null;
-    ResultSet rsAreaDepartamentoAEliminar = null;
+    ResultSet rsTipoTareas = null;
+    ResultSet rsTipoTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from area_departamento";
+        String sql = "select * from tipo_tarea";
         PreparedStatement pst = conn.prepareStatement(sql);
-        rsAreasDepartamentos = pst.executeQuery();
-
-        String sqlAreaDepartamentoAEliminar = "select * from area_departamento where idAreaDepartamento=" + idAreaDepartamentoEliminar;
-        PreparedStatement pstAreaDepartamentoAEliminar = conn.prepareStatement(sqlAreaDepartamentoAEliminar);
-        rsAreaDepartamentoAEliminar = pstAreaDepartamentoAEliminar.executeQuery();
-        rsAreaDepartamentoAEliminar.next();
-
+        rsTipoTareas = pst.executeQuery();
+        
+        String sqlTareaSeleccionada = "select * from tipo_tarea where idTipoTarea="+idTipoTarea;
+        PreparedStatement pstTipoTareaSeleccionada = conn.prepareCall(sqlTareaSeleccionada);
+        rsTipoTareaSeleccionada = pstTipoTareaSeleccionada.executeQuery();
+        rsTipoTareaSeleccionada.next();
+        
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
     }
-
 %>
 <!DOCTYPE html>
 <html>
@@ -51,10 +43,10 @@
                         <div class="card-stacked">
                             <div class="card-action">
                                 <a>Confirmación de Eliminación</a> 
-                                    <p class="center-align">¿<%= hs.getAttribute("nombre")%> estas seguro de querer eliminar el área/departamento <%= rsAreaDepartamentoAEliminar.getString("nombreAreaDepartamento")%>?</p>
+                                    <p class="center-align">¿<%= hs.getAttribute("nombre")%> estas seguro de querer eliminar el tipo de tarea <%= rsTipoTareaSeleccionada.getString("nombreTipoTarea")%>?</p>
                                     <center>
-                                        <a class="btn" href="gestorAreasDepartamentosEliminar.jsp?idAreaDepartamento=<%= rsAreaDepartamentoAEliminar.getString("idAreaDepartamento")%>">SI</a>
-                                        <a class="btn" href="gestorAreasDepartamentos.jsp">NO</a>
+                                        <a class="btn" href="gestorTipoTareasEliminar.jsp?idTipoTarea=<%= rsTipoTareaSeleccionada.getString("idTipoTarea")%>">SI</a>
+                                        <a class="btn" href="gestorTipoTareas.jsp">NO</a>
                                     </center>
                             </div>
                         </div>
@@ -68,20 +60,20 @@
                                     <thead>
                                         <tr>
                                             <td>ID</td>
-                                            <td>Área/Departamento</td>
+                                            <td>Tipo de Tarea</td>
                                             <td>Operaciones</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% while (rsAreasDepartamentos.next()) {%>
+                                        <% while (rsTipoTareas.next()) {%>
                                         <tr>
-                                            <td><%= rsAreasDepartamentos.getString("idAreaDepartamento") %></td>
-                                            <td><%= rsAreasDepartamentos.getString("nombreAreaDepartamento") %></td>
+                                            <td><%= rsTipoTareas.getString("idTipoTarea") %></td>
+                                            <td><%= rsTipoTareas.getString("nombreTipoTarea") %></td>
                                             <td>
-                                                <a href="gestorAreasDepartamentosConfirmarEliminar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
+                                                <a href="gestorTipoTareasConfirmarEliminar.jsp?idTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
-                                                <a href="gestorAreasDepartamentosModificar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
+                                                <a href="gestorTipoTareasModificar.jsp?idTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
                                             </td>
