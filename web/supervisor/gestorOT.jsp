@@ -22,7 +22,6 @@
                         </div>
                         <div class="card-stacked">
                             <div class="card-content">
-                                
                             </div>
                             <div class="container">  
                                 <div class="row">
