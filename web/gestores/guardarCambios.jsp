@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
+<%@ include file="../accesoDenegadoOnlyADM.jsp" %>
 <%
-    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESIÓN YA
     String correo = request.getParameter("correo");
     String confirmar_correo = request.getParameter("confirmar_correo");
     String area_departamento = request.getParameter("area_departamento");

@@ -1,8 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
+<%@ include file="../accesoDenegadoOnlyADM.jsp" %>
 <%
-    HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
-
     String idUsuario = request.getParameter("idUsuario");
 
     ResultSet rsUsuario = null;

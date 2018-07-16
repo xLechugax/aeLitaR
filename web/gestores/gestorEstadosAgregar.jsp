@@ -1,15 +1,7 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
-<%
-    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESIÓN YA
-    // ABIERTA para el usuario.
-
-    if (hs == null || hs.getAttribute("tipoCuenta") == null
-            || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
-%>
-<%@ include file="../accesoDenegado.jsp" %>
-<%            return;
-    }
+<%@ include file="../accesoDenegadoOnlyADM.jsp" %>
+<%  
     String nombreEstado = request.getParameter("nombre_estado");
     String detalleEstado = request.getParameter("detalle_estado");
 
