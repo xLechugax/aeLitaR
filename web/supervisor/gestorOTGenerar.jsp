@@ -31,6 +31,26 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+    ResultSet ContadorTipoTareas = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlTipoTareas = "select * from tipo_tarea";
+        PreparedStatement pstTipoTarea = conn.prepareStatement(sqlTipoTareas);
+        ContadorTipoTareas = pstTipoTarea.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsTipoTareas = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlTipoTareas = "select * from tipo_tarea";
+        PreparedStatement pstTipoTarea = conn.prepareStatement(sqlTipoTareas);
+        rsTipoTareas = pstTipoTarea.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -49,26 +69,60 @@
             <div class="row">
                 <div class="col s12 m12">
                     <div class="card">
+                        <div class="card-action">
+                            <a>Generar Orden de Trabajo</a> 
+                        </div>
                         <div class="row">
                             <div class="col m5">
-                                <select class="icons">
-                                    <option value="" disabled selected>Seleccione Importancia</option>
-                                    <option value="Alta">Alta</option>
-                                    <option value="Media">Media</option>
-                                    <option value="Baja">Baja</option>
-                                </select>
-                                <select class="icons">
-                                    <option value="" disabled selected>Seleccione Importancia</option>
-                                    <option value="Alta">Alta</option>
-                                    <option value="Media">Media</option>
-                                    <option value="Baja">Baja</option>
-                                </select>
-                                <select class="icons">
-                                    <option value="" disabled selected>Seleccione Importancia</option>
-                                    <option value="Alta">Alta</option>
-                                    <option value="Media">Media</option>
-                                    <option value="Baja">Baja</option>
-                                </select>
+                                <table>
+                                    <tr>
+                                        <td><b>Importancia</b></td>
+                                        <td><select name="importancia" class="icons">
+                                                <option value="" disabled selected>Seleccione Importancia</option>
+                                                <option value="Alta">Alta</option>
+                                                <option value="Media">Media</option>
+                                                <option value="Baja">Baja</option>
+                                            </select>
+                                            <label for="importancia">asdasd</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Responsable</b></td>
+                                        <td>
+                                            <select class="icons">
+                                                <option value="" disabled selected>Seleccione Responsable</option>
+                                                <% while (rsResponsable.next()) {%>                                                  
+                                                <option value="<%= rsResponsable.getString("idUsuario")%>"><%= rsResponsable.getString("nombreUsuario")%></option>
+                                                <%}%>
+                                            </select>
+                                        </td>    
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <% while (rsTipoTareas.next()) {%> 
+                                            <p>
+                                                <input type="checkbox" id="<%= rsTipoTareas.getString("idTipoTarea")%>"/>
+                                                
+                                                <label for="<%= rsTipoTareas.getString("idTipoTarea")%>">
+                                                    <%= rsTipoTareas.getString("nombreTipoTarea")%> 
+                                                </label>
+                                            </p>
+                                            <%}%>
+                                        </td>
+                                        
+                                        <td>
+                                            <% while (ContadorTipoTareas.next()) {%>   
+                                                <select class="icons">
+                                                    <option value="" disabled selected>Seleccione Asignado</option>
+                                                    <% while (rsAsignado.next()) {%>                                                  
+                                                    <option value="<%= rsAsignado.getString("idUsuario")%>"><%= rsAsignado.getString("nombreUsuario")%></option>
+                                                    <%}%>
+                                                </select>
+                                                
+                                            <%}%>
+                                        </td>
+                                    </tr>
+                                </table>
+
                             </div>
                             <div class="col m7">
                                 <div class="card-content">
@@ -84,11 +138,11 @@
     <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $(".button-collapse").sideNav();
-            $(".dropdown-button").dropdown();
-            $('select').material_select();
-        });
+                $(document).ready(function () {
+                    $(".button-collapse").sideNav();
+                    $(".dropdown-button").dropdown();
+                    $('select').material_select();
+                });
     </script>
 </body>
 </html>

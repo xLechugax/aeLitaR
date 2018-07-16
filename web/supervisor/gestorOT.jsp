@@ -53,11 +53,11 @@
                     <div class="card-stacked">
                         <div class="card-content">
                             <div class="row">
-                                <div class="input-field col s3 m3">
+                                <div class="input-field col  m2">
                                     <a class="btn" href="gestorOTGenerar.jsp">Generar Órden de Trabajo</a> 
                                 </div>
                                 <form>
-                                    <div class="input-field col s2 m2">
+                                    <div class="input-field col  m2">
                                         <select class="icons">
                                             <option value="" disabled selected>Seleccione Estado</option>
                                             <% while (rsEstados.next()) {%>                                                  
@@ -66,7 +66,7 @@
                                         </select>
                                         <label>Estado</label>
                                     </div>
-                                    <div class="input-field col s2 m2">
+                                    <div class="input-field col  m2">
                                         <select class="icons">
                                             <option value="" disabled selected>Seleccione Responsable</option>
                                             <% while (rsResponsable.next()) {%>                                                  
@@ -75,7 +75,7 @@
                                         </select>
                                         <label>Responsable</label>
                                     </div>
-                                    <div class="input-field col s2 m2">
+                                    <div class="input-field col  m2">
                                         <select class="icons">
                                             <option value="" disabled selected>Seleccione Asignado</option>
                                             <% while (rsAsignado.next()) {%>                                                  
@@ -84,7 +84,7 @@
                                         </select>
                                         <label>Asignado</label>
                                     </div>
-                                    <div class="input-field col s2 m2">
+                                    <div class="input-field col m2">
                                         <select class="icons">
                                             <option value="" disabled selected>Seleccione Importancia</option>
                                             <option value="Alta">Alta</option>
@@ -93,7 +93,7 @@
                                         </select>
                                         <label>Importancia</label>
                                     </div>
-                                    <div class="input-field col s1 m1">
+                                    <div class="input-field col m1">
                                         <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
                                     </div>
                                 </form>
