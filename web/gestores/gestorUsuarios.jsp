@@ -195,21 +195,21 @@
                         <div class="card-content">
                             <table class="highlight bordered">
                                 <tr>
-                                    <td>ID</td>
-                                    <td>Nombre</td>
-                                    <td>Nombre Usuario</td>
-                                    <td>Dirección</td>
-                                    <td>Correo</td>
-                                    <td>Celular</td>
-                                    <td>Fijo</td>
-                                    <td>Área/Departamento</td>
-                                    <td>Rol</td>
-                                    <td>Activo</td>
-                                    <td>Operaciones</td>
+                                    <td><b>ID</b></td>
+                                    <td><b>Nombre</b></td>
+                                    <td><b>Nombre Usuario</b></td>
+                                    <td><b>Dirección</b></td>
+                                    <td><b>Correo</b></td>
+                                    <td><b>Celular</b></td>
+                                    <td><b>Fijo</b></td>
+                                    <td><b>Área/Departamento</b></td>
+                                    <td><b>Rol</b></td>
+                                    <td><b>Activo</b></td>
+                                    <td><b>Operaciones</b></td>
                                 </tr>            
                                 <% while (rsUsuarios.next()) {%>
                                 <tr>
-                                    <td><%=rsUsuarios.getLong("idUsuario")%></td>
+                                    <td><b><%=rsUsuarios.getLong("idUsuario")%></b></td>
                                     <td><%=rsUsuarios.getString("nombre") + " " + rsUsuarios.getString("apellido")%></td>
                                     <td><%=rsUsuarios.getString("nombreUsuario")%></td>
                                     <td><%=rsUsuarios.getString("direccion")%></td>

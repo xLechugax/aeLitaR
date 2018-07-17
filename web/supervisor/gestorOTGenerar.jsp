@@ -96,37 +96,35 @@
                                             </select>
                                         </td>    
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <% while (rsTipoTareas.next()) {%> 
-                                            <p>
-                                                <input type="checkbox" id="<%= rsTipoTareas.getString("idTipoTarea")%>"/>
-                                                
-                                                <label for="<%= rsTipoTareas.getString("idTipoTarea")%>">
-                                                    <%= rsTipoTareas.getString("nombreTipoTarea")%> 
-                                                </label>
-                                            </p>
-                                            <%}%>
-                                        </td>
-                                        
-                                        <td>
-                                            <% while (ContadorTipoTareas.next()) {%>   
-                                                <select class="icons">
-                                                    <option value="" disabled selected>Seleccione Asignado</option>
-                                                    <% while (rsAsignado.next()) {%>                                                  
-                                                    <option value="<%= rsAsignado.getString("idUsuario")%>"><%= rsAsignado.getString("nombreUsuario")%></option>
-                                                    <%}%>
-                                                </select>
-                                                
-                                            <%}%>
-                                        </td>
-                                    </tr>
                                 </table>
+                                <div class="card-content">
+                                    <b>Tareas</b>
+                                    <%  
+                                        while (rsTipoTareas.next())
+                                            
+                                        {%> 
+                                    <p> 
+                                        <input type="checkbox" id="<%= rsTipoTareas.getString("idTipoTarea")%>"/>
 
+                                        <label for="<%= rsTipoTareas.getString("idTipoTarea")%>">
+                                            <%= rsTipoTareas.getString("nombreTipoTarea")%> 
+                                        </label>
+                                    </p>
+                                    <select class="icons">
+                                        <option value="" disabled selected>Seleccione Asignado</option>
+                                        <option value="">asd</option>
+                                    </select>
+                                    <% }%>
+                                </div>
                             </div>
                             <div class="col m7">
                                 <div class="card-content">
-
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <textarea id="textarea1" class="materialize-textarea"></textarea>
+                                            <label for="textarea1"><b>Solicitud</b></label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -138,11 +136,11 @@
     <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
     <script>
-                $(document).ready(function () {
-                    $(".button-collapse").sideNav();
-                    $(".dropdown-button").dropdown();
-                    $('select').material_select();
-                });
+        $(document).ready(function () {
+            $(".button-collapse").sideNav();
+            $(".dropdown-button").dropdown();
+            $('select').material_select();
+        });
     </script>
 </body>
 </html>
