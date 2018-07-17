@@ -99,10 +99,7 @@
                                 </table>
                                 <div class="card-content">
                                     <b>Tareas</b>
-                                    <%  
-                                        while (rsTipoTareas.next())
-                                            
-                                        {%> 
+                                    <%  while (rsTipoTareas.next()) {%> 
                                     <p> 
                                         <input type="checkbox" id="<%= rsTipoTareas.getString("idTipoTarea")%>"/>
 
@@ -121,12 +118,32 @@
                                 <div class="card-content">
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <textarea id="textarea1" class="materialize-textarea"></textarea>
+                                            <textarea style="height: 300px" id="textarea1" class="materialize-textarea" placeholder="Se solicita a todos los participantes de la Orden de Trabajo terminar sus tareas a tiempo.
+
+A continuación se detallan los archivos de apoyo que deben ser modificados:
+
+1.- Gestión de Cambios.pdf -- Pablo Flores
+2.- Gestión de Aranceles.xlxs -- Vicente Arriagada
+3.- Informe Técnico PRRT.doc -- David Aravena
+4.- Acta de aceptación.pdf -- Lisa Alfredo
+
+Cada uno de ellos debe de ser completado por los participantes en sus respectivas tareas designadas.
+"></textarea>
                                             <label for="textarea1"><b>Solicitud</b></label>
+                                        </div>
+                                    </div>
+                                    <div class="file-field input-field">
+                                        <div class="btn">
+                                            <span>Archivos</span>
+                                            <input type="file" multiple>
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" placeholder="Subir uno o más archivos">
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                                <a class="btn right-aligned" href="#">Generar Órden de Trabajo</a> <br> <br> 
                         </div>
                     </div>
                 </div>
