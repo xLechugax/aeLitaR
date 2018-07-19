@@ -116,6 +116,7 @@
     try {
         Connection conn = ConexionBD.getConexion();
         Statement st = conn.createStatement();
+        
         String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento";
 
         // 2.- Aplicar un filtro de búsqueda si es necesario
@@ -139,6 +140,11 @@
                 sql = sql + " and usuario.tipoCuenta like '%" + textobusqueda + "%' order by usuario.idUsuario";
             }
         }
+        
+        if (textobusqueda == null && tipobusqueda == null) {
+                sql = sql + " order by usuario.idUsuario"; 
+        }
+
         rsUsuarios = st.executeQuery(sql);
     } catch (SQLException e) {
         out.println("Excepción de SQL: " + e);

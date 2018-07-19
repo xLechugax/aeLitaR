@@ -1,11 +1,39 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADM.jsp" %>
-<%
-    String idUsuario = request.getParameter("idUsuario");
+<%    String idUsuario = request.getParameter("idUsuario");
 
     ResultSet rsUsuario = null;
     ResultSet rsAreaDepa = null;
+
+        if (idUsuario.equals("1"))  { %>
+        <html>
+            <head>
+                <meta http-equiv="Refresh" content="5;url=/aeLita/gestores/gestorUsuarios.jsp">
+                <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
+            </head>
+            <body class="blue-grey lighten-5">
+                <br /><br /><br /><br /><br /><br /><br /><br />
+                <center>
+                    <div class="row">
+                        <div class="col s12 m12">
+                            <div class="card blue-grey darken-1">
+                                <div class="card-content white-text">
+                                    <span class="card-title">¡Hey, cuidado!</span>
+                                    <p>No puedes editar el tipo de cuenta del administrador principal...</p>
+                                </div>
+                                <div class="card-action">
+                                    <a href="/aeLita/gestores/gestorUsuarios.jsp">Volver...</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </center>
+            </body>
+        </html>            
+        <%return; }
+
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "select * from usuario where idUsuario=" + idUsuario;
@@ -35,12 +63,12 @@
                 <div class="col m3 m3">
                     <div class="card horizontal">
                         <div class="card-image">
-                            
+
                         </div>
                         <div class="card-stacked">
                             <div class="container">
                                 <br/>
-                                <p>Estamos editando el tipo de cuenta de <%= rsUsuario.getString("nombre") %> <%= rsUsuario.getString("apellido") %> </p>
+                                <p>Estamos editando el tipo de cuenta de <%= rsUsuario.getString("nombre")%> <%= rsUsuario.getString("apellido")%> </p>
                                 <form action="guardarCambiosTipoCuenta.jsp" method="post">
                                     <input name="idUsuario" value="<%= rsUsuario.getString("idUsuario")%>" type="hidden"></td>
                                     <table class="">
