@@ -31,6 +31,10 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+    
+    String idEstadoFiltro = request.getParameter("idEstadoFiltro");
+    String importanciaFiltro = request.getParameter("importanciaFiltro");
+    
     ResultSet rsOrdenesTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -42,7 +46,15 @@
                 + "orden_trabajo.fecha_inicio "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
-                + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario="+hs.getAttribute("idUsuarioSesion");
+                + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario="+hs.getAttribute("idUsuarioSesion")+" ";
+        
+        if (idEstadoFiltro != null) { 
+            sqlAsignado = sqlAsignado+" and orden_trabajo.estado = '"+idEstadoFiltro+"'";
+        }
+        if (importanciaFiltro != null) {
+            sqlAsignado = sqlAsignado+" and orden_trabajo.importancia ='"+importanciaFiltro+"'";
+        }
+        
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);
         rsOrdenesTrabajo = pstOrdenesTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -74,9 +86,9 @@
                                 <div class="input-field col  m4">
                                     <a class="btn" href="gestorOTGenerar.jsp">Generar Órden de Trabajo</a> 
                                 </div>
-                                <form>
+                                <form action="gestorOT.jsp" method="post">
                                     <div class="input-field col  m2">
-                                        <select class="icons">
+                                        <select class="icons" name="idEstadoFiltro">
                                             <option value="" disabled selected>Seleccione Estado</option>
                                             <% while (rsEstados.next()) {%>                                                  
                                             <option value="<%= rsEstados.getString("idEstado")%>"><%= rsEstados.getString("nombreEstado")%></option>
@@ -85,7 +97,7 @@
                                         <label>Estado</label>
                                     </div>
                                     <div class="input-field col m2">
-                                        <select class="icons">
+                                        <select class="icons" name="importanciaFiltro">
                                             <option value="" disabled selected>Seleccione Importancia</option>
                                             <option value="Alta">Alta</option>
                                             <option value="Media">Media</option>

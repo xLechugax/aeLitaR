@@ -85,7 +85,6 @@
 <ul class="side-nav" id="mobile-demo">
     <li><a class="dropdown-button" href="#!" data-activates="DropDownDelNavVar">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
     <li><a href="/aeLita/supervisor/gestorOT.jsp">Gestor Órdenes de Trabajo</a></li>
-    <li><a href="/aeLita/ejecutor/gestorTareas.jsp">Gestor Tareas</a></li>
     <li><a href="/aeLita/perfil/miperfil.jsp">Perfil</a></li>
     <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li>
 </ul>
@@ -104,7 +103,6 @@
             <ul class="right hide-on-med-and-down">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a href="/aeLita/supervisor/gestorOT.jsp">Gestor Órdenes de Trabajo</a></li>
-                <li><a href="/aeLita/ejecutor/gestorTareas.jsp">Gestor Tareas</a></li>
                 <li><a href="/aeLita/perfil/miperfil.jsp">Perfil</a></li>
                 <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li> 
             </ul>
