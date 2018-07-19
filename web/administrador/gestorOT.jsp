@@ -21,6 +21,11 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+    
+    String idEstadoFiltro = request.getParameter("idEstadoFiltro");
+    String importanciaFiltro = request.getParameter("importanciaFiltro");
+    String idUsuarioFiltro = request.getParameter("idUsuarioFiltro");
+    
     ResultSet rsOrdenesTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -33,8 +38,22 @@
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
                 + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario";
+        
+        if (idUsuarioFiltro != null) { 
+            sqlAsignado = sqlAsignado+" and orden_trabajo.supervisor = '"+idUsuarioFiltro+"'";
+        }
+        if (idEstadoFiltro != null) { 
+            sqlAsignado = sqlAsignado+" and orden_trabajo.estado = '"+idEstadoFiltro+"'";
+        }
+        if (importanciaFiltro != null) {
+            sqlAsignado = sqlAsignado+" and orden_trabajo.importancia ='"+importanciaFiltro+"'";
+        }
+        
+        System.out.println(idEstadoFiltro+" + "+importanciaFiltro);
+        
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);
         rsOrdenesTrabajo = pstOrdenesTrabajo.executeQuery();
+        
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -61,12 +80,12 @@
                     <div class="card-stacked">
                         <div class="card-content">
                             <div class="row">
-                                <div class="input-field col  m4">
+                                <div class="input-field col  m3">
                                     <a class="btn" href="#">Generar Órden de Trabajo</a> 
                                 </div>
-                                <form>
+                                <form action="gestorOT.jsp" method="post">
                                     <div class="input-field col  m2">
-                                        <select class="icons">
+                                        <select class="icons" name="idEstadoFiltro">
                                             <option value="" disabled selected>Seleccione Estado</option>
                                             <% while (rsEstados.next()) {%>                                                  
                                             <option value="<%= rsEstados.getString("idEstado")%>"><%= rsEstados.getString("nombreEstado")%></option>
@@ -74,8 +93,8 @@
                                         </select>
                                         <label>Estado</label>
                                     </div>
-                                    <div class="input-field col  m2">
-                                        <select class="icons">
+                                    <div class="input-field col  m3">
+                                        <select class="icons" name="idUsuarioFiltro">
                                             <option value="" disabled selected>Seleccione Supervisor</option>
                                             <% while (rsResponsable.next()) {%>                                                  
                                             <option value="<%= rsResponsable.getString("idUsuario")%>"><%= rsResponsable.getString("nombreUsuario")%></option>
@@ -84,10 +103,10 @@
                                         <label>Supervisor</label>
                                     </div>
                                     <div class="input-field col m2">
-                                        <select class="icons">
+                                        <select class="icons" name="importanciaFiltro">
                                             <option value="" disabled selected>Seleccione Importancia</option>
                                             <option value="Alta">Alta</option>
-                                            <option value="Media">Media</option>
+                                            <option value="Media">Media</option> 
                                             <option value="Baja">Baja</option>
                                         </select>
                                         <label>Importancia</label>

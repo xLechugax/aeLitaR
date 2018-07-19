@@ -216,12 +216,8 @@
                                     <td><%=rsUsuarios.getString("email")%></td>
                                     <td><%=rsUsuarios.getString("telefono_m")%></td>
                                     <td><%=rsUsuarios.getString("telefono_f")%></td>
-                                    <td>
-                                        <a href="gestorUsuariosEditarAreaDepartamento.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>">
-                                            <%=rsUsuarios.getString("nombreAreaDepartamento")%>
-                                        </a>
-                                    </td>
-                                    <td><%=rsUsuarios.getString("tipoCuenta")%></td>
+                                    <td><a href="gestorUsuariosEditarAreaDepartamento.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("nombreAreaDepartamento")%></a></td>
+                                    <td><a href="gestorUsuariosEditarTipoCuenta.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("tipoCuenta")%></a></td>
                                     </td>
                                     <td><center>
                                     <a href="gestorUsuarios.jsp?accion=1&id=<%=rsUsuarios.getLong("idUsuario")%>">
