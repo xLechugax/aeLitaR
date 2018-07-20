@@ -51,6 +51,16 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+    ResultSet rsTipoTareasContador = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlTipoTareas = "select * from tipo_tarea";
+        PreparedStatement pstTipoTarea = conn.prepareStatement(sqlTipoTareas);
+        rsTipoTareas = pstTipoTarea.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>
