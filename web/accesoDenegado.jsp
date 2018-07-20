@@ -1,7 +1,7 @@
 <%
     if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
 %>
-<html>  
+<html>
     <head>
         <meta http-equiv="Refresh" content="5;url=/aeLita/administrador/inicioAdmin.jsp">
         <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
@@ -113,3 +113,5 @@
 <%
     }
 %>
+
+<%-- comentario--%>
