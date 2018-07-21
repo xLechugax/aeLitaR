@@ -21,11 +21,11 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
-    
+
     String idEstadoFiltro = request.getParameter("idEstadoFiltro");
     String importanciaFiltro = request.getParameter("importanciaFiltro");
     String idUsuarioFiltro = request.getParameter("idUsuarioFiltro");
-    
+
     ResultSet rsOrdenesTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -38,22 +38,22 @@
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
                 + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario";
-        
-        if (idUsuarioFiltro != null) { 
-            sqlAsignado = sqlAsignado+" and orden_trabajo.supervisor = '"+idUsuarioFiltro+"'";
+
+        if (idUsuarioFiltro != null) {
+            sqlAsignado = sqlAsignado + " and orden_trabajo.supervisor = '" + idUsuarioFiltro + "'";
         }
-        if (idEstadoFiltro != null) { 
-            sqlAsignado = sqlAsignado+" and orden_trabajo.estado = '"+idEstadoFiltro+"'";
+        if (idEstadoFiltro != null) {
+            sqlAsignado = sqlAsignado + " and orden_trabajo.estado = '" + idEstadoFiltro + "'";
         }
         if (importanciaFiltro != null) {
-            sqlAsignado = sqlAsignado+" and orden_trabajo.importancia ='"+importanciaFiltro+"'";
+            sqlAsignado = sqlAsignado + " and orden_trabajo.importancia ='" + importanciaFiltro + "'";
         }
-        
-        System.out.println(idEstadoFiltro+" + "+importanciaFiltro);
-        
+
+        System.out.println(idEstadoFiltro + " + " + importanciaFiltro);
+
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);
         rsOrdenesTrabajo = pstOrdenesTrabajo.executeQuery();
-        
+
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -81,7 +81,7 @@
                         <div class="card-content">
                             <div class="row">
                                 <div class="input-field col  m3">
-                                    <a class="btn" href="#">Generar Órden de Trabajo</a> 
+                                    <a class="btn" href="/aeLita/supervisor/gestorOTGenerar.jsp">Generar Órden de Trabajo</a> 
                                 </div>
                                 <form action="gestorOT.jsp" method="post">
                                     <div class="input-field col  m2">
@@ -117,7 +117,7 @@
                                 </form>
                             </div>
                         </div>
-                        <table>
+                        <table class="highlight bordered">
                             <thead>
                             <td class="center-align"><b>ID</b></td>
                             <td><b>Estado</b></td>
@@ -134,7 +134,7 @@
                             <td>
                                 <% if (rsOrdenesTrabajo.getString("importancia").equals("Alta")) {%><p class="red-text center-align"><%=rsOrdenesTrabajo.getString("importancia")%><p> <%} %>
                                 <% if (rsOrdenesTrabajo.getString("importancia").equals("Media")) {%><p class="orange-text center-align"><%=rsOrdenesTrabajo.getString("importancia")%><p> <%} %>
-                                <% if (rsOrdenesTrabajo.getString("importancia").equals("Baja")) {%><p class="green-text center-align"><%=rsOrdenesTrabajo.getString("importancia")%><p> <%} %>
+                                <% if (rsOrdenesTrabajo.getString("importancia").equals("Baja")) {%><p class="green-text center-align"><%=rsOrdenesTrabajo.getString("importancia")%><p> <%}%>
                             </td>
                             <td><%= rsOrdenesTrabajo.getString("nombreOrdenTrabajo")%></td>
                             <td><%= rsOrdenesTrabajo.getString("supervisor")%></td>

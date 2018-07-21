@@ -111,7 +111,7 @@
                                 </form>
                             </div>
                         </div>
-                        <table>
+                        <table class="highlight bordered">
                             <thead>
                             <td class="center-align"><b>ID</b></td>
                             <td><b>Estado</b></td>
@@ -133,7 +133,7 @@
                             <td><%= rsOrdenesTrabajo.getString("nombreOrdenTrabajo")%></td>
                             <td><%= rsOrdenesTrabajo.getString("supervisor")%></td>
                             <td><%= rsOrdenesTrabajo.getString("fecha_inicio")%></td>
-                            <td><a href="#" class="btn">Detalle</a></td>
+                            <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajo.getString("idOrdenTrabajo")%>" class="btn">Detalle</a></td>
                             </tbody>
                             <%}%>
                         </table>

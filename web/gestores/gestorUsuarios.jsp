@@ -250,7 +250,7 @@
                                     </a></center>
                                 </td>
                                 <td><center>
-                                    <a href="gestorUsuarios.jsp?accion=2&id=<%=rsUsuarios.getLong("idUsuario")%>">
+                                    <a href="gestorUsuariosConfirmarEliminar.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>">
                                         <img src="img/eliminar.png" title="Eliminar"/>
                                     </a>
                                     &nbsp;
