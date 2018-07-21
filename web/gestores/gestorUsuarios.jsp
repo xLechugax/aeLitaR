@@ -3,40 +3,45 @@
 <%@ include file="../accesoDenegadoOnlyADM.jsp" %>
 <%  
     String accion = request.getParameter("accion");
-    int ava = 0;
     if (accion != null) {
         if (accion.equals("1")) {
             long idUsuario = Long.parseLong(request.getParameter("id"));
             // Recuperar el estado actual del registros del usuario.
             Connection conn = ConexionBD.getConexion();
 
-            if (idUsuario == 1) {
+            String sqlConsulta = "select * from usuario where idUsuario=?";
+            PreparedStatement pstConsultaUsuario = conn.prepareStatement(sqlConsulta);
+            pstConsultaUsuario.setLong(1, idUsuario);
+            ResultSet rsUsuarioConsulta = pstConsultaUsuario.executeQuery();
+            rsUsuarioConsulta.next();
+            
+            if (rsUsuarioConsulta.getString("tipoCuenta").equals("Administrador")) {
 %>
-<html>
-    <head>
-        <meta http-equiv="Refresh" content="5;url=/aeLita/gestores/gestorUsuarios.jsp">
-        <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
-    </head>
-    <body class="blue-grey lighten-5">
-        <br /><br /><br /><br /><br /><br /><br /><br />
-    <center>
-        <div class="row">
-            <div class="col s12 m12">
-                <div class="card blue-grey darken-1">
-                    <div class="card-content white-text">
-                        <span class="card-title">¡Hey, cuidado!</span>
-                        <p>No puedes desactivar la cuenta del administrador principal...</p>
+            <html>
+                <head>
+                    <meta http-equiv="Refresh" content="5;url=/aeLita/gestores/gestorUsuarios.jsp">
+                    <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
+                </head>
+                <body class="blue-grey lighten-5">
+                    <br /><br /><br /><br /><br /><br /><br /><br />
+                <center>
+                    <div class="row">
+                        <div class="col s12 m12">
+                            <div class="card blue-grey darken-1">
+                                <div class="card-content white-text">
+                                    <span class="card-title">¡Hey, cuidado!</span>
+                                    <p>No puedes desactivar la cuenta de un administrador...</p>
+                                </div>
+                                <div class="card-action">
+                                    <a href="/aeLita/gestores/gestorUsuarios.jsp">Volver...</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-action">
-                        <a href="/aeLita/gestores/gestorUsuarios.jsp">Volver...</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </center>
-</body>
-</html>
+                </center>
+            </body>
+            </html>
 <%      return;
                 }
 
@@ -64,8 +69,15 @@
         } else if (accion.equals("2")) {
             long idUsuario = Long.parseLong(request.getParameter("id"));
             String idUsuarioSesion = request.getParameter("id");
-            //Impide la eliminiacion del Admin Principal.
-            if (idUsuario == 1) {
+            Connection conn = ConexionBD.getConexion();
+
+            String sqlConsulta = "select * from usuario where idUsuario=?";
+            PreparedStatement pstConsultaUsuario = conn.prepareStatement(sqlConsulta);
+            pstConsultaUsuario.setLong(1, idUsuario);
+            ResultSet rsUsuarioConsulta = pstConsultaUsuario.executeQuery();
+            rsUsuarioConsulta.next();
+            
+            if (rsUsuarioConsulta.getString("tipoCuenta").equals("Administrador")) {
 %>
 <html>
     <head>
@@ -81,7 +93,7 @@
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
                         <span class="card-title">¡Hey, cuidado!</span>
-                        <p>No puedes eliminar al administrador principal...</p>
+                        <p>No puedes eliminar un administrador...</p>
                     </div>
                     <div class="card-action">
                         <a href="/aeLita/gestores/gestorUsuarios.jsp">Volver...</a>
@@ -99,9 +111,9 @@
                 out.println("Error: no se puede eliminar al administrador en sesion.");
             } else {
                 // Recuperar el estado actual del registros del usuario.
-                Connection conn = ConexionBD.getConexion();
+                Connection connDos = ConexionBD.getConexion();
                 String sql = "delete from usuario where idUsuario=?";
-                PreparedStatement pst1 = conn.prepareStatement(sql);
+                PreparedStatement pst1 = connDos.prepareStatement(sql);
                 pst1.setLong(1, idUsuario);
                 pst1.execute();
             }
@@ -117,7 +129,7 @@
         Connection conn = ConexionBD.getConexion();
         Statement st = conn.createStatement();
         
-        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento";
+        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and idUsuario > 1 ";
 
         // 2.- Aplicar un filtro de búsqueda si es necesario
         if (textobusqueda != null && tipobusqueda != null) {
@@ -213,7 +225,8 @@
                                     <td><b>Activo</b></td>
                                     <td><b>Operaciones</b></td>
                                 </tr>            
-                                <% while (rsUsuarios.next()) {%>
+                                <% while (rsUsuarios.next()) { %>
+                                   
                                 <tr>
                                     <td><b><%=rsUsuarios.getLong("idUsuario")%></b></td>
                                     <td><%=rsUsuarios.getString("nombre") + " " + rsUsuarios.getString("apellido")%></td>

@@ -56,7 +56,7 @@
         Connection conn = ConexionBD.getConexion();
         String sqlTipoTareas = "select * from tipo_tarea";
         PreparedStatement pstTipoTarea = conn.prepareStatement(sqlTipoTareas);
-        rsTipoTareas = pstTipoTarea.executeQuery();
+        rsTipoTareasContador = pstTipoTarea.executeQuery();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -108,8 +108,10 @@
                                     </tr>
                                 </table>
                                 <div class="card-content">
-                                    <b>Tareas</b>
-                                    <%  while (rsTipoTareas.next()) {%> 
+                                    <b>Tareas</b>  
+                                    <% if ( rsTipoTareasContador.next() == false ) {%>
+                                    <br/><p class="red-text">No se han ingresado Tipos de Tareas, favor contactese con el administrador...</p>
+                                    <% } else {  while (rsTipoTareas.next()) {%> 
                                     <p> 
                                         <input type="checkbox" id="<%= rsTipoTareas.getString("idTipoTarea")%>"/>
 
@@ -121,7 +123,8 @@
                                         <option value="" disabled selected>Seleccione Asignado</option>
                                         <option value="">asd</option>
                                     </select>
-                                    <% }%>
+                                    <% }
+                                    %>
                                 </div>
                             </div>
                             <div class="col m7">
@@ -155,6 +158,7 @@ Cada uno de ellos debe de ser completado por los participantes en sus respectiva
                             </div>
                                 <a class="btn right-aligned" href="#">Generar Órden de Trabajo</a> <br> <br> 
                         </div>
+                                <%}%>
                     </div>
                 </div>
             </div>
