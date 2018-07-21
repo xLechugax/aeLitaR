@@ -2,20 +2,26 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADM.jsp" %>
 <%
-    String idTipoTarea = request.getParameter("idEstado");
+    String idEstado = request.getParameter("idEstado");
 
-    ResultSet rsTipoTareas = null;
-    ResultSet rsTipoTareaSeleccionada = null;
+    ResultSet rsEstados = null;
+    ResultSet rsEstadoSeleccionado = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from tipo_tarea";
+        String sql = "select * from estado";
         PreparedStatement pst = conn.prepareStatement(sql);
-        rsTipoTareas = pst.executeQuery();
+        rsEstados = pst.executeQuery();
         
-        String sqlTareaSeleccionada = "select * from tipo_tarea where idTipoTarea="+idTipoTarea;
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlTareaSeleccionada = "select * from estado where idEstado="+idEstado;
         PreparedStatement pstTipoTareaSeleccionada = conn.prepareCall(sqlTareaSeleccionada);
-        rsTipoTareaSeleccionada = pstTipoTareaSeleccionada.executeQuery();
-        rsTipoTareaSeleccionada.next();
+        rsEstadoSeleccionado = pstTipoTareaSeleccionada.executeQuery();
+        rsEstadoSeleccionado.next();
         
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
@@ -34,7 +40,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <main>
-        <body class="blue-grey lighten-5">
+        <body class="blue-grey lighten-5"> 
             <%@ include file="../barraNav.jsp" %>
             <div class="row">
                 <div class="col m5">
@@ -42,10 +48,10 @@
                         <div class="card-stacked">
                             <div class="card-action">
                                 <a>Confirmación de Eliminación</a> 
-                                    <p class="center-align">¿<%= hs.getAttribute("nombre")%> estas seguro de querer eliminar el tipo de tarea <%= rsTipoTareaSeleccionada.getString("nombreTipoTarea")%>?</p>
+                                    <p class="center-align">¿<%= hs.getAttribute("nombre")%> estas seguro de querer eliminar el estado <%= rsEstadoSeleccionado.getString("nombreEstado")%>?</p>
                                     <center>
-                                        <a class="btn" href="gestorTipoTareasEliminar.jsp?idTipoTarea=<%= rsTipoTareaSeleccionada.getString("idTipoTarea")%>">SI</a>
-                                        <a class="btn" href="gestorTipoTareas.jsp">NO</a>
+                                        <a class="btn" href="gestorEstadosEliminar.jsp?idEstado=<%= rsEstadoSeleccionado.getString("idEstado")%>">SI</a>
+                                        <a class="btn" href="gestorEstados.jsp">NO</a>
                                     </center>
                             </div>
                         </div>
@@ -59,20 +65,20 @@
                                     <thead>
                                         <tr>
                                             <td>ID</td>
-                                            <td>Tipo de Tarea</td>
+                                            <td>Estado</td>
                                             <td>Operaciones</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% while (rsTipoTareas.next()) {%>
+                                        <% while (rsEstados.next()) {%>
                                         <tr>
-                                            <td><%= rsTipoTareas.getString("idTipoTarea") %></td>
-                                            <td><%= rsTipoTareas.getString("nombreTipoTarea") %></td>
+                                            <td><%= rsEstados.getString("idEstado") %></td>
+                                            <td><%= rsEstados.getString("nombreEstado") %></td>
                                             <td>
-                                                <a href="gestorTipoTareasConfirmarEliminar.jsp?idTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
+                                                <a href="gestorTipoTareasConfirmarEliminar.jsp?idTarea=<%=rsEstados.getLong("idEstado")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
-                                                <a href="gestorTipoTareasModificar.jsp?idTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
+                                                <a href="gestorTipoTareasModificar.jsp?idTarea=<%=rsEstados.getLong("idEstado")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
                                             </td>
