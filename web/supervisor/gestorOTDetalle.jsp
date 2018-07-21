@@ -1,7 +1,8 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
+<%  
+    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
     String idTipoTareaAsignar = request.getParameter("idtipoTareaAsignar");
     String idEjecutorAsignar = request.getParameter("idEjecutorAsignar");
 
