@@ -115,47 +115,6 @@
                                             </td>    
                                         </tr>
                                     </table>
-                                    <%--<div class="card-content">
-                                        <div class="file-field input-field">
-                                            <div class="btn">
-                                                <span>Archivos</span>
-                                                <input type="file" multiple>
-                                            </div>
-                                            <div class="file-path-wrapper">
-                                                <input class="file-path validate" type="text" placeholder="Subir uno o más archivos">
-                                            </div>
-                                        </div>            
-                                        <b>Tareas</b>  
-                                        <% if (rsTipoTareasContador.next() == false) {%>
-                                        <br/><p class="red-text">No se han ingresado Tipos de Tareas, favor contactese con el administrador...</p>
-                                        <% } else {
-                                            Connection connn = ConexionBD.getConexion();
-                                            int tareaNumero = 1;
-                                            while (rsTipoTareas.next()) {%> 
-                                        <p> 
-                                            <input type="checkbox" id="<%= rsTipoTareas.getString("idTipoTarea")%>"/>
-
-                                            <label for="<%= rsTipoTareas.getString("idTipoTarea")%>">
-                                                <%= rsTipoTareas.getString("nombreTipoTarea")%> 
-                                            </label>
-                                        </p>
-                                        <%
-                                            Statement stmt = connn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                                            Statement stmt2 = connn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                                            ResultSet rsUsuarioDropDown = stmt.executeQuery("SELECT * from usuario where tipoCuenta='Ejecutor'");
-                                            ResultSet rsUsuarioDropDownCantidad = stmt2.executeQuery("SELECT * from usuario where tipoCuenta='Ejecutor'");
-                                        %>
-                                        <select class="icons" name="idUsuarioSeleccionado<%= tareaNumero%>">
-                                            <option value="" disabled selected>Seleccione Asignado para <%= rsTipoTareas.getString("nombreTipoTarea")%></option>
-                                            <% while (rsUsuarioDropDown.next()) {%>
-                                            <option value="<%= rsUsuarioDropDown.getString("idUsuario") %>"><%= rsUsuarioDropDown.getString("nombreUsuario")%></option>
-                                            <% }
-                                            %>
-                                        </select>
-                                        <% tareaNumero++;
-                                            }
-                                        %>
-                                    </div>--%>
                                 </div>
                                 <div class="col m7">
                                     <div class="card-content">
@@ -181,7 +140,6 @@ Cada uno de ellos debe de ser completado por los participantes en sus respectiva
                                     <input class="waves-effect waves-light btn" type="submit" value="Generar OT" />
                                 </div>
                                 <br/>
-                                <%--<%}%>--%>
                             </form>
                         </div>
                     </div>
