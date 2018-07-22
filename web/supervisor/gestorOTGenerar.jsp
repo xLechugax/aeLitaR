@@ -82,7 +82,7 @@
                             <a>Generar Orden de Trabajo</a> 
                         </div>
                         <div class="row">
-                            <form action="gestorOTGenerarSubaaaaaaaaaaaaaaaaaaaaaaa.jsp" >
+                            <form action="gestorOTGenerarSub.jsp" method="post"> 
                                 <div class="col m5">
                                     <table>
                                         <tr>
