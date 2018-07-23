@@ -9,7 +9,7 @@
     if (comentarioOT != null) {
         try {
             Connection conn = ConexionBD.getConexion();
-            String sql = "insert into avance (idOrdenTrabajo,comentario,usuario) values (?,?,?)";
+            String sql = "insert into avance (idOrdenTrabajo_fk,comentario,usuario) values (?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, idOrdenTrabajoSeleccionada);
             pst.setString(2, comentarioOT);
@@ -25,7 +25,7 @@
         try {
             int estadoTareaPorDefecto = 1;
             Connection conn = ConexionBD.getConexion();
-            String sql = "insert into tarea (idTipoTarea,idOrdenTrabajo,ejecutor,estadoTarea) values (?,?,?,?)";
+            String sql = "insert into tarea (idTipoTarea,idOrdenTrabajo,usuario,estadoTarea) values (?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, idTipoTareaAsignar);
             pst.setString(2, idOrdenTrabajoSeleccionada);
@@ -72,17 +72,7 @@
     ResultSet rsContadorTareas = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select tarea.idTarea, "
-                + "tipo_tarea.nombreTipoTarea, "
-                + "estado.nombreEstado, "
-                + "usuario.nombreUsuario, "
-                + "tarea.fecha_inicio "
-                + "from tarea,tipo_tarea,usuario,orden_trabajo,estado "
-                + "where tarea.idTarea = tipo_tarea.idTipoTarea "
-                + "and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo "
-                + "and tarea.ejecutor = usuario.idUsuario "
-                + "and tarea.estadoTarea = estado.idEstado "
-                + "and orden_trabajo.idOrdenTrabajo =" + idOrdenTrabajoSeleccionada;
+        String sqlOrdenTrabajo = "select tarea.idTarea, tipo_tarea.nombreTipoTarea, estado.nombreEstado,  usuario.nombreUsuario, tarea.fecha_inicio from tarea,usuario,tipo_tarea,estado where tarea.estadoTarea = estado.idEstado and tarea.usuario = usuario.idUsuario and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idOrdenTrabajo =" + idOrdenTrabajoSeleccionada;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsContadorTareas = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -92,17 +82,7 @@
     ResultSet rsTareasBajoLaOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select tarea.idTarea, "
-                + "tipo_tarea.nombreTipoTarea, "
-                + "estado.nombreEstado, "
-                + "usuario.nombreUsuario, "
-                + "tarea.fecha_inicio "
-                + "from tarea,tipo_tarea,usuario,orden_trabajo,estado "
-                + "where tarea.idTarea = tipo_tarea.idTipoTarea "
-                + "and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo "
-                + "and tarea.ejecutor = usuario.idUsuario "
-                + "and tarea.estadoTarea = estado.idEstado "
-                + "and orden_trabajo.idOrdenTrabajo =" + idOrdenTrabajoSeleccionada;
+        String sqlOrdenTrabajo = "select tarea.idTarea, tipo_tarea.nombreTipoTarea, estado.nombreEstado,  usuario.nombreUsuario, tarea.fecha_inicio from tarea,usuario,tipo_tarea,estado where tarea.estadoTarea = estado.idEstado and tarea.usuario = usuario.idUsuario and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idOrdenTrabajo =" + idOrdenTrabajoSeleccionada;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsTareasBajoLaOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -112,7 +92,7 @@
     ResultSet rsComentariosOTContador = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo=" + idOrdenTrabajoSeleccionada;
+        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajoSeleccionada;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOTContador = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -122,7 +102,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo=" + idOrdenTrabajoSeleccionada;
+        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajoSeleccionada;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -145,7 +125,7 @@
         <body class="blue-grey lighten-5">
             <%@ include file="../barraNav.jsp" %>
             <div class="row">
-                <div class="col m6">
+                <div class="col m5">
                     <ul class="collapsible" data-collapsible="expandible">
                         <li>
                             <div class="collapsible-header active"><i class="material-icons">assignment</i><b><%= rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></b></div>
@@ -172,6 +152,8 @@
                                     <td><% if (rsOrdenTrabajo.getString("fecha_fin") == null) {%> <p class="green-text">OT en proceso...</p> <%} else {%> <%=rsOrdenTrabajo.getString("fecha_fin")%> <%}%></td>
                                     <td><%= rsOrdenTrabajo.getString("nombreEstado")%></td>
                                 </table>
+                                    <b>Detalle:</b>
+                                    <p><%= rsOrdenTrabajo.getString("detalleOrdenTrabajo")%></p>
                             </div>
                         </li>
                         <li>
@@ -213,7 +195,7 @@
                         </li> 
                     </ul>
                 </div>
-                <div class="col m6">
+                <div class="col m7">
                     <ul class="collapsible" data-collapsible="expandible">
                         <li>
                             <div class="collapsible-header" ><i class="material-icons">filter_drama</i>Tareas para <%= rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></div>
