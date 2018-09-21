@@ -26,6 +26,9 @@
     <main>
         <body class="blue-grey lighten-5">
             <%@ include file="../barraNav.jsp" %>
+            <!-- Modal Trigger -->
+            <BR/>
+            <a class="btn waves-effect waves-teal btn modal-trigger right" href="#modal1"><i class="material-icons left">help_outline</i>Ayuda</a>
             <div class="container"> 
                 <div class="col m3 m3">
                     <div class="card horizontal">
@@ -54,6 +57,19 @@
                                             <input class="waves-effect waves-light btn" type="submit" value="Ingresar" />
                                         </center>
                                     </form>
+                                    <!-- Modal Structure -->
+                                    <div id="modal1" class="modal">
+                                        <div class="modal-content">
+                                            <h4>Ayuda</h4>
+                                            <p>Para ingresar a su cuenta de aeLita debe ingresar de la siguiente manera: NOMBRE.APELLIDO.</p>
+                                            <BR/>
+                                            <p>Ejemplo</p>
+                                            <p>MARISOL.CARRASCO</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Gracias</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>     
                         </div>
@@ -68,6 +84,16 @@
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems, options);
+        });
+
+        // Or with jQuery
+
+        $(document).ready(function () {
+            $('.modal').modal();
         });
     </script>
 </body>
