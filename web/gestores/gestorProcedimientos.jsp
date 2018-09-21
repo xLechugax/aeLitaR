@@ -1,15 +1,8 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
-<%
-    HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
-
-    if (hs == null || hs.getAttribute("tipoCuenta") == null
-            || !hs.getAttribute("tipoCuenta").equals("Administrador")) {
-%>
-    <%@ include file="../accesoDenegado.jsp" %>
+<%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %>
 <%        
-        return;
-    }
+
 %>
 <!DOCTYPE html>
 <html>
@@ -36,6 +29,7 @@
                         </div>
                         <div class="container">  
                             <div class="row">
+                                
                             </div>  
                         </div>     
                     </div>
