@@ -27,6 +27,22 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+    ResultSet rsTareasAsignadasContador = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado, "
+                + "tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo "
+                + "from tarea,usuario,estado,orden_trabajo,tipo_tarea "
+                + "where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado "
+                + "and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo "
+                + "and tarea.idTipoTarea = tipo_tarea.idTipoTarea "
+                + "and tarea.usuario =" + hs.getAttribute("idUsuarioSesion");
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsTareasAsignadasContador = pst.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
 
 %>
 <!DOCTYPE html>
@@ -45,41 +61,45 @@
             <%@ include file="../barraNav.jsp" %>
             <div class="row">
                 <div class="col m12">
-                    <div class="card horizontal">
-                        <div class="card-stacked">
-                            <div class="card-action">
-                                <a>Tareas asignadas</a> 
+                    <ul class="collapsible">
+                        <li>
+                            <div class="collapsible-header active"><i class="material-icons">filter_drama</i>Tareas asignadas</div>
+                            <div class="collapsible-body white">
+                                <% if (rsTareasAsignadasContador.next()) {%>
                                 <table border="1" class="highlight">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Estado</th>
                                             <th>Criticidad</th>
-                                            <th>Nombre Tarea</th>
+                                            <th><center>Tarea</center></th>
                                             <th>Orden de Trabajo</th>
                                             <th>Fecha Inicio</th>
                                             <th>Operaciones</th>
                                         </tr>
                                     </thead>
+                                    <%while (rsTareasAsignadas.next()) {%>  
                                     <tbody>
-                                        <% while (rsTareasAsignadas.next()) {%>   
                                         <tr>
                                             <td><b><%= rsTareasAsignadas.getString("idTarea")%></b></td>
                                             <td><%= rsTareasAsignadas.getString("nombreEstado")%></td>
                                             <td><% if (rsTareasAsignadas.getString("importancia").equals("Alta")) {%><p class="red-text center-align"><%=rsTareasAsignadas.getString("importancia")%><p> <%} %>
                                                 <% if (rsTareasAsignadas.getString("importancia").equals("Media")) {%><p class="orange-text center-align"><%=rsTareasAsignadas.getString("importancia")%><p> <%} %>
                                                 <% if (rsTareasAsignadas.getString("importancia").equals("Baja")) {%><p class="green-text center-align"><%=rsTareasAsignadas.getString("importancia")%><p> <%}%></td>
-                                            <td><%= rsTareasAsignadas.getString("nombreTipoTarea")%></td>
+                                            <td><b><center><%= rsTareasAsignadas.getString("nombreTipoTarea")%></center></b></td>
                                             <td><%= rsTareasAsignadas.getString("nombreOrdenTrabajo")%></td>
                                             <td><%= rsTareasAsignadas.getString("fecha_inicio")%></td>
                                             <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasAsignadas.getString("idTarea")%>" class="btn">Detalle</a></td>
                                         </tr>
-                                        <% }%>
+                                        <%}
+                            } else {%>
+                                    <p class="orange-text">Por el momento no hay tareas asignadas...</p>
+                                    <%}%>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
     </main>

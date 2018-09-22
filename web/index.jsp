@@ -40,7 +40,7 @@
                             </div>
                             <div class="container">  
                                 <div class="row">
-                                    <form class="col s12" action="/aeLita/validarUsuario.jsp">
+                                    <form class="col s12" action="/aeLita/validarUsuario.jsp" method="post">
                                         <div class="row">
                                             <div class="input-field col s12">
                                                 <input name="nombreUsuario" id="nombreUsuario" type="text" class="validate" style="text-transform: uppercase" required="">

@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta http-equiv="Refresh" content="5;url=/aeLita/index.jsp">
-        <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
+        <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css" media="print"><link>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <body class="blue-grey lighten-5">
@@ -59,38 +59,37 @@
             <div class="container"> 
                 <div class="row">
                     <div class="col s12 m12">
-                        <div class="card blue-grey darken-1">
-                            <div class="card-content white-text">
-                                Hola <%= hs.getAttribute("nombre") %>, estas son tus estadisticas:
-                                <table border="0">
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
+                        <div class="card">
+                            <div class="card-content">
+                                Hola <%= hs.getAttribute("nombre")%>, estas son tus estadisticas:
                             </div>
+                            <canvas id="myChart" width="400" height="200"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
     </main>
     <%@ include file="/footer.jsp" %>
-    <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/aeLita/js/Chart.min.js"></script>
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
     <script>
+        var canvas = document.getElementById('myChart');
+        var data = {
+            labels: ["January", "<%= hs.getAttribute("nombre") %>", "March", "April", "May", "June", "July", "caca"],
+            datasets: [
+                {
+                    label: "My First dataset",
+                    backgroundColor: "rgba(102,127,153,0.2)",
+                    borderColor: "rgba(255,99,132,1)",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                    hoverBorderColor: "rgba(255,99,132,1)",
+                    data: [65, 59, 30, 81, 56, 55, 40,100],
+                }
+            ]
+        };
+        var option = { animation: { duration: 5000 } };
+        var myBarChart = Chart.Line(canvas, { data: data, options: option });
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
