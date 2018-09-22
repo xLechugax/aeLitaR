@@ -61,16 +61,26 @@
                     <div class="col s12 m12">
                         <div class="card blue-grey darken-1">
                             <div class="card-content white-text">
-                                <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p>
-                                <h5 class="white-text">Links de Útilidad</h5>
-                                <ul>
-                                    <li><a class="grey-text text-lighten-3" href="http://172.17.40.45/plataforma_datos/vis_equipos_datoslist.asp?cmd=resetall" target="_blank"><i class="material-icons">router</i>Equipos Actualizados</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://despachonacional.cl/despachonacional/siad_pyme/index.php/Login" target="_blank"><i class="material-icons">dashboard</i>SIAD Pyme</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="https://macvendors.com/" target="_blank"><i class="material-icons">fingerprint</i>MacVendors</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://10.41.4.141/sac/Login_input" target="_blank"><i class="material-icons">keyboard</i>HFC Incognito</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://agenda/Organigrama/"  target="_blank"><i class="material-icons">local_phone</i>Organigrama</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://200.27.8.220/acceso.php"  target="_blank"><i class="material-icons">accessibility</i>ID Ingreso a Nodo</a></li>
-                                </ul>
+                                Hola <%= hs.getAttribute("nombre") %>, estas son tus estadisticas:
+                                <table border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
                     </div>
