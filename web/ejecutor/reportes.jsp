@@ -1,6 +1,7 @@
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
 <!DOCTYPE html>
-<html>
+<html>   
+    
     <head>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
