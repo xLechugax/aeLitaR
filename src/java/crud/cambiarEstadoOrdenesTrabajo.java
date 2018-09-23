@@ -39,9 +39,6 @@ public class cambiarEstadoOrdenesTrabajo extends HttpServlet {
             String idOrdenTrabajo = request.getParameter("idOrdenTrabajo");
             String idEstado = request.getParameter("idEstado");
             
-            out.print(idOrdenTrabajo+"\n");
-            out.print(idEstado+"\n");
-            
             try {
                 Connection conn = ConexionBD.getConexion();
                 String sql = "UPDATE aelita.orden_trabajo SET estado=? WHERE idOrdenTrabajo=?";

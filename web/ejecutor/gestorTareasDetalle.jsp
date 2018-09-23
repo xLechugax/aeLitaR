@@ -120,7 +120,6 @@
                                             <%if (hs.getAttribute("tipoCuenta").equals("Ejecutor")) {%>
                                             <% if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
                                             <form method="get" action="/aeLita/cambiarEstado">
-                                                <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
                                                 <div id="modal1" class="modal modal-fixed-footer">
                                                     <div class="modal-content">
                                                         <h4>Cambiar Estado</h4>
