@@ -115,7 +115,7 @@
                                         </tr>
                                         <%}
                                         } else {%>
-                                    <p class="orange-text">Por el momento no hay tareas asignadas...</p>
+                                    <p class="orange-text">Por el momento no hay tareas cerradas...</p>
                                     <%}%>
                                     </tbody>
                                 </table>
