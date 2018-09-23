@@ -38,6 +38,7 @@
     <li><a href="/aeLita/gestores/gestorUsuarios.jsp">Gestor Usuarios</a></li>
     <li><a href="/aeLita/gestores/gestorEstados.jsp">Gestor Estados</a></li>
     <li><a href="/aeLita/administrador/entradaContacto.jsp">Contacto</a></li>
+    <li><a href="/aeLita/administrador/reportes.jsp">Reportes</a></li>
     <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li>
 </ul>
 <ul id="DropDownManuales" class="dropdown-content">
@@ -66,6 +67,7 @@
                 <li><a class="dropdown-button" href="#!" data-activates="DropDownManuales">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a style="width: 180px" class="dropdown-button" href="#!" data-activates="DropDownGestores">Gestores<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a href="/aeLita/administrador/entradaContacto.jsp">Contacto</a></li>
+                <li><a href="/aeLita/administrador/reportes.jsp">Reportes</a></li>
                 <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li> 
             </ul>
         </div>
