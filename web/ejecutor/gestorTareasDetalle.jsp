@@ -3,7 +3,7 @@
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
 <%    String idTareaSeleccionada = request.getParameter("idTarea");
     String comentarioOT = request.getParameter("comentarioOT");
-    
+
     ResultSet rsAux = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -73,6 +73,17 @@
             out.println("Excepción de SQL:" + e);
         }
     }
+    // Para el DropdownList para cambiar el estado de las tareas
+    ResultSet rsEstados = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlEstados = "select * from estado where estado.idEstado > 1";
+        PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+        rsEstados = pstEstados.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -92,7 +103,7 @@
                 <div class="col m5">
                     <ul class="collapsible" data-collapsible="accordion">
                         <li>
-                            <div class="collapsible-header white active"><i class="material-icons">filter_drama</i>Datos de <%= rsTareaSeleccionada.getString("nombreTipoTarea")%></div>
+                            <div class="collapsible-header white active"><i class="material-icons">filter_drama</i>Tarea | <%= rsTareaSeleccionada.getString("nombreTipoTarea")%></div>
                             <div class="collapsible-body white">
                                 <table>
                                     <tr>
@@ -102,7 +113,29 @@
                                     </tr>
                                     <tr>
                                         <td><%= rsTareaSeleccionada.getString("idTarea")%></td>
-                                        <td><%= rsTareaSeleccionada.getString("nombreEstado")%></td>
+                                        <td>
+                                            <!-- Modal Trigger -->
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modal1"><%= rsTareaSeleccionada.getString("nombreEstado")%></a>
+                                            <!-- Modal Structure -->
+                                            <form method="get" action="/aeLita/cambiarEstado">
+                                                <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Selecciona el siguiente estado para la tarea de <%=rsTareaSeleccionada.getString("nombreTipoTarea")%></p>
+                                                        <select id="idEstado" name="idEstado">
+                                                            <% while (rsEstados.next()) { %>                                                           
+                                                            <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
+                                                            <% }%>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            </td>
                                         <td><%= rsTareaSeleccionada.getString("nombreTipoTarea")%></td>
                                     </tr>
                                     <tr>
@@ -117,7 +150,7 @@
                             </div>
                         </li>
                         <li>
-                            <div class="collapsible-header"><i class="material-icons">assignment</i><b>Orden de Trabajo: <%= rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></b></div>
+                            <div class="collapsible-header "><i class="material-icons">assignment</i><b>Orden de Trabajo: <%= rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></b></div>
                             <div class="collapsible-body white"> 
                                 <table class="" border="0" > 
                                     <tr>
@@ -193,6 +226,7 @@
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
     <script>
         $(document).ready(function () {
+            $('.modal').modal();
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
             $('select').material_select();

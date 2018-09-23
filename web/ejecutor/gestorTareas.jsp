@@ -14,13 +14,14 @@
     ResultSet rsTareasAsignadas = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado, "
-                + "tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo "
-                + "from tarea,usuario,estado,orden_trabajo,tipo_tarea "
-                + "where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado "
-                + "and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo "
-                + "and tarea.idTipoTarea = tipo_tarea.idTipoTarea "
-                + "and tarea.usuario =" + hs.getAttribute("idUsuarioSesion");
+        String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
+                + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
+                + " where tarea.usuario = usuario.idUsuario"
+                + " and tarea.estadoTarea = estado.idEstado"
+                + " and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo"
+                + " and tarea.idTipoTarea = tipo_tarea.idTipoTarea"
+                + " and tarea.estadoTarea !=5" //ID 5 de tarea Cerrada
+                + " and tarea.usuario =" + hs.getAttribute("idUsuarioSesion");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTareasAsignadas = pst.executeQuery();
     } catch (SQLException e) {
@@ -30,13 +31,14 @@
     ResultSet rsTareasAsignadasContador = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado, "
-                + "tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo "
-                + "from tarea,usuario,estado,orden_trabajo,tipo_tarea "
-                + "where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado "
-                + "and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo "
-                + "and tarea.idTipoTarea = tipo_tarea.idTipoTarea "
-                + "and tarea.usuario =" + hs.getAttribute("idUsuarioSesion");
+        String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
+                + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
+                + " where tarea.usuario = usuario.idUsuario"
+                + " and tarea.estadoTarea = estado.idEstado"
+                + " and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo"
+                + " and tarea.idTipoTarea = tipo_tarea.idTipoTarea"
+                + " and tarea.estadoTarea !=5" //ID 5 de tarea Cerrada
+                + " and tarea.usuario =" + hs.getAttribute("idUsuarioSesion");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTareasAsignadasContador = pst.executeQuery();
     } catch (SQLException e) {
@@ -69,10 +71,10 @@
                                             <th>Estado</th>
                                             <th>Criticidad</th>
                                             <th><center>Tarea</center></th>
-                                            <th>Orden de Trabajo</th>
-                                            <th>Fecha Inicio</th>
-                                            <th>Operaciones</th>
-                                        </tr>
+                                    <th>Orden de Trabajo</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Operaciones</th>
+                                    </tr>
                                     </thead>
                                     <%while (rsTareasAsignadas.next()) {%>  
                                     <tbody>
@@ -88,7 +90,7 @@
                                             <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasAsignadas.getString("idTarea")%>" class="btn">Detalle</a></td>
                                         </tr>
                                         <%}
-                            } else {%>
+                                        } else {%>
                                     <p class="orange-text">Por el momento no hay tareas asignadas...</p>
                                     <%}%>
                                     </tbody>

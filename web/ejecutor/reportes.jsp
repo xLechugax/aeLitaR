@@ -1,8 +1,45 @@
+<%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
+<%
+    ResultSet rsTareasCerradas = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
+                + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
+                + " where tarea.usuario = usuario.idUsuario"
+                + " and tarea.estadoTarea = estado.idEstado"
+                + " and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo"
+                + " and tarea.idTipoTarea = tipo_tarea.idTipoTarea"
+                + " and tarea.estadoTarea =5" //ID 5 de tarea Cerrada
+                + " and tarea.usuario =" + hs.getAttribute("idUsuarioSesion");
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsTareasCerradas = pst.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsTareasCerradasContador = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
+                + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
+                + " where tarea.usuario = usuario.idUsuario"
+                + " and tarea.estadoTarea = estado.idEstado"
+                + " and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo"
+                + " and tarea.idTipoTarea = tipo_tarea.idTipoTarea"
+                + " and tarea.estadoTarea =5" //ID 5 de tarea Cerrada
+                + " and tarea.usuario =" + hs.getAttribute("idUsuarioSesion");
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsTareasCerradasContador = pst.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>   
-   
-    
+
+
     <head>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -51,6 +88,7 @@
                         <li>
                             <div class="collapsible-header active"><i class="material-icons">history</i>Tareas cerradas</div>
                             <div class="collapsible-body white">
+
                             </div>
                         </li>
                         <li>
@@ -93,7 +131,7 @@
             ]
         };
         var option = {animation: {duration: 5000}};
-        var myBarChart = Chart.Line(canvas, {data: data, options: option});
+        var myBarChart = Chart.Bar(canvas, {data: data, options: option});
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
