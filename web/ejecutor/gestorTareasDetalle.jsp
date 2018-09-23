@@ -29,7 +29,7 @@
     ResultSet rsTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select tarea.idTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, tarea.fecha_inicio, tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea = " + idTareaSeleccionada;
+        String sqlOrdenTrabajo = "select tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, tarea.fecha_inicio, tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsTareaSeleccionada = pstOrdenTrabajo.executeQuery();
         rsTareaSeleccionada.next();
@@ -50,7 +50,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + rsAux.getString("idOrdenTrabajo");
+        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + rsAux.getString("idOrdenTrabajo") +" order by fecha_publicacion desc";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -117,6 +117,21 @@
                                             <!-- Modal Trigger -->
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modal1"><%= rsTareaSeleccionada.getString("nombreEstado")%></a>
                                             <!-- Modal Structure -->
+                                            <%if (hs.getAttribute("tipoCuenta").equals("Ejecutor")) {%>
+                                            <% if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                            <form method="get" action="/aeLita/cambiarEstado">
+                                                <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Ya no es posible cambiar el estado de esta tarea, se encuentra cerrada.</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <%} else {%>
                                             <form method="get" action="/aeLita/cambiarEstado">
                                                 <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
                                                 <div id="modal1" class="modal modal-fixed-footer">
@@ -124,7 +139,7 @@
                                                         <h4>Cambiar Estado</h4>
                                                         <p>Selecciona el siguiente estado para la tarea de <%=rsTareaSeleccionada.getString("nombreTipoTarea")%></p>
                                                         <select id="idEstado" name="idEstado">
-                                                            <% while (rsEstados.next()) { %>                                                           
+                                                            <% while (rsEstados.next()) {%>                                                           
                                                             <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
                                                             <% }%>
                                                         </select>
@@ -135,7 +150,28 @@
                                                     </div>
                                                 </div>
                                             </form>
-                                            </td>
+                                            <%}%>
+                                            <%} else {%>
+                                            <form method="get" action="/aeLita/cambiarEstado">
+                                                <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Selecciona el siguiente estado para la tarea de <%=rsTareaSeleccionada.getString("nombreTipoTarea")%></p>
+                                                        <select id="idEstado" name="idEstado">
+                                                            <% while (rsEstados.next()) {%>                                                           
+                                                            <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
+                                                            <% }%>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <%}%>
+                                        </td>
                                         <td><%= rsTareaSeleccionada.getString("nombreTipoTarea")%></td>
                                     </tr>
                                     <tr>
@@ -184,6 +220,33 @@
                 <div class="col m7">
                     <ul class="collapsible" data-collapsible="expandible">
                         <li>
+                            <div class="collapsible-header"><i class="material-icons">record_voice_over</i>Agregar comentario a la Orden de Trabajo</div>
+                            <div class="collapsible-body white">
+                                <% if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                <form action="gestorTareasDetalle.jsp" method="post">
+                                    <div class="input-field">
+                                        <textarea disabled="" id="textarea1" name="comentarioOT" required="" class="materialize-textarea"></textarea>
+                                        <label for="textarea1">Comentario</label>
+                                    </div>
+                                    <div class="center-align">
+                                        <input disabled="" class="waves-effect waves-light btn" type="submit" value="Documentar" />
+                                    </div>
+                                </form>
+                                <%} else {%>
+                                <form action="gestorTareasDetalle.jsp" method="post">
+                                    <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
+                                    <div class="input-field">
+                                        <textarea id="textarea1" name="comentarioOT" required="" class="materialize-textarea"></textarea>
+                                        <label for="textarea1">Comentario</label>
+                                    </div>
+                                    <div class="center-align">
+                                        <input class="waves-effect waves-light btn" type="submit" value="Documentar" />
+                                    </div>
+                                </form>
+                                <%}%>
+                            </div>
+                        </li>
+                        <li>
                             <div class="collapsible-header active"><i class="material-icons">comment</i>Últimos avances</div>
                             <div class="collapsible-body white">
                                 <% if (rsComentariosOTContador.next()) {
@@ -202,21 +265,7 @@
                                 <%}%>
                             </div>
                         </li>
-                        <li>
-                            <div class="collapsible-header"><i class="material-icons">record_voice_over</i>Agregar comentario a la Orden de Trabajo</div>
-                            <div class="collapsible-body white">
-                                <form action="gestorTareasDetalle.jsp" method="post">
-                                    <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
-                                    <div class="input-field">
-                                        <textarea id="textarea1" name="comentarioOT" required="" class="materialize-textarea"></textarea>
-                                        <label for="textarea1">Comentario</label>
-                                    </div>
-                                    <div class="center-align">
-                                        <input class="waves-effect waves-light btn" type="submit" value="Documentar" />
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
+                        
                     </ul>
                 </div>
             </div> 

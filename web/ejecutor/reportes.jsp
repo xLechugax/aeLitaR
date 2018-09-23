@@ -1,7 +1,6 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
-<%
-    ResultSet rsTareasCerradas = null;
+<%    ResultSet rsTareasCerradas = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
@@ -88,7 +87,38 @@
                         <li>
                             <div class="collapsible-header active"><i class="material-icons">history</i>Tareas cerradas</div>
                             <div class="collapsible-body white">
-
+                                <% if (rsTareasCerradasContador.next()) {%>
+                                <table border="1" class="highlight">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Estado</th>
+                                            <th>Criticidad</th>
+                                            <th><center>Tarea</center></th>
+                                    <th>Orden de Trabajo</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Operaciones</th>
+                                    </tr>
+                                    </thead>
+                                    <%while (rsTareasCerradas.next()) {%>  
+                                    <tbody>
+                                        <tr>
+                                            <td><b><%= rsTareasCerradas.getString("idTarea")%></b></td>
+                                            <td><%= rsTareasCerradas.getString("nombreEstado")%></td>
+                                            <td><% if (rsTareasCerradas.getString("importancia").equals("Alta")) {%><p class="red-text center-align"><%=rsTareasCerradas.getString("importancia")%><p> <%} %>
+                                                <% if (rsTareasCerradas.getString("importancia").equals("Media")) {%><p class="orange-text center-align"><%=rsTareasCerradas.getString("importancia")%><p> <%} %>
+                                                <% if (rsTareasCerradas.getString("importancia").equals("Baja")) {%><p class="green-text center-align"><%=rsTareasCerradas.getString("importancia")%><p> <%}%></td>
+                                            <td><b><center><%= rsTareasCerradas.getString("nombreTipoTarea")%></center></b></td>
+                                            <td><%= rsTareasCerradas.getString("nombreOrdenTrabajo")%></td>
+                                            <td><%= rsTareasCerradas.getString("fecha_inicio")%></td>
+                                            <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasCerradas.getString("idTarea")%>" class="btn">Detalle</a></td>
+                                        </tr>
+                                        <%}
+                                        } else {%>
+                                    <p class="orange-text">Por el momento no hay tareas asignadas...</p>
+                                    <%}%>
+                                    </tbody>
+                                </table>
                             </div>
                         </li>
                         <li>

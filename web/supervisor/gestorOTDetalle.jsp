@@ -102,7 +102,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajoSeleccionada;
+        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajoSeleccionada +" order by fecha_publicacion desc";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -220,7 +220,7 @@
                                             <td><%= rsTareasBajoLaOT.getString("nombreEstado")%></td>
                                             <td><%= rsTareasBajoLaOT.getString("nombreUsuario")%></td>
                                             <td><%= rsTareasBajoLaOT.getString("fecha_inicio")%></td>
-                                            <td><a href="#" class="btn">Detalle</a></td>
+                                            <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasBajoLaOT.getString("idTarea")%>" class="btn">Detalle</a></td>
                                         </tr>
                                         <%}%>
                                     </tbody>
@@ -229,6 +229,21 @@
                                 <%} else {%>
                                 <p class="orange-text">No se han asignado tareas para esta Orden de Trabajo...</p>
                                 <%}%>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">record_voice_over</i>Agregar comentario a la Orden de Trabajo</div>
+                            <div class="collapsible-body white">
+                                <form action="gestorOTDetalle.jsp" method="post">
+                                    <input type="hidden" name="idOT" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
+                                    <div class="input-field">
+                                        <textarea id="textarea1" name="comentarioOT" required="" class="materialize-textarea"></textarea>
+                                        <label for="textarea1">Comentario</label>
+                                    </div>
+                                    <div class="center-align">
+                                        <input class="waves-effect waves-light btn" type="submit" value="Documentar" />
+                                    </div>
+                                </form>
                             </div>
                         </li>
                         <li>
@@ -252,21 +267,6 @@
                                 } else {%>
                                 <p class="orange-text">Por el momento no hay avances...</p>
                                 <%}%>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="collapsible-header"><i class="material-icons">record_voice_over</i>Agregar comentario a la Orden de Trabajo</div>
-                            <div class="collapsible-body white">
-                                <form action="gestorOTDetalle.jsp" method="post">
-                                    <input type="hidden" name="idOT" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
-                                    <div class="input-field">
-                                        <textarea id="textarea1" name="comentarioOT" required="" class="materialize-textarea"></textarea>
-                                        <label for="textarea1">Comentario</label>
-                                    </div>
-                                    <div class="center-align">
-                                        <input class="waves-effect waves-light btn" type="submit" value="Documentar" />
-                                    </div>
-                                </form>
                             </div>
                         </li>
                     </ul>
