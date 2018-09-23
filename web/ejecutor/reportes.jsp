@@ -1,47 +1,4 @@
-<%
-    HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
-    // Recuperar la sesión del usuario actual
-    try {
-        if (hs == null || hs.getAttribute("tipoCuenta") == null) {
-%>
-<html>
-    <head>
-        <meta http-equiv="Refresh" content="5;url=/aeLita/index.jsp">
-        <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css" media="print"><link>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
-    </head>
-    <body class="blue-grey lighten-5">
-        <br /><br /><br /><br /><br /><br /><br /><br />
-    <center>
-        <div class="row">
-            <div class="col s12 m12">
-                <div class="card blue-grey darken-1">
-                    <div class="card-content white-text">
-                        <span class="card-title">¡Oh no!</span>
-                        <p>Debes estar logeado para poder ingresar, te estamos redirigiendo, si no quieres esperar has clic...</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="/aeLita/index.jsp">¡AQUÍ!</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </center>
-</body>
-</html>
-<%
-    return;
-} else {
-%>
-
-<%
-        }
-
-    } catch (Exception e) {
-        return;
-    }
-
-%>
+<%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -56,26 +13,71 @@
     <main>
         <body class="blue-grey lighten-5">
             <%@ include file="../barraNav.jsp" %>
-            <div class="container"> 
-                <div class="row">
-                    <div class="col s12 m12">
-                        <div class="card">
-                            <div class="card-content">
-                                Hola <%= hs.getAttribute("nombre")%>, estas son tus estadisticas:
+            <div class="row">
+                <div class="col s4 m4">
+                    <ul class="collapsible">
+                        <li>
+                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por Fecha</div>
+                            <div class="collapsible-body white">
+                                <form>
+                                    Desde
+                                    <input id="fechaDesde" type="datetime-local" value="2017-06-01" required="">
+                                    Hasta
+                                    <input id="fechaHasta" type="datetime-local" value="2017-06-01">
+                                    <center>
+                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                    </center>
+                                </form>
                             </div>
-                            <canvas id="myChart" width="400" height="200"></canvas>
-                        </div>
-                    </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por ID de Tarea</div>
+                            <div class="collapsible-body white">
+                                <form>
+                                    ID de Tarea
+                                    <input id="idTarea" type="text" required="">
+                                    <center>
+                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                    </center>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
+                <div class="col s8 m8">
+                    <ul class="collapsible">
+                        <li>
+                            <div class="collapsible-header active"><i class="material-icons">history</i>Tareas cerradas</div>
+                            <div class="collapsible-body white">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">show_chart</i>Estadísticas</div>
+                            <div class="collapsible-body white">
+                                <canvas id="chartEstadisticas" width="400" height="200"></canvas>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             </div>
     </main>
     <%@ include file="/footer.jsp" %>
-    <script type="text/javascript" src="/aeLita/js/Chart.min.js"></script>
+    <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/aeLita/js/Chart.min.js"></script>
     <script>
-        var canvas = document.getElementById('myChart');
+        $(document).ready(function () {
+            $('.datepicker').datepicker();
+            $(".button-collapse").sideNav();
+            $(".dropdown-button").dropdown();
+            $('.collapsible').collapsible();
+        });
+    </script>
+    <script>
+        var canvas = document.getElementById('chartEstadisticas');
         var data = {
-            labels: ["January", "<%= hs.getAttribute("nombre") %>", "March", "April", "May", "June", "July", "caca"],
+            labels: ["January", "<%= hs.getAttribute("nombre")%>", "March", "April", "May", "June", "July", "caca"],
             datasets: [
                 {
                     label: "My First dataset",
@@ -84,12 +86,12 @@
                     borderWidth: 2,
                     hoverBackgroundColor: "rgba(255,99,132,0.4)",
                     hoverBorderColor: "rgba(255,99,132,1)",
-                    data: [65, 59, 30, 81, 56, 55, 40,100],
+                    data: [65, 59, 30, 81, 56, 55, 40, 100],
                 }
             ]
         };
-        var option = { animation: { duration: 5000 } };
-        var myBarChart = Chart.Line(canvas, { data: data, options: option });
+        var option = {animation: {duration: 5000}};
+        var myBarChart = Chart.Line(canvas, {data: data, options: option});
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
