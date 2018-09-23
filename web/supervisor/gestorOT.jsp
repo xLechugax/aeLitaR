@@ -54,7 +54,7 @@
         if (importanciaFiltro != null) {
             sqlAsignado = sqlAsignado+" and orden_trabajo.importancia ='"+importanciaFiltro+"'";
         }
-        
+        sqlAsignado = sqlAsignado+" order by orden_trabajo.fecha_inicio desc";
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);
         rsOrdenesTrabajo = pstOrdenesTrabajo.executeQuery();
     } catch (SQLException e) {

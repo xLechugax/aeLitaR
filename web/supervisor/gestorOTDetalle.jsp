@@ -109,6 +109,16 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+    ResultSet rsEstados = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlEstados = "select * from estado where estado.idEstado > 1";
+        PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+        rsEstados = pstEstados.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -150,7 +160,29 @@
                                     </tr>
                                     <td><%= rsOrdenTrabajo.getString("fecha_inicio")%></td> 
                                     <td><% if (rsOrdenTrabajo.getString("fecha_fin") == null) {%> <p class="green-text">OT en proceso...</p> <%} else {%> <%=rsOrdenTrabajo.getString("fecha_fin")%> <%}%></td>
-                                    <td><%= rsOrdenTrabajo.getString("nombreEstado")%></td>
+                                    <td>
+                                        <!-- Modal Trigger --> 
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modal1"><%= rsOrdenTrabajo.getString("nombreEstado")%></a>
+                                            <!-- Modal Structure -->
+                                            <form method="get" action="/aeLita/cambiarEstadoOrdenesTrabajo">
+                                                <input type="hidden" name="idOrdenTrabajo" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Selecciona el siguiente estado para la orden de trabajo: <%=rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></p>
+                                                        <select id="idEstado" name="idEstado">
+                                                            <% while (rsEstados.next()) {%>                                                           
+                                                            <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
+                                                            <% }%>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div>
+                                            </form> 
+                                    </td>
                                 </table>
                                     <b>Detalle:</b>
                                     <p><%= rsOrdenTrabajo.getString("detalleOrdenTrabajo")%></p>
@@ -278,6 +310,7 @@
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
     <script>
         $(document).ready(function () {
+            $('.modal').modal();
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
             $('select').material_select();
