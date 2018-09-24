@@ -226,6 +226,34 @@
                         <li>
                             <div class="collapsible-header"><i class="material-icons">content_paste</i>Asignar Tareas a la Orden de Trabajo</div>
                             <div class="collapsible-body white">
+                                <% if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
+                                <form action="gestorOTDetalle.jsp" method="post">
+                                    <input type="hidden" name="idOT" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
+                                    <table border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td><b>Tipo de Tarea</b></td>
+                                                <td>
+                                                    <select disabled="" name="idtipoTareaAsignar" required="">
+                                                        <option value="" selected="" disabled="">Seleccione Tipo de Tarea</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Ejecutor</b></td>
+                                                <td>
+                                                    <select disabled="" name="idEjecutorAsignar" required="">
+                                                        <option value="" selected="" disabled="">Seleccione Tipo de Tarea</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <center>
+                                        <input disabled="" class="waves-effect waves-light btn" type="submit" value="Asignar Tarea" />
+                                    </center>
+                                </form>
+                                <%} else {%> 
                                 <form action="gestorOTDetalle.jsp" method="post">
                                     <input type="hidden" name="idOT" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
                                     <table border="0">
@@ -258,6 +286,7 @@
                                         <input class="waves-effect waves-light btn" type="submit" value="Asignar Tarea" />
                                     </center>
                                 </form>
+                                <%}%>
                             </div>
                         </li> 
                     </ul>
@@ -301,6 +330,17 @@
                         <li>
                             <div class="collapsible-header"><i class="material-icons">record_voice_over</i>Agregar comentario a la Orden de Trabajo</div>
                             <div class="collapsible-body white">
+                                <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
+                                <form action="gestorOTDetalle.jsp" method="post">
+                                    <div class="input-field">
+                                        <textarea disabled="" id="textarea1" name="comentarioOT" required="" class="materialize-textarea"></textarea>
+                                        <label for="textarea1">Comentario</label>
+                                    </div>
+                                    <div class="center-align">
+                                        <input disabled="" class="waves-effect waves-light btn" type="submit" value="Documentar" />
+                                    </div>
+                                </form>
+                                <%} else {%>
                                 <form action="gestorOTDetalle.jsp" method="post">
                                     <input type="hidden" name="idOT" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
                                     <div class="input-field">
@@ -311,6 +351,7 @@
                                         <input class="waves-effect waves-light btn" type="submit" value="Documentar" />
                                     </div>
                                 </form>
+                                <%}%>
                             </div>
                         </li>
                         <li>

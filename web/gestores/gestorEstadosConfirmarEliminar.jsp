@@ -50,7 +50,7 @@
                                 <a>Confirmación de Eliminación</a> 
                                     <p class="center-align">¿<%= hs.getAttribute("nombre")%> estas seguro de querer eliminar el estado <%= rsEstadoSeleccionado.getString("nombreEstado")%>?</p>
                                     <center>
-                                        <a class="btn" href="gestorEstadosEliminar.jsp?idEstado=<%= rsEstadoSeleccionado.getString("idEstado")%>">SI</a>
+                                        <a class="btn" href="/aeLita/gestorEstadosEliminar?idEstado=<%= rsEstadoSeleccionado.getString("idEstado")%>">SI</a>
                                         <a class="btn" href="gestorEstados.jsp">NO</a>
                                     </center>
                             </div>

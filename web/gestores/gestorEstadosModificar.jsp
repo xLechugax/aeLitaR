@@ -48,7 +48,7 @@
                         <div class="card-stacked">
                             <div class="card-action">
                                 <a>Modificar Estado</a> 
-                                <form action="gestorEstadosModificarSub.jsp" method="post">
+                                <form action="/aeLita/gestorEstadosModificarSub" method="post"> <%-- Se implementa como Servlet --%>
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table>
                                         <tbody>
