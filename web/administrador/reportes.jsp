@@ -1,6 +1,20 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
-<%    ResultSet rsOrdenesTrabajoCerradas = null;
+<%    
+    
+    String fechaInicio = request.getParameter("fechaDesde");
+    String fechaFin = request.getParameter("fechaHasta");
+    String idOrdenTrabajo = request.getParameter("idOrdenTrabajo");
+    
+    if (fechaInicio != null) {out.print("Paso algo fecha inicio");}
+    if (fechaFin != null) {out.print("Paso algo fecha fin");}
+    if (idOrdenTrabajo != null) {out.print("Paso algo fecha idOrdenTrabajo");}
+    
+    out.print(fechaInicio);
+    out.print(fechaFin);
+    out.print(idOrdenTrabajo);
+    
+    ResultSet rsOrdenesTrabajoCerradas = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sqlOrdenesTrabajoCerradas = "select orden_trabajo.idOrdenTrabajo, "
@@ -11,7 +25,7 @@
                 + "orden_trabajo.fecha_inicio "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
-                + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario=" + hs.getAttribute("idUsuarioSesion") + " "
+                + "and orden_trabajo.estado = estado.idEstado "
                 + "and orden_trabajo.estado = 5";
 
         sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " order by orden_trabajo.fecha_inicio desc";
@@ -32,7 +46,7 @@
                 + "orden_trabajo.fecha_inicio "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
-                + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario=" + hs.getAttribute("idUsuarioSesion") + " "
+                + "and orden_trabajo.estado = estado.idEstado "
                 + "and orden_trabajo.estado = 5";
 
         sqlOrdenesTrabajoCerradasContador = sqlOrdenesTrabajoCerradasContador + " order by orden_trabajo.fecha_inicio desc";
@@ -66,11 +80,11 @@
                         <li>
                             <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por Fecha</div>
                             <div class="collapsible-body white">
-                                <form>
+                                <form action="reportes.jsp" method="post">
                                     Desde
-                                    <input id="fechaDesde" type="datetime-local" value="2017-06-01" required="">
+                                    <input id="fechaDesde" type="datetime-local">
                                     Hasta
-                                    <input id="fechaHasta" type="datetime-local" value="2017-06-01">
+                                    <input id="fechaHasta" type="datetime-local"> 
                                     <center>
                                         <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
                                     </center>
@@ -82,7 +96,7 @@
                             <div class="collapsible-body white">
                                 <form>
                                     ID de Tarea
-                                    <input id="idTarea" type="text" required="">
+                                    <input id="idOrdenTrabajo" type="text" required="">
                                     <center>
                                         <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
                                     </center>

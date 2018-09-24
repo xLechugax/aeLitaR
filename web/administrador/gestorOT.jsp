@@ -49,6 +49,7 @@
             sqlAsignado = sqlAsignado + " and orden_trabajo.importancia ='" + importanciaFiltro + "'";
         }
 
+        sqlAsignado = sqlAsignado+" order by orden_trabajo.fecha_inicio desc";
         System.out.println(idEstadoFiltro + " + " + importanciaFiltro);
 
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);
@@ -62,12 +63,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="/aeLita/css/materialize.min.css"  media="screen,projection"/>
-
-        <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <main>
