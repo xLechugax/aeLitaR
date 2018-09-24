@@ -73,12 +73,16 @@
                                             <td><%= rsEstados.getString("idEstado") %></td>
                                             <td><%= rsEstados.getString("nombreEstado") %></td>
                                             <td>
-                                                <a href="gestorEstadosConfirmarEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
-                                                    <img src="img/eliminar.png" title="Eliminar"/>
-                                                </a>
-                                                <a href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
-                                                    <img src="img/modificar.jpg" title="Modificar"/>
-                                                </a>
+                                                <% if ( Integer.parseInt(rsEstados.getString("idEstado")) < 6 ) {%>
+                                                <p class="grey-text">Estado Básico<p>
+                                                <% } else { %>
+                                                    <a href="gestorEstadosConfirmarEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                        <img src="img/eliminar.png" title="Eliminar"/>
+                                                    </a>
+                                                    <a href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                        <img src="img/modificar.jpg" title="Modificar"/>
+                                                    </a>
+                                                <% } %>
                                             </td>
                                         </tr>
                                         <%}%>
