@@ -34,7 +34,6 @@
     <li><a href="/aeLita/administrador/gestorOT.jsp">Órdenes de Trabajo</a></li>
     <li><a href="/aeLita/gestores/gestorTipoTareas.jsp">Gestor Tipo Tareas</a></li>
     <li><a href="/aeLita/gestores/gestorProcedimientos.jsp">Gestor Procedimientos</a></li>
-    <li><a href="/aeLita/gestores/gestorReportes.jsp">Gestor Reportes</a></li>
     <li><a href="/aeLita/gestores/gestorUsuarios.jsp">Gestor Usuarios</a></li>
     <li><a href="/aeLita/gestores/gestorEstados.jsp">Gestor Estados</a></li>
     <li><a href="/aeLita/administrador/entradaContacto.jsp">Contacto</a></li>
@@ -52,7 +51,6 @@
     <li><a href="/aeLita/administrador/gestorOT.jsp">Órdenes de Trabajo</a></li>
     <li><a href="/aeLita/gestores/gestorTipoTareas.jsp">Tipo Tareas</a></li>
     <li><a href="/aeLita/gestores/gestorUsuarios.jsp"> Usuarios</a></li>
-    <li><a href="/aeLita/gestores/gestorReportes.jsp"> Reportes</a></li>
     <li><a href="/aeLita/gestores/gestorEstados.jsp"> Estados</a></li>
     <li><a href="/aeLita/gestores/gestorAreasDepartamentos.jsp">Area/Departamento</a></li>
     <li><a href="/aeLita/gestores/gestorProcedimientos.jsp"> Procedimientos</a></li>

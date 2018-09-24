@@ -10,10 +10,6 @@
     if (fechaFin != null) {out.print("Paso algo fecha fin");}
     if (idOrdenTrabajo != null) {out.print("Paso algo fecha idOrdenTrabajo");}
     
-    out.print(fechaInicio);
-    out.print(fechaFin);
-    out.print(idOrdenTrabajo);
-    
     ResultSet rsOrdenesTrabajoCerradas = null;
     try {
         Connection conn = ConexionBD.getConexion();
