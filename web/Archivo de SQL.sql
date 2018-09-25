@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS `archivo` (
   `idAvance` int(11) DEFAULT NULL,
   `idTarea` int(11) DEFAULT NULL,
   `idOrdenTrabajo` int(11) DEFAULT NULL,
+  `idProcedimiento` int(11) DEFAULT NULL,
+  `idPaso` int(11) DEFAULT NULL,
   `archivo` mediumblob DEFAULT NULL,
   `detalleArchivo` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   `fechaCreacion` datetime DEFAULT current_timestamp(),
@@ -120,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `contacto` (
   PRIMARY KEY (`idContacto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.contacto: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.contacto: ~5 rows (aproximadamente)
 /*!40000 ALTER TABLE `contacto` DISABLE KEYS */;
 REPLACE INTO `contacto` (`idContacto`, `nombre`, `asunto`, `email`, `telefono`, `mensaje`, `fecha`) VALUES
 	(00000000014, 'Mauricio Cortazar', 'Problemas en el registro', 'mauricio.cortazar@gmail.com', '569856325654', 'Me sale que la cuenta esta des-habilitada. Favor habilitar.', '2018-07-15 22:58:58'),
@@ -138,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `estado` (
   PRIMARY KEY (`idEstado`)
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.estado: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.estado: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `estado` DISABLE KEYS */;
 REPLACE INTO `estado` (`idEstado`, `nombreEstado`, `detalleEstado`) VALUES
 	(00000000001, 'Generada', 'Actividad recién creada'),
@@ -171,7 +173,7 @@ REPLACE INTO `orden_trabajo` (`idOrdenTrabajo`, `importancia`, `supervisor`, `no
 	(00000000004, 'Baja', 40, 'Informe de Datos', 'werwer', '2018-07-24 14:00:57', NULL, 1),
 	(00000000005, 'Alta', 40, 'Convergencia de Int64', 'dfbdfb', '2018-07-24 14:01:06', NULL, 1),
 	(00000000006, 'Media', 40, 'Coniguración entorno de Prueabas', 'fgdfg', '2018-07-24 14:01:14', NULL, 3),
-	(00000000007, 'Baja', 16, 'Configuración de Equipos', 'LOJSDLKFJLKSDJFLKSDJF', '2018-07-24 18:19:02', NULL, 1),
+	(00000000007, 'Baja', 16, 'Configuración de Equipos', 'LOJSDLKFJLKSDJFLKSDJF', '2018-07-24 18:19:02', NULL, 3),
 	(00000000008, 'Alta', 16, 'Reparación', 'Reparar la wea', '2018-08-13 20:54:48', NULL, 1),
 	(00000000009, 'Media', 16, 'Solicitud de Prueba', 'SE NECESITA QUE TODOS TERMINEN SUS TAREAS ', '2018-08-14 11:13:18', NULL, 1),
 	(00000000010, 'Alta', 16, 'Tienda Kayser caida', 'Nombre de Quien Reporta: ALEJANDRO SANTIS \r\nProblema Reportado : Problema de internet y estamos presentando problemas con la gran mayoría de los anexos telefónicos del sector Espigon, estos quedan solicitando login y contraseña y luego de ser ingresados levantan pero a los 5 min vuelven a caer y solicitar login y contraseña nuevamente. Favor sus gestiones para solucionar este problema lo antes posible dado que dificulta la gestión de los usuarios al ser el teléfono una herramienta importante para sus labores diarios.\r\nPruebas realizadas por Cliente : ni\r\n', '2018-09-20 15:00:43', NULL, 11),
@@ -183,6 +185,7 @@ REPLACE INTO `orden_trabajo` (`idOrdenTrabajo`, `importancia`, `supervisor`, `no
 CREATE TABLE IF NOT EXISTS `paso` (
   `idPaso` int(11) NOT NULL AUTO_INCREMENT,
   `idProcedimiento` int(11) DEFAULT NULL,
+  `idTipoTarea` int(11) DEFAULT NULL,
   `nombrePaso` varchar(50) DEFAULT NULL,
   `detallePaso` text DEFAULT NULL,
   `pasoNumero` int(11) DEFAULT NULL,
@@ -196,6 +199,8 @@ CREATE TABLE IF NOT EXISTS `paso` (
 -- Volcando estructura para tabla aelita.procedimiento
 CREATE TABLE IF NOT EXISTS `procedimiento` (
   `idProcedimiento` int(11) NOT NULL AUTO_INCREMENT,
+  `idOrdenTrabajo` int(11) DEFAULT NULL,
+  `idTarea` int(11) DEFAULT NULL,
   `nombreProcedimiento` varchar(50) DEFAULT NULL,
   `detalleProcedimiento` text DEFAULT NULL,
   PRIMARY KEY (`idProcedimiento`)
