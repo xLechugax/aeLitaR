@@ -1,8 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADM.jsp" %>
-<%
-    ResultSet rsEstados = null;
+<%    ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "select * from estado";
@@ -28,70 +27,87 @@
         <body class="blue-grey lighten-5">
             <%@ include file="../barraNav.jsp" %>
             <div class="row">
-                <div class="col m5">
+                <div class="col m3">
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Crear Estados</a> 
-                                <form action="/aeLita/gestorEstadosAgregar" method="post"> <%-- Se hace ahora en un servlet --%>
-                                    <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td>Nombre Estado:</td>
-                                                <td><input placeholder="Nombre..." name="nombre_estado" class="validate" required=""></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="input-field col s12">
-                                        <textarea name="detalle_estado" class="materialize-textarea" data-length="120" required=""></textarea>
-                                        <label for="textarea1">Detalle de estado</label>
+                                <a>Filtro de Busqueda</a> 
+                                <br/>
+                                <form action="#">
+                                    <p>
+                                    <div class="input-field col m12">
+                                        <input id="nombreArchivo" type="text" class="validate">
+                                        <label for="last_name">Nombre de Archivo</label>
                                     </div>
+                                    </p>
+                                    <p>
+                                    <div>
+                                        <input type="checkbox" id="OrdendeTrabajo">
+                                        <label for="OrdendeTrabajo">Orden de Trabajo</label>
+                                    </div>
+                                    </p>
+                                    <p>
+                                    <div>
+                                        <input type="checkbox" id="Tarea">
+                                        <label for="Tarea">Tarea</label>
+                                    </div>
+                                    </p>
+                                    <p>
+                                    <div>
+                                        <input type="checkbox" id="Avance">
+                                        <label for="Avance">Avance</label>
+                                    </div>
+                                    </p>
+                                    <p>
+                                    <div>
+                                        <input type="checkbox" id="Procedimiento">
+                                        <label for="Procedimiento">Procedimiento</label>
+                                    </div>
+                                    </p>
+                                    <p>
+                                    <div>
+                                        <input type="checkbox" id="Actividad">
+                                        <label for="Actividad">Actividad</label>
+                                    </div>
+                                    </p>
+                                    <p>
+                                    <div>
+                                        <input type="checkbox" id="OrdendeTrabajo">
+                                        <label for="OrdendeTrabajo">Orden de Trabajo</label>
+                                    </div>
+                                    </p>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Estado" />
+                                        <input class="waves-effect waves-light btn right-align" type="submit" value="buscar" />
                                     </center>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col m7">
+                <div class="col m9">
                     <div class="card horizontal">
                         <div class="card-stacked">
-                            <div class="card-content">
-                                <table class="highlight">
-                                    <thead>
-                                        <tr>
-                                            <td>ID</td>
-                                            <td>Estado</td>
-                                            <td>Operaciones</td>
-                                        </tr>
-                                    </thead>
+                            <div class="card-action">
+                                <a>Archivos</a> 
+                                <table border="1">
                                     <tbody>
-                                        <% while (rsEstados.next()) {%>
                                         <tr>
-                                            <td><%= rsEstados.getString("idEstado") %></td>
-                                            <td><%= rsEstados.getString("nombreEstado") %></td>
-                                            <td>
-                                                <% if ( Integer.parseInt(rsEstados.getString("idEstado")) < 6 ) {%>
-                                                <p class="grey-text">Estado Básico<p>
-                                                <% } else { %>
-                                                    <a href="gestorEstadosConfirmarEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
-                                                        <img src="img/eliminar.png" title="Eliminar"/>
-                                                    </a>
-                                                    <a href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
-                                                        <img src="img/modificar.jpg" title="Modificar"/>
-                                                    </a>
-                                                <% } %>
-                                            </td>
+                                            <td><b>idArchivo</b></td>
+                                            <td><b>Avance</b></td>
+                                            <td><b>Tarea</b></td>
+                                            <td><b>OT</b></td>
+                                            <td><b>Procedimiento</b></td>
+                                            <td><b>Nombre</b></td>
+                                            <td><b>Detalle</b></td>
+                                            <td><b>Archivo</b></td>
+                                            <td><b>Operaciones</b></td>
                                         </tr>
-                                        <%}%>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>    
             </div>
     </main>
     <%@ include file="/footer.jsp" %>

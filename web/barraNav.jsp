@@ -53,7 +53,8 @@
     <li><a href="/aeLita/gestores/gestorUsuarios.jsp"> Usuarios</a></li>
     <li><a href="/aeLita/gestores/gestorEstados.jsp"> Estados</a></li>
     <li><a href="/aeLita/gestores/gestorAreasDepartamentos.jsp">Area/Departamento</a></li>
-    <li><a href="/aeLita/gestores/gestorProcedimientos.jsp"> Procedimientos</a></li>
+    <li><a href="/aeLita/gestores/gestorProcedimientos.jsp">Procedimientos</a></li>
+    <li><a href="/aeLita/gestores/gestorArchivos.jsp">Archivos</a></li>
 </ul>
 <div class="navbar-fixed">
     <nav>

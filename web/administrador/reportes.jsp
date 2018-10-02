@@ -143,7 +143,9 @@
                         <li>
                             <div class="collapsible-header"><i class="material-icons">show_chart</i>Estadísticas</div>
                             <div class="collapsible-body white">
-                                <canvas id="chartEstadisticas" width="400" height="200"></canvas>
+                                <canvas id="chartEstadisticas" width="400" height="200"></canvas><br/>
+                                <canvas id="chartEstadisticas2" width="200" height="200"></canvas><br/>
+                                <canvas id="chartEstadisticas3" width="200" height="200"></canvas><br/>
                             </div>
                         </li>
                     </ul>
@@ -166,7 +168,7 @@
     <script>
         var canvas = document.getElementById('chartEstadisticas');
         var data = {
-            labels: ["January", "<%= hs.getAttribute("nombre")%>", "March", "April", "May", "June", "July", "caca"],
+            labels: ["January", "<%= hs.getAttribute("nombre")%>", "March", "April", "May", "June", "July"],
             datasets: [
                 {
                     label: "My First dataset",
@@ -175,12 +177,33 @@
                     borderWidth: 2,
                     hoverBackgroundColor: "rgba(255,99,132,0.4)",
                     hoverBorderColor: "rgba(255,99,132,1)",
-                    data: [65, 59, 30, 81, 56, 55, 40, 100],
+                    data: [65, 59, 30, 81, 56, 55, 40],
                 }
             ]
         };
         var option = {animation: {duration: 5000}};
         var myBarChart = Chart.Bar(canvas, {data: data, options: option});
+        
+        
+        var canvas1 = document.getElementById('chartEstadisticas1');
+        var data1 = {
+            labels: ["January", "<%= hs.getAttribute("nombre")%>", "March", "April", "May", "June", "July", ],
+            datasets: [
+                {
+                    label: "My First dataset",
+                    backgroundColor: "rgba(102,127,153,0.2)",
+                    borderColor: "rgba(255,99,132,1)",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                    hoverBorderColor: "rgba(255,99,132,1)",
+                    data: [65, 59, 30, 81, 56, 55, 40],
+                }
+            ]
+        };
+        var option1 = {animation: {duration: 5000}};
+        var myBarChart = Chart.Doughnut(canvas1, {data: data1, options: option1});
+
+
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
