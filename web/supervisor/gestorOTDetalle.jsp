@@ -136,7 +136,7 @@
             <%@ include file="../barraNav.jsp" %>
             <div class="row">
                 <div class="col m5">
-                    <ul class="collapsible" data-collapsible="expandible">
+                    <ul class="collapsible" data-collapsible="accordion">
                         <li>
                             <div class="collapsible-header active"><i class="material-icons">assignment</i><b><%= rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></b></div>
                             <div class="collapsible-body white"> 
@@ -289,6 +289,41 @@
                                 <%}%>
                             </div>
                         </li> 
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">archive</i>Archivos</div>
+                            <div class="collapsible-body white">
+                                <table border="1">
+                                    <tbody>
+                                        <tr>
+                                            <td><b>idArchivo<b/></td>
+                                            <td><b>Nombre<b/></td>
+                                            <td><b>Fecha Creación<b/></td>
+                                            <td><b>Operaciones<b/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>0000001</td>
+                                            <td>Gestiones.pdf</td>
+                                            <td>2018-10-02 11:41</td>
+                                            <td>Eliminar</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <form name="subirArchivo" action="#" method="POST">
+                                    <div class="file-field input-field">
+                                        <div class="btn">
+                                            <span>File</span>
+                                            <input type="file" multiple>
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" placeholder="Selecciones los archivos que desea subir...">
+                                        </div>
+                                    </div>
+                                    <center>
+                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Subir Archivo" />
+                                    </center>
+                                </form>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <div class="col m7">

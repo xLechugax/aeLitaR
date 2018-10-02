@@ -118,71 +118,71 @@
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modal1"><%= rsTareaSeleccionada.getString("nombreEstado")%></a>
                                             <!-- Modal Structure -->
                                             <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
-                                                <form method="get" action="/aeLita/cambiarEstado">
-                                                    <div id="modal1" class="modal modal-fixed-footer">
-                                                        <div class="modal-content">
-                                                            <h4>Cambiar Estado</h4>
-                                                            <p>Ya no es posible cambiar el estado de esta tarea, la orden de trabajo se encuentra cerrada.</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                        </div>
+                                            <form method="get" action="/aeLita/cambiarEstado">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Ya no es posible cambiar el estado de esta tarea, la orden de trabajo se encuentra cerrada.</p>
                                                     </div>
-                                                </form>
+                                                    <div class="modal-footer">
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div>
+                                            </form>
                                             <%} else {%>
                                             <%if (hs.getAttribute("tipoCuenta").equals("Ejecutor")) {%>
-                                                <% if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
-                                                <form method="get" action="/aeLita/cambiarEstado">
-                                                    <div id="modal1" class="modal modal-fixed-footer">
-                                                        <div class="modal-content">
-                                                            <h4>Cambiar Estado</h4>
-                                                            <p>Ya no es posible cambiar el estado de esta tarea, se encuentra cerrada.</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                        </div>
+                                            <% if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                            <form method="get" action="/aeLita/cambiarEstado">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Ya no es posible cambiar el estado de esta tarea, se encuentra cerrada.</p>
                                                     </div>
-                                                </form>
-                                                <%} else {%>
-                                                <form method="get" action="/aeLita/cambiarEstado">
-                                                    <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
-                                                    <div id="modal1" class="modal modal-fixed-footer">
-                                                        <div class="modal-content">
-                                                            <h4>Cambiar Estado</h4>
-                                                            <p>Selecciona el siguiente estado para la tarea de <%=rsTareaSeleccionada.getString("nombreTipoTarea")%></p>
-                                                            <select id="idEstado" name="idEstado">
-                                                                <% while (rsEstados.next()) {%>                                                           
-                                                                <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
-                                                                <% }%>
-                                                            </select>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
-                                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                        </div>
+                                                    <div class="modal-footer">
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
                                                     </div>
-                                                </form>
-                                                <%}%>
-                                                <%} else {%>
-                                                <form method="get" action="/aeLita/cambiarEstado">
-                                                    <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
-                                                    <div id="modal1" class="modal modal-fixed-footer">
-                                                        <div class="modal-content">
-                                                            <h4>Cambiar Estado</h4>
-                                                            <p>Selecciona el siguiente estado para la tarea de <%=rsTareaSeleccionada.getString("nombreTipoTarea")%></p>
-                                                            <select id="idEstado" name="idEstado">
-                                                                <% while (rsEstados.next()) {%>                                                           
-                                                                <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
-                                                                <% }%>
-                                                            </select>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
-                                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                        </div>
+                                                </div>
+                                            </form>
+                                            <%} else {%>
+                                            <form method="get" action="/aeLita/cambiarEstado">
+                                                <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Selecciona el siguiente estado para la tarea de <%=rsTareaSeleccionada.getString("nombreTipoTarea")%></p>
+                                                        <select id="idEstado" name="idEstado">
+                                                            <% while (rsEstados.next()) {%>                                                           
+                                                            <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
+                                                            <% }%>
+                                                        </select>
                                                     </div>
-                                                </form>
-                                                <%}%>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <%}%>
+                                            <%} else {%>
+                                            <form method="get" action="/aeLita/cambiarEstado">
+                                                <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Selecciona el siguiente estado para la tarea de <%=rsTareaSeleccionada.getString("nombreTipoTarea")%></p>
+                                                        <select id="idEstado" name="idEstado">
+                                                            <% while (rsEstados.next()) {%>                                                           
+                                                            <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
+                                                            <% }%>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <%}%>
                                             <%}%>
                                         </td>
                                         <td><%= rsTareaSeleccionada.getString("nombreTipoTarea")%></td>
@@ -228,6 +228,41 @@
                                 <p><%= rsOrdenTrabajo.getString("detalleOrdenTrabajo")%></p>
                             </div>
                         </li>
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">archive</i>Archivos</div>
+                            <div class="collapsible-body white">
+                                <table border="1">
+                                    <tbody>
+                                        <tr>
+                                            <td><b>idArchivo<b/></td>
+                                            <td><b>Nombre<b/></td>
+                                            <td><b>Fecha Creación<b/></td>
+                                            <td><b>Operaciones<b/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>0000001</td>
+                                            <td>Gestiones.pdf</td>
+                                            <td>2018-10-02 11:41</td>
+                                            <td>Eliminar</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <form name="subirArchivo" action="#" method="POST">
+                                    <div class="file-field input-field">
+                                        <div class="btn">
+                                            <span>File</span>
+                                            <input type="file" multiple>
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" placeholder="Selecciones los archivos que desea subir...">
+                                        </div>
+                                    </div>
+                                    <center>
+                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Subir Archivo" />
+                                    </center>
+                                </form>
+                            </div>
+                        </li>   
                     </ul>
                 </div>
                 <div class="col m7">

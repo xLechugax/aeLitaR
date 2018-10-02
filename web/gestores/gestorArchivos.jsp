@@ -70,12 +70,6 @@
                                         <label for="Actividad">Actividad</label>
                                     </div>
                                     </p>
-                                    <p>
-                                    <div>
-                                        <input type="checkbox" id="OrdendeTrabajo">
-                                        <label for="OrdendeTrabajo">Orden de Trabajo</label>
-                                    </div>
-                                    </p>
                                     <center>
                                         <input class="waves-effect waves-light btn right-align" type="submit" value="buscar" />
                                     </center>
