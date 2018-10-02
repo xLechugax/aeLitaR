@@ -314,7 +314,27 @@
                                             <td><%= rsTareasBajoLaOT.getString("idTarea")%></td>
                                             <td><%= rsTareasBajoLaOT.getString("nombreTipoTarea")%></td>
                                             <td><%= rsTareasBajoLaOT.getString("nombreEstado")%></td>
-                                            <td><%= rsTareasBajoLaOT.getString("nombreUsuario")%></td>
+                                            <td>
+                                                <!-- Modal Trigger -->
+                                                <a class="waves-effect waves-light btn modal-trigger blue-grey darken-4 white-text" href="#modal2"><%= rsTareasBajoLaOT.getString("nombreUsuario")%></a>
+
+                                                <!-- Modal Structure -->
+                                                <div id="modal2" class="modal">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar ejecutor</h4>
+                                                        <p>Seleccione el nuevo ejecutor de la tarea</p>
+                                                        <select name="idEjecutorAsignar" required="">
+                                                            <option value="" selected="" disabled="">Seleccione Tipo de Tarea</option>
+                                                            <% while (rsUsuarioEjecutor.next()) {%>                                                            
+                                                            <option value="<%= rsUsuarioEjecutor.getString("idUsuario")%>"><%= rsUsuarioEjecutor.getString("nombreUsuario")%></option>
+                                                            <%}%>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td><%= rsTareasBajoLaOT.getString("fecha_inicio")%></td>
                                             <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasBajoLaOT.getString("idTarea")%>" class="btn">Detalle</a></td>
                                         </tr>
