@@ -84,6 +84,7 @@
     <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre") %>!</b></a></li>
     <li><a class="dropdown-button" href="#!" data-activates="DropDownDelNavVar">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
     <li><a href="/aeLita/supervisor/gestorOT.jsp">Gestor Órdenes de Trabajo</a></li>
+    <li><a href="/aeLita/supervisor/gestorOTTareas.jsp">Gestor de Tareas</a></li>
     <li><a href="/aeLita/supervisor/reportes.jsp">Reportes</a></li>
     <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li>
 </ul>
@@ -102,6 +103,7 @@
                 <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre") %>!</b></a></li>
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a href="/aeLita/supervisor/gestorOT.jsp">Gestor Órdenes de Trabajo</a></li>
+                <li><a href="/aeLita/supervisor/gestorOTTareas.jsp">Gestor de Tareas</a></li>
                 <li><a href="/aeLita/supervisor/reportes.jsp">Reportes</a></li>
                 <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li> 
             </ul>
