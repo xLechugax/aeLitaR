@@ -26,7 +26,6 @@
     <li><a href="/aeLita/materiales/manuales/index.jsp">Manuales</a></li>
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
     <li><a href="/aeLita/materiales/telefonos/index.jsp">Teléfonos</a></li>
-    <li><a href="/aeLita/materiales/procedimientos/index.jsp">Procedimientos</a></li>
 </ul>
 <ul class="side-nav" id="mobile-demo">
     <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre") %>!</b></a></li>
@@ -45,7 +44,6 @@
     <li><a href="/aeLita/materiales/manuales/index.jsp">Manuales</a></li>
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
     <li><a href="/aeLita/materiales/telefonos/index.jsp">Teléfonos</a></li>
-    <li><a href="/aeLita/materiales/procedimientos/index.jsp">Procedimientos</a></li>
 </ul>
 <ul id="DropDownGestores" class="dropdown-content">
     <li><a href="/aeLita/administrador/gestorOT.jsp">Órdenes de Trabajo</a></li>
@@ -81,7 +79,6 @@
     <li><a href="/aeLita/materiales/manuales/index.jsp">Manuales</a></li>
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
     <li><a href="/aeLita/materiales/telefonos/index.jsp">Teléfonos</a></li>
-    <li><a href="/aeLita/materiales/procedimientos/index.jsp">Procedimientos</a></li>
 </ul>
 <ul class="side-nav" id="mobile-demo">
     <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre") %>!</b></a></li>
@@ -95,7 +92,6 @@
     <li><a href="/aeLita/materiales/manuales/index.jsp">Manuales</a></li>
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
     <li><a href="/aeLita/materiales/telefonos/index.jsp">Teléfonos</a></li>
-    <li><a href="/aeLita/materiales/procedimientos/index.jsp">Procedimientos</a></li>
 </ul>
 <div class="navbar-fixed">
     <nav>
@@ -121,7 +117,6 @@
     <li><a href="/aeLita/materiales/manuales/index.jsp">Manuales</a></li>
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
     <li><a href="/aeLita/materiales/telefonos/index.jsp">Teléfonos</a></li>
-    <li><a href="/aeLita/materiales/procedimientos/index.jsp">Procedimientos</a></li>
 </ul>
 <ul class="side-nav" id="mobile-demo">
     <li><a class="dropdown-button" href="#!" data-activates="DropDownDelNavVar">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
@@ -135,7 +130,6 @@
     <li><a href="/aeLita/materiales/manuales/index.jsp">Manuales</a></li>
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
     <li><a href="/aeLita/materiales/telefonos/index.jsp">Teléfonos</a></li>
-    <li><a href="/aeLita/materiales/procedimientos/index.jsp">Procedimientos</a></li>
 </ul>
 <div class="navbar-fixed">
     <nav>

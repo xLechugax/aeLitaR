@@ -102,7 +102,7 @@
                             </div>
                             <%}%>
                         </div>
-                        <ul class="collapsible popout" data-collapsible="expandable">
+                        <ul class="collapsible popout" data-collapsible="accordion">
                         <% while (rsContactos.next()) {%>
                             <li>
                                 <div class="collapsible-header"><i class="material-icons">contact_mail</i><%= rsContactos.getString("asunto")%></div>

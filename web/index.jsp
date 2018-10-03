@@ -61,7 +61,7 @@
                                     <div id="modal1" class="modal">
                                         <div class="modal-content">
                                             <h4>Ayuda</h4>
-                                            <p>aeLita a creado su nombre de usuario en base a su nombre y apellido, debe ingresar de la siguiente manera: NOMBRE.APELLIDO.</p>
+                                            <p>aeLita a creado su nombre de usuario en base a su nombre y apellido, debe ingresar de la siguiente manera: NOMBRE.APELLIDO</p>
                                             <BR/>
                                             <p>Ejemplo</p>
                                             <p>MARISOL.CARRASCO</p>
