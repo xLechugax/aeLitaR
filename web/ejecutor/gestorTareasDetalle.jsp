@@ -97,7 +97,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
     <main>
-        <body class="blue-grey lighten-5">
+        <body class="blue-grey lighten-5">  
             <%@ include file="../barraNav.jsp" %>
             <div class="row">
                 <div class="col m5">
@@ -262,7 +262,10 @@
                                     </center>
                                 </form>
                             </div>
-                        </li>   
+                        </li>
+                        <li>
+                            <a href="../gestores/gestorProcedimientosDetalle.jsp"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col m7">

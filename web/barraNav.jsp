@@ -1,24 +1,24 @@
 <%
     if (hs == null || hs.getAttribute("tipoCuenta") == null) {
 %>
-        <!INICIO - BARRA DE NAVEGACI”N FIXED>
-        <ul class="side-nav" id="mobile-demo">
-            <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registro</a></li>
-        </ul>
-        <div class="navbar-fixed">
-            <nav>
-                <div class="nav-wrapper blue-grey darken-3">
-                    <a href="/aeLita/index.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
-                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registrate</a></li>
-                    </ul>
-                </div>
-            </nav>
+<!INICIO - BARRA DE NAVEGACI”N FIXED>
+<ul class="side-nav" id="mobile-demo">
+    <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registro</a></li>
+</ul>
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper blue-grey darken-3">
+            <a href="/aeLita/index.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registrate</a></li>
+            </ul>
         </div>
-        <!FINAL - BARRA DE NAVEGACI”N FIXED>  
-<% 
-}  else  if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
+    </nav>
+</div>
+<!FINAL - BARRA DE NAVEGACI”N FIXED>  
+<%
+} else if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
 %>
 <!INICIO - BARRA DE NAVEGACI”N FIXED>
 <ul id="DropDownDelNavVar" class="dropdown-content blue-grey lighten-5">
@@ -28,7 +28,7 @@
     <li><a href="/aeLita/materiales/telefonos/index.jsp">TelÈfonos</a></li>
 </ul>
 <ul class="side-nav" id="mobile-demo">
-    <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre") %>!</b></a></li>
+    <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre")%>!</b></a></li>
     <li><a class="dropdown-button" href="#!" data-activates="DropDownDelNavVar">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
     <li><a href="/aeLita/administrador/gestorOT.jsp">”rdenes de Trabajo</a></li>
     <li><a href="/aeLita/gestores/gestorTipoTareas.jsp">Gestor Tipo Tareas</a></li>
@@ -60,7 +60,7 @@
             <a href="/aeLita/administrador/inicioAdmin.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre") %>!</b></a></li>
+                <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre")%>!</b></a></li>
                 <li><a class="dropdown-button" href="#!" data-activates="DropDownManuales">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a style="width: 180px" class="dropdown-button" href="#!" data-activates="DropDownGestores">Gestores<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a href="/aeLita/administrador/entradaContacto.jsp">Contacto</a></li>
@@ -80,12 +80,16 @@
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
     <li><a href="/aeLita/materiales/telefonos/index.jsp">TelÈfonos</a></li>
 </ul>
-<ul class="side-nav" id="mobile-demo">
-    <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre") %>!</b></a></li>
-    <li><a class="dropdown-button" href="#!" data-activates="DropDownDelNavVar">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
-    <li><a href="/aeLita/supervisor/gestorOT.jsp">Gestor ”rdenes de Trabajo</a></li>
-    <li><a href="/aeLita/supervisor/gestorOTTareas.jsp">Gestor de Tareas</a></li>
+<ul id="DropDownDelNavVarGestores" class="dropdown-content blue-grey lighten-5">
+    <li><a href="/aeLita/supervisor/gestorOT.jsp">”rdenes de Trabajo</a></li>
+    <li><a href="/aeLita/supervisor/gestorOTTareas.jsp">Tareas</a></li>
+    <li><a href="/aeLita/gestores/gestorProcedimientos.jsp">Procedimientos</a></li>
     <li><a href="/aeLita/supervisor/reportes.jsp">Reportes</a></li>
+</ul>
+<ul class="side-nav" id="mobile-demo">
+    <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre")%>!</b></a></li>
+    <li><a class="dropdown-button" href="#!" data-activates="DropDownDelNavVar">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
+    <li><a class="dropdown-button" href="#!" data-activates="DropDownDelNavVarGestores">Gestores<i class="material-icons right">arrow_drop_down</i></a></li>
     <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li>
 </ul>
 <ul id="dropdown1" class="dropdown-content">
@@ -94,17 +98,21 @@
     <li><a href="/aeLita/materiales/templates/index.jsp">Templates</a></li>
     <li><a href="/aeLita/materiales/telefonos/index.jsp">TelÈfonos</a></li>
 </ul>
+<ul id="dropdownGestores" class="dropdown-content">
+    <li><a href="/aeLita/supervisor/gestorOT.jsp">”rdenes de Trabajo</a></li>
+    <li><a href="/aeLita/supervisor/gestorOTTareas.jsp">Tareas</a></li>
+    <li><a href="/aeLita/gestores/gestorProcedimientos.jsp">Procedimientos</a></li>
+    <li><a href="/aeLita/supervisor/reportes.jsp">Reportes</a></li>
+</ul>
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper blue-grey darken-3">
             <a href="/aeLita/supervisor/inicioSupervisor.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre") %>!</b></a></li>
+                <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre")%>!</b></a></li>
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
-                <li><a href="/aeLita/supervisor/gestorOT.jsp">Gestor ”rdenes de Trabajo</a></li>
-                <li><a href="/aeLita/supervisor/gestorOTTareas.jsp">Gestor de Tareas</a></li>
-                <li><a href="/aeLita/supervisor/reportes.jsp">Reportes</a></li>
+                <li><a class="dropdown-button" style="width: 180px;" href="#!" data-activates="dropdownGestores">Gestores<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li> 
             </ul>
         </div>
@@ -122,7 +130,7 @@
 </ul>
 <ul class="side-nav" id="mobile-demo">
     <li><a class="dropdown-button" href="#!" data-activates="DropDownDelNavVar">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
-    <li><a href="/aeLita/perfil/miperfil.jsp">Hola <%= hs.getAttribute("nombre") %></a></li>
+    <li><a href="/aeLita/perfil/miperfil.jsp">Hola <%= hs.getAttribute("nombre")%></a></li>
     <li><a href="/aeLita/ejecutor/gestorTareas.jsp">Gestor Tareas</a></li>
     <li><a href="/aeLita/ejecutor/reportes.jsp">Reportes</a></li>
     <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li>
@@ -139,7 +147,7 @@
             <a href="/aeLita/ejecutor/inicioEjecutor.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre") %>!</b></a></li>
+                <li><a href="/aeLita/perfil/miperfil.jsp"><b>Hola <%= hs.getAttribute("nombre")%>!</b></a></li>
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Materiales<i class="material-icons right">arrow_drop_down</i></a></li>
                 <li><a href="/aeLita/ejecutor/gestorTareas.jsp">Gestor Tareas</a></li>
                 <li><a href="/aeLita/ejecutor/reportes.jsp">Reportes</a></li>
