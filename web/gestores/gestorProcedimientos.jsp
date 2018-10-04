@@ -74,11 +74,11 @@
                 <div class="col m3">
                     <ul class="collapsible">
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">filter_drama</i>First</div>
+                            <div class="collapsible-header active"><i class="material-icons">call_split</i>Filtro / Creación</div>
                             <div class="collapsible-body white">
-                                <a class="btn" href="/aeLita/supervisor/gestorOTGenerar.jsp">Crear Procedimiento</a> 
+                                <a class="btn" href="#">Crear Procedimiento</a> 
                                 <form action="gestorOT.jsp" method="post">
-                                    <br/>
+                                    <br/> 
                                     <div class="input-field col6 m6">
                                         <input id="nombreArchivo" type="text" class="validate">
                                         <label for="last_name">Nombre del Procedimiento</label>
