@@ -57,6 +57,7 @@
                                             <input class="waves-effect waves-light btn" type="submit" value="Ingresar" />
                                         </center>
                                     </form>
+
                                     <!-- Modal Structure -->
                                     <div id="modal1" class="modal">
                                         <div class="modal-content">
@@ -70,12 +71,30 @@
                                             <a href="#!" class="modal-close waves-effect waves-green btn-flat">Gracias</a>
                                         </div>
                                     </div>
+                                    <div id="RecuperarClave" class="modal">
+                                        <div class="modal-content">
+                                            <h4>Recuperar Contraseña</h4>
+                                            <form action="#">
+
+                                                <div class="row">
+                                                    <div class="input-field col s12">
+                                                        <input name="nombreUsuario" id="nombreUsuario" type="email" class="validate" style="text-transform: uppercase" required="">
+                                                        <label>Correo Electrónico</label>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        </form>
+                                        <div class="modal-footer">
+                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Recuperar</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>     
                         </div>
                     </div>
                 </div>
             </div>
+            <a class="btn waves-effect waves-teal btn modal-trigger right" href="#RecuperarClave"><i class="material-icons left">face</i>Recuperar Contraseña</a><br/><br/>
     </main>
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="js/code.jquery.com_jquery-3.2.1.min.js"></script>

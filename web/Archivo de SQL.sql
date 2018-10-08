@@ -57,62 +57,65 @@ CREATE TABLE IF NOT EXISTS `avance` (
   `idAvance` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `idTarea_fk` int(11) DEFAULT NULL,
   `idOrdenTrabajo_fk` int(11) DEFAULT NULL,
-  `comentario` longtext DEFAULT NULL,
   `usuario` int(11) DEFAULT NULL,
+  `comentario` longtext DEFAULT NULL,
   `fecha_publicacion` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idAvance`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.avance: ~42 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.avance: ~44 rows (aproximadamente)
 /*!40000 ALTER TABLE `avance` DISABLE KEYS */;
-REPLACE INTO `avance` (`idAvance`, `idTarea_fk`, `idOrdenTrabajo_fk`, `comentario`, `usuario`, `fecha_publicacion`) VALUES
-	(00000000001, NULL, 1, '1', 40, '2018-07-24 14:31:49'),
-	(00000000002, NULL, 1, '2', 40, '2018-07-24 14:31:51'),
-	(00000000003, NULL, 1, '3', 40, '2018-07-24 14:31:56'),
-	(00000000004, NULL, 1, '4', 40, '2018-07-24 14:31:59'),
-	(00000000005, 1, NULL, '5', 26, '2018-07-24 14:47:54'),
-	(00000000006, 1, 1, 'wef', 26, '2018-07-24 18:10:46'),
-	(00000000007, NULL, 1, 'armin, necesito que documentes', 40, '2018-07-24 18:14:23'),
-	(00000000008, 1, 1, 'bueno', 26, '2018-07-24 18:14:39'),
-	(00000000009, NULL, 7, 'Alonso, favor documentar....', 16, '2018-07-24 18:20:03'),
-	(00000000010, 6, 7, 'okey!', 17, '2018-07-24 18:20:35'),
-	(00000000011, 6, 7, 'wena', 17, '2018-07-24 18:27:21'),
-	(00000000012, NULL, 8, 'alonso, favor documentar...', 16, '2018-08-13 20:55:52'),
-	(00000000013, 7, 8, 'ok ningun problema.!!', 17, '2018-08-13 20:56:22'),
-	(00000000014, NULL, 9, 'oye patricio, documente plz.', 16, '2018-08-14 11:13:59'),
-	(00000000015, 8, 9, 'ok', 3, '2018-08-14 11:14:29'),
-	(00000000016, NULL, 1, 'ha pasado tiempo, son necesarios avances.\r\n', 40, '2018-09-10 13:58:18'),
-	(00000000017, NULL, 11, 'alonso, favor documentar...', 16, '2018-09-20 21:11:58'),
-	(00000000018, 10, 11, 'aahh yaa, esperamee', 17, '2018-09-20 21:12:26'),
-	(00000000019, NULL, 1, 'a', 1, '2018-09-22 14:18:13'),
-	(00000000020, 1, 1, 'Se procederá con el cierre de la tarea, no se realiza debido a que no se cuentan con las herramientas necesarias para llevar a cabo la tarea.', 26, '2018-09-23 01:17:54'),
-	(00000000021, NULL, 1, 'Armin, se genera nueva tarea y son asignados los recursos necesarios para la realización de esta. ', 40, '2018-09-23 02:40:29'),
-	(00000000022, 11, 1, 'las herramientas han llegado correctamente, comenzare a trabajar en lo solicitado...', 26, '2018-09-23 02:42:08'),
-	(00000000023, NULL, 1, 'Estarán ya terminadas las tareas solicitadas?', 40, '2018-09-23 16:29:53'),
-	(00000000024, 11, 1, 'Esta terminado, procederé con el cierre de la tarea. adjunto las pruebas\r\n\r\nC:\\Users\\Lechuga>ping 8.8.8.8\r\n\r\nHaciendo ping a 8.8.8.8 con 32 bytes de datos:\r\nRespuesta desde 8.8.8.8: bytes=32 tiempo=461ms TTL=118\r\nRespuesta desde 8.8.8.8: bytes=32 tiempo=224ms TTL=118\r\nRespuesta desde 8.8.8.8: bytes=32 tiempo=26ms TTL=118\r\nRespuesta desde 8.8.8.8: bytes=32 tiempo=27ms TTL=118\r\n\r\nEstadísticas de ping para 8.8.8.8:\r\n    Paquetes: enviados = 4, recibidos = 4, perdidos = 0\r\n    (0% perdidos),\r\nTiempos aproximados de ida y vuelta en milisegundos:\r\n    Mínimo = 26ms, Máximo = 461ms, Media = 184ms\r\n\r\nC:\\Users\\Lechuga>', 26, '2018-09-23 16:30:50'),
-	(00000000025, NULL, 1, 'Ivan, favor realizar monitoreo proactivo del enlace ya reparado por armin', 40, '2018-09-23 16:56:49'),
-	(00000000026, 2, 1, 'tarea en ejecución, sera monitoreado por 5 horas.', 27, '2018-09-23 16:59:44'),
-	(00000000027, NULL, 1, 'gracias, favor informarnos cualquier eventualidad', 40, '2018-09-23 17:01:43'),
-	(00000000028, 2, 1, 'servicio caido, favor reactivar tarea de armin', 27, '2018-09-23 17:02:01'),
-	(00000000029, NULL, 1, 'Gracias Ivan.', 40, '2018-09-23 17:02:15'),
-	(00000000030, 1, 1, 'Armin, favor gestionar nuevamente, servicio caido...', 40, '2018-09-23 17:04:34'),
-	(00000000031, 1, 1, 'okey, favor entregar las herramientas necesarias para poder llevar a cabo el trabajo. ', 26, '2018-09-23 17:04:51'),
-	(00000000032, 1, 1, 'aún no llegan los materiales...', 26, '2018-09-23 17:16:50'),
-	(00000000033, NULL, 10, 'Patricio, favor comenzar con lo solicitado', 16, '2018-09-23 17:25:30'),
-	(00000000034, 9, 10, 'trabajos serán informados en la medida que sean entregados los antecedentes por parte de Planta Externa que esta a mi cargo. ', 3, '2018-09-23 17:26:35'),
-	(00000000035, NULL, 10, 'muchas gracias.', 16, '2018-09-23 17:26:48'),
-	(00000000036, NULL, 1, 'están listos, favor reparar.', 40, '2018-09-23 17:53:49'),
-	(00000000037, 1, 1, 'queda reparado', 26, '2018-09-23 17:54:02'),
-	(00000000038, NULL, 1, 'no es necesario mas monitoreo, favor cerrar ambas tareas para proceder con el cierre de la ot\r\n', 40, '2018-09-23 17:54:23'),
-	(00000000039, 1, 1, 'ok', 26, '2018-09-23 17:54:27'),
-	(00000000040, 2, 1, 'okey', 27, '2018-09-23 17:54:44'),
-	(00000000041, NULL, 2, 'Armin favor configurar', 16, '2018-09-23 21:01:49'),
-	(00000000042, 12, 2, 'realizado, se procede con el cierre de la tarea', 26, '2018-09-23 21:02:16');
+REPLACE INTO `avance` (`idAvance`, `idTarea_fk`, `idOrdenTrabajo_fk`, `usuario`, `comentario`, `fecha_publicacion`) VALUES
+	(00000000007, NULL, 1, 40, 'armin, necesito que documentes', '2018-07-24 18:14:23'),
+	(00000000008, 1, 1, 26, 'bueno', '2018-07-24 18:14:39'),
+	(00000000009, NULL, 7, 16, 'Alonso, favor documentar....', '2018-07-24 18:20:03'),
+	(00000000010, 6, 7, 17, 'okey!', '2018-07-24 18:20:35'),
+	(00000000011, 6, 7, 17, 'wena', '2018-07-24 18:27:21'),
+	(00000000012, NULL, 8, 16, 'alonso, favor documentar...', '2018-08-13 20:55:52'),
+	(00000000013, 7, 8, 17, 'ok ningun problema.!!', '2018-08-13 20:56:22'),
+	(00000000014, NULL, 9, 16, 'oye patricio, documente plz.', '2018-08-14 11:13:59'),
+	(00000000015, 8, 9, 3, 'ok', '2018-08-14 11:14:29'),
+	(00000000016, NULL, 1, 40, 'ha pasado tiempo, son necesarios avances.\r\n', '2018-09-10 13:58:18'),
+	(00000000017, NULL, 11, 16, 'alonso, favor documentar...', '2018-09-20 21:11:58'),
+	(00000000018, 10, 11, 17, 'aahh yaa, esperamee', '2018-09-20 21:12:26'),
+	(00000000020, 1, 1, 26, 'Se procederá con el cierre de la tarea, no se realiza debido a que no se cuentan con las herramientas necesarias para llevar a cabo la tarea.', '2018-09-23 01:17:54'),
+	(00000000021, NULL, 1, 40, 'Armin, se genera nueva tarea y son asignados los recursos necesarios para la realización de esta. ', '2018-09-23 02:40:29'),
+	(00000000022, 11, 1, 26, 'las herramientas han llegado correctamente, comenzare a trabajar en lo solicitado...', '2018-09-23 02:42:08'),
+	(00000000023, NULL, 1, 40, 'Estarán ya terminadas las tareas solicitadas?', '2018-09-23 16:29:53'),
+	(00000000024, 11, 1, 26, 'Esta terminado, procederé con el cierre de la tarea. adjunto las pruebas\r\n\r\nC:\\Users\\Lechuga>ping 8.8.8.8\r\n\r\nHaciendo ping a 8.8.8.8 con 32 bytes de datos:\r\nRespuesta desde 8.8.8.8: bytes=32 tiempo=461ms TTL=118\r\nRespuesta desde 8.8.8.8: bytes=32 tiempo=224ms TTL=118\r\nRespuesta desde 8.8.8.8: bytes=32 tiempo=26ms TTL=118\r\nRespuesta desde 8.8.8.8: bytes=32 tiempo=27ms TTL=118\r\n\r\nEstadísticas de ping para 8.8.8.8:\r\n    Paquetes: enviados = 4, recibidos = 4, perdidos = 0\r\n    (0% perdidos),\r\nTiempos aproximados de ida y vuelta en milisegundos:\r\n    Mínimo = 26ms, Máximo = 461ms, Media = 184ms\r\n\r\nC:\\Users\\Lechuga>', '2018-09-23 16:30:50'),
+	(00000000025, NULL, 1, 40, 'Ivan, favor realizar monitoreo proactivo del enlace ya reparado por armin', '2018-09-23 16:56:49'),
+	(00000000026, 2, 1, 27, 'tarea en ejecución, sera monitoreado por 5 horas.', '2018-09-23 16:59:44'),
+	(00000000027, NULL, 1, 40, 'gracias, favor informarnos cualquier eventualidad', '2018-09-23 17:01:43'),
+	(00000000028, 2, 1, 27, 'servicio caido, favor reactivar tarea de armin', '2018-09-23 17:02:01'),
+	(00000000029, NULL, 1, 40, 'Gracias Ivan.', '2018-09-23 17:02:15'),
+	(00000000030, 1, 1, 40, 'Armin, favor gestionar nuevamente, servicio caido...', '2018-09-23 17:04:34'),
+	(00000000031, 1, 1, 26, 'okey, favor entregar las herramientas necesarias para poder llevar a cabo el trabajo. ', '2018-09-23 17:04:51'),
+	(00000000032, 1, 1, 26, 'aún no llegan los materiales...', '2018-09-23 17:16:50'),
+	(00000000033, NULL, 10, 16, 'Patricio, favor comenzar con lo solicitado', '2018-09-23 17:25:30'),
+	(00000000034, 9, 10, 3, 'trabajos serán informados en la medida que sean entregados los antecedentes por parte de Planta Externa que esta a mi cargo. ', '2018-09-23 17:26:35'),
+	(00000000035, NULL, 10, 16, 'muchas gracias.', '2018-09-23 17:26:48'),
+	(00000000036, NULL, 1, 40, 'están listos, favor reparar.', '2018-09-23 17:53:49'),
+	(00000000037, 1, 1, 26, 'queda reparado', '2018-09-23 17:54:02'),
+	(00000000038, NULL, 1, 40, 'no es necesario mas monitoreo, favor cerrar ambas tareas para proceder con el cierre de la ot\r\n', '2018-09-23 17:54:23'),
+	(00000000039, 1, 1, 26, 'ok', '2018-09-23 17:54:27'),
+	(00000000040, 2, 1, 27, 'okey', '2018-09-23 17:54:44'),
+	(00000000041, NULL, 2, 16, 'Armin favor configurar', '2018-09-23 21:01:49'),
+	(00000000042, 12, 2, 26, 'realizado, se procede con el cierre de la tarea', '2018-09-23 21:02:16'),
+	(00000000043, 13, 13, 16, 'Armin, favor documentar!', '2018-09-25 16:32:24'),
+	(00000000044, 13, 13, 26, 'okey', '2018-09-25 16:32:44'),
+	(00000000045, 13, 13, 26, 'termando, servicio reparado.', '2018-09-25 16:32:54'),
+	(00000000046, NULL, 13, 16, 'no armin, no quedo reparado. Se devuelve la tarea\r\n', '2018-09-25 16:33:43'),
+	(00000000047, 13, 13, 26, 'queda reparado.', '2018-09-25 16:34:47'),
+	(00000000048, 13, 13, 26, 'favor cerrar la tareea', '2018-09-26 17:39:13'),
+	(00000000049, 13, 13, 26, 'oka', '2018-10-03 00:19:24'),
+	(00000000050, 14, 14, 26, 'He comenzado la tarea', '2018-10-04 10:32:24'),
+	(00000000051, NULL, 14, 40, 'favor dar avances', '2018-10-04 10:32:43');
 /*!40000 ALTER TABLE `avance` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.contacto
 CREATE TABLE IF NOT EXISTS `contacto` (
   `idContacto` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `idUsuario` int(11) DEFAULT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `asunto` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -122,15 +125,31 @@ CREATE TABLE IF NOT EXISTS `contacto` (
   PRIMARY KEY (`idContacto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.contacto: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.contacto: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `contacto` DISABLE KEYS */;
-REPLACE INTO `contacto` (`idContacto`, `nombre`, `asunto`, `email`, `telefono`, `mensaje`, `fecha`) VALUES
-	(00000000014, 'Mauricio Cortazar', 'Problemas en el registro', 'mauricio.cortazar@gmail.com', '569856325654', 'Me sale que la cuenta esta des-habilitada. Favor habilitar.', '2018-07-15 22:58:58'),
-	(00000000017, 'Don Hernan', 'Ingreso a la web', 'hernan.coelo@gmail.com', '56986565987', 'Hola, buenas, tengo algunas dudas sobre el sitio, favor contactarme vía correo...', '2018-07-23 08:39:21'),
-	(00000000018, 'Matias', 'Pregunta', 'matias@gmail.com', '56989865895', 'Necesito ingresar pero no puedo', '2018-07-23 09:25:00'),
-	(00000000019, 'Camilo', 'no gunciona la weaita', 'akskdljalskdjlkasjdl@camilo.com', '564654654654', 'esta wea no funciona', '2018-08-13 20:57:47'),
-	(00000000020, 'anonimo', 'IP de los nodos', 'jose.rios2@gmail.com', '2123', 'podrías agregar un documento con la IP de todos los nodos!!', '2018-09-21 17:42:18');
+REPLACE INTO `contacto` (`idContacto`, `idUsuario`, `nombre`, `asunto`, `email`, `telefono`, `mensaje`, `fecha`) VALUES
+	(00000000014, NULL, 'Mauricio Cortazar', 'Problemas en el registro', 'mauricio.cortazar@gmail.com', '569856325654', 'Me sale que la cuenta esta des-habilitada. Favor habilitar.', '2018-07-15 22:58:58'),
+	(00000000017, NULL, 'Don Hernan', 'Ingreso a la web', 'hernan.coelo@gmail.com', '56986565987', 'Hola, buenas, tengo algunas dudas sobre el sitio, favor contactarme vía correo...', '2018-07-23 08:39:21'),
+	(00000000018, NULL, 'Matias', 'Pregunta', 'matias@gmail.com', '56989865895', 'Necesito ingresar pero no puedo', '2018-07-23 09:25:00'),
+	(00000000020, NULL, 'anonimo', 'IP de los nodos', 'jose.rios2@gmail.com', '2123', 'podrías agregar un documento con la IP de todos los nodos!!', '2018-09-21 17:42:18');
 /*!40000 ALTER TABLE `contacto` ENABLE KEYS */;
+
+-- Volcando estructura para tabla aelita.empresa
+CREATE TABLE IF NOT EXISTS `empresa` (
+  `idEmpresa` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) DEFAULT NULL,
+  `direccion` varchar(50) DEFAULT NULL,
+  `rut` varchar(50) DEFAULT NULL,
+  `telefono` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`idEmpresa`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla aelita.empresa: ~2 rows (aproximadamente)
+/*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
+REPLACE INTO `empresa` (`idEmpresa`, `nombre`, `direccion`, `rut`, `telefono`) VALUES
+	(00000000001, 'Claro S.A', 'Fanor Velasco 50', '70.750.500-K', '800 000 171'),
+	(00000000002, 'ENEX LTDA', 'Chiu Chiu 2020', '81.555.656-5', '800 171 544');
+/*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.estado
 CREATE TABLE IF NOT EXISTS `estado` (
@@ -140,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `estado` (
   PRIMARY KEY (`idEstado`)
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.estado: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.estado: ~5 rows (aproximadamente)
 /*!40000 ALTER TABLE `estado` DISABLE KEYS */;
 REPLACE INTO `estado` (`idEstado`, `nombreEstado`, `detalleEstado`) VALUES
 	(00000000001, 'Generada', 'Actividad recién creada'),
@@ -162,9 +181,9 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   `fecha_fin` datetime DEFAULT NULL,
   `estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`idOrdenTrabajo`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.orden_trabajo: ~12 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.orden_trabajo: ~13 rows (aproximadamente)
 /*!40000 ALTER TABLE `orden_trabajo` DISABLE KEYS */;
 REPLACE INTO `orden_trabajo` (`idOrdenTrabajo`, `importancia`, `supervisor`, `nombreOrdenTrabajo`, `detalleOrdenTrabajo`, `fecha_inicio`, `fecha_fin`, `estado`) VALUES
 	(00000000001, 'Alta', 40, 'Generar informe de servicios', 'sdfsdf', '2018-07-23 15:54:11', NULL, 5),
@@ -178,7 +197,9 @@ REPLACE INTO `orden_trabajo` (`idOrdenTrabajo`, `importancia`, `supervisor`, `no
 	(00000000009, 'Media', 16, 'Solicitud de Prueba', 'SE NECESITA QUE TODOS TERMINEN SUS TAREAS ', '2018-08-14 11:13:18', NULL, 1),
 	(00000000010, 'Alta', 16, 'Tienda Kayser caida', 'Nombre de Quien Reporta: ALEJANDRO SANTIS \r\nProblema Reportado : Problema de internet y estamos presentando problemas con la gran mayoría de los anexos telefónicos del sector Espigon, estos quedan solicitando login y contraseña y luego de ser ingresados levantan pero a los 5 min vuelven a caer y solicitar login y contraseña nuevamente. Favor sus gestiones para solucionar este problema lo antes posible dado que dificulta la gestión de los usuarios al ser el teléfono una herramienta importante para sus labores diarios.\r\nPruebas realizadas por Cliente : ni\r\n', '2018-09-20 15:00:43', NULL, 11),
 	(00000000011, 'Alta', 16, 'Servicio caido', 'jlaksjdlajslkdjalsdjklasjdlkasjdlksajd\r\n\r\nhacer la wea que pido jajaja', '2018-09-20 21:11:26', NULL, 1),
-	(00000000012, 'Alta', 16, 'Gestión de Gastos', 'ghj', '2018-09-22 14:11:33', NULL, 2);
+	(00000000012, 'Alta', 16, 'Gestión de Gastos', 'ghj', '2018-09-22 14:11:33', NULL, 2),
+	(00000000013, 'Alta', 16, 'Reparar servicio de datos', 'favor completar las tareas solicitadas', '2018-09-25 16:31:55', NULL, 5),
+	(00000000014, 'Alta', 40, 'Solicitud de Prueba', 'Detalle de Prueba', '2018-10-04 10:30:57', NULL, 1);
 /*!40000 ALTER TABLE `orden_trabajo` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.paso
@@ -199,9 +220,8 @@ CREATE TABLE IF NOT EXISTS `paso` (
 -- Volcando estructura para tabla aelita.procedimiento
 CREATE TABLE IF NOT EXISTS `procedimiento` (
   `idProcedimiento` int(11) NOT NULL AUTO_INCREMENT,
-  `idOrdenTrabajo` int(11) DEFAULT NULL,
-  `idTarea` int(11) DEFAULT NULL,
   `nombreProcedimiento` varchar(50) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT current_timestamp(),
   `detalleProcedimiento` text DEFAULT NULL,
   PRIMARY KEY (`idProcedimiento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -220,9 +240,9 @@ CREATE TABLE IF NOT EXISTS `tarea` (
   `fecha_fin` timestamp NULL DEFAULT NULL,
   `estadoTarea` int(11) DEFAULT NULL,
   PRIMARY KEY (`idTarea`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.tarea: ~12 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.tarea: ~14 rows (aproximadamente)
 /*!40000 ALTER TABLE `tarea` DISABLE KEYS */;
 REPLACE INTO `tarea` (`idTarea`, `idTipoTarea`, `idOrdenTrabajo`, `usuario`, `fecha_inicio`, `fecha_fin`, `estadoTarea`) VALUES
 	(00000000001, 1, 1, 26, '2018-07-23 15:54:28', NULL, 5),
@@ -236,7 +256,9 @@ REPLACE INTO `tarea` (`idTarea`, `idTipoTarea`, `idOrdenTrabajo`, `usuario`, `fe
 	(00000000009, 9, 10, 3, '2018-09-20 15:02:29', NULL, 2),
 	(00000000010, 1, 11, 17, '2018-09-20 21:11:48', NULL, 5),
 	(00000000011, 1, 1, 26, '2018-09-23 02:39:51', NULL, 5),
-	(00000000012, 2, 2, 26, '2018-09-23 21:01:38', NULL, 5);
+	(00000000012, 2, 2, 26, '2018-09-23 21:01:38', NULL, 5),
+	(00000000013, 1, 13, 26, '2018-09-25 16:32:10', NULL, 5),
+	(00000000014, 1, 14, 26, '2018-10-04 10:31:44', NULL, 1);
 /*!40000 ALTER TABLE `tarea` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.tipo_tarea
@@ -246,9 +268,9 @@ CREATE TABLE IF NOT EXISTS `tipo_tarea` (
   `nombreTipoTarea` varchar(50) DEFAULT NULL,
   `detalleTipoTarea` longtext DEFAULT NULL,
   PRIMARY KEY (`idTipoTarea`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.tipo_tarea: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.tipo_tarea: ~7 rows (aproximadamente)
 /*!40000 ALTER TABLE `tipo_tarea` DISABLE KEYS */;
 REPLACE INTO `tipo_tarea` (`idTipoTarea`, `idProcedimiento`, `nombreTipoTarea`, `detalleTipoTarea`) VALUES
 	(00000000001, NULL, 'Reparación', 'Reparación para servicio de Datos, Telefonía o Internet. '),
@@ -256,8 +278,33 @@ REPLACE INTO `tipo_tarea` (`idTipoTarea`, `idProcedimiento`, `nombreTipoTarea`, 
 	(00000000003, NULL, 'Monitoreo Proactivo', 'Monitorear enlaces solicitados. '),
 	(00000000007, NULL, 'Redactar Informe de Servicios', 'Redactar Informe de servicios'),
 	(00000000009, NULL, 'Reparación Mall', 'asdasd'),
-	(00000000010, NULL, 'Despacho', 'wefwef');
+	(00000000010, NULL, 'Despacho', 'wefwef'),
+	(00000000011, NULL, 'Tarea de Prueba', 'asdasd');
 /*!40000 ALTER TABLE `tipo_tarea` ENABLE KEYS */;
+
+-- Volcando estructura para tabla aelita.trabaja
+CREATE TABLE IF NOT EXISTS `trabaja` (
+  `idEmpresa` int(11) unsigned zerofill DEFAULT NULL,
+  `idUsuario` int(11) unsigned zerofill DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla aelita.trabaja: ~13 rows (aproximadamente)
+/*!40000 ALTER TABLE `trabaja` DISABLE KEYS */;
+REPLACE INTO `trabaja` (`idEmpresa`, `idUsuario`) VALUES
+	(00000000001, 00000000016),
+	(00000000001, 00000000001),
+	(00000000001, 00000000023),
+	(00000000001, 00000000026),
+	(00000000002, 00000000027),
+	(00000000001, 00000000024),
+	(00000000001, 00000000032),
+	(00000000001, 00000000042),
+	(00000000001, 00000000003),
+	(00000000001, 00000000040),
+	(00000000002, 00000000017),
+	(00000000001, 00000000022),
+	(00000000002, 00000000042);
+/*!40000 ALTER TABLE `trabaja` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -288,7 +335,7 @@ REPLACE INTO `usuario` (`idUsuario`, `nombre`, `apellido`, `nombreUsuario`, `ema
 	(0000000024, 'Eduardo', 'Salinas', 'EDUARDO.SALINAS', 'eduardoinbrand@gmail.com', '0954458279', '0954458279', '0', 'Ignacio Carrera Pinto 67', 'Supervisor', 'kaka123', 'S'),
 	(0000000026, 'Armin', 'Brün', 'ARMIN.BRUN', 'armin.brun@chancho.cl', '543857421', '5321158', '0', 'Almirante Barroso 76', 'Ejecutor', 'Teleco123', 'S'),
 	(0000000027, 'ivan', 'camote', 'IVAN.CAMOTE', 'ivan@gmail.com', '563256325', '5632563256', '0', 'pn89', 'Ejecutor', 'Teleco123', 'S'),
-	(0000000032, 'DAVID', 'SANJUAN', 'DAVID.SANJUAN', 'davidsanjuan19938@gmail.com', '655656565', '56569569565', '0', 'El clavel poniente 2416', 'Administrador', 'Teleco123', 'S'),
+	(0000000032, 'DAVID', 'SANJUAN', 'DAVID.SANJUAN', 'davidsanjuan19938@gmail.com', '655656565', '56569569565', '0', 'El clavel poniente 2416', 'Supervisor', 'Teleco123', 'S'),
 	(0000000040, 'Fernando', 'San Juan', 'FERNANDO.SANJUAN', 'fernando.sanjuan@clarochile.cl', '1234', '1234', '1', 'El clavel poniente 2416', 'Supervisor', 'Teleco123', 'S'),
 	(0000000042, 'José', 'Rios', 'JOSE.RIOS', 'jose.rios2@clarochile.cl', '967890728', '22123123', '00000000001', 'fanor 50', 'Ejecutor', 'Teleco123', 'S');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
