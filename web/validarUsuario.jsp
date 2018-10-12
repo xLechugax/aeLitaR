@@ -4,8 +4,6 @@
     String nombreUsuario = request.getParameter("nombreUsuario").trim().toUpperCase();
     String clave = request.getParameter("clave").trim();
     ResultSet rsUsuario = null;
-    ResultSet rsExtraerEmpresas = null;
-    ResultSet rsContadorExtraerEmpresas = null;
     
     HttpSession hs = request.getSession(true);
 
@@ -20,42 +18,22 @@
             if (nombreUsuario.equals(rsUsuario.getString("nombreUsuario")) & clave.equals(rsUsuario.getString("clave"))) {
                 String Activo = rsUsuario.getString("activo");
                 if (Activo.equalsIgnoreCase("S")) {
-
-                    //
-                    
-                    String sqlExtraerEmpresas = "select usuario.nombreUsuario,empresa.nombre from usuario,trabaja,empresa "
-                            + "where trabaja.idEmpresa = empresa.idEmpresa "
-                            + "and usuario.idUsuario = trabaja.idUsuario "
-                            + "and usuario.idUsuario =" + rsUsuario.getString("idUsuario");
-                    PreparedStatement pstExtraerEmpresas = conn.prepareStatement(sqlExtraerEmpresas);
-                    rsExtraerEmpresas = pstExtraerEmpresas.executeQuery();
-                    
-                    String sqlContadorExtraerEmpresas = "select usuario.nombreUsuario,empresa.nombre from usuario,trabaja,empresa "
-                            + "where trabaja.idEmpresa = empresa.idEmpresa "
-                            + "and usuario.idUsuario = trabaja.idUsuario "
-                            + "and usuario.idUsuario =" + rsUsuario.getString("idUsuario");
-                    PreparedStatement pstContadorExtraerEmpresas = conn.prepareStatement(sqlExtraerEmpresas);
-                    rsContadorExtraerEmpresas = pstContadorExtraerEmpresas.executeQuery();
-                    
-                    //if (rsExtraerEmpresas.next() == true) {
-                    //    if (rsContadorExtraerEmpresas.) {
-                    //            
-                    //        }
-                    //}
-
                     hs.setAttribute("nombre", rsUsuario.getString("nombre"));
                     hs.setAttribute("nombreUsuario", rsUsuario.getString("nombreUsuario"));
                     hs.setAttribute("tipoCuenta", rsUsuario.getString("tipoCuenta"));
                     hs.setAttribute("idUsuarioSesion", rsUsuario.getString("idUsuario"));
                     String tipoCuenta = rsUsuario.getString("tipoCuenta");
                     if (tipoCuenta.equals("Administrador")) {
-                        response.sendRedirect("/aeLita/administrador/inicioAdmin.jsp");
+                        //response.sendRedirect("/aeLita/administrador/inicioAdmin.jsp");
+                        response.sendRedirect("/aeLita/selectorEmpresa.jsp?idUsuario="+rsUsuario.getString("idUsuario"));
                     }
                     if (tipoCuenta.equals("Supervisor")) {
-                        response.sendRedirect("/aeLita/supervisor/inicioSupervisor.jsp");
+                        //response.sendRedirect("/aeLita/supervisor/inicioSupervisor.jsp");
+                        response.sendRedirect("/aeLita/selectorEmpresa.jsp?idUsuario="+rsUsuario.getString("idUsuario"));
                     }
                     if (tipoCuenta.equals("Ejecutor")) {
-                        response.sendRedirect("/aeLita/ejecutor/inicioEjecutor.jsp");
+                        //response.sendRedirect("/aeLita/ejecutor/inicioEjecutor.jsp");
+                        response.sendRedirect("/aeLita/selectorEmpresa.jsp?idUsuario="+rsUsuario.getString("idUsuario"));
                     }
                 } else {%>
 <html>
