@@ -140,84 +140,90 @@
                         <li>
                             <div class="collapsible-header active"><i class="material-icons">assignment</i><b><%= rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></b></div>
                             <div class="collapsible-body white"> 
-                                <table class="" border="0" >
-                                    <tr>
+                                <table>
+                                    <tr> 
                                         <td><b>ID</b></td>
-                                        <td><b>Importancia</b></td>
-                                        <td><b>Supervisor</b></td>
+                                        <td><%= rsOrdenTrabajo.getString("idOrdenTrabajo")%></td> 
                                     </tr>
                                     <tr>
-                                        <td><%= rsOrdenTrabajo.getString("idOrdenTrabajo")%></td> 
+                                        <td><b>Importancia</b></td>
                                         <td><% if (rsOrdenTrabajo.getString("importancia").equals("Alta")) {%><p class="red-text "><%=rsOrdenTrabajo.getString("importancia")%><p> <%} %>
                                             <% if (rsOrdenTrabajo.getString("importancia").equals("Media")) {%><p class="orange-text "><%=rsOrdenTrabajo.getString("importancia")%><p> <%} %>
                                             <% if (rsOrdenTrabajo.getString("importancia").equals("Baja")) {%><p class="green-text"><%=rsOrdenTrabajo.getString("importancia")%><p> <%}%></td>
+                                    </tr>    
+                                    <tr>
+                                        <td><b>Supervisor</b></td>
                                         <td><%= rsOrdenTrabajo.getString("nombreUsuario")%></td>
                                     </tr>
                                     <tr>
                                         <td><b>Fecha Inicio</b></td>
-                                        <td><b>Fecha Fin</b></td>
-                                        <td><b>Estado</b></td>
+                                        <td><%= rsOrdenTrabajo.getString("fecha_inicio")%></td> 
                                     </tr>
-                                    <td><%= rsOrdenTrabajo.getString("fecha_inicio")%></td> 
-                                    <td><% if (rsOrdenTrabajo.getString("fecha_fin") == null) {%> <p class="green-text">OT en proceso...</p> <%} else {%> <%=rsOrdenTrabajo.getString("fecha_fin")%> <%}%></td>
-                                    <td>
-                                        <!-- Modal Trigger --> 
-                                        <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modal1"><%= rsOrdenTrabajo.getString("nombreEstado")%></a>
-                                        <!-- Modal Structure -->
-                                        <% if (hs.getAttribute("tipoCuenta").equals("Supervisor")) { %>
-                                        <% if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
-                                        <form method="get" action="/aeLita/cambiarEstado">
-                                            <div id="modal1" class="modal modal-fixed-footer">
-                                                <div class="modal-content">
-                                                    <h4>Cambiar Estado</h4>
-                                                    <p>Ya no es posible cambiar el estado de esta orden de trabajo, se encuentra cerrada.</p>
+                                    <tr>
+                                        <td><b>Fecha Fin</b></td>
+                                        <td><% if (rsOrdenTrabajo.getString("fecha_fin") == null) {%> <p class="green-text">OT en proceso...</p> <%} else {%> <%=rsOrdenTrabajo.getString("fecha_fin")%> <%}%></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Estado</b></td>
+                                        <td>
+                                            <!-- Modal Trigger --> 
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modal1"><%= rsOrdenTrabajo.getString("nombreEstado")%></a>
+                                            <!-- Modal Structure -->
+                                            <% if (hs.getAttribute("tipoCuenta").equals("Supervisor")) { %>
+                                            <% if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
+                                            <form method="get" action="/aeLita/cambiarEstado">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Ya no es posible cambiar el estado de esta orden de trabajo, se encuentra cerrada.</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                            </form>
+                                            <%} else {%> 
+                                            <form method="get" action="/aeLita/cambiarEstadoOrdenesTrabajo">
+                                                <input type="hidden" name="idOrdenTrabajo" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Selecciona el siguiente estado para la orden de trabajo: <%=rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></p>
+                                                        <select id="idEstado" name="idEstado">
+                                                            <% while (rsEstados.next()) {%>                                                           
+                                                            <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
+                                                            <% }%>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </form>
-                                        <%} else {%> 
-                                        <form method="get" action="/aeLita/cambiarEstadoOrdenesTrabajo">
-                                            <input type="hidden" name="idOrdenTrabajo" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
-                                            <div id="modal1" class="modal modal-fixed-footer">
-                                                <div class="modal-content">
-                                                    <h4>Cambiar Estado</h4>
-                                                    <p>Selecciona el siguiente estado para la orden de trabajo: <%=rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></p>
-                                                    <select id="idEstado" name="idEstado">
-                                                        <% while (rsEstados.next()) {%>                                                           
-                                                        <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
-                                                        <% }%>
-                                                    </select>
+                                            </form> 
+                                            <%}%>
+                                            <%} else {%>
+                                            <form method="get" action="/aeLita/cambiarEstadoOrdenesTrabajo">
+                                                <input type="hidden" name="idOrdenTrabajo" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Estado</h4>
+                                                        <p>Selecciona el siguiente estado para la orden de trabajo: <%=rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></p>
+                                                        <select id="idEstado" name="idEstado">
+                                                            <% while (rsEstados.next()) {%>                                                           
+                                                            <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
+                                                            <% }%>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
-                                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                </div>
-                                            </div>
-                                        </form> 
-                                        <%}%>
-                                        <%} else {%>
-                                        <form method="get" action="/aeLita/cambiarEstadoOrdenesTrabajo">
-                                            <input type="hidden" name="idOrdenTrabajo" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
-                                            <div id="modal1" class="modal modal-fixed-footer">
-                                                <div class="modal-content">
-                                                    <h4>Cambiar Estado</h4>
-                                                    <p>Selecciona el siguiente estado para la orden de trabajo: <%=rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></p>
-                                                    <select id="idEstado" name="idEstado">
-                                                        <% while (rsEstados.next()) {%>                                                           
-                                                        <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
-                                                        <% }%>
-                                                    </select>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
-                                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                </div>
-                                            </div>
-                                        </form> 
-                                        <%}%>
-                                    </td>
+                                            </form> 
+                                            <%}%>
+                                        </td>
+                                    </tr>
                                 </table>
                                 <b>Detalle:</b>
                                 <p><%= rsOrdenTrabajo.getString("detalleOrdenTrabajo")%></p>

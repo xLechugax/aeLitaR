@@ -1,16 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %>
-<%    ResultSet rsTareas = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sql = "select * from tarea";
-        PreparedStatement pst = conn.prepareStatement(sql);
-        rsTareas = pst.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    }
+<%  
     ResultSet rsTareasAsignadas = null;
     try {
         Connection conn = ConexionBD.getConexion();

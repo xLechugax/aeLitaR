@@ -2,8 +2,7 @@
 <%
     HttpSession hs = request.getSession(false);
 
-    ResultSet rsCantidadDeEmpresas = null;
-    ResultSet rsListadoEmpresas = null;
+    ResultSet rsListadoEmpresas, rsEmpresaUnica, rsCantidadDeEmpresas = null;
 
     String idUsuario = request.getParameter("idUsuario");
 
@@ -16,6 +15,10 @@
         String sqlListadoEmpresas = "select empresa.idEmpresa,empresa.nombre from usuario,trabaja,empresa where trabaja.idEmpresa = empresa.idEmpresa  and usuario.idUsuario = trabaja.idUsuario  and usuario.idUsuario =" + idUsuario;
         PreparedStatement pstListadoEmpresas = conn.prepareStatement(sqlListadoEmpresas);
         rsListadoEmpresas = pstListadoEmpresas.executeQuery();
+
+        String sqlEmpresaUnica = "select empresa.idEmpresa,empresa.nombre from usuario,trabaja,empresa where trabaja.idEmpresa = empresa.idEmpresa  and usuario.idUsuario = trabaja.idUsuario  and usuario.idUsuario =" + idUsuario;
+        PreparedStatement pstEmpresaUnica = conn.prepareStatement(sqlEmpresaUnica);
+        rsEmpresaUnica = pstEmpresaUnica.executeQuery();
 
         if (rsCantidadDeEmpresas.next()) {
             int numeroDeEmpresas = rsCantidadDeEmpresas.getInt(1);
@@ -35,17 +38,14 @@
                         <span class="card-title"> Hemos detectado que trabaja en más de una empresa. <br/>
                             Seleccione la empresa con la que desea ingresar<br/>  
                         </span>
-                        <form action="definirEmpresa" method="POST">
+                        <form action="/aeLita/definirEmpresa" method="POST">
                             <input type="hidden" name="idUsuario" value="<%=idUsuario%>">
                             <select name="idEmpresa">
                                 <% while (rsListadoEmpresas.next()) {%>
                                 <option value="<%=rsListadoEmpresas.getString("idEmpresa")%>"><%=rsListadoEmpresas.getString("nombre")%></option>
                                 <%}%>
                             </select>
-                            <br/>
-                            <center>
-                                <input class="waves-effect waves-light btn" type="submit" value="Crear Usuario" />
-                            </center>
+                            <input class="btn" type="submit" value="Ingresar" />
                         </form>
                     </div>
                 </div>
@@ -64,21 +64,22 @@
 </body>
 </html>
 <%
-                if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
-                    //response.sendRedirect("/aeLita/administrador/inicioAdmin.jsp");
-                    response.sendRedirect("/aeLita/selectorEmpresa.jsp?idUsuario=" + idUsuario);
-                }
-                if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {
-                    //response.sendRedirect("/aeLita/supervisor/inicioSupervisor.jsp");
-                    response.sendRedirect("/aeLita/selectorEmpresa.jsp?idUsuario=" + idUsuario);
-                }
-                if (hs.getAttribute("tipoCuenta").equals("Ejecutor")) {
-                    //response.sendRedirect("/aeLita/ejecutor/inicioEjecutor.jsp");
-                    response.sendRedirect("/aeLita/selectorEmpresa.jsp?idUsuario=" + idUsuario);
+            } else {
+
+                while (rsEmpresaUnica.next()) {
+                    if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
+                        response.sendRedirect("/aeLita/administrador/inicioAdmin.jsp?idEmpresa="+rsEmpresaUnica.getString("idEmpresa"));
+                    }
+                    if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {
+                        response.sendRedirect("/aeLita/supervisor/inicioSupervisor.jsp?idEmpresa="+rsEmpresaUnica.getString("idEmpresa"));
+                    }
+                    if (hs.getAttribute("tipoCuenta").equals("Ejecutor")) {
+                        response.sendRedirect("/aeLita/ejecutor/inicioEjecutor.jsp?idEmpresa="+rsEmpresaUnica.getString("idEmpresa"));
+                    }
                 }
             }
-        } 
+        }
     } catch (Exception e) {
-        out.print("Aca "+e);
+        out.print("Aca " + e);
     }
 %>
