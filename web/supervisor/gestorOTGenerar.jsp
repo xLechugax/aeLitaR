@@ -1,16 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%  ResultSet rsEstados = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from estado";
-        PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
-        rsEstados = pstEstados.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    }
+<%   
     ResultSet rsResponsable = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -21,46 +12,7 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
-    ResultSet rsAsignado = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sqlAsignado = "select * from usuario";
-        PreparedStatement pstAsignado = conn.prepareStatement(sqlAsignado);
-        rsAsignado = pstAsignado.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    }
-    ResultSet ContadorTipoTareas = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sqlTipoTareas = "select * from tipo_tarea";
-        PreparedStatement pstTipoTarea = conn.prepareStatement(sqlTipoTareas);
-        ContadorTipoTareas = pstTipoTarea.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    }
-    ResultSet rsTipoTareas = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sqlTipoTareas = "select * from tipo_tarea";
-        PreparedStatement pstTipoTarea = conn.prepareStatement(sqlTipoTareas);
-        rsTipoTareas = pstTipoTarea.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    }
-    ResultSet rsTipoTareasContador = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sqlTipoTareas = "select * from tipo_tarea";
-        PreparedStatement pstTipoTarea = conn.prepareStatement(sqlTipoTareas);
-        rsTipoTareasContador = pstTipoTarea.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    } %>
+    %>
 <!DOCTYPE html>
 <html>
     <head>

@@ -31,7 +31,6 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                
                                 <a>Tareas</a> 
                                 <br/>
                                 <form action="#" method="post">

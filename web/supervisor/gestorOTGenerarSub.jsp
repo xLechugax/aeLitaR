@@ -2,7 +2,8 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
 <%  
-    
+    String idEmpresaAux = ""+hs.getAttribute("idEmpresa");
+    int  idEmpresa = Integer.parseInt(idEmpresaAux);
     String importancia = request.getParameter("importancia");
     String idSupervisor = request.getParameter("idSupervisor");
     String nombreOT = request.getParameter("nombreOT");
@@ -11,13 +12,14 @@
     
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "insert into orden_trabajo (importancia,supervisor,nombreOrdenTrabajo,detalleOrdenTrabajo,estado) values (?,?,?,?,?)";
+        String sql = "insert into orden_trabajo (importancia,supervisor,nombreOrdenTrabajo,detalleOrdenTrabajo,estado,idEmpresa) values (?,?,?,?,?,?)";
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, importancia);
         pst.setString(2, idSupervisor);
         pst.setString(3, nombreOT);
         pst.setString(4, detalleOT);
         pst.setString(5, estado);
+        pst.setInt(6, idEmpresa);
         pst.execute();
         if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
             response.sendRedirect("/aeLita/administrador/gestorOT.jsp");

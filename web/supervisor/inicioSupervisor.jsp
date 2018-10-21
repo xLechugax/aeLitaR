@@ -1,6 +1,12 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %>
+<%    
+    if (hs.getAttribute("idEmpresa") == null) { //Setear el HS unicamente si viene null, o sea, recien iniciando la sessión
+        String idEmpresa = request.getParameter("idEmpresa"); // Toma el ID de la empresa y lo deja en el HS
+        hs.setAttribute("idEmpresa", idEmpresa);
+    } 
+%>
 <!DOCTYPE html>
 <html>
     <head>

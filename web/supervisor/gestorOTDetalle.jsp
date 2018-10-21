@@ -21,23 +21,31 @@
             out.println("Excepción de SQL:" + e);
         }
     }
+    
+    //Asignar una tarea dentro de una OT.
     if (idEjecutorAsignar != null && idEjecutorAsignar != null) {
         try {
             int estadoTareaPorDefecto = 1;
+            
+            String idEmrpesaString = "" + hs.getAttribute("idEmpresa"); //Extrae el String del ID de la empresa del Objeto HS
+            int idEmpresa = Integer.parseInt(idEmrpesaString); // Se convierte en Int
+            
             Connection conn = ConexionBD.getConexion();
-            String sql = "insert into tarea (idTipoTarea,idOrdenTrabajo,usuario,estadoTarea) values (?,?,?,?)";
+            String sql = "insert into tarea (idTipoTarea,idOrdenTrabajo,usuario,estadoTarea,idEmpresa) values (?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, idTipoTareaAsignar);
             pst.setString(2, idOrdenTrabajoSeleccionada);
             pst.setString(3, idEjecutorAsignar);
             pst.setInt(4, estadoTareaPorDefecto);
+            pst.setInt(5, idEmpresa);
             pst.execute();
             response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT=" + idOrdenTrabajoSeleccionada);
             return;
         } catch (Exception e) {
-            out.println("Excepción de SQL: " + e);
+            out.println("Excepción de SQL acaa: " + e);
         }
     }
+
     ResultSet rsOrdenTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();

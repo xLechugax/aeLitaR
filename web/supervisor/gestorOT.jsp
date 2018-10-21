@@ -4,29 +4,9 @@
 <%  ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from estado";
+        String sqlEstados = "select * from estado where estado.idEmpresa = 0 or estado.idEmpresa = " + hs.getAttribute("idEmpresa");
         PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
         rsEstados = pstEstados.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    }
-    ResultSet rsResponsable = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sqlResponsable = "select * from usuario where tipoCuenta='Supervisor'";
-        PreparedStatement pstResponsable = conn.prepareStatement(sqlResponsable);
-        rsResponsable = pstResponsable.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    }
-    ResultSet rsAsignado = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sqlAsignado = "select * from usuario where tipoCuenta='Ejecutor'";
-        PreparedStatement pstAsignado = conn.prepareStatement(sqlAsignado);
-        rsAsignado = pstAsignado.executeQuery();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -54,7 +34,7 @@
         if (importanciaFiltro != null) {
             sqlAsignado = sqlAsignado+" and orden_trabajo.importancia ='"+importanciaFiltro+"'";
         }
-        sqlAsignado = sqlAsignado+" order by orden_trabajo.fecha_inicio desc";
+        sqlAsignado = sqlAsignado+"and orden_trabajo.idEmpresa = "+ hs.getAttribute("idEmpresa") + " order by orden_trabajo.fecha_inicio desc";
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);
         rsOrdenesTrabajo = pstOrdenesTrabajo.executeQuery();
     } catch (SQLException e) {
