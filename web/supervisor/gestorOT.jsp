@@ -11,10 +11,9 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
-    
     String idEstadoFiltro = request.getParameter("idEstadoFiltro");
     String importanciaFiltro = request.getParameter("importanciaFiltro");
-    
+
     ResultSet rsOrdenesTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -26,15 +25,15 @@
                 + "orden_trabajo.fecha_inicio "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
-                + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario="+hs.getAttribute("idUsuarioSesion")+" ";
-        
-        if (idEstadoFiltro != null) { 
-            sqlAsignado = sqlAsignado+" and orden_trabajo.estado = '"+idEstadoFiltro+"'";
+                + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario=" + hs.getAttribute("idUsuarioSesion") + " ";
+
+        if (idEstadoFiltro != null) {
+            sqlAsignado = sqlAsignado + " and orden_trabajo.estado = '" + idEstadoFiltro + "'";
         }
         if (importanciaFiltro != null) {
-            sqlAsignado = sqlAsignado+" and orden_trabajo.importancia ='"+importanciaFiltro+"'";
+            sqlAsignado = sqlAsignado + " and orden_trabajo.importancia ='" + importanciaFiltro + "'";
         }
-        sqlAsignado = sqlAsignado+"and orden_trabajo.idEmpresa = "+ hs.getAttribute("idEmpresa") + " order by orden_trabajo.fecha_inicio desc";
+        sqlAsignado = sqlAsignado + "and orden_trabajo.idEmpresa = " + hs.getAttribute("idEmpresa") + " order by orden_trabajo.fecha_inicio desc";
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);
         rsOrdenesTrabajo = pstOrdenesTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -108,7 +107,7 @@
                             <td>
                                 <% if (rsOrdenesTrabajo.getString("importancia").equals("Alta")) {%><p class="red-text center-align"><%=rsOrdenesTrabajo.getString("importancia")%><p> <%} %>
                                 <% if (rsOrdenesTrabajo.getString("importancia").equals("Media")) {%><p class="orange-text center-align"><%=rsOrdenesTrabajo.getString("importancia")%><p> <%} %>
-                                <% if (rsOrdenesTrabajo.getString("importancia").equals("Baja")) {%><p class="green-text center-align"><%=rsOrdenesTrabajo.getString("importancia")%><p> <%} %>
+                                <% if (rsOrdenesTrabajo.getString("importancia").equals("Baja")) {%><p class="green-text center-align"><%=rsOrdenesTrabajo.getString("importancia")%><p> <%}%>
                             </td>
                             <td><%= rsOrdenesTrabajo.getString("nombreOrdenTrabajo")%></td>
                             <td><%= rsOrdenesTrabajo.getString("supervisor")%></td>

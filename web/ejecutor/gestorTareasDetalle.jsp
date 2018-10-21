@@ -80,7 +80,7 @@
     ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from estado where estado.idEstado > 1 and estado.idEmpresa = 1";
+        String sqlEstados = "select * from estado where estado.idEstado > 1 and estado.idEmpresa = 1"; ///PENDIENTE
         PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
         rsEstados = pstEstados.executeQuery();
     } catch (SQLException e) {
