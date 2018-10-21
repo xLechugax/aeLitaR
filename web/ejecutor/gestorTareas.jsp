@@ -1,8 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %>
-<%  
-    ResultSet rsTareasAsignadas = null;
+<%    ResultSet rsTareasAsignadas = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
@@ -12,7 +11,8 @@
                 + " and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo"
                 + " and tarea.idTipoTarea = tipo_tarea.idTipoTarea"
                 + " and tarea.estadoTarea !=5" //ID 5 de tarea Cerrada
-                + " and tarea.usuario =" + hs.getAttribute("idUsuarioSesion");
+                + " and tarea.usuario =" + hs.getAttribute("idUsuarioSesion")
+                + " and tarea.idEmpresa=" + hs.getAttribute("idEmpresa");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTareasAsignadas = pst.executeQuery();
     } catch (SQLException e) {
@@ -29,14 +29,14 @@
                 + " and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo"
                 + " and tarea.idTipoTarea = tipo_tarea.idTipoTarea"
                 + " and tarea.estadoTarea !=5" //ID 5 de tarea Cerrada
-                + " and tarea.usuario =" + hs.getAttribute("idUsuarioSesion");
+                + " and tarea.usuario =" + hs.getAttribute("idUsuarioSesion")
+                + " and tarea.idEmpresa=" + hs.getAttribute("idEmpresa");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTareasAsignadasContador = pst.executeQuery();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
     }
-
 %>
 <!DOCTYPE html>
 <html>
