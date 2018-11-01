@@ -1,5 +1,11 @@
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
 <!DOCTYPE html>
+<%    
+    if (hs.getAttribute("idEmpresa") == null) { //Setear el HS unicamente si viene null, o sea, recien iniciando la sessión
+        String idEmpresa = request.getParameter("idEmpresa"); // Toma el ID de la empresa y lo deja en el HS
+        hs.setAttribute("idEmpresa", idEmpresa);
+    } 
+%>
 <html>
     <head>
         <!--Import Google Icon Font-->

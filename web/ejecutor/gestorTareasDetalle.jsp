@@ -1,8 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    
-    String idTareaSeleccionada = request.getParameter("idTarea");
+<%    String idTareaSeleccionada = request.getParameter("idTarea");
     String comentarioOT = request.getParameter("comentarioOT");
     ResultSet rsAux = null; // Contiene el ID de la Orden de trabajo seleccionada.
     try {
@@ -30,7 +29,7 @@
     ResultSet rsTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, tarea.fecha_inicio, tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada + " and tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
+        String sqlOrdenTrabajo = "select usuario.nombreUsuario, tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, tarea.fecha_inicio, tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada + " and tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsTareaSeleccionada = pstOrdenTrabajo.executeQuery();
         rsTareaSeleccionada.next();
@@ -81,11 +80,21 @@
     ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from estado where estado.idEmpresa = 0 or estado.idEmpresa =" + hs.getAttribute("idEmpresa"); 
+        String sqlEstados = "select * from estado where estado.idEmpresa = 0 or estado.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
         rsEstados = pstEstados.executeQuery();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsUsuarioEjecutor = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  usuario.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
+        PreparedStatement pstUsuariosEjecutores = conn.prepareStatement(sqlUsuariosEjecutores);
+        rsUsuarioEjecutor = pstUsuariosEjecutores.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
         return;
     }
 %>
@@ -113,6 +122,30 @@
                                     <tr>
                                         <td><b>ID Tarea</b></td> 
                                         <td><%= rsTareaSeleccionada.getString("idTarea")%></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Asignado</b></td> 
+                                        <td>
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
+                                            <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
+                                                <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada %>">
+                                                <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar usuario asignado</h4>
+                                                        <p>Seleccione el nuevo usuario asignado</p>
+                                                        <select id="idNuevoUsuarioEjecutor" name="idNuevoUsuarioEjecutor">
+                                                            <% while (rsUsuarioEjecutor.next()) {%>
+                                                            <option value="<%= rsUsuarioEjecutor.getString("idUsuario")%>" ><%= rsUsuarioEjecutor.getString("nombreUsuario")%></option>
+                                                            <%}%>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Asginado"/>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div> 
+                                            </form>
+                                        </td>
                                     </tr>
                                     <td><b>Estado</b></td>
                                     <td>

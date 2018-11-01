@@ -67,7 +67,7 @@
                                     <th>Operaciones</th>
                                     </tr>
                                     </thead>
-                                    <%while (rsTareasAsignadas.next()) {%>  
+                                    <% while (rsTareasAsignadas.next()) {%>  
                                     <tbody>
                                         <tr>
                                             <td><b><%= rsTareasAsignadas.getString("idTarea")%></b></td>
