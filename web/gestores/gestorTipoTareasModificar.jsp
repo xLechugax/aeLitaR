@@ -7,7 +7,7 @@
     ResultSet rsTipoTareas = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from tipo_tarea";
+        String sql = "select * from tipo_tarea where tipo_tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTipoTareas = pst.executeQuery();
     } catch (SQLException e) {
@@ -18,7 +18,7 @@
     ResultSet rsTipoTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from tipo_tarea where idTipoTarea=" + idTipoTarea;
+        String sql = "select * from tipo_tarea where idTipoTarea=" + idTipoTarea +" and tipo_tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTipoTareaSeleccionada = pst.executeQuery();
         rsTipoTareaSeleccionada.next();
@@ -48,7 +48,7 @@
                         <div class="card-stacked">
                             <div class="card-action">
                                 <a>Modificar Tipo de Tarea</a> 
-                                <form action="gestorTipoTareasModificarSub.jsp" method="post">
+                                <form action="/aeLita/gestorTipoTareasModificar" method="get">
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table>
                                         <tbody>
@@ -90,9 +90,19 @@
                                             <td><%= rsTipoTareas.getString("idTipoTarea")%></td>
                                             <td><%= rsTipoTareas.getString("nombreTipoTarea")%></td>
                                             <td>
-                                                <a href="gestorTipoTareasConfirmarEliminar.jsp?idTipoTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
-                                                    <img src="img/eliminar.png" title="Eliminar"/>
-                                                </a>
+                                                <!-- Modal Trigger -->
+                                                <a class=" modal-trigger" href="#modal1"><img src="img/eliminar.png" title="Modificar"/></a>
+
+                                                <!-- Modal Structure -->
+                                                <div id="modal1" class="modal bottom-sheet">
+                                                    <div class="modal-content">
+                                                        <h4>¿Cofirmar eliminación de "<%= rsTipoTareas.getString("nombreTipoTarea")%>"?</h4>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="/aeLita/gestorTipoTareasEliminar?idTipoTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>" class="modal-close waves-effect waves-green btn-flat green white-text left">Si</a>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat red white-text">No</a>
+                                                    </div>
+                                                </div>
                                                 <a href="gestorTipoTareasModificar.jsp?idTipoTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
@@ -114,6 +124,7 @@
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
+            $('.modal').modal();
         });
     </script>
 </body>

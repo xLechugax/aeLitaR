@@ -3,24 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crud.gestorEstados;
+package crud.gestorTipoTareas;
 
+import bd.ConexionBD;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.*;
-import bd.*;
 import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author Lechuga
  */
-@WebServlet(name = "gestorEstadosAgregar", urlPatterns = {"/gestorEstadosAgregar"})
-public class gestorEstadosAgregar extends HttpServlet {
+@WebServlet(name = "gestorTipoTareasAgregar", urlPatterns = {"/gestorTipoTareasAgregar"})
+public class gestorTipoTareasAgregar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,26 +37,25 @@ public class gestorEstadosAgregar extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
+            
             HttpSession hs = request.getSession(false);
             
-            String nombreEstado = request.getParameter("nombre_estado");
-            String detalleEstado = request.getParameter("detalle_estado");
             String idEmpresa = ""+hs.getAttribute("idEmpresa");
-            
+            String nombreTipoTarea = request.getParameter("nombre_tipo_tarea");
+            String detalleTipoTarea = request.getParameter("detalle_tipo_tarea");
+
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sql = "insert into estado (nombreEstado,detalleEstado,idEmpresa) values (?,?,?)";
+                String sql = "insert into tipo_tarea (nombreTipoTarea,detalleTipoTarea,idEmpresa) values (?,?,?)";
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, nombreEstado);
-                pst.setString(2, detalleEstado);
+                pst.setString(1, nombreTipoTarea);
+                pst.setString(2, detalleTipoTarea);
                 pst.setString(3, idEmpresa);
                 pst.execute();
-                response.sendRedirect("/aeLita/gestores/gestorEstados.jsp");
+                response.sendRedirect("/aeLita/gestores/gestorTipoTareas.jsp");
             } catch (Exception e) {
                 out.println("Excepción de SQL (RegistroUsuario.jsp): " + e);
             }
-
         }
     }
 

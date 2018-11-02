@@ -3,24 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crud.gestorEstados;
+package crud;
 
+import bd.ConexionBD;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.*;
-import bd.*;
 import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author Lechuga
  */
-@WebServlet(name = "gestorEstadosAgregar", urlPatterns = {"/gestorEstadosAgregar"})
-public class gestorEstadosAgregar extends HttpServlet {
+@WebServlet(name = "gestorOTGenerar", urlPatterns = {"/gestorOTGenerar"})
+public class gestorOTGenerar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,26 +37,37 @@ public class gestorEstadosAgregar extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
+             HttpSession hs = request.getSession(false);
+             
+            String idEmpresaAux = "" + hs.getAttribute("idEmpresa");
+            int idEmpresa = Integer.parseInt(idEmpresaAux);
+            String importancia = request.getParameter("importancia");
+            String idSupervisor = request.getParameter("idSupervisor");
+            String nombreOT = request.getParameter("nombreOT");
+            String detalleOT = request.getParameter("detalleOT");
+            String estado = "1";
 
-            HttpSession hs = request.getSession(false);
-            
-            String nombreEstado = request.getParameter("nombre_estado");
-            String detalleEstado = request.getParameter("detalle_estado");
-            String idEmpresa = ""+hs.getAttribute("idEmpresa");
-            
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sql = "insert into estado (nombreEstado,detalleEstado,idEmpresa) values (?,?,?)";
+                String sql = "insert into orden_trabajo (importancia,supervisor,nombreOrdenTrabajo,detalleOrdenTrabajo,estado,idEmpresa) values (?,?,?,?,?,?)";
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, nombreEstado);
-                pst.setString(2, detalleEstado);
-                pst.setString(3, idEmpresa);
+                pst.setString(1, importancia);
+                pst.setString(2, idSupervisor);
+                pst.setString(3, nombreOT);
+                pst.setString(4, detalleOT);
+                pst.setString(5, estado);
+                pst.setInt(6, idEmpresa);
                 pst.execute();
-                response.sendRedirect("/aeLita/gestores/gestorEstados.jsp");
+                if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
+                    response.sendRedirect("/aeLita/administrador/gestorOT.jsp");
+                }
+                if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {
+                    response.sendRedirect("/aeLita/supervisor/gestorOT.jsp");
+                }
             } catch (Exception e) {
                 out.println("Excepción de SQL (RegistroUsuario.jsp): " + e);
             }
-
         }
     }
 

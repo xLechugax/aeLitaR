@@ -5,7 +5,7 @@
     ResultSet rsAreasDepartamentos = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from area_departamento";
+        String sql = "select * from area_departamento where area_departamento.idEmpresa = 0 or area_departamento.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsAreasDepartamentos = pst.executeQuery();
     } catch (SQLException e) {
@@ -73,12 +73,17 @@
                                             <td><%= rsAreasDepartamentos.getString("idAreaDepartamento") %></td>
                                             <td><%= rsAreasDepartamentos.getString("nombreAreaDepartamento") %></td>
                                             <td>
+                                                <%if (rsAreasDepartamentos.getString("idAreaDepartamento").equals("00000000000")) { %>
+                                                    <p class="grey-text">Estado Básico      </p>
+                                                <%} else {%>
+                                                
                                                 <a href="gestorAreasDepartamentosConfirmarEliminar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
                                                     <img src="img/eliminar.png" title="Eliminar"/>
                                                 </a>
                                                 <a href="gestorAreasDepartamentosModificar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
+                                                <%}%>
                                             </td>
                                         </tr>
                                         <%}%>

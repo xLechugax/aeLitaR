@@ -5,7 +5,7 @@
     ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from estado";
+        String sql = "select * from estado where estado.idEstado != 5 and estado.idEmpresa = " + hs.getAttribute("idEmpresa") + " or estado.idEmpresa = 0 and estado.idEstado != 5";
         PreparedStatement pst = conn.prepareStatement(sql);
         rsEstados = pst.executeQuery();
     } catch (SQLException e) {
@@ -33,7 +33,7 @@
                         <div class="card-stacked">
                             <div class="card-action">
                                 <a>Crear Estados</a> 
-                                <form action="/aeLita/gestorEstadosAgregar" method="post"> <%-- Se hace ahora en un servlet --%>
+                                <form action="/aeLita/gestorEstadosAgregar" method="get"> <%-- Se hace ahora en un servlet --%>
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table>
                                         <tbody>

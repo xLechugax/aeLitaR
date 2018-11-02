@@ -1,8 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%  
-    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
+<%    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
     String idTipoTareaAsignar = request.getParameter("idtipoTareaAsignar");
     String idEjecutorAsignar = request.getParameter("idEjecutorAsignar");
     String comentarioOT = request.getParameter("comentarioOT");
@@ -22,15 +21,14 @@
             out.println("Excepción de SQL:" + e);
         }
     }
-    
     //Asignar una tarea dentro de una OT.
     if (idEjecutorAsignar != null && idEjecutorAsignar != null) {
         try {
             int estadoTareaPorDefecto = 1;
-            
+
             String idEmrpesaString = "" + hs.getAttribute("idEmpresa"); //Extrae el String del ID de la empresa del Objeto HS
             int idEmpresa = Integer.parseInt(idEmrpesaString); // Se convierte en Int
-            
+
             Connection conn = ConexionBD.getConexion();
             String sql = "insert into tarea (idTipoTarea,idOrdenTrabajo,usuario,estadoTarea,idEmpresa) values (?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
@@ -46,7 +44,6 @@
             out.println("Excepción de SQL acaa: " + e);
         }
     }
-
     ResultSet rsOrdenTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -61,19 +58,39 @@
     ResultSet rsUsuarioEjecutor = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlUsuariosEjecutores = "select * from usuario where tipoCuenta='Ejecutor'";
+        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  usuario.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pstUsuariosEjecutores = conn.prepareStatement(sqlUsuariosEjecutores);
         rsUsuarioEjecutor = pstUsuariosEjecutores.executeQuery();
     } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
+        out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
         return;
     }
     ResultSet rsTipoTarea = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select * from tipo_tarea";
+        String sqlOrdenTrabajo = "select * from tipo_tarea where tipo_tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsTipoTarea = pstOrdenTrabajo.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsTipoTareaContador = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlOrdenTrabajo = "select * from tipo_tarea where tipo_tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
+        PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
+        rsTipoTareaContador = pstOrdenTrabajo.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsTipoTareaContadorDos = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlOrdenTrabajo = "select * from tipo_tarea where tipo_tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
+        PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
+        rsTipoTareaContadorDos = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -121,7 +138,7 @@
     ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from estado where estado.idEstado > 1";
+        String sqlEstados = "select * from estado where estado.idEmpresa = 0 or estado.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
         rsEstados = pstEstados.executeQuery();
     } catch (SQLException e) {
@@ -239,7 +256,7 @@
                             </div>
                         </li>
                         <li>
-                            <div class="collapsible-header"><i class="material-icons">content_paste</i>Asignar Tareas a la Orden de Trabajo</div>
+                            <div class="collapsible-header"><i class="material-icons">content_paste</i>Asignación una tarea</div>
                             <div class="collapsible-body white">
                                 <% if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
                                 <form action="gestorOTDetalle.jsp" method="post">
@@ -276,12 +293,16 @@
                                             <tr>
                                                 <td><b>Tipo de Tarea</b></td>
                                                 <td>
+                                                    <% if (rsTipoTareaContador.next()) {%>
                                                     <select name="idtipoTareaAsignar" required="">
                                                         <option value="" selected="" disabled="">Seleccione Tipo de Tarea</option>
                                                         <% while (rsTipoTarea.next()) {%>                                                            
                                                         <option value="<%= rsTipoTarea.getString("idTipoTarea")%>"><%= rsTipoTarea.getString("nombreTipoTarea")%></option>
                                                         <%}%>
                                                     </select>
+                                                    <%} else { %>
+                                                    <p class="red-text">No se han ingresado tipos de tareas</p>
+                                                    <%}%>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -298,7 +319,11 @@
                                         </tbody>
                                     </table>
                                     <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Asignar Tarea" />
+                                        <% if (rsTipoTareaContadorDos.next()) {%>
+                                        <input class="btn" type="submit" value="Asignar Tarea"/>
+                                        <%} else { %>
+                                        <input class="btn" type="submit" value="Asignar Tarea" disabled=""/>
+                                        <%}%>
                                     </center>
                                 </form>
                                 <%}%>

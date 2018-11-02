@@ -4,9 +4,57 @@
 <%    ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from estado";
+        String sql = "select * from estado where estado.idEstado != 5 and estado.idEmpresa = " + hs.getAttribute("idEmpresa") + " or estado.idEmpresa = 0 and estado.idEstado != 5";
         PreparedStatement pst = conn.prepareStatement(sql);
         rsEstados = pst.executeQuery();
+    } catch (SQLException e) { 
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    
+    String estado = request.getParameter("idEstadoFiltro");
+    String importancia = request.getParameter("importanciaFiltro");
+    
+    ResultSet rsTareasAsignadas = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
+                + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
+                + " where tarea.usuario = usuario.idUsuario"
+                + " and tarea.estadoTarea = estado.idEstado"
+                + " and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo"
+                + " and tarea.idTipoTarea = tipo_tarea.idTipoTarea"
+                + " and tarea.estadoTarea !=5" //ID 5 de tarea Cerrada
+                + " and tarea.idEmpresa=" + hs.getAttribute("idEmpresa")
+                + " and orden_trabajo.supervisor=" + hs.getAttribute("idUsuarioSesion");
+        
+        if (estado != null) { 
+            sql = sql + " and tarea.estadoTarea ="+estado; 
+        }
+        if (importancia != null) { 
+            sql = sql + " and orden_trabajo.importancia='"+importancia+"'"; 
+        }
+        
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsTareasAsignadas = pst.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e + estado + importancia);
+        return;
+    }
+    ResultSet rsTareasAsignadasContador = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
+                + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
+                + " where tarea.usuario = usuario.idUsuario"
+                + " and tarea.estadoTarea = estado.idEstado"
+                + " and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo"
+                + " and tarea.idTipoTarea = tipo_tarea.idTipoTarea"
+                + " and tarea.estadoTarea !=5" //ID 5 de tarea Cerrada
+                + " and tarea.idEmpresa=" + hs.getAttribute("idEmpresa")
+                + " and orden_trabajo.supervisor=" + hs.getAttribute("idUsuarioSesion");
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsTareasAsignadasContador = pst.executeQuery();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -60,14 +108,32 @@
                                     <tbody>
                                         <tr>
                                             <td><b>idTarea</b></td>
-                                            <td><b>Tipo</b></td>
-                                            <td><b>Orden de Trabajo</b></td>
-                                            <td><b>Usuario</b></td>
-                                            <td><b>Fecha Inicio</b></td>
-                                            <td><b>Fecha Fin</b></td>
+                                            <td><b>Importancia</b></td>
+                                            <td><b>Ejecutor</b></td>
                                             <td><b>Estado</b></td>
+                                            <td><b>Tipo Tarea</b></td>
+                                            <td><b>Nombre OT</b></td>
+                                            <td><b>Fecha Inicio</b></td>
                                             <td><b>Operaciones</b></td>
                                         </tr>
+                                        <% if (rsTareasAsignadasContador.next()) {%>
+                                            <% while (rsTareasAsignadas.next()) {%>
+                                            <tr>
+                                                <td><%= rsTareasAsignadas.getString("idTarea") %></td>
+                                                <td>
+                                                    <% if (rsTareasAsignadas.getString("importancia").equals("Alta")){%><p class="red-text center-align"><%=rsTareasAsignadas.getString("importancia")%><p><%}%>
+                                                    <% if (rsTareasAsignadas.getString("importancia").equals("Media")){%><p class="orange-text center-align"><%=rsTareasAsignadas.getString("importancia")%><p><%}%>
+                                                    <% if (rsTareasAsignadas.getString("importancia").equals("Baja")){%><p class="green-text center-align"><%=rsTareasAsignadas.getString("importancia")%><p><%}%>
+                                                </td>
+                                                <td><%= rsTareasAsignadas.getString("nombreUsuario") %></td>
+                                                <td><%= rsTareasAsignadas.getString("nombreEstado") %></td>
+                                                <td><%= rsTareasAsignadas.getString("nombreTipoTarea") %></td>
+                                                <td><%= rsTareasAsignadas.getString("nombreOrdenTrabajo") %></td>
+                                                <td><%= rsTareasAsignadas.getString("fecha_inicio") %></td>
+                                                <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasAsignadas.getString("idTarea")%>" class="btn">Detalle</a></td>
+                                            </tr>
+                                            <% }%>
+                                        <% }%>
                                     </tbody>
                                 </table>
                             </div>

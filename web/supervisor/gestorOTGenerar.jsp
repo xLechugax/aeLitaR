@@ -5,7 +5,7 @@
     ResultSet rsResponsable = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlResponsable = "select * from usuario where tipoCuenta='Supervisor'";
+        String sqlResponsable = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  usuario.tipoCuenta= 'Supervisor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pstResponsable = conn.prepareStatement(sqlResponsable);
         rsResponsable = pstResponsable.executeQuery();
     } catch (SQLException e) {
@@ -34,7 +34,7 @@
                             <a>Generar Orden de Trabajo</a> 
                         </div>
                         <div class="row">
-                            <form action="gestorOTGenerarSub.jsp" method="post"> 
+                            <form action="/aeLita/gestorOTGenerar" method="get"> 
                                 <div class="col m5">
                                     <table>
                                         <tr>

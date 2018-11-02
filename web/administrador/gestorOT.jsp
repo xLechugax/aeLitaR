@@ -4,7 +4,7 @@
 <%  ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from estado";
+        String sqlEstados = "select * from estado where estado.idEstado != 5 and estado.idEmpresa = " + hs.getAttribute("idEmpresa") + " or estado.idEmpresa = 0 and estado.idEstado != 5"; 
         PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
         rsEstados = pstEstados.executeQuery();
     } catch (SQLException e) {
@@ -21,11 +21,9 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
-
     String idEstadoFiltro = request.getParameter("idEstadoFiltro");
     String importanciaFiltro = request.getParameter("importanciaFiltro");
     String idUsuarioFiltro = request.getParameter("idUsuarioFiltro");
-
     ResultSet rsOrdenesTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();

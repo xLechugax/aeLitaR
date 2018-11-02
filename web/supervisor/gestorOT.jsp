@@ -1,10 +1,11 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%  ResultSet rsEstados = null;
+<%  
+    ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from estado where estado.idEmpresa = 0 or estado.idEmpresa = " + hs.getAttribute("idEmpresa");
+        String sqlEstados = "select * from estado where estado.idEstado != 5 and estado.idEmpresa = " + hs.getAttribute("idEmpresa") + " or estado.idEmpresa = 0 and estado.idEstado != 5";
         PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
         rsEstados = pstEstados.executeQuery();
     } catch (SQLException e) {
@@ -25,15 +26,15 @@
                 + "orden_trabajo.fecha_inicio "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
-                + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario=" + hs.getAttribute("idUsuarioSesion") + " ";
-
+                + "and orden_trabajo.estado = estado.idEstado "
+                + "and usuario.idUsuario=" + hs.getAttribute("idUsuarioSesion");
         if (idEstadoFiltro != null) {
             sqlAsignado = sqlAsignado + " and orden_trabajo.estado = '" + idEstadoFiltro + "'";
         }
         if (importanciaFiltro != null) {
             sqlAsignado = sqlAsignado + " and orden_trabajo.importancia ='" + importanciaFiltro + "'";
         }
-        sqlAsignado = sqlAsignado + "and orden_trabajo.idEmpresa = " + hs.getAttribute("idEmpresa") + " order by orden_trabajo.fecha_inicio desc";
+        sqlAsignado = sqlAsignado + " and orden_trabajo.idEmpresa = " + hs.getAttribute("idEmpresa") + " and orden_trabajo.estado !=5 order by orden_trabajo.fecha_inicio desc";
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);
         rsOrdenesTrabajo = pstOrdenesTrabajo.executeQuery();
     } catch (SQLException e) {

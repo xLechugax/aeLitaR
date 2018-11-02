@@ -1,13 +1,22 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADM.jsp" %>
-<%
-    ResultSet rsTareas = null;
+<%    ResultSet rsTareas = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from tipo_tarea";
+        String sql = "select * from tipo_tarea where tipo_tarea.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTareas = pst.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsTareasContador = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select * from tipo_tarea where tipo_tarea.idEmpresa =" + hs.getAttribute("idEmpresa");
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsTareasContador = pst.executeQuery();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -33,7 +42,7 @@
                         <div class="card-stacked">
                             <div class="card-action">
                                 <a>Crear Tipo de Tarea</a> 
-                                <form action="gestorTipoTareasAgregar.jsp" method="post">
+                                <form action="/aeLita/gestorTipoTareasAgregar" method="get">
                                     <table>
                                         <tbody>
                                             <tr>
@@ -59,6 +68,7 @@
                         <div class="card-stacked">
                             <div class="card-content">
                                 <table class="highlight">
+                                    <% if (rsTareasContador.next()) {%>
                                     <thead>
                                         <tr>
                                             <td>ID</td>
@@ -66,22 +76,35 @@
                                             <td>Operaciones</td>
                                         </tr>
                                     </thead>
+                                    <% while (rsTareas.next()) {%>
                                     <tbody>
-                                        <% while (rsTareas.next()) {%>
                                         <tr>
                                             <td><%= rsTareas.getString("idTipoTarea")%></td>
                                             <td><%= rsTareas.getString("nombreTipoTarea")%></td>
                                             <td>
-                                                <a href="gestorTipoTareasConfirmarEliminar.jsp?idTipoTarea=<%=rsTareas.getLong("idTipoTarea")%>">
-                                                    <img src="img/eliminar.png" title="Eliminar"/>
-                                                </a>
+                                                <!-- Modal Trigger -->
+                                                <a class=" modal-trigger" href="#modal1"><img src="img/eliminar.png" title="Modificar"/></a>
+
+                                                <!-- Modal Structure -->
+                                                <div id="modal1" class="modal bottom-sheet">
+                                                    <div class="modal-content">
+                                                        <h4>¿Cofirmar eliminación de "<%= rsTareas.getString("nombreTipoTarea")%>"?</h4>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="/aeLita/gestorTipoTareasEliminar?idTipoTarea=<%=rsTareas.getLong("idTipoTarea")%>" class="modal-close waves-effect waves-green btn-flat green white-text left">Si</a>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat red white-text">No</a>
+                                                    </div>
+                                                </div>
                                                 <a href="gestorTipoTareasModificar.jsp?idTipoTarea=<%=rsTareas.getLong("idTipoTarea")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
                                             </td>
                                         </tr>
-                                        <%}%>
                                     </tbody>
+                                    <%}%>
+                                    <%} else {%>
+                                    <p class="red-text">Aún no se han agregado tipos de tareas...</p>
+                                    <%}%>
                                 </table>
                             </div>
                         </div>
@@ -96,6 +119,7 @@
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
+            $('.modal').modal();
         });
     </script>
 </body>
