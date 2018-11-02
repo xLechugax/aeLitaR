@@ -1,8 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADM.jsp" %>
-<%
-    ResultSet rsEstados = null;
+<%    ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "select * from estado where estado.idEstado != 5 and estado.idEmpresa = " + hs.getAttribute("idEmpresa") + " or estado.idEmpresa = 0 and estado.idEstado != 5";
@@ -70,18 +69,28 @@
                                     <tbody>
                                         <% while (rsEstados.next()) {%>
                                         <tr>
-                                            <td><%= rsEstados.getString("idEstado") %></td>
-                                            <td><%= rsEstados.getString("nombreEstado") %></td>
+                                            <td><%= rsEstados.getString("idEstado")%></td>
+                                            <td><%= rsEstados.getString("nombreEstado")%></td>
                                             <td>
-                                                <% if ( Integer.parseInt(rsEstados.getString("idEstado")) < 6 ) {%>
+                                                <% if (Integer.parseInt(rsEstados.getString("idEstado")) < 6) {%>
                                                 <p class="grey-text">Estado Básico<p>
-                                                <% } else { %>
-                                                    <a href="gestorEstadosConfirmarEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
-                                                        <img src="img/eliminar.png" title="Eliminar"/>
-                                                    </a>
-                                                    <a href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
-                                                        <img src="img/modificar.jpg" title="Modificar"/>
-                                                    </a>
+                                                    <% } else {%>
+                                                    <!-- Modal Trigger -->
+                                                    <a class=" modal-trigger" href="#modal<%= rsEstados.getString("idEstado")%>"><img src="img/eliminar.png" title="Modificar"/></a>
+
+                                                    <!-- Modal Structure -->
+                                                <div id="modal<%= rsEstados.getString("idEstado")%>" class="modal bottom-sheet">
+                                                    <div class="modal-content">
+                                                        <h4>¿Cofirmar eliminación de "<%= rsEstados.getString("nombreEstado")%>"?</h4>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="/aeLita/gestorEstadosEliminar?idEstado=<%=rsEstados.getLong("idEstado")%>" class="modal-close waves-effect waves-green btn-flat green white-text left">Si</a>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat red white-text">No</a>
+                                                    </div>
+                                                </div> 
+                                                <a href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                    <img src="img/modificar.jpg" title="Modificar"/>
+                                                </a>
                                                 <% } %>
                                             </td>
                                         </tr>
@@ -101,6 +110,7 @@
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
+            $('.modal').modal();
         });
     </script>
 </body>

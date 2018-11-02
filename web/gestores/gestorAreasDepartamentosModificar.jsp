@@ -7,7 +7,7 @@
     ResultSet rsAreasDepartamentos = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from area_departamento";
+        String sql = "select * from area_departamento where area_departamento.idEmpresa = 0 or area_departamento.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsAreasDepartamentos = pst.executeQuery();
     } catch (SQLException e) {
@@ -18,7 +18,7 @@
     ResultSet rsAreaDepartamento = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from area_departamento where idAreaDepartamento=" + idAreaDepartamento;
+        String sql = "select * from area_departamento where idAreaDepartamento=" + idAreaDepartamento + " and area_departamento.idEmpresa= " + hs.getAttribute("idEmpresa");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsAreaDepartamento = pst.executeQuery();
         rsAreaDepartamento.next();
@@ -26,7 +26,6 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
-
 %>
 <!DOCTYPE html>
 <html>
@@ -47,8 +46,8 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
-                                <a>Modificar Tarea</a> 
-                                <form action="gestorAreasDepartamentosModificarSub.jsp" method="post">
+                                <a>Modificar Área/Departamento</a> 
+                                <form action="/aeLita/gestorAreasDepartamentosModificar" method="post">
                                     <table>
                                         <tbody> 
                                             <tr> 
@@ -79,7 +78,7 @@
                                     <thead>
                                         <tr>
                                             <td>ID</td>
-                                            <td>Tarea</td>
+                                            <td>Área/Departamento</td>
                                             <td>Operaciones</td>
                                         </tr>
                                     </thead> 

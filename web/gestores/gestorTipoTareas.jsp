@@ -83,10 +83,10 @@
                                             <td><%= rsTareas.getString("nombreTipoTarea")%></td>
                                             <td>
                                                 <!-- Modal Trigger -->
-                                                <a class=" modal-trigger" href="#modal1"><img src="img/eliminar.png" title="Modificar"/></a>
+                                                <a class=" modal-trigger" href="#modal<%=rsTareas.getString("idTipoTarea")%>"><img src="img/eliminar.png" title="Modificar"/></a>
 
                                                 <!-- Modal Structure -->
-                                                <div id="modal1" class="modal bottom-sheet">
+                                                <div id="modal<%=rsTareas.getString("idTipoTarea")%>" class="modal bottom-sheet">
                                                     <div class="modal-content">
                                                         <h4>¿Cofirmar eliminación de "<%= rsTareas.getString("nombreTipoTarea")%>"?</h4>
                                                     </div>
