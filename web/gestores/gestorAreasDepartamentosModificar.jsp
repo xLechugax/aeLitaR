@@ -88,12 +88,26 @@
                                             <td><%= rsAreasDepartamentos.getString("idAreaDepartamento")%></td>
                                             <td><%= rsAreasDepartamentos.getString("nombreAreaDepartamento")%></td>
                                             <td>
-                                                <a href="gestorAreasDepartamentosConfirmarEliminar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
-                                                    <img src="img/eliminar.png" title="Eliminar"/> 
-                                                </a>
+                                                <%if (rsAreasDepartamentos.getString("idAreaDepartamento").equals("00000000000")) { %>
+                                                <p class="grey-text">Estado Básico      </p>
+                                                <%} else {%>
+                                                <!-- Modal Trigger -->
+                                                <a class=" modal-trigger" href="#modal<%= rsAreasDepartamentos.getString("idAreaDepartamento")%>"><img src="img/eliminar.png" title="Modificar"/></a>
+
+                                                <!-- Modal Structure -->
+                                                <div id="modal<%= rsAreasDepartamentos.getString("idAreaDepartamento")%>" class="modal bottom-sheet">
+                                                    <div class="modal-content">
+                                                        <h4>¿Cofirmar eliminación de "<%= rsAreasDepartamentos.getString("nombreAreaDepartamento")%>"?</h4>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="/aeLita/gestorAreasDepartamentosEliminar?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>" class="modal-close waves-effect waves-green btn-flat green white-text left">Si</a>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat red white-text">No</a>
+                                                    </div>
+                                                </div> 
                                                 <a href="gestorAreasDepartamentosModificar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
                                                     <img src="img/modificar.jpg" title="Modificar"/>
                                                 </a>
+                                                <%}%>
                                             </td>
                                         </tr>
                                         <%}%>
@@ -112,6 +126,7 @@
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
+            $('.modal').modal();
         });
     </script>
 </body>
