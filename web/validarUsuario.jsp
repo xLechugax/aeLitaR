@@ -22,6 +22,10 @@
                     hs.setAttribute("nombreUsuario", rsUsuario.getString("nombreUsuario"));
                     hs.setAttribute("tipoCuenta", rsUsuario.getString("tipoCuenta"));
                     hs.setAttribute("idUsuarioSesion", rsUsuario.getString("idUsuario"));
+                    hs.setAttribute("nombre", rsUsuario.getString("nombre"));
+                    hs.setAttribute("apellido", rsUsuario.getString("apellido"));
+                    hs.setAttribute("email", rsUsuario.getString("email"));
+                    hs.setAttribute("telefono", rsUsuario.getString("telefono_f"));
                     String tipoCuenta = rsUsuario.getString("tipoCuenta");
                     if (tipoCuenta.equals("Administrador")) {
                         //response.sendRedirect("/aeLita/administrador/inicioAdmin.jsp");

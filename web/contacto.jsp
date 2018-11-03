@@ -2,7 +2,6 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
     HttpSession hs = request.getSession(false); //RECUPERA LA SESIÓN DEL USUARIO YA INICIADO
-
 %>
 <!DOCTYPE html>
 <html>
@@ -26,30 +25,73 @@
                         <div class="card-stacked">
                             <div class="card-content">
                                 <form class="col s12" action="enviarContacto.jsp" method="post">
+                                    <%if (hs == null || hs.getAttribute("tipoCuenta") == null){%> 
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <input name="nombre" type="text" class="validate" required="">
                                             <label>Nombre</label>
                                         </div>
+                                    </div>
+                                    <%} else { 
+                                    String nombre = ""+hs.getAttribute("nombre");
+                                    String apellido = ""+hs.getAttribute("apellido");
+                                    String nombreCompleto = nombre+" "+apellido;
+                                    String idEmpresa = ""+hs.getAttribute("idEmpresa");
+                                    String idUsuario = ""+hs.getAttribute("idUsuarioSesion");
+                                    %>
+                                    <div class="row">
+                                        <input type="hidden" name="nombre" value="<%=nombreCompleto%>">
+                                        <input type="hidden" name="idEmpresa" value="<%=idEmpresa%>">
+                                        <input type="hidden" name="idUsuario" value="<%=idUsuario%>">
+                                        
+                                        <div class="input-field col s12">
+                                            <input name="nombre" type="text" value="<%=nombreCompleto%>" class="validate" disabled="" required="">
+                                            <label>Nombre</label>
+                                        </div>
                                     </div> 
+                                    <%}%>
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <input name="asunto" type="text" class="validate" required="">
                                             <label>Asunto</label>
                                         </div>
                                     </div>
+                                    <%if (hs == null || hs.getAttribute("tipoCuenta") == null){%> 
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <input name="email" type="email" class="validate" required="">
                                             <label>Correo</label>
                                         </div>
                                     </div>
+                                    <%} else {
+                                    String correo = ""+hs.getAttribute("email");
+                                    %>
+                                    <div class="row">
+                                        <input type="hidden" name="email" value="<%=correo%>">
+                                        <div class="input-field col s12">
+                                            <input name="email" type="email" class="validate" required="" value="<%=correo%>" disabled="">
+                                            <label>Correo</label>
+                                        </div>
+                                    </div>
+                                    <%}%>
+                                    <%if (hs == null || hs.getAttribute("tipoCuenta") == null){%> 
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <input placeholder="+56 " name="telefono" type="number" class="validate" required="">
+                                            <input name="telefono" type="number" class="validate" required="">
                                             <label>Teléfono</label>
                                         </div>
                                     </div>
+                                    <%} else {
+                                    String telefono = ""+hs.getAttribute("telefono");
+                                    %>
+                                    <div class="row">
+                                        <input type="hidden" name="telefono" value="<%=telefono%>">
+                                        <div class="input-field col s12">
+                                            <input name="telefono" type="text" class="validate" required="" disabled="" value="<%=telefono%>">
+                                            <label>Teléfono</label>
+                                        </div>
+                                    </div>
+                                    <%}%>
                                     <div class="input-field col s12">
                                         <textarea name="mensaje" class="materialize-textarea" data-length="520" required="" style="height: 300px"></textarea>
                                         <label for="textarea1">Cuéntanos, ¿Cuál es el problema...?</label>

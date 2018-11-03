@@ -8,12 +8,13 @@
     String asunto = request.getParameter("asunto");
     String telefono = request.getParameter("telefono");
     String mensaje = request.getParameter("mensaje");
-
+    String idUsuario = request.getParameter("idUsuario");
+    String idEmpresa = request.getParameter("idEmpresa");
     try {
         Connection conn = ConexionBD.getConexion();
         String sql = "insert into contacto "
-                + "(nombre,asunto, email, telefono, mensaje) values "
-                + "(?,?,?,?,?)";
+                + "(nombre,asunto, email, telefono, mensaje,idUsuario,idEmpresa) values "
+                + "(?,?,?,?,?,?,?)";
 
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, nombre);
@@ -21,6 +22,8 @@
         pst.setString(3, email);
         pst.setString(4, telefono);
         pst.setString(5, mensaje);
+        pst.setString(6, idUsuario);
+        pst.setString(7, idEmpresa);
         pst.execute();
 
         if (hs == null || hs.getAttribute("tipoCuenta") == null) { %>
@@ -129,5 +132,5 @@
 </html>
 <% }
     } catch (Exception e) {
-        out.println(e );
+        out.println(e + "ID Empresa:" + idEmpresa+  "ID Usuario: "+ idUsuario);
     }   %>
