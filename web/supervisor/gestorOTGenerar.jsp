@@ -12,6 +12,16 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+    ResultSet rsProcedimientos = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlProcedimientos = "select procedimiento.idProcedimiento, procedimiento.nombreProcedimiento from procedimiento where idEmpresa =" + hs.getAttribute("idEmpresa");
+        PreparedStatement pstProcedimientos = conn.prepareStatement(sqlProcedimientos);
+        rsProcedimientos = pstProcedimientos.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
     %>
 <!DOCTYPE html>
 <html>
@@ -60,6 +70,17 @@
                                                     <option value="" disabled selected>Seleccione Supervisor</option>
                                                     <% while (rsResponsable.next()) {%>                                                  
                                                     <option value="<%= rsResponsable.getString("idUsuario")%>"><%= rsResponsable.getString("nombreUsuario")%></option>
+                                                    <%}%>
+                                                </select>
+                                            </td>    
+                                        </tr>
+                                        <tr>
+                                            <td><b>Procedimiento</b></td> 
+                                            <td>
+                                                <select class="icons" name="idProcedimiento">
+                                                    <option value="" disabled selected>Seleccione Procedimiento</option>
+                                                    <% while (rsProcedimientos.next()) {%>                                                  
+                                                    <option value="<%= rsProcedimientos.getString("idProcedimiento")%>"><%= rsProcedimientos.getString("nombreProcedimiento")%></option>
                                                     <%}%>
                                                 </select>
                                             </td>    

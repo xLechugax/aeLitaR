@@ -8,8 +8,18 @@
         String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and usuario.idUsuario="+hs.getAttribute("idUsuarioSesion");
         PreparedStatement pst = conn.prepareStatement(sql);
         rsUsuario = pst.executeQuery();
-        System.out.println(sql); 
         rsUsuario.next(); 
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsEmpresa = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sql = "select empresa.nombre from empresa where idEmpresa="+hs.getAttribute("idEmpresa");
+        PreparedStatement pst = conn.prepareStatement(sql);
+        rsEmpresa = pst.executeQuery();
+        rsEmpresa.next(); 
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -41,6 +51,10 @@
                             <div class="container">
                                 <table class="highlight">
                                     <tbody>
+                                        <tr>
+                                            <td><b>Empresa</b></td>
+                                            <td><%= rsEmpresa.getString("nombre") %></td>
+                                        </tr>
                                         <tr>
                                             <td><b>Nombre</b></td>
                                             <td><%= rsUsuario.getString("nombre") + " " + rsUsuario.getString("apellido")%></td>

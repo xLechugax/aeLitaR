@@ -365,7 +365,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="../gestores/gestorProcedimientosDetalle.jsp"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
+                            <a href="../gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsOrdenTrabajo.getString("idProcedimiento") %>"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
                         </li>
                     </ul>
                 </div>

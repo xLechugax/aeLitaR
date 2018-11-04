@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package crud;
+package crud.gestorProcedimientos;
 
 import bd.ConexionBD;
 import java.io.IOException;
@@ -17,57 +12,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Lechuga
- */
-@WebServlet(name = "gestorOTGenerar", urlPatterns = {"/gestorOTGenerar"})
-public class gestorOTGenerar extends HttpServlet {
+@WebServlet(name = "gestorProcedimientosAgregar", urlPatterns = {"/gestorProcedimientosAgregar"})
+public class gestorProcedimientosAgregar extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            HttpSession hs = request.getSession(false);
             
-             HttpSession hs = request.getSession(false);
-             
-            String idEmpresaAux = "" + hs.getAttribute("idEmpresa");
-            int idEmpresa = Integer.parseInt(idEmpresaAux);
-            String importancia = request.getParameter("importancia");
-            String idSupervisor = request.getParameter("idSupervisor");
-            String nombreOT = request.getParameter("nombreOT");
-            String detalleOT = request.getParameter("detalleOT");
-            String idProcedimientoAux = request.getParameter("idProcedimiento");
-            int idProcedimiento = Integer.parseInt(idProcedimientoAux);
-            String estado = "1";
+            String idEmpresa = ""+hs.getAttribute("idEmpresa");
+            String nombreProcedimiento = request.getParameter("nombreProcedimiento");
+            String detalleProcedimiento = request.getParameter("detalleProcedimiento");
 
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sql = "insert into orden_trabajo (importancia,supervisor,nombreOrdenTrabajo,detalleOrdenTrabajo,estado,idEmpresa,idProcedimiento) values (?,?,?,?,?,?,?)";
+                String sql = "INSERT INTO aelita.procedimiento (idEmpresa,nombreProcedimiento,detalleProcedimiento) VALUES (?,?,?)";
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, importancia);
-                pst.setString(2, idSupervisor);
-                pst.setString(3, nombreOT);
-                pst.setString(4, detalleOT);
-                pst.setString(5, estado);
-                pst.setInt(6, idEmpresa);
-                pst.setInt(7, idProcedimiento);
+                pst.setString(1, idEmpresa);
+                pst.setString(2, nombreProcedimiento);
+                pst.setString(3, detalleProcedimiento);
                 pst.execute();
-                if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
-                    response.sendRedirect("/aeLita/administrador/gestorOT.jsp");
-                }
-                if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {
-                    response.sendRedirect("/aeLita/supervisor/gestorOT.jsp");
-                }
+                response.sendRedirect("/aeLita/gestores/gestorProcedimientos.jsp");
             } catch (Exception e) {
                 out.println("Excepción de SQL (RegistroUsuario.jsp): " + e);
             }

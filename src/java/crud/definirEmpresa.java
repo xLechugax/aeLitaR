@@ -38,10 +38,11 @@ public class definirEmpresa extends HttpServlet {
             HttpSession hs = request.getSession(false);
 
             String idEmpresa = request.getParameter("idEmpresa");
-            String nombreEmpresa = request.getParameter("nombreEmpresa");
+            String idUsuario = request.getParameter("idUsuario");
 
             hs.setAttribute("idEmpresa", idEmpresa);
             out.print(hs.getAttribute("idEmpresa"));
+            out.print(idUsuario);
 
             if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
                 response.sendRedirect("/aeLita/administrador/inicioAdmin.jsp?idEmpresa="+hs.getAttribute("idEmpresa"));

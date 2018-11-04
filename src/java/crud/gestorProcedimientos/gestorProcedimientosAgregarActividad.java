@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crud;
+package crud.gestorProcedimientos;
 
 import bd.ConexionBD;
 import java.io.IOException;
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Lechuga
  */
-@WebServlet(name = "gestorOTGenerar", urlPatterns = {"/gestorOTGenerar"})
-public class gestorOTGenerar extends HttpServlet {
+@WebServlet(name = "gestorProcedimientosAgregarActividad", urlPatterns = {"/gestorProcedimientosAgregarActividad"})
+public class gestorProcedimientosAgregarActividad extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,36 +38,23 @@ public class gestorOTGenerar extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-             HttpSession hs = request.getSession(false);
-             
-            String idEmpresaAux = "" + hs.getAttribute("idEmpresa");
-            int idEmpresa = Integer.parseInt(idEmpresaAux);
-            String importancia = request.getParameter("importancia");
-            String idSupervisor = request.getParameter("idSupervisor");
-            String nombreOT = request.getParameter("nombreOT");
-            String detalleOT = request.getParameter("detalleOT");
-            String idProcedimientoAux = request.getParameter("idProcedimiento");
-            int idProcedimiento = Integer.parseInt(idProcedimientoAux);
-            String estado = "1";
+            HttpSession hs = request.getSession(false);
+            
+            String idEmpresa = ""+hs.getAttribute("idEmpresa");
+            String idProcedimiento = request.getParameter("idProcedimiento");
+            String nombreActividad = request.getParameter("nombreActividad");
+            String detalleActividad = request.getParameter("detalleActividad");
 
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sql = "insert into orden_trabajo (importancia,supervisor,nombreOrdenTrabajo,detalleOrdenTrabajo,estado,idEmpresa,idProcedimiento) values (?,?,?,?,?,?,?)";
+                String sql = "INSERT INTO aelita.actividad (idEmpresa,idProcedimiento,nombreActividad,detalleActividad) VALUES (?,?,?,?)";
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, importancia);
-                pst.setString(2, idSupervisor);
-                pst.setString(3, nombreOT);
-                pst.setString(4, detalleOT);
-                pst.setString(5, estado);
-                pst.setInt(6, idEmpresa);
-                pst.setInt(7, idProcedimiento);
+                pst.setString(1, idEmpresa);
+                pst.setString(2, idProcedimiento);
+                pst.setString(3, nombreActividad);
+                pst.setString(4, detalleActividad);
                 pst.execute();
-                if (hs.getAttribute("tipoCuenta").equals("Administrador")) {
-                    response.sendRedirect("/aeLita/administrador/gestorOT.jsp");
-                }
-                if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {
-                    response.sendRedirect("/aeLita/supervisor/gestorOT.jsp");
-                }
+                response.sendRedirect("/aeLita/gestores/gestorProcedimientosDetalle.jsp?idProcedimiento="+idProcedimiento);
             } catch (Exception e) {
                 out.println("Excepción de SQL (RegistroUsuario.jsp): " + e);
             }

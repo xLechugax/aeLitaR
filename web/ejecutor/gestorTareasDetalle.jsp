@@ -1,7 +1,8 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    String idTareaSeleccionada = request.getParameter("idTarea");
+<%    
+    String idTareaSeleccionada = request.getParameter("idTarea");
     String comentarioOT = request.getParameter("comentarioOT");
     ResultSet rsAux = null; // Contiene el ID de la Orden de trabajo seleccionada.
     try {
@@ -29,7 +30,7 @@
     ResultSet rsTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select usuario.nombreUsuario, tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, tarea.fecha_inicio, tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada + " and tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
+        String sqlOrdenTrabajo = "select usuario.nombreUsuario, tarea.idProcedimiento, tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, tarea.fecha_inicio, tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada + " and tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsTareaSeleccionada = pstOrdenTrabajo.executeQuery();
         rsTareaSeleccionada.next();
@@ -306,9 +307,16 @@
                                 </form>
                             </div>
                         </li>
+                        <% if (rsTareaSeleccionada.getString("idProcedimiento").equals("0")) {%>
                         <li>
-                            <a href="../gestores/gestorProcedimientosDetalle.jsp" target="_blank"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
+                            <div class="collapsible-header"><i class="material-icons">call_split</i><text class="orange-text">Sin procedimiento asignado...</text></div>
+                            <div class="collapsible-body white"><span class="red-text">Aún no son asociadas actividades...</span></div>
                         </li>
+                        <%} else {%>
+                        <li>
+                            <a href="../gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsTareaSeleccionada.getString("idProcedimiento") %>" target="_blank"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
+                        </li>
+                        <%}%>
                     </ul>
                 </div>
                 <div class="col m7">

@@ -11,8 +11,8 @@
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
-    }
-%>
+    } 
+%>  
 <!DOCTYPE html>
 <html>
     <head>

@@ -1,4 +1,4 @@
-<%
+<%  
     if (hs == null || hs.getAttribute("tipoCuenta") == null) {
 %>
 <!INICIO - BARRA DE NAVEGACIÓN FIXED>
