@@ -1,3 +1,0 @@
-PE-12406_SLT-2_CLRMRESROU07#sh ip bgp vpnv4 vrf terpel summary 
-
-#sh ip bgp vpnv4 vrf (VRF) summary 
