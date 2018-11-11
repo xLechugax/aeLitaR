@@ -363,7 +363,7 @@
                                             }
                                         %>
                                         <!-- Modal Trigger -->
-                                        <a class="waves-effect waves-light btn modal-trigger" href="#modalAreaDepartamento<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("nombreAreaDepartamento")%></a>
+                                        <a class="waves-effect waves-light btn modal-trigger blue-grey darken-3" href="#modalAreaDepartamento<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("nombreAreaDepartamento")%></a>
 
                                         <!-- Modal Structure -->
                                         <div id="modalAreaDepartamento<%=rsUsuarios.getLong("idUsuario")%>" class="modal">
@@ -395,7 +395,37 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td><a href="gestorUsuariosEditarTipoCuenta.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("tipoCuenta")%></a></td>
+                                    <td><a href="gestorUsuariosEditarTipoCuenta.jsp?idUsuario="></a>
+                                        <!-- Modal Trigger -->
+                                        <a class="waves-effect waves-light btn modal-trigger blue-grey darken-1" href="#modalEditarTipoCuenta<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("tipoCuenta")%></a>
+
+                                        <!-- Modal Structure -->
+                                        <div id="modalEditarTipoCuenta<%=rsUsuarios.getLong("idUsuario")%>" class="modal">
+                                            <div class="modal-content" style="height: 400px">
+                                                <form action="guardarCambiosTipoCuenta.jsp" method="post">
+                                                    <input type="hidden" name="idUsuario" value="<%=rsUsuarios.getLong("idUsuario")%>">
+                                                    <table class="">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Tipo de Cuenta:</td>
+                                                                <td>
+                                                                    <select required name="tipoCuenta">
+                                                                        <option value="" selected="" disabled="">Seleccione tipo de cuenta...</option>
+                                                                        <option value="Administrador">Administrador</option>
+                                                                        <option value="Supervisor">Supervisor</option>
+                                                                        <option value="Ejecutor">Ejecutor</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <center>
+                                                        <input class="waves-effect waves-light btn" type="submit" value="Guardar Cambios" />
+                                                    </center><br/>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
                                     </td>
                                     <td><center>
                                     <a href="gestorUsuarios.jsp?accion=1&id=<%=rsUsuarios.getLong("idUsuario")%>">
