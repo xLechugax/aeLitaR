@@ -1,7 +1,18 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@ include file="../accesoDenegadoOnlyADM.jsp" %>
-<%  
+<%    ResultSet rsAreaDepa = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlAreaDepa = "select * from area_departamento where area_departamento.idEmpresa=" + hs.getAttribute("idEmpresa");
+        PreparedStatement pstAreaDepa = conn.prepareStatement(sqlAreaDepa);
+        rsAreaDepa = pstAreaDepa.executeQuery();
+
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+
     String accion = request.getParameter("accion");
     if (accion != null) {
         if (accion.equals("1")) {
@@ -14,70 +25,70 @@
             pstConsultaUsuario.setLong(1, idUsuario);
             ResultSet rsUsuarioConsulta = pstConsultaUsuario.executeQuery();
             rsUsuarioConsulta.next();
-            
+
             if (rsUsuarioConsulta.getString("tipoCuenta").equals("Administrador")) {
 %>
-            <html>
-                <head>
-                    <meta http-equiv="Refresh" content="5;url=/aeLita/gestores/gestorUsuarios.jsp">
-                    <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
-                </head>
-                <body class="blue-grey lighten-5">
-                    <br /><br /><br /><br /><br /><br /><br /><br />
-                <center>
-                    <div class="row">
-                        <div class="col s12 m12">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                    <span class="card-title">¡Hey, cuidado!</span>
-                                    <p>No puedes desactivar la cuenta de un administrador...</p>
-                                </div>
-                                <div class="card-action">
-                                    <a href="/aeLita/gestores/gestorUsuarios.jsp">Volver...</a>
-                                </div>
-                            </div>
-                        </div>
+<html>
+    <head>
+        <meta http-equiv="Refresh" content="5;url=/aeLita/gestores/gestorUsuarios.jsp">
+        <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
+    </head>
+    <body class="blue-grey lighten-5">
+        <br /><br /><br /><br /><br /><br /><br /><br />
+    <center>
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">¡Hey, cuidado!</span>
+                        <p>No puedes desactivar la cuenta de un administrador...</p>
                     </div>
-                </center>
-            </body>
-            </html>
+                    <div class="card-action">
+                        <a href="/aeLita/gestores/gestorUsuarios.jsp">Volver...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
 <%      return;
-                }
+    }
 
-            String sql = "select activo from usuario where idUsuario=?";
-            PreparedStatement pst1 = conn.prepareStatement(sql);
-            pst1.setLong(1, idUsuario);
-            ResultSet rs1 = pst1.executeQuery();
+    String sql = "select activo from trabaja where idUsuario=?";
+    PreparedStatement pst1 = conn.prepareStatement(sql);
+    pst1.setLong(1, idUsuario);
+    ResultSet rs1 = pst1.executeQuery();
 
-            // Leer el estado del usuario, para cambiarlo por el contrario.
-            rs1.next();
-            if (rs1.getString("activo").equals("S")) {
-                String sql2 = "update usuario set activo=? where idUsuario=?";
-                PreparedStatement pst2 = conn.prepareStatement(sql2);
-                pst2.setString(1, "N");
-                pst2.setLong(2, idUsuario);
-                pst2.execute();
-            } else {
-                String sql2 = "update usuario set activo=? where idUsuario=?";
-                PreparedStatement pst2 = conn.prepareStatement(sql2);
+    // Leer el estado del usuario, para cambiarlo por el contrario.
+    rs1.next();
+    if (rs1.getString("activo").equals("S")) {
+        String sql2 = "update trabaja set activo=? where idUsuario=?";
+        PreparedStatement pst2 = conn.prepareStatement(sql2);
+        pst2.setString(1, "N");
+        pst2.setLong(2, idUsuario);
+        pst2.execute();
+    } else {
+        String sql2 = "update trabaja set activo=? where idUsuario=?";
+        PreparedStatement pst2 = conn.prepareStatement(sql2);
 
-                pst2.setString(1, "S");
-                pst2.setLong(2, idUsuario);
-                pst2.execute();
-            }
-        } else if (accion.equals("2")) {
-            long idUsuario = Long.parseLong(request.getParameter("id"));
-            String idUsuarioSesion = request.getParameter("id");
-            Connection conn = ConexionBD.getConexion();
+        pst2.setString(1, "S");
+        pst2.setLong(2, idUsuario);
+        pst2.execute();
+    }
+} else if (accion.equals("2")) {
+    long idUsuario = Long.parseLong(request.getParameter("id"));
+    String idUsuarioSesion = request.getParameter("id");
+    Connection conn = ConexionBD.getConexion();
 
-            String sqlConsulta = "select * from usuario where idUsuario=?";
-            PreparedStatement pstConsultaUsuario = conn.prepareStatement(sqlConsulta);
-            pstConsultaUsuario.setLong(1, idUsuario);
-            ResultSet rsUsuarioConsulta = pstConsultaUsuario.executeQuery();
-            rsUsuarioConsulta.next();
-            
-            if (rsUsuarioConsulta.getString("tipoCuenta").equals("Administrador")) {
+    String sqlConsulta = "select * from usuario where idUsuario=?";
+    PreparedStatement pstConsultaUsuario = conn.prepareStatement(sqlConsulta);
+    pstConsultaUsuario.setLong(1, idUsuario);
+    ResultSet rsUsuarioConsulta = pstConsultaUsuario.executeQuery();
+    rsUsuarioConsulta.next();
+
+    if (rsUsuarioConsulta.getString("tipoCuenta").equals("Administrador")) {
 %>
 <html>
     <head>
@@ -128,8 +139,8 @@
     try {
         Connection conn = ConexionBD.getConexion();
         Statement st = conn.createStatement();
-        
-        String sql = "select * from usuario,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and idUsuario > 1 ";
+
+        String sql = "select * from usuario,trabaja,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and trabaja.idUsuario = usuario.idUsuario and trabaja.idEmpresa = " + hs.getAttribute("idEmpresa") + " and usuario.idUsuario > 1 ";
 
         // 2.- Aplicar un filtro de búsqueda si es necesario
         if (textobusqueda != null && tipobusqueda != null) {
@@ -152,9 +163,9 @@
                 sql = sql + " and usuario.tipoCuenta like '%" + textobusqueda + "%' order by usuario.idUsuario";
             }
         }
-        
+
         if (textobusqueda == null && tipobusqueda == null) {
-                sql = sql + " order by usuario.idUsuario"; 
+            sql = sql + " order by usuario.idUsuario";
         }
 
         rsUsuarios = st.executeQuery(sql);
@@ -211,12 +222,107 @@
                     </div>
                     <div class="card-stacked">
                         <div class="card-content">
+                            <a class="btn-floating btn-large waves-effect waves-light red right-aligned modal-trigger" href="#modal1"><i class="material-icons">add</i></a>&nbsp;&nbsp;<b>Agregar Usuario</b>
+
+                            <!-- Modal Structure -->
+                            <div id="modal1" class="modal">
+                                <div class="modal-content">
+                                    <h4>Agregar Usuario</h4>
+                                    <form class="col s12" action="/aeLita/crearUsuario" method="post">
+
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <input type="text" name="rut" required="required" pattern="\d{3,8}-[\d|kK]{1}" title="Debe ser un Rut 11222333-4" class="validate"/>
+                                                <label>Rut</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input name="nombre" type="text" class="validate" required="">
+                                                <label>Nombre</label>
+                                            </div>
+                                            <div class="input-field col s6">
+                                                <input name="apellido" type="text" class="validate" required="">
+                                                <label>Apellido</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <input name="correo" type="email" class="validate" required="">
+                                                <label>Correo</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <input name="confirmar_correo" type="email" class="validate" required="">
+                                                <label>Confirmar Correo</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input placeholder="+569" name="telefono_m" type="number" class="validate" required="">
+                                                <label>Teléfono Móvil</label>
+                                            </div>
+                                            <div class="input-field col s6">
+                                                <input name="telefono_f" placeholder="+562" type="number" class="validate" required="">
+                                                <label>Teléfono Fijo</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <select required name="area_departamento">
+                                                    <option value="">Seleccione Área/Departamento...</option>
+                                                    <% while (rsAreaDepa.next()) {%>
+                                                    <option value="<%= rsAreaDepa.getString("idAreaDepartamento")%>"><%= rsAreaDepa.getString("nombreAreaDepartamento")%></option>
+                                                    <% }%>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input name="clave" type="password" class="validate" required="">
+                                                <label>Contraseña</label>
+                                            </div>
+                                            <div class="input-field col s6">
+                                                <input name="confirmar_clave" type="password" class="validate" required="">
+                                                <label>Confirmar Contraseña</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12">
+                                                <input name="direccion" type="text" class="validate" required="">
+                                                <label>Dirección</label>
+                                            </div>
+                                        </div>
+                                        <a>
+                                            Rol
+                                        </a>
+                                        <div class="row">
+                                            <p>
+                                                <input name="rol" type="radio" id="rolAdministrador" value="Administrador" required=""/>
+                                                <label for="rolAdministrador">Administrador</label>
+                                            </p>
+                                            <p>
+                                                <input name="rol" type="radio" id="rolSupervisor" value="Supervisor" required=""/>
+                                                <label for="rolSupervisor">Supervisor</label>
+                                            </p>
+                                            <p>
+                                                <input name="rol" type="radio" id="rolEjecutor" value="Ejecutor" required=""/>
+                                                <label for="rolEjecutor">Ejecutor</label>
+                                            </p> 
+                                        </div>
+                                        <center>
+                                            <input class="waves-effect waves-light btn" type="submit" value="Crear Usuario" />
+                                        </center>
+                                    </form>
+                                </div>
+                            </div>
+
                             <table class="highlight bordered">
                                 <tr>
                                     <td><b>ID</b></td>
-                                    <td><b>Nombre</b></td>
+                                    <td><b>Rut</b></td>
                                     <td><b>Nombre Usuario</b></td>
-                                    <td><b>Dirección</b></td>
                                     <td><b>Correo</b></td>
                                     <td><b>Celular</b></td>
                                     <td><b>Fijo</b></td>
@@ -225,17 +331,70 @@
                                     <td><b>Activo</b></td>
                                     <td><b>Operaciones</b></td>
                                 </tr>            
-                                <% while (rsUsuarios.next()) { %>
-                                   
+                                <% while (rsUsuarios.next()) {%>
+
                                 <tr>
                                     <td><b><%=rsUsuarios.getLong("idUsuario")%></b></td>
-                                    <td><%=rsUsuarios.getString("nombre") + " " + rsUsuarios.getString("apellido")%></td>
+                                    <td><b><%=rsUsuarios.getString("rut")%></b></td>
                                     <td><%=rsUsuarios.getString("nombreUsuario")%></td>
-                                    <td><%=rsUsuarios.getString("direccion")%></td>
                                     <td><%=rsUsuarios.getString("email")%></td>
                                     <td><%=rsUsuarios.getString("telefono_m")%></td>
                                     <td><%=rsUsuarios.getString("telefono_f")%></td>
-                                    <td><a href="gestorUsuariosEditarAreaDepartamento.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("nombreAreaDepartamento")%></a></td>
+                                    <td><a href="gestorUsuariosEditarAreaDepartamento.jsp?idUsuario="></a>
+                                        <%
+                                            String idUsuario = request.getParameter("idUsuario");
+
+                                            ResultSet rsUsuario = null;
+                                            ResultSet rsAreaDepaEditar = null;
+                                            try {
+                                                Connection conn = ConexionBD.getConexion();
+                                                String sql = "select * from usuario where idUsuario=" + idUsuario;
+                                                PreparedStatement pst = conn.prepareStatement(sql);
+                                                rsUsuario = pst.executeQuery();
+                                                rsUsuario.next();
+
+                                                String sqlAreaDepa = "select * from area_departamento where area_departamento.idEmpresa=" + hs.getAttribute("idEmpresa") + " or area_departamento.idEmpresa=0";
+                                                PreparedStatement pstAreaDepa = conn.prepareStatement(sqlAreaDepa);
+                                                rsAreaDepaEditar = pstAreaDepa.executeQuery();
+
+                                            } catch (SQLException e) {
+                                                out.println("Excepción de SQL:" + e);
+                                                return;
+                                            }
+                                        %>
+                                        <!-- Modal Trigger -->
+                                        <a class="waves-effect waves-light btn modal-trigger" href="#modalAreaDepartamento<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("nombreAreaDepartamento")%></a>
+
+                                        <!-- Modal Structure -->
+                                        <div id="modalAreaDepartamento<%=rsUsuarios.getLong("idUsuario")%>" class="modal">
+                                            <div class="modal-content" style="height: 400px">
+                                                <h4>Editar Área/Departamento</h4>
+                                                <form action="guardarCambiosAreaDepartamento.jsp" method="post">
+                                                    <input type="hidden" name="idUsuario" value="<%=rsUsuarios.getLong("idUsuario")%>">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Área/Departamento:</td>
+                                                                <td>
+                                                                    <select required name="area_departamento">
+                                                                        <option value="">Seleccione...</option>
+                                                                        <% while (rsAreaDepaEditar.next()) {%>
+                                                                        <option value="<%= rsAreaDepaEditar.getString("idAreaDepartamento")%>"><%= rsAreaDepaEditar.getString("nombreAreaDepartamento")%></option>
+                                                                        <% }%>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table> 
+                                                    <center>
+                                                        <input class="waves-effect waves-light btn" type="submit" value="Guardar Cambios" />
+                                                    </center><br/>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td><a href="gestorUsuariosEditarTipoCuenta.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("tipoCuenta")%></a></td>
                                     </td>
                                     <td><center>
@@ -250,9 +409,9 @@
                                     </a></center>
                                 </td>
                                 <td><center>
-                                    <a href="gestorUsuariosConfirmarEliminar.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>">
+                                    <%--<a href="gestorUsuariosConfirmarEliminar.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>">
                                         <img src="img/eliminar.png" title="Eliminar"/>
-                                    </a>
+                                    </a>--%>
                                     &nbsp;
                                     <a href="gestorUsuariosEditar.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>">
                                         <img src="img/modificar.jpg" title="Modificar"/>
@@ -275,6 +434,7 @@
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
     <script>
         $(document).ready(function () {
+            $('.modal').modal();
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
             $('select').material_select();

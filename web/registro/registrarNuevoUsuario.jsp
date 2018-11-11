@@ -1,15 +1,10 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
+<%@ include file="../accesoDenegadoOnlyADM.jsp" %>
 <%
-    HttpSession hs = request.getSession(false);  // RECUPERAR LA SESIÓN YA ABIERTA PARA EL USUARIO.
-    ResultSet rsUsuarios = null;
     ResultSet rsAreaDepa = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from usuario";
-        PreparedStatement pst = conn.prepareStatement(sql);
-        rsUsuarios = pst.executeQuery();
-
         String sqlAreaDepa = "select * from area_departamento";
         PreparedStatement pstAreaDepa = conn.prepareStatement(sqlAreaDepa);
         rsAreaDepa = pstAreaDepa.executeQuery();
@@ -21,7 +16,7 @@
 %>
 <!DOCTYPE html>
 <html>
-    <head>
+    <head> 
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->

@@ -3,7 +3,6 @@
 %>
 <!INICIO - BARRA DE NAVEGACI”N FIXED>
 <ul class="side-nav" id="mobile-demo">
-    <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registro</a></li>
 </ul>
 <div class="navbar-fixed">
     <nav>
@@ -11,7 +10,6 @@
             <a href="/aeLita/index.jsp" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;ÊLita</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="/aeLita/registro/registrarNuevoUsuario.jsp">Registrate</a></li>
             </ul>
         </div>
     </nav>

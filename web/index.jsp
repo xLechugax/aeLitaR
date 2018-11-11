@@ -2,16 +2,6 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%
     HttpSession hs = request.getSession(false);  // RECUPERAR LA SESIÓN YA ABIERTA PARA EL USUARIO.
-    ResultSet rsUsuarios = null;
-    try {
-        Connection conn = ConexionBD.getConexion();
-        String sql = "select * from usuario";
-        PreparedStatement pst = conn.prepareStatement(sql);
-        rsUsuarios = pst.executeQuery();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    } 
 %>  
 <!DOCTYPE html>
 <html>
