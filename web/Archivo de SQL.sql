@@ -13,8 +13,8 @@
 
 
 -- Volcando estructura de base de datos para aelita
-CREATE DATABASE IF NOT EXISTS `mysql1005.mochahost.com` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `mysql1005.mochahost.com`;
+CREATE DATABASE IF NOT EXISTS `aeLita` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `aeLita`;
 
 -- Volcando estructura para tabla aelita.actividad
 CREATE TABLE IF NOT EXISTS `actividad` (
