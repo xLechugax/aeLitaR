@@ -63,7 +63,7 @@
                                     Hasta
                                     <input id="fechaHasta" type="datetime-local" value="2017-06-01">
                                     <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
                                 </form>
                             </div>
@@ -75,7 +75,7 @@
                                     ID de Tarea
                                     <input id="idTarea" type="text" required="">
                                     <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
                                 </form>
                             </div>
@@ -111,7 +111,7 @@
                                             <td><b><center><%= rsTareasCerradas.getString("nombreTipoTarea")%></center></b></td>
                                             <td><%= rsTareasCerradas.getString("nombreOrdenTrabajo")%></td>
                                             <td><%= rsTareasCerradas.getString("fecha_inicio")%></td>
-                                            <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasCerradas.getString("idTarea")%>" class="btn">Detalle</a></td>
+                                            <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasCerradas.getString("idTarea")%>" class="btn blue-grey darken-3">Detalle</a></td>
                                         </tr>
                                         <%}
                                         } else {%>
@@ -121,12 +121,7 @@
                                 </table>
                             </div>
                         </li>
-                        <li>
-                            <div class="collapsible-header"><i class="material-icons">show_chart</i>Estadísticas</div>
-                            <div class="collapsible-body white">
-                                <canvas id="chartEstadisticas" width="400" height="200"></canvas>
-                            </div>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>
@@ -142,29 +137,6 @@
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
             $('.collapsible').collapsible();
-        });
-    </script>
-    <script>
-        var canvas = document.getElementById('chartEstadisticas');
-        var data = {
-            labels: ["January", "<%= hs.getAttribute("nombre")%>", "March", "April", "May", "June", "July", "caca"],
-            datasets: [
-                {
-                    label: "My First dataset",
-                    backgroundColor: "rgba(102,127,153,0.2)",
-                    borderColor: "rgba(255,99,132,1)",
-                    borderWidth: 2,
-                    hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                    hoverBorderColor: "rgba(255,99,132,1)",
-                    data: [65, 59, 30, 81, 56, 55, 40, 100],
-                }
-            ]
-        };
-        var option = {animation: {duration: 5000}};
-        var myBarChart = Chart.Bar(canvas, {data: data, options: option});
-        $(document).ready(function () {
-            $(".button-collapse").sideNav();
-            $(".dropdown-button").dropdown();
         });
     </script>
 </body>

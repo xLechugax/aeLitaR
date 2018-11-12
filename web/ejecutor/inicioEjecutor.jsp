@@ -1,10 +1,15 @@
+<%@page import="bd.ConexionBD"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.ResultSet"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
 <!DOCTYPE html>
-<%    
-    if (hs.getAttribute("idEmpresa") == null) { //Setear el HS unicamente si viene null, o sea, recien iniciando la sessión
+<%    if (hs.getAttribute("idEmpresa") == null) { //Setear el HS unicamente si viene null, o sea, recien iniciando la sessión
         String idEmpresa = request.getParameter("idEmpresa"); // Toma el ID de la empresa y lo deja en el HS
         hs.setAttribute("idEmpresa", idEmpresa);
-    } 
+    }
 %>
 <html>
     <head>
@@ -22,18 +27,50 @@
             <div class="container"> 
                 <div class="row">
                     <div class="col s12 m12">
-                        <div class="card blue-grey darken-1">
-                            <div class="card-content white-text">
-                                <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p>
-                                <h5 class="white-text">Links de Útilidad</h5>
-                                <ul>
-                                    <li><a class="grey-text text-lighten-3" href="http://172.17.40.45/plataforma_datos/vis_equipos_datoslist.asp?cmd=resetall" target="_blank"><i class="material-icons">router</i>Equipos Actualizados</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://despachonacional.cl/despachonacional/siad_pyme/index.php/Login" target="_blank"><i class="material-icons">dashboard</i>SIAD Pyme</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="https://macvendors.com/" target="_blank"><i class="material-icons">fingerprint</i>MacVendors</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://10.41.4.141/sac/Login_input" target="_blank"><i class="material-icons">keyboard</i>HFC Incognito</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://agenda/Organigrama/"  target="_blank"><i class="material-icons">local_phone</i>Organigrama</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://200.27.8.220/acceso.php"  target="_blank"><i class="material-icons">accessibility</i>ID Ingreso a Nodo</a></li>
-                                </ul>
+                        <div class="card">
+                            <div class="card-content black-text">
+                                <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p> 
+                                <br/>
+                                <%
+                                    ResultSet rsTareasEnAtencion = null;
+                                    try {
+                                        Connection conn = ConexionBD.getConexion();
+                                        String sqlTareasEnAtencion = "select count(*)  from tarea where tarea.idEmpresa = " + hs.getAttribute("idEmpresa") + " and usuario = " + hs.getAttribute("idUsuarioSesion") + " and tarea.estadoTarea != 5";
+                                        PreparedStatement pstTareasEnAtencion = conn.prepareStatement(sqlTareasEnAtencion);
+                                        rsTareasEnAtencion = pstTareasEnAtencion.executeQuery();
+                                        rsTareasEnAtencion.next();
+                                    } catch (SQLException e) {
+                                        out.println("Excepción de SQL:" + e);
+                                        return;
+                                    }
+                                    ResultSet rsTareasCerradas = null;
+                                    try {
+                                        Connection conn = ConexionBD.getConexion();
+                                        String sqlTareasCerradas = "select count(*) from tarea where tarea.idEmpresa = " + hs.getAttribute("idEmpresa") + " and tarea.usuario = " + hs.getAttribute("idUsuarioSesion") + " and tarea.estadoTarea = 5";
+                                        PreparedStatement pstTareasCerradas = conn.prepareStatement(sqlTareasCerradas);
+                                        rsTareasCerradas = pstTareasCerradas.executeQuery();
+                                        rsTareasCerradas.next();
+                                    } catch (SQLException e) {
+                                        out.println("Excepción de SQL:" + e);
+                                        return;
+                                    }
+                                    ResultSet rsAvances = null;
+                                    try {
+                                        Connection conn = ConexionBD.getConexion();
+                                        String sqlAvances = "select count(*) from avance where avance.idEmpresa = " + hs.getAttribute("idEmpresa") + " and avance.usuario = " + hs.getAttribute("idUsuarioSesion");
+                                        PreparedStatement pstAvances = conn.prepareStatement(sqlAvances);
+                                        rsAvances = pstAvances.executeQuery();
+                                        rsAvances.next();
+                                    } catch (SQLException e) {
+                                        out.println("Excepción de SQL:" + e);
+                                        return;
+                                    }
+                                %>
+                                <div class="collection">
+                                    <a class="collection-item"><span class="badge"><%= rsTareasEnAtencion.getInt(1)%></span>Tareas en Atención</a>
+                                    <a class="collection-item"><span class="badge"><%= rsTareasCerradas.getInt(1)%></span>Tareas Cerradas</a>
+                                    <a class="collection-item"><span class="badge"><%= rsAvances.getInt(1)%></span>Cantidad de Avances</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -43,6 +80,7 @@
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/aeLita/js/Chart.min.js"></script>
     <script>
         $(document).ready(function () {
             $(".button-collapse").sideNav();

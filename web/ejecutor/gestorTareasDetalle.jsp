@@ -12,7 +12,7 @@
         rsAux = pstOrdenTrabajo.executeQuery();
         rsAux.next();
     } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
+        out.println("Excepción de SQL idTareaSeleccionada:" + e);
         return;
     }
 
@@ -24,7 +24,7 @@
         rsOrdenTrabajo = pstOrdenTrabajo.executeQuery();
         rsOrdenTrabajo.next();
     } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
+        out.println("Excepción de SQL rsOrdenTrabajo:" + e);
         return;
     }
     ResultSet rsTareaSeleccionada = null;
@@ -293,16 +293,16 @@
                                 </table>
                                 <form name="subirArchivo" action="#" method="POST">
                                     <div class="file-field input-field">
-                                        <div class="btn">
+                                        <div class="btn blue-grey darken-3">
                                             <span>File</span>
                                             <input type="file" multiple>
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" placeholder="Selecciones los archivos que desea subir...">
+                                            <input class="file-path validate " type="text" placeholder="Selecciones los archivos que desea subir...">
                                         </div>
                                     </div>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Subir Archivo" />
+                                        <input class="waves-effect waves-light btn right-align blue-grey darken-3" type="submit" value="Subir Archivo" />
                                     </center>
                                 </form>
                             </div>
@@ -331,7 +331,7 @@
                                         <label for="textarea1">Comentario</label>
                                     </div>
                                     <div class="center-align">
-                                        <input disabled="" class="waves-effect waves-light btn" type="submit" value="Documentar" />
+                                        <input disabled="" class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Documentar" />
                                     </div>
                                 </form>
                                 <%} else {%>
@@ -342,7 +342,7 @@
                                         <label for="textarea1">Comentario</label>
                                     </div>
                                     <div class="center-align">
-                                        <input class="waves-effect waves-light btn" type="submit" value="Documentar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Documentar" />
                                     </div>
                                 </form>
                                 <%}%>

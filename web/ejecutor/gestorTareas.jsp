@@ -78,7 +78,7 @@
                                             <td><b><center><%= rsTareasAsignadas.getString("nombreTipoTarea")%></center></b></td>
                                             <td><%= rsTareasAsignadas.getString("nombreOrdenTrabajo")%></td>
                                             <td><%= rsTareasAsignadas.getString("fecha_inicio")%></td>
-                                            <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasAsignadas.getString("idTarea")%>" class="btn">Detalle</a></td>
+                                            <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasAsignadas.getString("idTarea")%>" class="btn blue-grey darken-3">Detalle</a></td>
                                         </tr>
                                         <%}
                                         } else {%>
