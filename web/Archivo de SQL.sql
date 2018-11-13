@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         10.3.7-MariaDB - mariadb.org binary distribution
+-- Versión del servidor:         10.3.10-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win64
 -- HeidiSQL Versión:             9.4.0.5125
 -- --------------------------------------------------------
@@ -13,8 +13,8 @@
 
 
 -- Volcando estructura de base de datos para aelita
-CREATE DATABASE IF NOT EXISTS `aeLita` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `aeLita`;
+CREATE DATABASE IF NOT EXISTS `aelita` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `aelita`;
 
 -- Volcando estructura para tabla aelita.actividad
 CREATE TABLE IF NOT EXISTS `actividad` (
@@ -58,9 +58,9 @@ CREATE TABLE IF NOT EXISTS `area_departamento` (
   PRIMARY KEY (`idAreaDepartamento`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.area_departamento: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.area_departamento: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `area_departamento` DISABLE KEYS */;
-REPLACE INTO `area_departamento` (`idAreaDepartamento`, `idEmpresa`, `nombreAreaDepartamento`, `detalleAreaDepartamento`) VALUES
+INSERT INTO `area_departamento` (`idAreaDepartamento`, `idEmpresa`, `nombreAreaDepartamento`, `detalleAreaDepartamento`) VALUES
 	(00000000000, 0, 'SIN ASIGNAR', NULL),
 	(00000000001, 1, 'MANTENCIÓN', 'Personal que realiza las reparaciones de los servicios. '),
 	(00000000002, 1, 'FRONT', 'Área donde los colaboradores recepcionan llamados. '),
@@ -68,6 +68,19 @@ REPLACE INTO `area_departamento` (`idAreaDepartamento`, `idEmpresa`, `nombreArea
 	(00000000006, 1, 'MANUTENCIÓN DE DATOS', 'DETALLE DE MANUTENCIÓN DE DATOS'),
 	(00000000012, 2, 'Gestión de combustible', '2');
 /*!40000 ALTER TABLE `area_departamento` ENABLE KEYS */;
+
+-- Volcando estructura para tabla aelita.attachment
+CREATE TABLE IF NOT EXISTS `attachment` (
+  `ID` bigint(20) NOT NULL,
+  `FILE_NAME` varchar(50) NOT NULL,
+  `FILE_DATA` blob NOT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla aelita.attachment: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `attachment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `attachment` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.avance
 CREATE TABLE IF NOT EXISTS `avance` (
@@ -81,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `avance` (
   PRIMARY KEY (`idAvance`)
 ) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.avance: ~53 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.avance: ~59 rows (aproximadamente)
 /*!40000 ALTER TABLE `avance` DISABLE KEYS */;
-REPLACE INTO `avance` (`idAvance`, `idEmpresa`, `idTarea_fk`, `idOrdenTrabajo_fk`, `usuario`, `comentario`, `fecha_publicacion`) VALUES
+INSERT INTO `avance` (`idAvance`, `idEmpresa`, `idTarea_fk`, `idOrdenTrabajo_fk`, `usuario`, `comentario`, `fecha_publicacion`) VALUES
 	(00000000007, 1, NULL, 1, 40, 'armin, necesito que documentes', '2018-07-24 18:14:23'),
 	(00000000008, 1, 1, 1, 26, 'bueno', '2018-07-24 18:14:39'),
 	(00000000009, 1, NULL, 7, 16, 'Alonso, favor documentar....', '2018-07-24 18:20:03'),
@@ -161,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `contacto` (
 
 -- Volcando datos para la tabla aelita.contacto: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `contacto` DISABLE KEYS */;
-REPLACE INTO `contacto` (`idContacto`, `idEmpresa`, `idUsuario`, `nombre`, `asunto`, `email`, `telefono`, `mensaje`, `fecha`) VALUES
+INSERT INTO `contacto` (`idContacto`, `idEmpresa`, `idUsuario`, `nombre`, `asunto`, `email`, `telefono`, `mensaje`, `fecha`) VALUES
 	(00000000014, NULL, NULL, 'Mauricio Cortazar', 'Problemas en el registro', 'mauricio.cortazar@gmail.com', '569856325654', 'Me sale que la cuenta esta des-habilitada. Favor habilitar.', '2018-07-15 22:58:58'),
 	(00000000017, NULL, NULL, 'Don Hernan', 'Ingreso a la web', 'hernan.coelo@gmail.com', '56986565987', 'Hola, buenas, tengo algunas dudas sobre el sitio, favor contactarme vía correo...', '2018-07-23 08:39:21'),
 	(00000000018, NULL, NULL, 'Matias', 'Pregunta', 'matias@gmail.com', '56989865895', 'Necesito ingresar pero no puedo', '2018-07-23 09:25:00'),
@@ -182,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `empresa` (
 
 -- Volcando datos para la tabla aelita.empresa: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
-REPLACE INTO `empresa` (`idEmpresa`, `nombre`, `direccion`, `rut`, `telefono`) VALUES
+INSERT INTO `empresa` (`idEmpresa`, `nombre`, `direccion`, `rut`, `telefono`) VALUES
 	(00000000001, 'Claro S.A', 'Fanor Velasco 50', '70.750.500-K', '800 000 171'),
 	(00000000002, 'ENEX LTDA', 'Chiu Chiu 2020', '81.555.656-5', '800 171 544');
 /*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
@@ -196,9 +209,9 @@ CREATE TABLE IF NOT EXISTS `estado` (
   PRIMARY KEY (`idEstado`)
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.estado: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.estado: ~7 rows (aproximadamente)
 /*!40000 ALTER TABLE `estado` DISABLE KEYS */;
-REPLACE INTO `estado` (`idEstado`, `idEmpresa`, `nombreEstado`, `detalleEstado`) VALUES
+INSERT INTO `estado` (`idEstado`, `idEmpresa`, `nombreEstado`, `detalleEstado`) VALUES
 	(00000000001, 0, 'Generada', 'Actividad recién creada'),
 	(00000000002, 0, 'Ejecución', 'Actividades en proceso'),
 	(00000000003, 0, 'Suspensión', 'Actividades suspendidas'),
@@ -223,9 +236,9 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   PRIMARY KEY (`idOrdenTrabajo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.orden_trabajo: ~20 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.orden_trabajo: ~19 rows (aproximadamente)
 /*!40000 ALTER TABLE `orden_trabajo` DISABLE KEYS */;
-REPLACE INTO `orden_trabajo` (`idOrdenTrabajo`, `idEmpresa`, `importancia`, `supervisor`, `idProcedimiento`, `nombreOrdenTrabajo`, `detalleOrdenTrabajo`, `fecha_inicio`, `fecha_fin`, `estado`) VALUES
+INSERT INTO `orden_trabajo` (`idOrdenTrabajo`, `idEmpresa`, `importancia`, `supervisor`, `idProcedimiento`, `nombreOrdenTrabajo`, `detalleOrdenTrabajo`, `fecha_inicio`, `fecha_fin`, `estado`) VALUES
 	(00000000001, 1, 'Alta', 40, 0, 'Generar informe de servicios', 'sdfsdf', '2018-07-23 15:54:11', NULL, 5),
 	(00000000002, 1, 'Baja', 16, 0, 'Configuración de Servicio', 'Congiurar en PE 171 tabla de host', '2018-07-24 14:00:42', NULL, 5),
 	(00000000003, 1, 'Media', 24, 0, 'Informe de Servicios', 'sdf', '2018-07-24 14:00:50', NULL, 1),
@@ -263,6 +276,18 @@ CREATE TABLE IF NOT EXISTS `paso` (
 /*!40000 ALTER TABLE `paso` DISABLE KEYS */;
 /*!40000 ALTER TABLE `paso` ENABLE KEYS */;
 
+-- Volcando estructura para tabla aelita.pdf
+CREATE TABLE IF NOT EXISTS `pdf` (
+  `codigopdf` int(10) NOT NULL AUTO_INCREMENT,
+  `nombrepdf` varchar(50) DEFAULT NULL,
+  `archivopdf` mediumblob DEFAULT NULL,
+  PRIMARY KEY (`codigopdf`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla aelita.pdf: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `pdf` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pdf` ENABLE KEYS */;
+
 -- Volcando estructura para tabla aelita.procedimiento
 CREATE TABLE IF NOT EXISTS `procedimiento` (
   `idProcedimiento` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
@@ -273,9 +298,10 @@ CREATE TABLE IF NOT EXISTS `procedimiento` (
   PRIMARY KEY (`idProcedimiento`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.procedimiento: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.procedimiento: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `procedimiento` DISABLE KEYS */;
-REPLACE INTO `procedimiento` (`idProcedimiento`, `idEmpresa`, `nombreProcedimiento`, `fecha_creacion`, `detalleProcedimiento`) VALUES
+INSERT INTO `procedimiento` (`idProcedimiento`, `idEmpresa`, `nombreProcedimiento`, `fecha_creacion`, `detalleProcedimiento`) VALUES
+	(00000000000, 1, 'Reparación Servicio Datos', '2018-11-13 00:54:23', 'Procedimiento ante falla por caida de servicio de datos o degradación del servicio.'),
 	(00000000001, 2, 'Carga de Combustible', '2018-11-03 17:05:17', 'Detallados en PDF');
 /*!40000 ALTER TABLE `procedimiento` ENABLE KEYS */;
 
@@ -295,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `tarea` (
 
 -- Volcando datos para la tabla aelita.tarea: ~20 rows (aproximadamente)
 /*!40000 ALTER TABLE `tarea` DISABLE KEYS */;
-REPLACE INTO `tarea` (`idTarea`, `idEmpresa`, `idTipoTarea`, `idOrdenTrabajo`, `idProcedimiento`, `usuario`, `fecha_inicio`, `fecha_fin`, `estadoTarea`) VALUES
+INSERT INTO `tarea` (`idTarea`, `idEmpresa`, `idTipoTarea`, `idOrdenTrabajo`, `idProcedimiento`, `usuario`, `fecha_inicio`, `fecha_fin`, `estadoTarea`) VALUES
 	(00000000001, 1, 1, 1, 0, 26, '2018-07-23 15:54:28', NULL, 5),
 	(00000000002, 1, 3, 1, 0, 27, '2018-07-24 14:01:33', NULL, 5),
 	(00000000003, 1, 3, 4, 0, 23, '2018-07-24 14:01:40', NULL, 1),
@@ -330,7 +356,7 @@ CREATE TABLE IF NOT EXISTS `tipo_tarea` (
 
 -- Volcando datos para la tabla aelita.tipo_tarea: ~8 rows (aproximadamente)
 /*!40000 ALTER TABLE `tipo_tarea` DISABLE KEYS */;
-REPLACE INTO `tipo_tarea` (`idTipoTarea`, `idEmpresa`, `idProcedimiento`, `nombreTipoTarea`, `detalleTipoTarea`) VALUES
+INSERT INTO `tipo_tarea` (`idTipoTarea`, `idEmpresa`, `idProcedimiento`, `nombreTipoTarea`, `detalleTipoTarea`) VALUES
 	(00000000001, 1, NULL, 'Reparación', 'Reparación para servicio de Datos, Telefonía o Internet. '),
 	(00000000002, 1, NULL, 'Atención Técnica', 'Realizar configuraciones sobre servicios de Telefonía, Datos o Internet. '),
 	(00000000003, 1, NULL, 'Monitoreo Proactivo', 'Monitorear enlaces solicitados. '),
@@ -348,9 +374,9 @@ CREATE TABLE IF NOT EXISTS `trabaja` (
   `activo` char(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.trabaja: ~13 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.trabaja: ~17 rows (aproximadamente)
 /*!40000 ALTER TABLE `trabaja` DISABLE KEYS */;
-REPLACE INTO `trabaja` (`idEmpresa`, `idUsuario`, `activo`) VALUES
+INSERT INTO `trabaja` (`idEmpresa`, `idUsuario`, `activo`) VALUES
 	(00000000001, 00000000016, 'S'),
 	(00000000001, 00000000001, 'S'),
 	(00000000001, 00000000023, 'S'),
@@ -363,14 +389,17 @@ REPLACE INTO `trabaja` (`idEmpresa`, `idUsuario`, `activo`) VALUES
 	(00000000001, 00000000040, 'S'),
 	(00000000002, 00000000017, 'S'),
 	(00000000001, 00000000022, 'S'),
-	(00000000002, 00000000042, 'N'),
+	(00000000002, 00000000042, 'S'),
 	(00000000002, 00000000040, 'S'),
-	(00000000002, 00000000001, 'S');
+	(00000000002, 00000000001, 'S'),
+	(00000000001, 00000000086, 'N'),
+	(00000000002, 00000000087, 'S');
 /*!40000 ALTER TABLE `trabaja` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
   `idUsuario` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `rut` varchar(10) DEFAULT NULL,
   `nombre` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
   `apellido` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
   `nombreUsuario` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
@@ -381,25 +410,26 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `direccion` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
   `tipoCuenta` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
   `clave` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
-  `activo` char(1) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.usuario: ~12 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.usuario: ~14 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-REPLACE INTO `usuario` (`idUsuario`, `nombre`, `apellido`, `nombreUsuario`, `email`, `telefono_m`, `telefono_f`, `area_departamento`, `direccion`, `tipoCuenta`, `clave`, `activo`) VALUES
-	(0000000001, 'Fernando', 'San Juan', 'ADMIN', 'a@a.com', '012341234', '12341234', '1', '0', 'Administrador', 'Teleco123', 'S'),
-	(0000000003, 'Patricio', 'Contreras', 'PATRICIO.CONTRERAS', 'patricio.a.contreras@clarochile.cl', '225811562', '12341234', '1', 'Fanor Verlasco #50', 'Ejecutor', 'Teleco123', 'S'),
-	(0000000016, 'Gisselle', 'San Martin', 'GISSELLE.SANMARTIN', 'gisselle.sanmartin@clarochile.cl', '+569258115', '+562258115', '0', 'Fanor Velasco 50', 'Supervisor', 'Teleco123', 'S'),
-	(0000000017, 'Alonso', 'Pineda', 'ALONSO.PINEDA', 'alonso.pineda@clarochile.cl', '1234', '1234', '2', 'Fanor Velasco 50', 'Ejecutor', 'Teleco123', 'S'),
-	(0000000022, 'Nicolas', 'Medrano', 'NICOLAS.MEDRANO', 'nicolas.medrano@inacapmail.cl', '994013263', '225942131', '2', 'Fanor Velasco 200', 'Ejecutor', 'Teleco123', 'S'),
-	(0000000023, 'Josue', 'Cea', 'JOSUE.CEA', 'josue.cea@gmail.com', '56958980102', '0000000000', '0', 'Av. manuel antonio matta 0329, Quilicura', 'Ejecutor', 'Teleco123', 'S'),
-	(0000000024, 'Eduardo', 'Salinas', 'EDUARDO.SALINAS', 'eduardoinbrand@gmail.com', '0954458279', '0954458279', '0', 'Ignacio Carrera Pinto 67', 'Supervisor', 'Teleco123', 'S'),
-	(0000000026, 'Armin', 'Brün', 'ARMIN.BRUN', 'armin.brun@chancho.cl', '543857421', '5321158', '0', 'Almirante Barroso 76', 'Ejecutor', 'Teleco123', 'S'),
-	(0000000027, 'ivan', 'camote', 'IVAN.CAMOTE', 'ivan@gmail.com', '563256325', '5632563256', '0', 'pn89', 'Ejecutor', 'Teleco123', 'S'),
-	(0000000032, 'DAVID', 'SANJUAN', 'DAVID.SANJUAN', 'davidsanjuan19938@gmail.com', '655656565', '56569569565', '0', 'El clavel poniente 2416', 'Supervisor', 'Teleco123', 'S'),
-	(0000000040, 'Fernando', 'San Juan', 'FERNANDO.SANJUAN', 'fernando.sanjuan@clarochile.cl', '1234', '1234', '1', 'El clavel poniente 2416', 'Supervisor', 'Teleco123', 'S'),
-	(0000000042, 'José', 'Rios', 'JOSE.RIOS', 'jose.rios2@clarochile.cl', '967890728', '22123123', '00000000001', 'fanor 50', 'Ejecutor', 'Teleco123', 'S');
+INSERT INTO `usuario` (`idUsuario`, `rut`, `nombre`, `apellido`, `nombreUsuario`, `email`, `telefono_m`, `telefono_f`, `area_departamento`, `direccion`, `tipoCuenta`, `clave`) VALUES
+	(0000000001, '15765734-8', 'Administrador', 'San Juan', 'ADMIN', 'adminitrador@aelitasoft.cl', '012341234', '12341234', '1', '0', 'Administrador', 'Teleco123'),
+	(0000000003, '21624006-5', 'Patricio', 'Contreras', 'PATRICIO.CONTRERAS', 'patricio.a.contreras@clarochile.cl', '225811562', '12341234', '1', 'Fanor Verlasco #50', 'Ejecutor', 'Teleco123'),
+	(0000000016, '23927700-4', 'Gisselle', 'San Martin', 'GISSELLE.SANMARTIN', 'gisselle.sanmartin@clarochile.cl', '+569258115', '+562258115', '0', 'Fanor Velasco 50', 'Supervisor', 'Teleco123'),
+	(0000000017, '24707234-9', 'Alonso', 'Pineda', 'ALONSO.PINEDA', 'alonso.pineda@clarochile.cl', '1234', '1234', '00000000012', 'Fanor Velasco 50', 'Ejecutor', 'Teleco123'),
+	(0000000022, '15410254-k', 'Nicolas', 'Medrano', 'NICOLAS.MEDRANO', 'nicolas.medrano@inacapmail.cl', '994013263', '225942131', '2', 'Fanor Velasco 200', 'Ejecutor', 'Teleco123'),
+	(0000000023, '16976872-2', 'Josue', 'Cea', 'JOSUE.CEA', 'josue.cea@gmail.com', '56958980102', '0000000000', '0', 'Av. manuel antonio matta 0329, Quilicura', 'Ejecutor', 'Teleco123'),
+	(0000000024, '19199563-5', 'Eduardo', 'Salinas', 'EDUARDO.SALINAS', 'eduardoinbrand@gmail.com', '0954458279', '0954458279', '0', 'Ignacio Carrera Pinto 67', 'Supervisor', 'Teleco123'),
+	(0000000026, '20662537-6', 'Armin', 'Brün', 'ARMIN.BRUN', 'armin.brun@chancho.cl', '543857421', '5321158', '0', 'Almirante Barroso 76', 'Ejecutor', 'Teleco123'),
+	(0000000027, '19360023-9', 'ivan', 'camote', 'IVAN.CAMOTE', 'ivan@gmail.com', '563256325', '5632563256', '00000000012', 'pn89', 'Ejecutor', 'Teleco123'),
+	(0000000032, '24534111-3', 'DAVID', 'SANJUAN', 'DAVID.SANJUAN', 'davidsanjuan19938@gmail.com', '655656565', '56569569565', '0', 'El clavel poniente 2416', 'Supervisor', 'Teleco123'),
+	(0000000040, '19162744-k', 'Fernando', 'San Juan', 'FERNANDO.SANJUAN', 'fernando.sanjuan@clarochile.cl', '1234', '1234', '00000000012', 'El clavel poniente 2416', 'Supervisor', 'Teleco123'),
+	(0000000042, '21388781-5', 'José', 'Rios', 'JOSE.RIOS', 'jose.rios2@clarochile.cl', '967890728', '22123123', '00000000012', 'fanor 50', 'Ejecutor', 'Teleco123'),
+	(0000000086, '11222333-4', 'wefwefwe', 'fwefwefwe', 'WEFWEFWE.FWEFWEFWE', 'a@a.com', '123123123', '123123123', '00000000002', '123123', 'Supervisor', '123123'),
+	(0000000087, '22333444-5', 'Manuel', 'Lopez', 'MANUEL.LOPEZ', 'ml@gmail.com', '5693265454', '562456845', '00000000012', 'Javiera Carrera 2413', 'Ejecutor', 'Teleco123');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
