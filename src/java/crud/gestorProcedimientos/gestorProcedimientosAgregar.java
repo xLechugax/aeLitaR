@@ -27,7 +27,7 @@ public class gestorProcedimientosAgregar extends HttpServlet {
 
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sql = "INSERT INTO aelita.procedimiento (idEmpresa,nombreProcedimiento,detalleProcedimiento) VALUES (?,?,?)";
+                String sql = "insert into procedimiento (idEmpresa,nombreProcedimiento,detalleProcedimiento) VALUES (?,?,?)";
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, idEmpresa);
                 pst.setString(2, nombreProcedimiento);

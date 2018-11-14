@@ -46,8 +46,10 @@ public class gestorOTGenerar extends HttpServlet {
             String idSupervisor = request.getParameter("idSupervisor");
             String nombreOT = request.getParameter("nombreOT");
             String detalleOT = request.getParameter("detalleOT");
+            
             String idProcedimientoAux = request.getParameter("idProcedimiento");
             int idProcedimiento = Integer.parseInt(idProcedimientoAux);
+            
             String estado = "1";
 
             try {
