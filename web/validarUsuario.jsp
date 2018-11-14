@@ -9,7 +9,7 @@
 
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "SELECT * from USUARIO WHERE nombreUsuario='" + nombreUsuario + "' and clave='" + clave + "'";
+        String sql = "SELECT * from usuario WHERE nombreUsuario='" + nombreUsuario + "' and clave='" + clave + "'";
         PreparedStatement pst = conn.prepareStatement(sql);
 
         rsUsuario = pst.executeQuery();  // Crea una nueva sesión para el usuario actual.

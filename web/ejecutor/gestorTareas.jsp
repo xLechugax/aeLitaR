@@ -4,7 +4,7 @@
 <%    ResultSet rsTareasAsignadas = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select tarea.idTarea, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
+        String sql = "select tarea.idTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
                 + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
                 + " where tarea.usuario = usuario.idUsuario"
                 + " and tarea.estadoTarea = estado.idEstado"

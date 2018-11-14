@@ -18,7 +18,7 @@
             <%@ include file="../barraNav.jsp" %>
             <!-- Modal Trigger -->
             <BR/>
-            <a class="btn waves-effect waves-teal btn modal-trigger right" href="#modal1"><i class="material-icons left">help_outline</i>Ayuda</a>
+            <a class="btn waves-effect waves-teal btn modal-trigger right blue-grey darken-3" href="#modal1"><i class="material-icons left">help_outline</i>Ayuda</a>
             <div class="container"> 
                 <div class="col m3 m3">
                     <div class="card horizontal">
@@ -44,7 +44,7 @@
                                             </div>
                                         </div>
                                         <center>
-                                            <input class="waves-effect waves-light btn" type="submit" value="Ingresar" />
+                                            <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Ingresar" />
                                         </center>
                                     </form>
 
@@ -58,7 +58,7 @@
                                             <p>MARISOL.CARRASCO</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Gracias</a>
+                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat blue-grey darken-3 white-text">Gracias</a>
                                         </div>
                                     </div>
                                     <div id="RecuperarClave" class="modal">
@@ -75,7 +75,7 @@
                                         </div>
                                         </form>
                                         <div class="modal-footer">
-                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Recuperar</a>
+                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat blue-grey darken-3 white-text">Recuperar</a>
                                         </div>
                                     </div>
                                 </div>
@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <a class="btn waves-effect waves-teal btn modal-trigger right" href="#RecuperarClave"><i class="material-icons left">face</i>Recuperar Contraseña</a><br/><br/>
+            <a class="btn waves-effect waves-teal btn modal-trigger right blue-grey darken-3" href="#RecuperarClave"><i class="material-icons left">face</i>Recuperar Contraseña</a><br/><br/>
     </main>
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="js/code.jquery.com_jquery-3.2.1.min.js"></script>

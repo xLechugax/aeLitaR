@@ -78,7 +78,7 @@
                                         <label for="detalleActividad">Detalle Actividad</label>
                                     </div>
                                     <div class="file-field input-field col s12">
-                                        <div class="btn">
+                                        <div class="btn blue-grey darken-3">
                                             <span>File</span>
                                             <input type="file" multiple>
                                         </div>
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Agregar Actividad" />
+                                        <input class="waves-effect waves-light btn right-align blue-grey darken-3" type="submit" value="Agregar Actividad" />
                                     </center>
                                 </form>
                             </div>

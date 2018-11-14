@@ -78,7 +78,7 @@
                             <div class="collapsible-header active"><i class="material-icons">filter_drama</i>Procedimientos</div>
                             <div class="collapsible-body white">
                                 <!-- Modal Trigger -->
-                                <a class="waves-effect waves-light btn modal-trigger right" href="#agregarProcedimiento">Agregar Procedimiento</a>
+                                <a class="waves-effect waves-light btn modal-trigger right blue-grey darken-3" href="#agregarProcedimiento">Agregar Procedimiento</a>
                                 <!-- Modal Structure -->
                                 <div id="agregarProcedimiento" class="modal modal-fixed-footer">
                                     <form action="/aeLita/gestorProcedimientosAgregar" method="post">
@@ -95,7 +95,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <input class="waves-effect waves-light btn" type="submit" value="Crear Procedimiento" />
+                                            <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Crear Procedimiento" />
                                         </div>
                                     </form>
                                 </div>
@@ -109,9 +109,9 @@
                                     <td><%= rsProcedimientos.getString("idProcedimiento")%></td>
                                     <td><%= rsProcedimientos.getString("nombreProcedimiento")%></td>
                                     <td><%= rsProcedimientos.getString("fecha_creacion")%></td>
-                                    <td><a href="/aeLita/gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsProcedimientos.getString("idProcedimiento")%>" class="btn">Detalle</a></td>
+                                    <td><a href="/aeLita/gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsProcedimientos.getString("idProcedimiento")%>" class="btn blue-grey darken-3">Detalle</a></td>
                                     <%}%>
-                                    </tbody>
+                                    </tbody> 
                                 </table>
                             </div>
                             </div>

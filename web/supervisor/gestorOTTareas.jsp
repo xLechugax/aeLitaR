@@ -101,7 +101,7 @@
                                         <label>Importancia</label>
                                     </div>
                                     <div class="input-field col m1">
-                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3"  type="submit" value="Filtrar" />
                                     </div>
                                 </form><br/><br/><br/>
                                 <table border="1">
@@ -130,7 +130,7 @@
                                                 <td><%= rsTareasAsignadas.getString("nombreTipoTarea") %></td>
                                                 <td><%= rsTareasAsignadas.getString("nombreOrdenTrabajo") %></td>
                                                 <td><%= rsTareasAsignadas.getString("fecha_inicio") %></td>
-                                                <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasAsignadas.getString("idTarea")%>" class="btn">Detalle</a></td>
+                                                <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasAsignadas.getString("idTarea")%>" class="btn blue-grey darken-3">Detalle</a></td>
                                             </tr>
                                             <% }%>
                                         <% }%>
