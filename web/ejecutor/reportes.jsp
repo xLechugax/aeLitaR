@@ -1,7 +1,13 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
-<%    ResultSet rsTareasCerradas = null;
+<%    
+    ResultSet rsTareasCerradas = null;
     try {
+
+        String idTarea = request.getParameter("idTarea");
+        String desde = request.getParameter("desde");
+        String hasta = request.getParameter("hasta");
+
         Connection conn = ConexionBD.getConexion();
         String sql = "select tarea.idTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
                 + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
@@ -11,8 +17,24 @@
                 + " and tarea.idTipoTarea = tipo_tarea.idTipoTarea"
                 + " and tarea.estadoTarea =5" //ID 5 de tarea Cerrada
                 + " and tarea.usuario =" + hs.getAttribute("idUsuarioSesion");
+        
+        if (idTarea != null) {
+            if (idTarea != "") {
+                sql = sql + " and tarea.idTarea='"+idTarea+"'";
+            }
+        }
+        if ( desde != null && hasta != null) {
+            if ( desde != "" && hasta != "") {
+                sql = sql + " and tarea.fecha_inicio BETWEEN '"+desde+"' and '"+hasta+"'";
+            }
+            if ( desde != "" ) {
+                sql = sql + " and tarea.fecha_inicio BETWEEN '"+desde+"' and CURRENT_DATE()";
+            }
+        }
+                
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTareasCerradas = pst.executeQuery();
+        
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -37,8 +59,6 @@
 %>
 <!DOCTYPE html>
 <html>   
-
-
     <head>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -55,13 +75,11 @@
                 <div class="col s4 m4">
                     <ul class="collapsible">
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por Fecha</div>
+                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por ID de Tarea</div>
                             <div class="collapsible-body white">
                                 <form>
-                                    Desde
-                                    <input id="fechaDesde" type="datetime-local" value="2017-06-01" required="">
-                                    Hasta
-                                    <input id="fechaHasta" type="datetime-local" value="2017-06-01">
+                                    ID de Tarea
+                                    <input id="idTarea" name="idTarea" type="text">
                                     <center>
                                         <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
@@ -69,11 +87,13 @@
                             </div>
                         </li>
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por ID de Tarea</div>
+                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por Fecha</div>
                             <div class="collapsible-body white">
                                 <form>
-                                    ID de Tarea
-                                    <input id="idTarea" type="text" required="">
+                                    Desde
+                                    <input id="desde" name="desde" type="date" required="">
+                                    Hasta
+                                    <input id="hasta" name="hasta" type="date">
                                     <center>
                                         <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
@@ -121,7 +141,7 @@
                                 </table>
                             </div>
                         </li>
-                        
+
                     </ul>
                 </div>
             </div>

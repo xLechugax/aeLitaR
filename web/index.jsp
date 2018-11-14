@@ -9,7 +9,7 @@
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
-        <link type="text/css" rel="stylesheet" href="/aeLita/css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
     </head>
@@ -30,7 +30,7 @@
                             </div>
                             <div class="container">  
                                 <div class="row">
-                                    <form class="col s12" action="/aeLita/validarUsuario.jsp" method="post">
+                                    <form class="col s12" action="validarUsuario.jsp" method="post">
                                         <div class="row">
                                             <div class="input-field col s12">
                                                 <input name="nombreUsuario" id="nombreUsuario" type="text" class="validate" style="text-transform: uppercase" required="">
@@ -88,7 +88,7 @@
     </main>
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="js/code.jquery.com_jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
     <script>
         $(document).ready(function () {
             $(".button-collapse").sideNav();
