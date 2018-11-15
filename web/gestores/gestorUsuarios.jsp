@@ -232,7 +232,7 @@
 
                                         <div class="row">
                                             <div class="input-field col s12">
-                                                <input type="text" name="rut" required="required" pattern="\d{3,8}-[\d|kK]{1}" title="Debe ser un Rut 11222333-4" class="validate"/>
+                                                <input id="input_rut" type="text" name="rut" required="required" title="Debe ser un Rut 11222333-4" class="validate"/>
                                                 <label>Rut</label>
                                             </div>
                                         </div>
@@ -324,8 +324,6 @@
                                     <td><b>Rut</b></td>
                                     <td><b>Nombre Usuario</b></td>
                                     <td><b>Correo</b></td>
-                                    <td><b>Celular</b></td>
-                                    <td><b>Fijo</b></td>
                                     <td><b>Área/Departamento</b></td>
                                     <td><b>Rol</b></td>
                                     <td><b>Activo</b></td>
@@ -338,8 +336,6 @@
                                     <td><b><%=rsUsuarios.getString("rut")%></b></td>
                                     <td><%=rsUsuarios.getString("nombreUsuario")%></td>
                                     <td><%=rsUsuarios.getString("email")%></td>
-                                    <td><%=rsUsuarios.getString("telefono_m")%></td>
-                                    <td><%=rsUsuarios.getString("telefono_f")%></td>
                                     <td><a href="gestorUsuariosEditarAreaDepartamento.jsp?idUsuario="></a>
                                         <%
                                             String idUsuario = request.getParameter("idUsuario");
@@ -462,6 +458,7 @@
     <%@ include file="../footer.jsp" %>
     <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/aeLita/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/aeLita/js/jquery.Rut.min.js"></script>
     <script>
         $(document).ready(function () {
             $('.modal').modal();
@@ -474,6 +471,14 @@
         document.addEventListener('DOMContentLoaded', function () {
             var elems = document.querySelectorAll('.collapsible');
             var instances = M.Collapsible.init(elems, options);
+        });
+    </script>
+    <script>
+        $('#input_rut').Rut({
+            on_error: function () {
+                alert('Rut incorrecto');
+                $('#input_rut').val('');
+            },
         });
     </script>
 </body>
