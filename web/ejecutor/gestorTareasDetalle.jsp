@@ -6,7 +6,6 @@
     String comentarioOT = request.getParameter("comentarioOT");
     String idEmpresa =""+ hs.getAttribute("idEmpresa");
     
-    
     ResultSet rsAux = null; // Contiene el ID de la Orden de trabajo seleccionada.
     try {
         Connection conn = ConexionBD.getConexion();
@@ -19,9 +18,6 @@
         return;
     }
     String idOrdenTrabajo = ""+rsAux.getString("idOrdenTrabajo");
-    
-    
-    
     ResultSet rsOrdenTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -58,7 +54,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select usuario.nombreUsuario, usuario.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajo + " and avance.idEmpresa = " + idEmpresa + " order by fecha_publicacion desc";
+        String sqlOrdenTrabajo = "select usuario.nombreUsuario, usuario.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenarPorFecha from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajo + " and avance.idEmpresa = " + idEmpresa + " order by fecha_publicacionOrdenarPorFecha desc";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -160,6 +156,11 @@
                                         <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modal1"><%= rsTareaSeleccionada.getString("nombreEstado")%></a>
                                         <!-- Modal Structure -->
                                         <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
+                                        <br/><br/> 
+                                        <form method="get" action="/aeLita/reporteEjecutorTareaCerrada">
+                                            <input type="hidden" name="idTarea" value="<%=idTareaSeleccionada%>">
+                                            <input type="submit" class="btn blue-grey darken-4" value="Ver Reporte"/>
+                                        </form>
                                         <form method="get" action="/aeLita/cambiarEstado">
                                             <div id="modal1" class="modal modal-fixed-footer">
                                                 <div class="modal-content">
