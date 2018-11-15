@@ -229,7 +229,6 @@
                                 <div class="modal-content">
                                     <h4>Agregar Usuario</h4>
                                     <form class="col s12" action="/aeLita/crearUsuario" method="post">
-
                                         <div class="row">
                                             <div class="input-field col s12">
                                                 <input id="input_rut" type="text" name="rut" required="required" title="Debe ser un Rut 11222333-4" class="validate"/>
