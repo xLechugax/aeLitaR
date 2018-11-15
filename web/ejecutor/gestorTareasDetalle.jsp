@@ -1,8 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    
-    String idTareaSeleccionada = request.getParameter("idTarea");
+<%    String idTareaSeleccionada = request.getParameter("idTarea");
     String comentarioOT = request.getParameter("comentarioOT");
     ResultSet rsAux = null; // Contiene el ID de la Orden de trabajo seleccionada.
     try {
@@ -127,9 +126,21 @@
                                     <tr>
                                         <td><b>Asignado</b></td> 
                                         <td>
+                                            <% if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modalCambiarAsignado"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
+                                                <div id="modalCambiarAsignado" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar Ejecutor</h4>
+                                                        <p>Ya no es posible cambiar el ejecutor de esta tarea, se encuentra cerrada.</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div>
+                                            <% } else {%>            
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
                                             <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
-                                                <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada %>">
+                                                <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada%>">
                                                 <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
                                                     <div class="modal-content">
                                                         <h4>Cambiar usuario asignado</h4>
@@ -146,6 +157,7 @@
                                                     </div>
                                                 </div> 
                                             </form>
+                                            <% }%>            
                                         </td>
                                     </tr>
                                     <td><b>Estado</b></td>
@@ -314,7 +326,7 @@
                         </li>
                         <%} else {%>
                         <li>
-                            <a href="../gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsTareaSeleccionada.getString("idProcedimiento") %>" target="_blank"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
+                            <a href="../gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsTareaSeleccionada.getString("idProcedimiento")%>" target="_blank"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
                         </li>
                         <%}%>
                     </ul>
