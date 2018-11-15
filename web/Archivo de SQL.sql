@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         10.3.10-MariaDB - mariadb.org binary distribution
+-- Versión del servidor:         10.3.7-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win64
 -- HeidiSQL Versión:             9.4.0.5125
 -- --------------------------------------------------------
@@ -24,10 +24,12 @@ CREATE TABLE IF NOT EXISTS `actividad` (
   `nombreActividad` varchar(50) DEFAULT NULL,
   `detalleActividad` text DEFAULT NULL,
   PRIMARY KEY (`idActividad`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla aelita.actividad: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
+REPLACE INTO `actividad` (`idActividad`, `idProcedimiento`, `idEmpresa`, `nombreActividad`, `detalleActividad`) VALUES
+	(0000000009, 0, 1, 'Actividad 3 ', '949494');
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.archivo
@@ -60,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `area_departamento` (
 
 -- Volcando datos para la tabla aelita.area_departamento: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `area_departamento` DISABLE KEYS */;
-INSERT INTO `area_departamento` (`idAreaDepartamento`, `idEmpresa`, `nombreAreaDepartamento`, `detalleAreaDepartamento`) VALUES
+REPLACE INTO `area_departamento` (`idAreaDepartamento`, `idEmpresa`, `nombreAreaDepartamento`, `detalleAreaDepartamento`) VALUES
 	(00000000000, 0, 'SIN ASIGNAR', NULL),
 	(00000000001, 1, 'MANTENCIÓN', 'Personal que realiza las reparaciones de los servicios. '),
 	(00000000002, 1, 'FRONT', 'Área donde los colaboradores recepcionan llamados. '),
@@ -92,11 +94,11 @@ CREATE TABLE IF NOT EXISTS `avance` (
   `comentario` longtext DEFAULT NULL,
   `fecha_publicacion` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idAvance`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.avance: ~59 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.avance: ~60 rows (aproximadamente)
 /*!40000 ALTER TABLE `avance` DISABLE KEYS */;
-INSERT INTO `avance` (`idAvance`, `idEmpresa`, `idTarea_fk`, `idOrdenTrabajo_fk`, `usuario`, `comentario`, `fecha_publicacion`) VALUES
+REPLACE INTO `avance` (`idAvance`, `idEmpresa`, `idTarea_fk`, `idOrdenTrabajo_fk`, `usuario`, `comentario`, `fecha_publicacion`) VALUES
 	(00000000007, 1, NULL, 1, 40, 'armin, necesito que documentes', '2018-07-24 18:14:23'),
 	(00000000008, 1, 1, 1, 26, 'bueno', '2018-07-24 18:14:39'),
 	(00000000009, 1, NULL, 7, 16, 'Alonso, favor documentar....', '2018-07-24 18:20:03'),
@@ -155,7 +157,10 @@ INSERT INTO `avance` (`idAvance`, `idEmpresa`, `idTarea_fk`, `idOrdenTrabajo_fk`
 	(00000000065, 2, 21, 20, 17, '456', '2018-11-02 16:53:16'),
 	(00000000066, 2, 21, 20, 40, '789', '2018-11-02 16:53:49'),
 	(00000000067, 2, 21, 20, 17, '101112', '2018-11-02 16:55:05'),
-	(00000000068, NULL, NULL, 20, 40, '131415', '2018-11-02 16:55:17');
+	(00000000068, NULL, NULL, 20, 40, '131415', '2018-11-02 16:55:17'),
+	(00000000069, 1, 14, 14, 26, 'ahora yo tengo la tarea....', '2018-11-14 16:30:50'),
+	(00000000070, 1, 14, 14, 26, 'sdfsdf', '2018-11-14 16:31:02'),
+	(00000000071, 1, 14, 14, 26, 'ya pero no me critiquen, chanchos cochinos', '2018-11-15 00:42:06');
 /*!40000 ALTER TABLE `avance` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.contacto
@@ -170,17 +175,18 @@ CREATE TABLE IF NOT EXISTS `contacto` (
   `mensaje` longtext DEFAULT NULL,
   `fecha` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`idContacto`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla aelita.contacto: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `contacto` DISABLE KEYS */;
-INSERT INTO `contacto` (`idContacto`, `idEmpresa`, `idUsuario`, `nombre`, `asunto`, `email`, `telefono`, `mensaje`, `fecha`) VALUES
+REPLACE INTO `contacto` (`idContacto`, `idEmpresa`, `idUsuario`, `nombre`, `asunto`, `email`, `telefono`, `mensaje`, `fecha`) VALUES
 	(00000000014, NULL, NULL, 'Mauricio Cortazar', 'Problemas en el registro', 'mauricio.cortazar@gmail.com', '569856325654', 'Me sale que la cuenta esta des-habilitada. Favor habilitar.', '2018-07-15 22:58:58'),
 	(00000000017, NULL, NULL, 'Don Hernan', 'Ingreso a la web', 'hernan.coelo@gmail.com', '56986565987', 'Hola, buenas, tengo algunas dudas sobre el sitio, favor contactarme vía correo...', '2018-07-23 08:39:21'),
 	(00000000018, NULL, NULL, 'Matias', 'Pregunta', 'matias@gmail.com', '56989865895', 'Necesito ingresar pero no puedo', '2018-07-23 09:25:00'),
 	(00000000020, NULL, NULL, 'anonimo', 'IP de los nodos', 'jose.rios2@gmail.com', '2123', 'podrías agregar un documento con la IP de todos los nodos!!', '2018-09-21 17:42:18'),
 	(00000000029, NULL, NULL, 'Juanelo', 'No puedo ingresar :(', 'juanelo@micarro.cl', '5698656', 'No puedo ingresar con la cuenta de JUANELO.CARAELO', '2018-11-03 15:23:37'),
-	(00000000030, 1, 1, 'Fernando San Juan', 'Prueba', 'a@a.com', '12341234', 'Prueba\r\n', '2018-11-03 15:24:14');
+	(00000000030, 1, 1, 'Fernando San Juan', 'Prueba', 'a@a.com', '12341234', 'Prueba\r\n', '2018-11-03 15:24:14'),
+	(00000000031, NULL, NULL, 'werwer', 'werwer', 'asachileno@gmail.com', '3234324', 'ewefwef,l', '2018-11-14 01:33:40');
 /*!40000 ALTER TABLE `contacto` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.empresa
@@ -195,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `empresa` (
 
 -- Volcando datos para la tabla aelita.empresa: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
-INSERT INTO `empresa` (`idEmpresa`, `nombre`, `direccion`, `rut`, `telefono`) VALUES
+REPLACE INTO `empresa` (`idEmpresa`, `nombre`, `direccion`, `rut`, `telefono`) VALUES
 	(00000000001, 'Claro S.A', 'Fanor Velasco 50', '70.750.500-K', '800 000 171'),
 	(00000000002, 'ENEX LTDA', 'Chiu Chiu 2020', '81.555.656-5', '800 171 544');
 /*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
@@ -211,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `estado` (
 
 -- Volcando datos para la tabla aelita.estado: ~7 rows (aproximadamente)
 /*!40000 ALTER TABLE `estado` DISABLE KEYS */;
-INSERT INTO `estado` (`idEstado`, `idEmpresa`, `nombreEstado`, `detalleEstado`) VALUES
+REPLACE INTO `estado` (`idEstado`, `idEmpresa`, `nombreEstado`, `detalleEstado`) VALUES
 	(00000000001, 0, 'Generada', 'Actividad recién creada'),
 	(00000000002, 0, 'Ejecución', 'Actividades en proceso'),
 	(00000000003, 0, 'Suspensión', 'Actividades suspendidas'),
@@ -234,11 +240,11 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   `fecha_fin` datetime DEFAULT NULL,
   `estado` int(11) DEFAULT NULL,
   PRIMARY KEY (`idOrdenTrabajo`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla aelita.orden_trabajo: ~19 rows (aproximadamente)
 /*!40000 ALTER TABLE `orden_trabajo` DISABLE KEYS */;
-INSERT INTO `orden_trabajo` (`idOrdenTrabajo`, `idEmpresa`, `importancia`, `supervisor`, `idProcedimiento`, `nombreOrdenTrabajo`, `detalleOrdenTrabajo`, `fecha_inicio`, `fecha_fin`, `estado`) VALUES
+REPLACE INTO `orden_trabajo` (`idOrdenTrabajo`, `idEmpresa`, `importancia`, `supervisor`, `idProcedimiento`, `nombreOrdenTrabajo`, `detalleOrdenTrabajo`, `fecha_inicio`, `fecha_fin`, `estado`) VALUES
 	(00000000001, 1, 'Alta', 40, 0, 'Generar informe de servicios', 'sdfsdf', '2018-07-23 15:54:11', NULL, 5),
 	(00000000002, 1, 'Baja', 16, 0, 'Configuración de Servicio', 'Congiurar en PE 171 tabla de host', '2018-07-24 14:00:42', NULL, 5),
 	(00000000003, 1, 'Media', 24, 0, 'Informe de Servicios', 'sdf', '2018-07-24 14:00:50', NULL, 1),
@@ -253,11 +259,12 @@ INSERT INTO `orden_trabajo` (`idOrdenTrabajo`, `idEmpresa`, `importancia`, `supe
 	(00000000012, 1, 'Alta', 16, 0, 'Gestión de Gastos', 'ghj', '2018-09-22 14:11:33', NULL, 2),
 	(00000000013, 1, 'Alta', 16, 0, 'Reparar servicio de datos', 'favor completar las tareas solicitadas', '2018-09-25 16:31:55', NULL, 5),
 	(00000000014, 1, 'Alta', 40, 0, 'Solicitud de Prueba', 'Detalle de Prueba', '2018-10-04 10:30:57', NULL, 1),
-	(00000000015, 1, 'Alta', 16, 0, '123', '345', '2018-10-21 17:31:19', NULL, 1),
+	(00000000015, 1, 'Alta', 16, 1, '123', '345', '2018-10-21 17:31:19', NULL, 1),
 	(00000000016, 1, 'Media', 40, 0, 'OT ', '123', '2018-11-01 19:25:00', NULL, 1),
 	(00000000019, 2, 'Alta', 40, 0, 'OT Prueba Empresa ENEX', 'Detalle', '2018-11-01 22:20:32', NULL, 5),
 	(00000000020, 2, 'Media', 40, 0, 'OT Prueba', 'solas', '2018-11-02 01:28:05', NULL, 1),
-	(00000000021, 2, 'Alta', 40, 1, 'Carga de Combustible ', 'Se requiere realizar la carga de combustible de A1 a A20', '2018-11-03 19:13:50', NULL, 1);
+	(00000000021, 2, 'Alta', 40, 1, 'Carga de Combustible ', 'Se requiere realizar la carga de combustible de A1 a A20', '2018-11-03 19:13:50', NULL, 1),
+	(00000000023, 1, 'Alta', 40, 1, 'aasdasd', 'qweqweqwe', '2018-11-14 23:17:42', NULL, 1);
 /*!40000 ALTER TABLE `orden_trabajo` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.paso
@@ -276,18 +283,6 @@ CREATE TABLE IF NOT EXISTS `paso` (
 /*!40000 ALTER TABLE `paso` DISABLE KEYS */;
 /*!40000 ALTER TABLE `paso` ENABLE KEYS */;
 
--- Volcando estructura para tabla aelita.pdf
-CREATE TABLE IF NOT EXISTS `pdf` (
-  `codigopdf` int(10) NOT NULL AUTO_INCREMENT,
-  `nombrepdf` varchar(50) DEFAULT NULL,
-  `archivopdf` mediumblob DEFAULT NULL,
-  PRIMARY KEY (`codigopdf`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Volcando datos para la tabla aelita.pdf: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `pdf` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pdf` ENABLE KEYS */;
-
 -- Volcando estructura para tabla aelita.procedimiento
 CREATE TABLE IF NOT EXISTS `procedimiento` (
   `idProcedimiento` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
@@ -296,13 +291,14 @@ CREATE TABLE IF NOT EXISTS `procedimiento` (
   `fecha_creacion` datetime DEFAULT current_timestamp(),
   `detalleProcedimiento` text DEFAULT NULL,
   PRIMARY KEY (`idProcedimiento`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.procedimiento: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.procedimiento: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `procedimiento` DISABLE KEYS */;
-INSERT INTO `procedimiento` (`idProcedimiento`, `idEmpresa`, `nombreProcedimiento`, `fecha_creacion`, `detalleProcedimiento`) VALUES
-	(00000000000, 1, 'Reparación Servicio Datos', '2018-11-13 00:54:23', 'Procedimiento ante falla por caida de servicio de datos o degradación del servicio.'),
-	(00000000001, 2, 'Carga de Combustible', '2018-11-03 17:05:17', 'Detallados en PDF');
+REPLACE INTO `procedimiento` (`idProcedimiento`, `idEmpresa`, `nombreProcedimiento`, `fecha_creacion`, `detalleProcedimiento`) VALUES
+	(00000000000, 1, 'Sin Asignar', '2018-11-14 23:22:18', NULL),
+	(00000000001, 2, 'Carga de Combustible', '2018-11-03 17:05:17', 'Detallados en PDF'),
+	(00000000002, 1, 'Reparación Servicio Datos', '2018-11-13 00:54:23', 'Procedimiento ante falla por caida de servicio de datos o degradación del servicio.');
 /*!40000 ALTER TABLE `procedimiento` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.tarea
@@ -311,17 +307,17 @@ CREATE TABLE IF NOT EXISTS `tarea` (
   `idEmpresa` int(11) DEFAULT NULL,
   `idTipoTarea` int(11) DEFAULT NULL,
   `idOrdenTrabajo` int(11) DEFAULT NULL,
-  `idProcedimiento` int(11) DEFAULT NULL,
+  `idProcedimiento` int(11) DEFAULT 0,
   `usuario` int(11) DEFAULT NULL,
   `fecha_inicio` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_fin` timestamp NULL DEFAULT NULL,
   `estadoTarea` int(11) DEFAULT NULL,
   PRIMARY KEY (`idTarea`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla aelita.tarea: ~20 rows (aproximadamente)
 /*!40000 ALTER TABLE `tarea` DISABLE KEYS */;
-INSERT INTO `tarea` (`idTarea`, `idEmpresa`, `idTipoTarea`, `idOrdenTrabajo`, `idProcedimiento`, `usuario`, `fecha_inicio`, `fecha_fin`, `estadoTarea`) VALUES
+REPLACE INTO `tarea` (`idTarea`, `idEmpresa`, `idTipoTarea`, `idOrdenTrabajo`, `idProcedimiento`, `usuario`, `fecha_inicio`, `fecha_fin`, `estadoTarea`) VALUES
 	(00000000001, 1, 1, 1, 0, 26, '2018-07-23 15:54:28', NULL, 5),
 	(00000000002, 1, 3, 1, 0, 27, '2018-07-24 14:01:33', NULL, 5),
 	(00000000003, 1, 3, 4, 0, 23, '2018-07-24 14:01:40', NULL, 1),
@@ -341,7 +337,8 @@ INSERT INTO `tarea` (`idTarea`, `idEmpresa`, `idTipoTarea`, `idOrdenTrabajo`, `i
 	(00000000019, 2, NULL, 19, 0, 27, '2018-11-01 22:37:07', NULL, 1),
 	(00000000020, 1, 11, 16, 0, 23, '2018-11-01 22:41:20', NULL, 1),
 	(00000000021, 2, 16, 20, 0, 17, '2018-11-02 16:38:31', NULL, 4),
-	(00000000022, 2, 25, 20, 1, 17, '2018-11-03 16:39:24', NULL, 1);
+	(00000000022, 2, 25, 20, 1, 17, '2018-11-03 16:39:24', NULL, 1),
+	(00000000023, 1, 1, 23, 0, 26, '2018-11-14 23:17:59', NULL, 1);
 /*!40000 ALTER TABLE `tarea` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.tipo_tarea
@@ -356,7 +353,7 @@ CREATE TABLE IF NOT EXISTS `tipo_tarea` (
 
 -- Volcando datos para la tabla aelita.tipo_tarea: ~8 rows (aproximadamente)
 /*!40000 ALTER TABLE `tipo_tarea` DISABLE KEYS */;
-INSERT INTO `tipo_tarea` (`idTipoTarea`, `idEmpresa`, `idProcedimiento`, `nombreTipoTarea`, `detalleTipoTarea`) VALUES
+REPLACE INTO `tipo_tarea` (`idTipoTarea`, `idEmpresa`, `idProcedimiento`, `nombreTipoTarea`, `detalleTipoTarea`) VALUES
 	(00000000001, 1, NULL, 'Reparación', 'Reparación para servicio de Datos, Telefonía o Internet. '),
 	(00000000002, 1, NULL, 'Atención Técnica', 'Realizar configuraciones sobre servicios de Telefonía, Datos o Internet. '),
 	(00000000003, 1, NULL, 'Monitoreo Proactivo', 'Monitorear enlaces solicitados. '),
@@ -376,7 +373,7 @@ CREATE TABLE IF NOT EXISTS `trabaja` (
 
 -- Volcando datos para la tabla aelita.trabaja: ~17 rows (aproximadamente)
 /*!40000 ALTER TABLE `trabaja` DISABLE KEYS */;
-INSERT INTO `trabaja` (`idEmpresa`, `idUsuario`, `activo`) VALUES
+REPLACE INTO `trabaja` (`idEmpresa`, `idUsuario`, `activo`) VALUES
 	(00000000001, 00000000016, 'S'),
 	(00000000001, 00000000001, 'S'),
 	(00000000001, 00000000023, 'S'),
@@ -392,7 +389,7 @@ INSERT INTO `trabaja` (`idEmpresa`, `idUsuario`, `activo`) VALUES
 	(00000000002, 00000000042, 'S'),
 	(00000000002, 00000000040, 'S'),
 	(00000000002, 00000000001, 'S'),
-	(00000000001, 00000000086, 'N'),
+	(00000000001, 00000000086, 'S'),
 	(00000000002, 00000000087, 'S');
 /*!40000 ALTER TABLE `trabaja` ENABLE KEYS */;
 
@@ -415,7 +412,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 
 -- Volcando datos para la tabla aelita.usuario: ~14 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` (`idUsuario`, `rut`, `nombre`, `apellido`, `nombreUsuario`, `email`, `telefono_m`, `telefono_f`, `area_departamento`, `direccion`, `tipoCuenta`, `clave`) VALUES
+REPLACE INTO `usuario` (`idUsuario`, `rut`, `nombre`, `apellido`, `nombreUsuario`, `email`, `telefono_m`, `telefono_f`, `area_departamento`, `direccion`, `tipoCuenta`, `clave`) VALUES
 	(0000000001, '15765734-8', 'Administrador', 'San Juan', 'ADMIN', 'adminitrador@aelitasoft.cl', '012341234', '12341234', '1', '0', 'Administrador', 'Teleco123'),
 	(0000000003, '21624006-5', 'Patricio', 'Contreras', 'PATRICIO.CONTRERAS', 'patricio.a.contreras@clarochile.cl', '225811562', '12341234', '1', 'Fanor Verlasco #50', 'Ejecutor', 'Teleco123'),
 	(0000000016, '23927700-4', 'Gisselle', 'San Martin', 'GISSELLE.SANMARTIN', 'gisselle.sanmartin@clarochile.cl', '+569258115', '+562258115', '0', 'Fanor Velasco 50', 'Supervisor', 'Teleco123'),
