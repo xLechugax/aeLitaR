@@ -1,12 +1,16 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    String idTareaSeleccionada = request.getParameter("idTarea");
+<%    
+    String idTareaSeleccionada = request.getParameter("idTarea");
     String comentarioOT = request.getParameter("comentarioOT");
+    String idEmpresa =""+ hs.getAttribute("idEmpresa");
+    
+    
     ResultSet rsAux = null; // Contiene el ID de la Orden de trabajo seleccionada.
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select tarea.idOrdenTrabajo from tarea where tarea.idTarea = " + idTareaSeleccionada + " and tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
+        String sqlOrdenTrabajo = "select tarea.idOrdenTrabajo from tarea where tarea.idTarea = " + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsAux = pstOrdenTrabajo.executeQuery();
         rsAux.next();
@@ -14,11 +18,14 @@
         out.println("Excepción de SQL idTareaSeleccionada:" + e);
         return;
     }
-
+    String idOrdenTrabajo = ""+rsAux.getString("idOrdenTrabajo");
+    
+    
+    
     ResultSet rsOrdenTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select orden_trabajo.detalleOrdenTrabajo, orden_trabajo.estado, orden_trabajo.nombreOrdenTrabajo, orden_trabajo.idOrdenTrabajo, orden_trabajo.importancia, usuario.nombreUsuario, DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, orden_trabajo.fecha_fin, estado.nombreEstado, orden_trabajo.detalleOrdenTrabajo from orden_trabajo,usuario,estado where orden_trabajo.idOrdenTrabajo = " + rsAux.getString("idOrdenTrabajo") + " and orden_trabajo.supervisor = usuario.idUsuario and orden_trabajo.estado = estado.idEstado and orden_trabajo.idEmpresa = " + hs.getAttribute("idEmpresa");
+        String sqlOrdenTrabajo = "select orden_trabajo.detalleOrdenTrabajo, orden_trabajo.estado, orden_trabajo.nombreOrdenTrabajo, orden_trabajo.idOrdenTrabajo, orden_trabajo.importancia, usuario.nombreUsuario, DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, orden_trabajo.fecha_fin, estado.nombreEstado, orden_trabajo.detalleOrdenTrabajo from orden_trabajo,usuario,estado where orden_trabajo.idOrdenTrabajo = " + idOrdenTrabajo + " and orden_trabajo.supervisor = usuario.idUsuario and orden_trabajo.estado = estado.idEstado and orden_trabajo.idEmpresa = " + idEmpresa;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsOrdenTrabajo = pstOrdenTrabajo.executeQuery();
         rsOrdenTrabajo.next();
@@ -26,10 +33,11 @@
         out.println("Excepción de SQL rsOrdenTrabajo:" + e);
         return;
     }
+    
     ResultSet rsTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select usuario.nombreUsuario, tarea.idProcedimiento, tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada + " and tarea.idEmpresa = " + hs.getAttribute("idEmpresa");
+        String sqlOrdenTrabajo = "select usuario.nombreUsuario, tarea.idProcedimiento, tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsTareaSeleccionada = pstOrdenTrabajo.executeQuery();
         rsTareaSeleccionada.next();
@@ -40,7 +48,7 @@
     ResultSet rsComentariosOTContador = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select usuario.nombreUsuario, usuario.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + rsAux.getString("idOrdenTrabajo") + " and avance.idEmpresa = " + hs.getAttribute("idEmpresa");
+        String sqlOrdenTrabajo = "select usuario.nombreUsuario, usuario.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajo + " and avance.idEmpresa = " + idEmpresa;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOTContador = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -50,7 +58,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select usuario.nombreUsuario, usuario.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + rsAux.getString("idOrdenTrabajo") + " and avance.idEmpresa = " + hs.getAttribute("idEmpresa") + " order by fecha_publicacion desc";
+        String sqlOrdenTrabajo = "select usuario.nombreUsuario, usuario.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajo + " and avance.idEmpresa = " + idEmpresa + " order by fecha_publicacion desc";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -59,8 +67,7 @@
     }
     if (comentarioOT != null) {
         try {
-            String idEmpresaAux = "" + hs.getAttribute("idEmpresa");
-            int idEmpresa = Integer.parseInt(idEmpresaAux);
+            int idEmpresaInt = Integer.parseInt(idEmpresa);
             Connection conn = ConexionBD.getConexion();
             String sql = "insert into avance (idTarea_fk,idOrdenTrabajo_fk,comentario,usuario,idEmpresa) values (?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
@@ -68,7 +75,7 @@
             pst.setString(2, rsAux.getString("idOrdenTrabajo"));
             pst.setString(3, comentarioOT);
             pst.setString(4, ("" + hs.getAttribute("idUsuarioSesion")));
-            pst.setInt(5, idEmpresa);
+            pst.setInt(5, idEmpresaInt);
             pst.execute();
             response.sendRedirect("/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=" + idTareaSeleccionada);
             return;
@@ -80,7 +87,7 @@
     ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from estado where estado.idEmpresa = 0 or estado.idEmpresa =" + hs.getAttribute("idEmpresa");
+        String sqlEstados = "select * from estado where estado.idEmpresa = 0 or estado.idEmpresa =" + idEmpresa;
         PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
         rsEstados = pstEstados.executeQuery();
     } catch (SQLException e) {
@@ -90,7 +97,7 @@
     ResultSet rsUsuarioEjecutor = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  usuario.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
+        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  usuario.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + idEmpresa;
         PreparedStatement pstUsuariosEjecutores = conn.prepareStatement(sqlUsuariosEjecutores);
         rsUsuarioEjecutor = pstUsuariosEjecutores.executeQuery();
     } catch (SQLException e) {
@@ -126,21 +133,9 @@
                                     <tr>
                                         <td><b>Asignado</b></td> 
                                         <td>
-                                            <% if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
-                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modalCambiarAsignado"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
-                                                <div id="modalCambiarAsignado" class="modal modal-fixed-footer">
-                                                    <div class="modal-content">
-                                                        <h4>Cambiar Ejecutor</h4>
-                                                        <p>Ya no es posible cambiar el ejecutor de esta tarea, se encuentra cerrada.</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                    </div>
-                                                </div>
-                                            <% } else {%>            
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
                                             <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
-                                                <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada%>">
+                                                <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada %>">
                                                 <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
                                                     <div class="modal-content">
                                                         <h4>Cambiar usuario asignado</h4>
@@ -157,7 +152,6 @@
                                                     </div>
                                                 </div> 
                                             </form>
-                                            <% }%>            
                                         </td>
                                     </tr>
                                     <td><b>Estado</b></td>
@@ -326,7 +320,7 @@
                         </li>
                         <%} else {%>
                         <li>
-                            <a href="../gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsTareaSeleccionada.getString("idProcedimiento")%>" target="_blank"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
+                            <a href="../gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsTareaSeleccionada.getString("idProcedimiento") %>" target="_blank"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
                         </li>
                         <%}%>
                     </ul>
