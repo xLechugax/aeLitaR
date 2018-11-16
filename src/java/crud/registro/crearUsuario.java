@@ -104,7 +104,7 @@ public class crearUsuario extends HttpServlet {
                     out.print("<meta http-equiv='Refresh' content='2;url=/aeLita/errores/CorreosNoCoinciden.jsp'>");
                     out.print("<meta http-equiv='Refresh' content='2;url=/aeLita/registro/registrarNuevoUsuario.jsp'>");
                 } else {
-                    String sql = "INSERT INTO USUARIO (nombre, apellido, nombreUsuario, email, telefono_m, telefono_f, area_departamento, direccion, tipoCuenta, clave, activo, rut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String sql = "INSERT INTO USUARIO (nombre, apellido, nombreUsuario, email, telefono_m, telefono_f, area_departamento, direccion, tipoCuenta, clave, rut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     PreparedStatement pst = conn.prepareStatement(sql);
                     pst.setString(1, nombre);
                     pst.setString(2, apellido);
@@ -116,8 +116,7 @@ public class crearUsuario extends HttpServlet {
                     pst.setString(8, direccion);
                     pst.setString(9, rol);
                     pst.setString(10, clave);
-                    pst.setString(11, "N");
-                    pst.setString(12, rut);
+                    pst.setString(11, rut);
                     pst.execute();
                 }
             } catch (SQLException e) {
