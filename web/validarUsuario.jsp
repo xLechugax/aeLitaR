@@ -52,7 +52,7 @@
                                 <option value="<%=rsListadoEmpresas.getString("idEmpresa")%>"><%=rsListadoEmpresas.getString("nombre")%></option>
                                 <%}%>
                             </select>
-                            <input class="btn" type="submit" value="Ingresar" />
+                            <input class="btn blue-grey darken-3" type="submit" value="Ingresar" />
                         </form>
                     </div>
                 </div>

@@ -5,7 +5,7 @@
     ResultSet rsProcedimientos = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlProcedimientos = "select procedimiento.idProcedimiento, procedimiento.nombreProcedimiento, DATE_FORMAT(procedimiento.fecha_creacion, '%d/%m/%Y %T') as fecha_creacion from procedimiento where procedimiento.idEmpresa=" + hs.getAttribute("idEmpresa");
+        String sqlProcedimientos = "select procedimiento.idProcedimiento, procedimiento.nombreProcedimiento, DATE_FORMAT(procedimiento.fecha_creacion, '%d/%m/%Y %T') as fecha_creacion from procedimiento where procedimiento.idEmpresa=" + hs.getAttribute("idEmpresa") +" and procedimiento.idProcedimiento > 0" ;
         PreparedStatement pstProcedimientos = conn.prepareStatement(sqlProcedimientos);
         rsProcedimientos = pstProcedimientos.executeQuery();
     } catch (SQLException e) {
@@ -15,7 +15,7 @@
     ResultSet rsProcedimientosContador = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlProcedimientos = "select procedimiento.idProcedimiento, procedimiento.nombreProcedimiento, DATE_FORMAT(procedimiento.fecha_creacion, '%d/%m/%Y %T') as fecha_creacion from procedimiento where procedimiento.idEmpresa=" + hs.getAttribute("idEmpresa");
+        String sqlProcedimientos = "select procedimiento.idProcedimiento, procedimiento.nombreProcedimiento, DATE_FORMAT(procedimiento.fecha_creacion, '%d/%m/%Y %T') as fecha_creacion from procedimiento where procedimiento.idEmpresa=" + hs.getAttribute("idEmpresa")+" and procedimiento.idProcedimiento > 0" ;
         PreparedStatement pstProcedimientos = conn.prepareStatement(sqlProcedimientos);
         rsProcedimientosContador = pstProcedimientos.executeQuery();
     } catch (SQLException e) {

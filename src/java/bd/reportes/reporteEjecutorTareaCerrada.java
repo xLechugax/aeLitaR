@@ -1,5 +1,6 @@
-package bd;
+package bd.reportes;
 
+import bd.ConexionBD;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;

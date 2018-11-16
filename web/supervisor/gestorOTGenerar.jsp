@@ -108,7 +108,7 @@ Cada uno de ellos debe de ser completado por los participantes en sus respectiva
                                     </div>
                                 </div>
                                 <div class="center-align">
-                                    <input class="waves-effect waves-light btn" type="submit" value="Generar OT" />
+                                    <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Generar OT" />
                                 </div>
                                 <br/>
                             </form>
