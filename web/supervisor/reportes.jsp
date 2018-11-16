@@ -72,7 +72,7 @@
                                     Hasta
                                     <input id="fechaHasta" type="datetime-local" value="2017-06-01">
                                     <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
                                 </form>
                             </div>
@@ -84,7 +84,7 @@
                                     ID de Tarea
                                     <input id="idTarea" type="text" required="">
                                     <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
                                 </form>
                             </div>
@@ -119,7 +119,7 @@
                                     <td><%= rsOrdenesTrabajoCerradas.getString("nombreOrdenTrabajo")%></td>
                                     <td><%= rsOrdenesTrabajoCerradas.getString("supervisor")%></td>
                                     <td><%= rsOrdenesTrabajoCerradas.getString("fecha_inicio")%></td>
-                                    <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajoCerradas.getString("idOrdenTrabajo")%>" class="btn">Detalle</a></td>
+                                    <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajoCerradas.getString("idOrdenTrabajo")%>" class="btn blue-grey darken-3">Detalle</a></td>
                                     </tbody>
                                     <%}%>
                                 </table>
@@ -130,12 +130,12 @@
                                 </table>
                             </div>
                         </li>
-                        <li>
+                        <%--<li>
                             <div class="collapsible-header"><i class="material-icons">show_chart</i>Estadísticas</div>
                             <div class="collapsible-body white">
                                 <canvas id="chartEstadisticas" width="400" height="200"></canvas>
                             </div>
-                        </li>
+                        </li>--%>
                     </ul>
                 </div>
             </div>
