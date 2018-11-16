@@ -1,11 +1,10 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    
-    String idTareaSeleccionada = request.getParameter("idTarea");
+<%    String idTareaSeleccionada = request.getParameter("idTarea");
     String comentarioOT = request.getParameter("comentarioOT");
-    String idEmpresa =""+ hs.getAttribute("idEmpresa");
-    
+    String idEmpresa = "" + hs.getAttribute("idEmpresa");
+
     ResultSet rsAux = null; // Contiene el ID de la Orden de trabajo seleccionada.
     try {
         Connection conn = ConexionBD.getConexion();
@@ -17,7 +16,7 @@
         out.println("Excepción de SQL idTareaSeleccionada:" + e);
         return;
     }
-    String idOrdenTrabajo = ""+rsAux.getString("idOrdenTrabajo");
+    String idOrdenTrabajo = "" + rsAux.getString("idOrdenTrabajo");
     ResultSet rsOrdenTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -29,7 +28,7 @@
         out.println("Excepción de SQL rsOrdenTrabajo:" + e);
         return;
     }
-    
+
     ResultSet rsTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -131,7 +130,7 @@
                                         <td>
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
                                             <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
-                                                <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada %>">
+                                                <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada%>">
                                                 <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
                                                     <div class="modal-content">
                                                         <h4>Cambiar usuario asignado</h4>
@@ -156,11 +155,6 @@
                                         <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modal1"><%= rsTareaSeleccionada.getString("nombreEstado")%></a>
                                         <!-- Modal Structure -->
                                         <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
-                                        <br/><br/> 
-                                        <form method="get" action="/aeLita/reporteEjecutorTareaCerrada">
-                                            <input type="hidden" name="idTarea" value="<%=idTareaSeleccionada%>">
-                                            <input type="submit" class="btn blue-grey darken-4" value="Ver Reporte"/>
-                                        </form>
                                         <form method="get" action="/aeLita/cambiarEstado">
                                             <div id="modal1" class="modal modal-fixed-footer">
                                                 <div class="modal-content">
@@ -241,6 +235,10 @@
                                         <td><%if (rsTareaSeleccionada.getString("fecha_fin") == null) {%><p class="green-text">Tarea en proceso...</p><%}%></td>
                                     </tr>
                                 </table>
+                                <form method="get" action="/aeLita/reporteEjecutorTareaCerrada">
+                                    <input type="hidden" name="idTarea" value="<%=idTareaSeleccionada%>">
+                                    <input type="submit" class="btn blue-grey darken-4" value="Ver Reporte"/>
+                                </form>
                             </div>
                         </li>
                         <li>
@@ -321,7 +319,7 @@
                         </li>
                         <%} else {%>
                         <li>
-                            <a href="../gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsTareaSeleccionada.getString("idProcedimiento") %>" target="_blank"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
+                            <a href="../gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsTareaSeleccionada.getString("idProcedimiento")%>" target="_blank"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
                         </li>
                         <%}%>
                     </ul>
