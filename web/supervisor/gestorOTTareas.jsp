@@ -102,9 +102,9 @@
                                     </div>
                                     <div class="input-field col m1">
                                         <input class="waves-effect waves-light btn blue-grey darken-3"  type="submit" value="Filtrar" />
-                                    </div>
+                                    </div> 
                                 </form><br/><br/><br/>
-                                <table border="1">
+                                <table border="1" class="highlight bordered">
                                     <tbody>
                                         <tr>
                                             <td><b>idTarea</b></td>
