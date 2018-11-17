@@ -1,6 +1,9 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
-<%    ResultSet rsOrdenesTrabajoCerradas = null;
+<%    String idOT = request.getParameter("idOT");
+    String desde = request.getParameter("desde");
+    String hasta = request.getParameter("hasta");
+    ResultSet rsOrdenesTrabajoCerradas = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sqlOrdenesTrabajoCerradas = "select orden_trabajo.idOrdenTrabajo, "
@@ -8,13 +11,27 @@
                 + "orden_trabajo.importancia, "
                 + "orden_trabajo.nombreOrdenTrabajo, "
                 + "usuario.nombreUsuario as supervisor,"
-                + "orden_trabajo.fecha_inicio "
+                + "DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, "
+                + "orden_trabajo.fecha_inicio as fecha_inicioOrdenar "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
                 + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario=" + hs.getAttribute("idUsuarioSesion") + " "
                 + "and orden_trabajo.estado = 5";
 
-        sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " order by orden_trabajo.fecha_inicio desc";
+        if (idOT != null) {
+            if (idOT != "") {
+                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and orden_trabajo.idOrdenTrabajo='" + idOT + "'";
+            }
+        }
+        if (desde != null && hasta != null) {
+            if (desde != "" && hasta != "") {
+                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_inicio BETWEEN '" + desde + "' and '" + hasta + "'";
+            }
+            if (desde != "") {
+                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_inicio BETWEEN '" + desde + "' and CURRENT_DATE()";
+            }
+        }
+        sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " order by fecha_inicioOrdenar desc";
         PreparedStatement pstOrdenesTrabajoCerradas = conn.prepareStatement(sqlOrdenesTrabajoCerradas);
         rsOrdenesTrabajoCerradas = pstOrdenesTrabajoCerradas.executeQuery();
     } catch (SQLException e) {
@@ -64,27 +81,27 @@
                 <div class="col s4 m4">
                     <ul class="collapsible">
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por Fecha</div>
+                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por ID de OT</div>
                             <div class="collapsible-body white">
                                 <form>
-                                    Desde
-                                    <input id="fechaDesde" type="datetime-local" value="2017-06-01" required="">
-                                    Hasta
-                                    <input id="fechaHasta" type="datetime-local" value="2017-06-01">
+                                    ID de Tarea
+                                    <input id="idTarea" name="idOT" type="text" >
                                     <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
                                 </form>
                             </div>
                         </li>
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por ID de Tarea</div>
+                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por Fecha</div>
                             <div class="collapsible-body white">
                                 <form>
-                                    ID de Tarea
-                                    <input id="idTarea" type="text" required="">
+                                    Desde
+                                    <input id="fechaDesde" type="date" name="desde" required="">
+                                    Hasta
+                                    <input id="fechaHasta" type="date" name="hasta">
                                     <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
                                 </form>
                             </div>
@@ -119,7 +136,7 @@
                                     <td><%= rsOrdenesTrabajoCerradas.getString("nombreOrdenTrabajo")%></td>
                                     <td><%= rsOrdenesTrabajoCerradas.getString("supervisor")%></td>
                                     <td><%= rsOrdenesTrabajoCerradas.getString("fecha_inicio")%></td>
-                                    <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajoCerradas.getString("idOrdenTrabajo")%>" class="btn">Detalle</a></td>
+                                    <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajoCerradas.getString("idOrdenTrabajo")%>" class="btn blue-grey darken-3">Detalle</a></td>
                                     </tbody>
                                     <%}%>
                                 </table>
@@ -130,12 +147,12 @@
                                 </table>
                             </div>
                         </li>
-                        <li>
+                        <%--<li>
                             <div class="collapsible-header"><i class="material-icons">show_chart</i>Estadísticas</div>
                             <div class="collapsible-body white">
                                 <canvas id="chartEstadisticas" width="400" height="200"></canvas>
                             </div>
-                        </li>
+                        </li>--%>
                     </ul>
                 </div>
             </div>

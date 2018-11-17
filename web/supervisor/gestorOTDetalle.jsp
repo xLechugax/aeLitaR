@@ -128,7 +128,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajoSeleccionada + " order by fecha_publicacion desc";
+        String sqlOrdenTrabajo = "select * from avance,usuario,tarea,tipo_tarea where usuario.idUsuario = avance.usuario and avance.idTarea_fk = tarea.idTarea and tarea.idTipoTarea = tipo_tarea.idTipoTarea and avance.idOrdenTrabajo_fk= " + idOrdenTrabajoSeleccionada + " order by fecha_publicacion desc";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -164,7 +164,7 @@
                 <div class="col m5">
                     <ul class="collapsible" data-collapsible="accordion">
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">assignment</i><b><%= rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></b></div>
+                            <div class="collapsible-header active"><i class="material-icons">assignment</i><b>OT: <%= rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></b></div>
                             <div class="collapsible-body white"> 
                                 <table>
                                     <tr> 
@@ -253,6 +253,10 @@
                                 </table>
                                 <b>Detalle:</b>
                                 <p><%= rsOrdenTrabajo.getString("detalleOrdenTrabajo")%></p>
+                                <form method="get" action="/aeLita/reporteSupervisorOrdenTrabajoCerrada">
+                                    <input type="hidden" name="idOT" value="<%= idOrdenTrabajoSeleccionada%>">
+                                    <input type="submit" class="btn blue-grey darken-4" value="Ver Reporte"/>
+                                </form>
                             </div>
                         </li>
                         <li>
@@ -365,7 +369,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="../gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsOrdenTrabajo.getString("idProcedimiento") %>"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
+                            <a href="../gestores/gestorProcedimientosDetalle.jsp?idProcedimiento=<%= rsOrdenTrabajo.getString("idProcedimiento")%>"><div class="collapsible-header"><i class="material-icons">call_split</i>Ver Procedimiento Asignado</div></a>
                         </li>
                     </ul>
                 </div>
