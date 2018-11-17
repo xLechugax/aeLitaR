@@ -128,6 +128,20 @@
                                     <tr>
                                         <td><b>Asignado</b></td> 
                                         <td>
+                                            <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
+                                            <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
+                                                <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar usuario asignado</h4>
+                                                        <p>Ya no es posible cambiar el asignado de esta tarea, se encuentra cerrada.</p>
+                                                    </div> 
+                                                    <div class="modal-footer">
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div> 
+                                            </form>
+                                            <% } else { %>
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
                                             <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
                                                 <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada%>">
@@ -147,6 +161,7 @@
                                                     </div>
                                                 </div> 
                                             </form>
+                                            <% } %>
                                         </td>
                                     </tr>
                                     <td><b>Estado</b></td>
