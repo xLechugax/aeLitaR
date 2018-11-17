@@ -64,8 +64,8 @@
                                         <label for="textarea1">Detalle tipo de tarea...</label>
                                     </div>
                                     <center>
-                                        <input class="btn" type="submit" value="Modificar Tipo de Tarea" /><br/><br/>
-                                        <a href="gestorTipoTareas.jsp" class="btn left-align">Cancelar</a>
+                                        <input class="btn blue-grey darken-4" type="submit" value="Modificar Tipo de Tarea" /><br/><br/>
+                                        <a href="gestorTipoTareas.jsp" class="btn blue-grey darken-4 left-align">Cancelar</a>
                                     </center>
                                 </form>
                             </div>
@@ -91,7 +91,7 @@
                                             <td><%= rsTipoTareas.getString("nombreTipoTarea")%></td>
                                             <td>
                                                 <!-- Modal Trigger -->
-                                                <a class=" modal-trigger" href="#modal1"><img src="img/eliminar.png" title="Modificar"/></a>
+                                                <!-- <a class=" modal-trigger" href="#modal1"><img src="img/eliminar.png" title="Modificar"/></a> -->
 
                                                 <!-- Modal Structure -->
                                                 <div id="modal1" class="modal bottom-sheet">
@@ -103,8 +103,8 @@
                                                         <a href="#!" class="modal-close waves-effect waves-green btn-flat red white-text">No</a>
                                                     </div>
                                                 </div>
-                                                <a href="gestorTipoTareasModificar.jsp?idTipoTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
-                                                    <img src="img/modificar.jpg" title="Modificar"/>
+                                                <a class="orange-text" href="gestorTipoTareasModificar.jsp?idTipoTarea=<%=rsTipoTareas.getLong("idTipoTarea")%>">
+                                                    <i class="material-icons tiny orange-text" title="Editar">edit</i>&nbsp;Editar
                                                 </a>
                                             </td>
                                         </tr>

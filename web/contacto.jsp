@@ -43,7 +43,7 @@
                                         <input type="hidden" name="nombre" value="<%=nombreCompleto%>">
                                         <input type="hidden" name="idEmpresa" value="<%=idEmpresa%>">
                                         <input type="hidden" name="idUsuario" value="<%=idUsuario%>">
-                                        
+
                                         <div class="input-field col s12">
                                             <input name="nombre" type="text" value="<%=nombreCompleto%>" class="validate" disabled="" required="">
                                             <label>Nombre</label>

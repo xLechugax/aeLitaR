@@ -97,7 +97,7 @@
                                         </tbody>
                                     </table>
                                     <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Guardar Cambios" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-4" type="submit" value="Guardar Cambios" />
                                     </center><br/>
                                 </form>
                             </div>

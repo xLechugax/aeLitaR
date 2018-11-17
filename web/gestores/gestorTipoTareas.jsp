@@ -56,7 +56,7 @@
                                         <label for="textarea1">Detalle de tipo tarea</label>
                                     </div>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Tipo de Tarea " />
+                                        <input class="waves-effect waves-light btn right-align blue-grey darken-4" type="submit" value="Crear Tipo de Tarea " />
                                     </center>
                                 </form>
                             </div>
@@ -83,20 +83,20 @@
                                             <td><%= rsTareas.getString("nombreTipoTarea")%></td>
                                             <td>
                                                 <!-- Modal Trigger -->
-                                                <a class=" modal-trigger" href="#modal<%=rsTareas.getString("idTipoTarea")%>"><img src="img/eliminar.png" title="Modificar"/></a>
+                                                <!--<a class=" modal-trigger" href="#modal<%=rsTareas.getString("idTipoTarea")%>"><img src="img/eliminar.png" title="Modificar"/></a>-->
 
                                                 <!-- Modal Structure -->
                                                 <div id="modal<%=rsTareas.getString("idTipoTarea")%>" class="modal bottom-sheet">
                                                     <div class="modal-content">
-                                                        <h4>¿Cofirmar eliminación de "<%= rsTareas.getString("nombreTipoTarea")%>"?</h4>
+                                                        <h4>¿Cofirmar eliminación de "<%= rsTareas.getString("nombreTipoTarea")%>"?</h4>    
                                                     </div>
                                                     <div class="modal-footer">
                                                         <a href="/aeLita/gestorTipoTareasEliminar?idTipoTarea=<%=rsTareas.getLong("idTipoTarea")%>" class="modal-close waves-effect waves-green btn-flat green white-text left">Si</a>
                                                         <a href="#!" class="modal-close waves-effect waves-green btn-flat red white-text">No</a>
                                                     </div>
                                                 </div>
-                                                <a href="gestorTipoTareasModificar.jsp?idTipoTarea=<%=rsTareas.getLong("idTipoTarea")%>">
-                                                    <img src="img/modificar.jpg" title="Modificar"/>
+                                                    <a class="orange-text" href="gestorTipoTareasModificar.jsp?idTipoTarea=<%=rsTareas.getLong("idTipoTarea")%>">
+                                                    <i class="material-icons tiny orange-text" title="Editar">edit</i>&nbsp;Editar
                                                 </a>
                                             </td>
                                         </tr>

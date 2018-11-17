@@ -60,8 +60,8 @@
                                         <label for="textarea1">Detalle de estado</label>
                                     </div>
                                     <center>
-                                        <input class="btn" type="submit" value="Modificar Estado" /><br/><br/>
-                                        <a href="gestorEstados.jsp" class="btn left-align">Cancelar</a>
+                                        <input class="btn blue-grey darken-4" type="submit" value="Modificar Estado" /><br/><br/>
+                                        <a href="gestorEstados.jsp" class="btn left-align blue-grey darken-4">Cancelar</a>
                                     </center>
                                 </form>
                             </div>
@@ -89,11 +89,11 @@
                                                 <% if ( Integer.parseInt(rsEstados.getString("idEstado")) < 6 ) {%>
                                                 <p class="grey-text">Estado Básico<p>
                                                 <% } else { %>
-                                                    <a href="gestorEstadosConfirmarEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                    <!-- <a href="gestorEstadosConfirmarEliminar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>"> 
                                                         <img src="img/eliminar.png" title="Eliminar"/>
-                                                    </a>
-                                                    <a href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
-                                                        <img src="img/modificar.jpg" title="Modificar"/>
+                                                    </a>--->
+                                                    <a class="orange-text" href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                        <i class="material-icons tiny orange-text" title="Editar">edit</i>&nbsp;Editar
                                                     </a>
                                                 <% } %>
                                             </td>

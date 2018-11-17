@@ -438,8 +438,8 @@
                                         <img src="img/eliminar.png" title="Eliminar"/>
                                     </a>--%>
                                     &nbsp;
-                                    <a href="gestorUsuariosEditar.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>">
-                                        <img src="img/modificar.jpg" title="Modificar"/>
+                                    <a class="orange-text" href="gestorUsuariosEditar.jsp?idUsuario=<%=rsUsuarios.getLong("idUsuario")%>">
+                                        <i class="material-icons tiny orange-text" title="Editar">edit</i>&nbsp;Editar
                                     </a></center>
                                 </td>
                                 </tr>

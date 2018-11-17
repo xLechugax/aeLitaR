@@ -47,7 +47,7 @@
                                         <label for="textarea1">Detalle de estado</label>
                                     </div>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Estado" />
+                                        <input class="waves-effect waves-light btn right-align blue-grey darken-4" type="submit" value="Crear Estado" />
                                     </center>
                                 </form>
                             </div>
@@ -76,7 +76,7 @@
                                                 <p class="grey-text">Estado Básico<p>
                                                     <% } else {%>
                                                     <!-- Modal Trigger -->
-                                                    <a class=" modal-trigger" href="#modal<%= rsEstados.getString("idEstado")%>"><img src="img/eliminar.png" title="Modificar"/></a>
+                                                    <!-- <a class=" modal-trigger" href="#modal<%= rsEstados.getString("idEstado")%>"><img src="img/eliminar.png" title="Modificar"/></a> -->
 
                                                     <!-- Modal Structure -->
                                                 <div id="modal<%= rsEstados.getString("idEstado")%>" class="modal bottom-sheet">
@@ -85,11 +85,11 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <a href="/aeLita/gestorEstadosEliminar?idEstado=<%=rsEstados.getLong("idEstado")%>" class="modal-close waves-effect waves-green btn-flat green white-text left">Si</a>
-                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat red white-text">No</a>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat  blue-grey darken-4 red white-text">No</a>
                                                     </div>
                                                 </div> 
-                                                <a href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
-                                                    <img src="img/modificar.jpg" title="Modificar"/>
+                                                <a class="orange-text" href="gestorEstadosModificar.jsp?idEstado=<%=rsEstados.getLong("idEstado")%>">
+                                                    <i class="material-icons tiny orange-text" title="Editar">edit</i>&nbsp;Editar
                                                 </a>
                                                 <% } %>
                                             </td>
