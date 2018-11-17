@@ -128,7 +128,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select * from avance,usuario,tarea,tipo_tarea where usuario.idUsuario = avance.usuario and avance.idTarea_fk = tarea.idTarea and tarea.idTipoTarea = tipo_tarea.idTipoTarea and avance.idOrdenTrabajo_fk= " + idOrdenTrabajoSeleccionada + " order by fecha_publicacion desc";
+        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajoSeleccionada;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {

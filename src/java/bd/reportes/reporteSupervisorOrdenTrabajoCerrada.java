@@ -57,7 +57,7 @@ public class reporteSupervisorOrdenTrabajoCerrada extends HttpServlet {
             ResultSet rsOrdenTrabajo = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sqlOrdenTrabajo = "select * from orden_trabajo,usuario,estado where orden_trabajo.idOrdenTrabajo = " + idOrdenTrabajoSeleccionada + " and orden_trabajo.supervisor = usuario.idUsuario and orden_trabajo.estado = estado.idEstado";
+                String sqlOrdenTrabajo = "select orden_trabajo.idOrdenTrabajo, orden_trabajo.nombreOrdenTrabajo, orden_trabajo.importancia, usuario.nombreUsuario, DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, DATE_FORMAT(orden_trabajo.fecha_fin, '%d/%m/%Y %T') as fecha_fin from orden_trabajo,usuario,estado where orden_trabajo.idOrdenTrabajo = " + idOrdenTrabajoSeleccionada + " and orden_trabajo.supervisor = usuario.idUsuario and orden_trabajo.estado = estado.idEstado";
                 PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
                 rsOrdenTrabajo = pstOrdenTrabajo.executeQuery();
                 rsOrdenTrabajo.next();
@@ -68,7 +68,7 @@ public class reporteSupervisorOrdenTrabajoCerrada extends HttpServlet {
             ResultSet rsTareasBajoLaOT = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sqlOrdenTrabajo = "select tarea.idTarea, tipo_tarea.nombreTipoTarea, estado.nombreEstado,  usuario.nombreUsuario, tarea.fecha_inicio, tarea.fecha_fin from tarea,usuario,tipo_tarea,estado where tarea.estadoTarea = estado.idEstado and tarea.usuario = usuario.idUsuario and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idOrdenTrabajo =" + idOrdenTrabajoSeleccionada;
+                String sqlOrdenTrabajo = "select tarea.idTarea, tipo_tarea.nombreTipoTarea, estado.nombreEstado,  usuario.nombreUsuario, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, DATE_FORMAT(tarea.fecha_fin, '%d/%m/%Y %T') as fecha_fin from tarea,usuario,tipo_tarea,estado where tarea.estadoTarea = estado.idEstado and tarea.usuario = usuario.idUsuario and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idOrdenTrabajo =" + idOrdenTrabajoSeleccionada;
                 PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
                 rsTareasBajoLaOT = pstOrdenTrabajo.executeQuery();
             } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class reporteSupervisorOrdenTrabajoCerrada extends HttpServlet {
             ResultSet rsComentariosOT = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sqlOrdenTrabajo = "select * from avance,usuario,tarea,tipo_tarea where usuario.idUsuario = avance.usuario and avance.idTarea_fk = tarea.idTarea and tarea.idTipoTarea = tipo_tarea.idTipoTarea and avance.idOrdenTrabajo_fk= " + idOrdenTrabajoSeleccionada + " order by fecha_publicacion desc";
+                String sqlOrdenTrabajo = "select usuario.nombreUsuario, avance.comentario, avance.fecha_publicacion as fecha_publicacionOrdenar, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion from avance,usuario where avance.idOrdenTrabajo_fk =" + idOrdenTrabajoSeleccionada + " and usuario.idUsuario = avance.usuario order by fecha_publicacionOrdenar";
                 PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
                 rsComentariosOT = pstOrdenTrabajo.executeQuery();
             } catch (SQLException e) {
@@ -173,16 +173,13 @@ public class reporteSupervisorOrdenTrabajoCerrada extends HttpServlet {
             PdfPTable tablaAvances = new PdfPTable(3);
             tablaAvances.setWidthPercentage(100); // Hace que la tabla ocupe todo el espacio a la izquierda y la derecha
 
-            PdfPCell celda0Avance = new PdfPCell(new Paragraph("Tarea", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
             PdfPCell celda1Avance = new PdfPCell(new Paragraph("Usuario", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
             PdfPCell celda2Avance = new PdfPCell(new Paragraph("Avance", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
             PdfPCell celda3Avance = new PdfPCell(new Paragraph("Fecha Publicación", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
-            tablaAvances.addCell(celda0Avance); 
             tablaAvances.addCell(celda1Avance);
             tablaAvances.addCell(celda2Avance);
             tablaAvances.addCell(celda3Avance);
             while (rsComentariosOT.next()) {
-                tablaAvances.addCell(rsComentariosOT.getString("nombreTipoTarea"));
                 tablaAvances.addCell(rsComentariosOT.getString("nombreUsuario"));
                 tablaAvances.addCell(rsComentariosOT.getString("comentario"));
                 tablaAvances.addCell(rsComentariosOT.getString("fecha_publicacion"));
