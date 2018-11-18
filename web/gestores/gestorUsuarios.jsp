@@ -209,7 +209,7 @@
                                         <option value="area_departamento">Area/Departamento</option>                
                                         <option value="rol">Rol</option>                
                                     </select>   
-                                    <input class="btn" type="submit" value="¡Realizar búsqueda!" />
+                                    <input class="btn blue-grey darken-3" type="submit" value="¡Realizar búsqueda!" />
                                 </div>
                             </div>
                         </form>
@@ -311,7 +311,7 @@
                                             </p> 
                                         </div>
                                         <center>
-                                            <input class="waves-effect waves-light btn" type="submit" value="Crear Usuario" />
+                                            <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Crear Usuario" />
                                         </center>
                                     </form>
                                 </div>

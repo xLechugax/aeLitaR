@@ -94,7 +94,7 @@
                                     ID de Tarea
                                     <input id="idOrdenTrabajo" type="text" required="">
                                     <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
                                 </form>
                             </div>
@@ -129,7 +129,7 @@
                                     <td><%= rsOrdenesTrabajoCerradas.getString("nombreOrdenTrabajo")%></td>
                                     <td><%= rsOrdenesTrabajoCerradas.getString("supervisor")%></td>
                                     <td><%= rsOrdenesTrabajoCerradas.getString("fecha_inicio")%></td>
-                                    <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajoCerradas.getString("idOrdenTrabajo")%>" class="btn">Detalle</a></td>
+                                    <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajoCerradas.getString("idOrdenTrabajo")%>" class="btn blue-grey darken-3">Detalle</a></td>
                                     </tbody>
                                     <%}%>
                                 </table>
