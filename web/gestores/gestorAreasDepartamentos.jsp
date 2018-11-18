@@ -46,7 +46,7 @@
                                         <label for="textarea1">Detalle del Área/Departamento</label>
                                     </div>
                                     <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="Crear Área/Departamento" />
+                                        <input class="waves-effect waves-light btn right-align blue-grey darken-3" type="submit" value="Crear Área/Departamento" />
                                     </center>
                                 </form>
                             </div>
@@ -75,7 +75,7 @@
                                                 <p class="grey-text">Estado Básico      </p>
                                                 <%} else {%>
                                                 <!-- Modal Trigger -->
-                                                <a class=" modal-trigger" href="#modal<%= rsAreasDepartamentos.getString("idAreaDepartamento")%>"><img src="img/eliminar.png" title="Modificar"/></a>
+                                                <!--<a class=" modal-trigger" href="#modal<%= rsAreasDepartamentos.getString("idAreaDepartamento")%>"><img src="img/eliminar.png" title="Modificar"/></a> -->
 
                                                 <!-- Modal Structure -->
                                                 <div id="modal<%= rsAreasDepartamentos.getString("idAreaDepartamento")%>" class="modal bottom-sheet">
@@ -87,8 +87,8 @@
                                                         <a href="#!" class="modal-close waves-effect waves-green btn-flat red white-text">No</a>
                                                     </div>
                                                 </div> 
-                                                <a href="gestorAreasDepartamentosModificar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
-                                                    <img src="img/modificar.jpg" title="Modificar"/>
+                                                <a class="orange-text" href="gestorAreasDepartamentosModificar.jsp?idAreaDepartamento=<%=rsAreasDepartamentos.getLong("idAreaDepartamento")%>">
+                                                    <i class="material-icons tiny orange-text" title="Editar">edit</i>&nbsp;Editar
                                                 </a>
                                                 <%}%>
                                             </td>

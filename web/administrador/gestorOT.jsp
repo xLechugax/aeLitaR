@@ -77,7 +77,7 @@
                         <div class="card-content">
                             <div class="row">
                                 <div class="input-field col  m3">
-                                    <a class="btn" href="/aeLita/supervisor/gestorOTGenerar.jsp">Generar Órden de Trabajo</a> 
+                                    <a class="btn blue-grey darken-3" href="/aeLita/supervisor/gestorOTGenerar.jsp">Generar Órden de Trabajo</a> 
                                 </div>
                                 <form action="gestorOT.jsp" method="post">
                                     <div class="input-field col  m2">
@@ -108,7 +108,7 @@
                                         <label>Importancia</label>
                                     </div>
                                     <div class="input-field col m1">
-                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </div>
                                 </form>
                             </div>
@@ -135,7 +135,7 @@
                             <td><%= rsOrdenesTrabajo.getString("nombreOrdenTrabajo")%></td>
                             <td><%= rsOrdenesTrabajo.getString("supervisor")%></td>
                             <td><%= rsOrdenesTrabajo.getString("fecha_inicio")%></td>
-                            <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajo.getString("idOrdenTrabajo")%>" class="btn">Detalle</a></td>
+                            <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajo.getString("idOrdenTrabajo")%>" class="btn blue-grey darken-3">Detalle</a></td>
                             </tbody>
                             <%}%>
                         </table>
