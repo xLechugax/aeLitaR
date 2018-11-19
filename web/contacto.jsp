@@ -94,7 +94,7 @@
                                     <%}%>
                                     <div class="input-field col s12">
                                         <textarea name="mensaje" class="materialize-textarea" data-length="520" required="" style="height: 300px"></textarea>
-                                        <label for="textarea1">Cuéntanos, ¿Cuál es el problema...?</label>
+                                        <label for="textarea1">Cuéntanos, ¿Cuál es el problema o sugerencia...?</label>
                                     </div>
                                     <center>
                                         <input class="waves-effect waves-light btn" type="submit" value="Enviar" />

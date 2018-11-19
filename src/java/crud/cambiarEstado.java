@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
 import bd.*;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,20 +37,36 @@ public class cambiarEstado extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+
+            HttpSession hs = request.getSession(false);
+
             String idEstado = request.getParameter("idEstado");
             String idTarea = request.getParameter("idTarea");
-            out.print(idEstado);
-            out.print(idTarea);
-
+            String idEmpresa = ""+hs.getAttribute("idEmpresa");
+            
+            ResultSet rsEstadoSeleccionado = null; //Permite conocer el nombre del estado que el usuario seleccionó.
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sql = "UPDATE aelita.tarea SET estadoTarea=? WHERE idTarea=?";
+                String sqlEstadoSeleccionado = "select estado.nombreEstado from estado where estado.idEstado = "+ idEstado;
+                PreparedStatement pstEstadoSeleccionado = conn.prepareStatement(sqlEstadoSeleccionado);
+                rsEstadoSeleccionado = pstEstadoSeleccionado.executeQuery();
+                rsEstadoSeleccionado.next();
+                String nombreEstado = rsEstadoSeleccionado.getString("nombreEstado");
+                String motivo = ""+hs.getAttribute("nombreUsuario")+" cambió la tarea al estado "+nombreEstado;
+                String sql = "INSERT INTO cambio_estado (`motivo`, `idTarea`, `idEmpresa`) VALUES (?,?,?)";
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, idEstado);
+                pst.setString(1, motivo);
                 pst.setString(2, idTarea);
+                pst.setString(3, idEmpresa);
+                
                 pst.execute();
+                String sqlUpdateTarea = "UPDATE aelita.tarea SET estadoTarea=? WHERE idTarea=?";
+                PreparedStatement pstUpdateTarea = conn.prepareStatement(sqlUpdateTarea);
+                pstUpdateTarea.setString(1, idEstado);
+                pstUpdateTarea.setString(2, idTarea);
+                pstUpdateTarea.execute();
                 response.sendRedirect("/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea="+idTarea);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 out.print(e);
             }
         }

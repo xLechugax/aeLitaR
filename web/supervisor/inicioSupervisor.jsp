@@ -26,16 +26,54 @@
                     <div class="col s12 m12">
                         <div class="card blue-grey darken-1">
                             <div class="card-content white-text">
-                                <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p>
-                                <h5 class="white-text">Links de Útilidad</h5>
-                                <ul>
-                                    <li><a class="grey-text text-lighten-3" href="http://172.17.40.45/plataforma_datos/vis_equipos_datoslist.asp?cmd=resetall" target="_blank"><i class="material-icons">router</i>Equipos Actualizados</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://despachonacional.cl/despachonacional/siad_pyme/index.php/Login" target="_blank"><i class="material-icons">dashboard</i>SIAD Pyme</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="https://macvendors.com/" target="_blank"><i class="material-icons">fingerprint</i>MacVendors</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://10.41.4.141/sac/Login_input" target="_blank"><i class="material-icons">keyboard</i>HFC Incognito</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://agenda/Organigrama/"  target="_blank"><i class="material-icons">local_phone</i>Organigrama</a></li>
-                                    <li><a class="grey-text text-lighten-3" href="http://200.27.8.220/acceso.php"  target="_blank"><i class="material-icons">accessibility</i>ID Ingreso a Nodo</a></li>
-                                </ul>
+                                <p>¡Bienvenido a æLita <%=hs.getAttribute("nombre")%>!</p>
+                                <div class="card-content black-text">
+                                <br/>
+                                <%
+                                    String idEmpresa = ""+hs.getAttribute("idEmpresa");
+                                    String idUsuario = ""+hs.getAttribute("idUsuarioSesion");
+                                    
+                                    
+                                    ResultSet rsOTAtencion = null;
+                                    try {
+                                        Connection conn = ConexionBD.getConexion();
+                                        String sqlTareasEnAtencion = "select count(*) from orden_trabajo where orden_trabajo.supervisor = "+idUsuario+" and orden_trabajo.estado != 5 and orden_trabajo.idEmpresa = "+idEmpresa ;
+                                        PreparedStatement pstTareasEnAtencion = conn.prepareStatement(sqlTareasEnAtencion);
+                                        rsOTAtencion = pstTareasEnAtencion.executeQuery();
+                                        rsOTAtencion.next();
+                                    } catch (SQLException e) {
+                                        out.println("Excepción de SQL:" + e);
+                                        return;
+                                    }
+                                    ResultSet rsOTCerradas = null;
+                                    try {
+                                        Connection conn = ConexionBD.getConexion();
+                                        String sqlTareasCerradas = "select count(*) from orden_trabajo where orden_trabajo.supervisor = "+idUsuario+" and orden_trabajo.estado = 5 and orden_trabajo.idEmpresa = "+idEmpresa ;
+                                        PreparedStatement pstTareasCerradas = conn.prepareStatement(sqlTareasCerradas);
+                                        rsOTCerradas = pstTareasCerradas.executeQuery();
+                                        rsOTCerradas.next();
+                                    } catch (SQLException e) {
+                                        out.println("Excepción de SQL:" + e);
+                                        return;
+                                    }
+                                    ResultSet rsAvances = null;
+                                    try {
+                                        Connection conn = ConexionBD.getConexion();
+                                        String sqlAvances = "select count(*) from avance where avance.idEmpresa = " + idEmpresa + " and avance.usuario = " + idUsuario;
+                                        PreparedStatement pstAvances = conn.prepareStatement(sqlAvances);
+                                        rsAvances = pstAvances.executeQuery();
+                                        rsAvances.next();
+                                    } catch (SQLException e) {
+                                        out.println("Excepción de SQL:" + e);
+                                        return;
+                                    }
+                                %>
+                                <div class="collection">
+                                    <a class="collection-item"><span class="badge green white-text"><%= rsOTAtencion.getInt(1)%></span>Órdenes de Trabajo en Atención</a>
+                                    <a class="collection-item"><span class="badge grey white-text"><%= rsOTCerradas.getInt(1)%></span>Órdenes de Trabajo Cerradas</a>
+                                    <a class="collection-item"><span class="badge orange white-text"><%= rsAvances.getInt(1)%></span>Avances</a>
+                                </div>
+                            </div>
                             </div>
                         </div>
                     </div>

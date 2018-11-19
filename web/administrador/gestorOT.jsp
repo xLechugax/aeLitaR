@@ -33,10 +33,13 @@
                 + "orden_trabajo.importancia, "
                 + "orden_trabajo.nombreOrdenTrabajo, "
                 + "usuario.nombreUsuario as supervisor,"
-                + "orden_trabajo.fecha_inicio "
-                + "from orden_trabajo,usuario,estado "
+                + "DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, "
+                + "orden_trabajo.fecha_inicio as fecha_inicioOrdenar "
+                + "from orden_trabajo,usuario,estado, empresa "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
-                + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario";
+                + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario "
+                + "and orden_trabajo.idEmpresa = empresa.idEmpresa "
+                + "and orden_trabajo.idEmpresa = "+ hs.getAttribute("idEmpresa");
 
         if (idUsuarioFiltro != null) {
             sqlAsignado = sqlAsignado + " and orden_trabajo.supervisor = '" + idUsuarioFiltro + "'";
@@ -48,7 +51,7 @@
             sqlAsignado = sqlAsignado + " and orden_trabajo.importancia ='" + importanciaFiltro + "'";
         }
 
-        sqlAsignado = sqlAsignado+" order by orden_trabajo.fecha_inicio desc";
+        sqlAsignado = sqlAsignado+" order by fecha_inicioOrdenar desc";
         System.out.println(idEstadoFiltro + " + " + importanciaFiltro);
 
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);

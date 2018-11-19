@@ -108,7 +108,7 @@
     ResultSet rsTareasBajoLaOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select tarea.idTarea, tipo_tarea.nombreTipoTarea, estado.nombreEstado,  usuario.nombreUsuario, tarea.fecha_inicio from tarea,usuario,tipo_tarea,estado where tarea.estadoTarea = estado.idEstado and tarea.usuario = usuario.idUsuario and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idOrdenTrabajo =" + idOrdenTrabajoSeleccionada;
+        String sqlOrdenTrabajo = "select tarea.idTarea, tipo_tarea.nombreTipoTarea, estado.nombreEstado,  usuario.nombreUsuario, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio from tarea,usuario,tipo_tarea,estado where tarea.estadoTarea = estado.idEstado and tarea.usuario = usuario.idUsuario and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idOrdenTrabajo =" + idOrdenTrabajoSeleccionada;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsTareasBajoLaOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -128,7 +128,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select * from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajoSeleccionada;
+        String sqlOrdenTrabajo = "select usuario.tipoCuenta, usuario.nombreUsuario, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenar from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk='" + idOrdenTrabajoSeleccionada + "' order by fecha_publicacionOrdenar desc";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {

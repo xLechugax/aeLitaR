@@ -27,9 +27,9 @@
             <div class="container"> 
                 <div class="row">
                     <div class="col s12 m12">
-                        <div class="card">
-                            <div class="card-content black-text">
-                                <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p> 
+                        <div class="card blue-grey darken-1">
+                            <div class="card-content white-text">
+                                <p>¡Bienvenido a æLita <b><%=hs.getAttribute("nombre")%></b>!</p> 
                                 <br/>
                                 <%
                                     ResultSet rsTareasEnAtencion = null;
@@ -67,9 +67,9 @@
                                     }
                                 %>
                                 <div class="collection">
-                                    <a class="collection-item"><span class="badge"><%= rsTareasEnAtencion.getInt(1)%></span>Tareas en Atención</a>
-                                    <a class="collection-item"><span class="badge"><%= rsTareasCerradas.getInt(1)%></span>Tareas Cerradas</a>
-                                    <a class="collection-item"><span class="badge"><%= rsAvances.getInt(1)%></span>Cantidad de Avances</a>
+                                    <a class="collection-item"><span class="badge green white-text"><%= rsTareasEnAtencion.getInt(1)%></span>Tareas en Atención</a>
+                                    <a class="collection-item"><span class="badge grey white-text"><%= rsTareasCerradas.getInt(1)%></span>Tareas Cerradas</a>
+                                    <a class="collection-item"><span class="badge orange white-text"><%= rsAvances.getInt(1)%></span>Cantidad de Avances</a>
                                 </div>
                             </div>
                         </div>

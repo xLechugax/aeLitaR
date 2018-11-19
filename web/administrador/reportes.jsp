@@ -18,13 +18,14 @@
                 + "orden_trabajo.importancia, "
                 + "orden_trabajo.nombreOrdenTrabajo, "
                 + "usuario.nombreUsuario as supervisor,"
-                + "orden_trabajo.fecha_inicio "
+                + "DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, "
+                + "orden_trabajo.fecha_inicio as fecha_inicioOrdenar "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
                 + "and orden_trabajo.estado = estado.idEstado "
                 + "and orden_trabajo.estado = 5";
 
-        sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " order by orden_trabajo.fecha_inicio desc";
+        sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " order by fecha_inicioOrdenar desc";
         PreparedStatement pstOrdenesTrabajoCerradas = conn.prepareStatement(sqlOrdenesTrabajoCerradas);
         rsOrdenesTrabajoCerradas = pstOrdenesTrabajoCerradas.executeQuery();
     } catch (SQLException e) {
