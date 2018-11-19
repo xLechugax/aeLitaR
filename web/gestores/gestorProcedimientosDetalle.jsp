@@ -8,7 +8,7 @@
     ResultSet rsProcedimientoSeleccionado = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select * from procedimiento where idProcedimiento=" + idProcedimiento + " and procedimiento.idEmpresa=" + hs.getAttribute("idEmpresa");
+        String sql = "select * from procedimiento where idProcedimiento=" + idProcedimiento;
         PreparedStatement pst = conn.prepareStatement(sql);
         rsProcedimientoSeleccionado = pst.executeQuery();
     } catch (SQLException e) {

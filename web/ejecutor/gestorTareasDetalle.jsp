@@ -258,7 +258,6 @@
                                                 <div id="cierre" class="col s12">cierre</div>
                                             </div>
                                             <div class="modal-footer">
-                                                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
                                             </div>
                                         </div>
                                     </td>
