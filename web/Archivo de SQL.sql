@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `actividad` (
   PRIMARY KEY (`idActividad`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.actividad: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.actividad: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
 INSERT INTO `actividad` (`idActividad`, `idProcedimiento`, `idEmpresa`, `nombreActividad`, `detalleActividad`) VALUES
 	(0000000009, 0, 1, 'Actividad 3 ', '949494');
@@ -165,6 +165,36 @@ INSERT INTO `avance` (`idAvance`, `idEmpresa`, `idTarea_fk`, `idOrdenTrabajo_fk`
 	(00000000071, 1, 14, 14, 26, 'ya pero no me critiquen, chanchos cochinos', '2018-11-15 00:42:06'),
 	(00000000072, 1, 3, 4, 40, 'asd', '2018-11-15 23:38:46');
 /*!40000 ALTER TABLE `avance` ENABLE KEYS */;
+
+-- Volcando estructura para tabla aelita.cambio_estado
+CREATE TABLE IF NOT EXISTS `cambio_estado` (
+  `idCambioEstado` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `idOrdenTrabajo` int(10) unsigned zerofill DEFAULT NULL,
+  `idTarea` int(10) unsigned zerofill DEFAULT NULL,
+  `idEmpresa` int(10) unsigned zerofill DEFAULT NULL,
+  `motivo` varchar(100) DEFAULT NULL,
+  `fecha_realizacion` timestamp NULL DEFAULT current_timestamp(),
+  `fecha_fin` timestamp NULL DEFAULT NULL,
+  `suspension` char(1) DEFAULT 'N',
+  PRIMARY KEY (`idCambioEstado`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla aelita.cambio_estado: ~12 rows (aproximadamente)
+/*!40000 ALTER TABLE `cambio_estado` DISABLE KEYS */;
+INSERT INTO `cambio_estado` (`idCambioEstado`, `idOrdenTrabajo`, `idTarea`, `idEmpresa`, `motivo`, `fecha_realizacion`, `fecha_fin`, `suspension`) VALUES
+	(0000000010, NULL, 0000000014, 0000000001, 'ARMIN.BRUN cambió la tarea al estado Ejecución', '2018-11-18 21:13:36', NULL, 'N'),
+	(0000000011, NULL, 0000000014, 0000000001, 'ARMIN.BRUN cambió la tarea al estado Despachado', '2018-11-18 21:17:21', NULL, 'N'),
+	(0000000012, NULL, 0000000014, 0000000001, 'ARMIN.BRUN cambió la tarea al estado Ejecución', '2018-11-18 21:17:25', NULL, 'N'),
+	(0000000013, NULL, 0000000014, 0000000001, 'ARMIN.BRUN cambió la tarea al estado Despachado', '2018-11-18 21:42:45', NULL, 'N'),
+	(0000000014, NULL, 0000000023, 0000000001, 'FERNANDO.SANJUAN cambió la tarea al estado Despachado', '2018-11-18 21:51:17', NULL, 'N'),
+	(0000000015, 0000000014, 0000000014, 0000000001, 'Se Suspende por indisponibilidad de materiales', '2018-11-18 23:05:40', '2018-11-18 23:20:04', 'S'),
+	(0000000017, NULL, NULL, NULL, 'Wiii!!', '2018-11-18 23:26:11', NULL, 'N'),
+	(0000000018, 0000000001, 0000000001, 0000000001, 'esto es una prueba', '2018-11-18 23:21:24', '2018-11-18 23:23:00', 'S'),
+	(0000000019, 0000000001, 0000000001, 0000000001, 'esto es una prueba', '2018-11-18 23:21:24', '2018-11-18 23:23:00', 'S'),
+	(0000000020, 0000000001, 0000000001, 0000000001, 'esto es una prueba', '2018-11-18 23:21:24', '2018-11-18 23:23:00', 'S'),
+	(0000000021, 0000000001, 0000000001, 0000000001, 'esto es una prueba', '2018-11-18 23:21:24', '2018-11-18 23:23:00', 'S'),
+	(0000000022, 0000000001, 0000000001, 0000000001, 'miriam caro fea horrible', '2018-11-18 23:21:24', '2018-11-18 23:23:00', 'S');
+/*!40000 ALTER TABLE `cambio_estado` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.contacto
 CREATE TABLE IF NOT EXISTS `contacto` (
@@ -340,34 +370,36 @@ CREATE TABLE IF NOT EXISTS `tarea` (
   `fecha_inicio` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_fin` timestamp NULL DEFAULT NULL,
   `estadoTarea` int(11) DEFAULT NULL,
+  `aprobado` char(1) DEFAULT NULL,
   PRIMARY KEY (`idTarea`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.tarea: ~22 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.tarea: ~23 rows (aproximadamente)
 /*!40000 ALTER TABLE `tarea` DISABLE KEYS */;
-INSERT INTO `tarea` (`idTarea`, `idEmpresa`, `idTipoTarea`, `idOrdenTrabajo`, `idProcedimiento`, `usuario`, `fecha_inicio`, `fecha_fin`, `estadoTarea`) VALUES
-	(00000000001, 1, 1, 1, 0, 26, '2018-07-23 15:54:28', '2018-11-18 19:03:35', 5),
-	(00000000002, 1, 3, 1, 0, 27, '2018-07-24 14:01:33', '2018-11-18 19:03:33', 5),
-	(00000000003, 1, 3, 4, 0, 23, '2018-07-24 14:01:40', NULL, 1),
-	(00000000004, 1, 2, 5, 0, 23, '2018-07-24 14:01:58', NULL, 1),
-	(00000000005, 1, 7, 6, 0, 23, '2018-07-24 14:02:09', NULL, 1),
-	(00000000006, 1, 2, 7, 0, 17, '2018-07-24 18:19:53', NULL, 2),
-	(00000000007, 1, 1, 8, 0, 17, '2018-08-13 20:55:40', '2018-11-18 19:03:32', 5),
-	(00000000008, 1, 1, 9, 0, 3, '2018-08-14 11:13:47', NULL, 1),
-	(00000000009, 1, 9, 10, 0, 3, '2018-09-20 15:02:29', NULL, 2),
-	(00000000010, 1, 1, 11, 0, 17, '2018-09-20 21:11:48', '2018-11-18 19:03:31', 5),
-	(00000000011, 1, 1, 1, 0, 26, '2018-09-23 02:39:51', '2018-11-18 19:03:30', 5),
-	(00000000012, 1, 2, 2, 0, 26, '2018-09-23 21:01:38', '2018-11-18 19:03:29', 5),
-	(00000000013, 1, 1, 13, 0, 26, '2018-09-25 16:32:10', '2018-11-18 19:03:28', 5),
-	(00000000014, 1, 1, 14, 0, 26, '2018-10-04 10:31:44', NULL, 1),
-	(00000000015, 1, 1, 14, 0, 42, '2018-10-17 15:33:31', NULL, 2),
-	(00000000016, 1, 1, 14, 0, 23, '2018-11-01 19:00:08', '2018-11-18 19:03:27', 5),
-	(00000000019, 2, NULL, 19, 0, 27, '2018-11-01 22:37:07', NULL, 1),
-	(00000000020, 1, 11, 16, 0, 23, '2018-11-01 22:41:20', NULL, 1),
-	(00000000021, 2, 16, 20, 0, 17, '2018-11-02 16:38:31', NULL, 1),
-	(00000000022, 2, 25, 20, 1, 17, '2018-11-03 16:39:24', NULL, 1),
-	(00000000023, 1, 1, 23, 0, 26, '2018-11-14 23:17:59', NULL, 1),
-	(00000000024, 2, 25, 21, 0, 17, '2018-11-15 23:43:51', NULL, 1);
+INSERT INTO `tarea` (`idTarea`, `idEmpresa`, `idTipoTarea`, `idOrdenTrabajo`, `idProcedimiento`, `usuario`, `fecha_inicio`, `fecha_fin`, `estadoTarea`, `aprobado`) VALUES
+	(00000000001, 1, 1, 1, 0, 26, '2018-07-23 15:54:28', '2018-11-18 19:03:35', 5, NULL),
+	(00000000002, 1, 3, 1, 0, 27, '2018-07-24 14:01:33', '2018-11-18 19:03:33', 5, NULL),
+	(00000000003, 1, 3, 4, 0, 23, '2018-07-24 14:01:40', NULL, 1, NULL),
+	(00000000004, 1, 2, 5, 0, 23, '2018-07-24 14:01:58', NULL, 1, NULL),
+	(00000000005, 1, 7, 6, 0, 23, '2018-07-24 14:02:09', NULL, 1, NULL),
+	(00000000006, 1, 2, 7, 0, 17, '2018-07-24 18:19:53', NULL, 2, NULL),
+	(00000000007, 1, 1, 8, 0, 17, '2018-08-13 20:55:40', '2018-11-18 19:03:32', 5, NULL),
+	(00000000008, 1, 1, 9, 0, 3, '2018-08-14 11:13:47', NULL, 1, NULL),
+	(00000000009, 1, 9, 10, 0, 3, '2018-09-20 15:02:29', NULL, 2, NULL),
+	(00000000010, 1, 1, 11, 0, 17, '2018-09-20 21:11:48', '2018-11-18 19:03:31', 5, NULL),
+	(00000000011, 1, 1, 1, 0, 26, '2018-09-23 02:39:51', '2018-11-18 19:03:30', 5, NULL),
+	(00000000012, 1, 2, 2, 0, 26, '2018-09-23 21:01:38', '2018-11-18 19:03:29', 5, NULL),
+	(00000000013, 1, 1, 13, 0, 26, '2018-09-25 16:32:10', '2018-11-18 19:03:28', 5, NULL),
+	(00000000014, 1, 1, 14, 0, 26, '2018-10-04 10:31:44', NULL, 51, NULL),
+	(00000000015, 1, 1, 14, 0, 42, '2018-10-17 15:33:31', NULL, 2, NULL),
+	(00000000016, 1, 1, 14, 0, 23, '2018-11-01 19:00:08', '2018-11-18 19:03:27', 5, NULL),
+	(00000000019, 2, NULL, 19, 0, 27, '2018-11-01 22:37:07', NULL, 1, NULL),
+	(00000000020, 1, 11, 16, 0, 23, '2018-11-01 22:41:20', NULL, 1, NULL),
+	(00000000021, 2, 16, 20, 0, 17, '2018-11-02 16:38:31', NULL, 1, NULL),
+	(00000000022, 2, 25, 20, 1, 17, '2018-11-03 16:39:24', NULL, 1, NULL),
+	(00000000023, 1, 1, 23, 0, 26, '2018-11-14 23:17:59', NULL, 51, NULL),
+	(00000000024, 2, 25, 21, 0, 17, '2018-11-15 23:43:51', NULL, 1, NULL),
+	(00000000025, 1, 1, 25, 0, 23, '2018-11-18 21:37:26', NULL, 1, NULL);
 /*!40000 ALTER TABLE `tarea` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.tipo_tarea
@@ -426,7 +458,7 @@ INSERT INTO `trabaja` (`idEmpresa`, `idUsuario`, `activo`) VALUES
 -- Volcando estructura para tabla aelita.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
   `idUsuario` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `rut` varchar(10) DEFAULT NULL,
+  `rut` varchar(12) DEFAULT NULL,
   `nombre` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
   `apellido` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
   `nombreUsuario` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
@@ -438,7 +470,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `tipoCuenta` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
   `clave` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1 COMMENT='19.117.491-7';
 
 -- Volcando datos para la tabla aelita.usuario: ~14 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;

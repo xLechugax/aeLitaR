@@ -58,8 +58,8 @@ public class cambiarEstado extends HttpServlet {
                 pst.setString(1, motivo);
                 pst.setString(2, idTarea);
                 pst.setString(3, idEmpresa);
-                
                 pst.execute();
+                
                 String sqlUpdateTarea = "UPDATE aelita.tarea SET estadoTarea=? WHERE idTarea=?";
                 PreparedStatement pstUpdateTarea = conn.prepareStatement(sqlUpdateTarea);
                 pstUpdateTarea.setString(1, idEstado);

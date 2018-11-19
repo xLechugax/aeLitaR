@@ -183,25 +183,40 @@
                                                 </nav>
                                                 <div id="log" class="col s12">
                                                     <%
+                                                        ResultSet rsHistorico = null;
                                                         try {
-                                                            ResultSet rsHistorico = null;
-                                                            try {
-                                                                Connection conn = ConexionBD.getConexion();
-                                                                String sqlEstados = "select * from cambio_estado where idTarea="+idTareaSeleccionada+" and ";
-                                                                PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
-                                                                rsEstados = pstEstados.executeQuery();
-                                                            } catch (SQLException e) {
-                                                                out.println("Excepción de SQL:" + e);
-                                                                return;
-                                                            }
-                                                        } catch (Exception e) {
+                                                            Connection conn = ConexionBD.getConexion();
+                                                            String sqlEstados = "select cambio_estado.idCambioEstado, cambio_estado.motivo, DATE_FORMAT(cambio_estado.fecha_realizacion, '%d/%m/%Y %T') as fecha_realizacion, cambio_estado.fecha_realizacion as fecha_realizacionOrdenar from cambio_estado where cambio_estado.idTarea =" + idTareaSeleccionada + " and cambio_estado.idEmpresa =" + idEmpresa + " order by fecha_realizacionOrdenar desc";
+                                                            PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+                                                            rsHistorico = pstEstados.executeQuery();
+                                                        } catch (SQLException e) {
+                                                            out.println("Excepción de SQL:" + e);
+                                                            return;
                                                         }
                                                     %>
+                                                    <table border="1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>ID Log</th>
+                                                                <th>Motivo</th>
+                                                                <th>Relizado</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% while (rsHistorico.next()) {%>
+                                                            <tr>
+                                                                <td><%=rsHistorico.getString("idCambioEstado")%></td>
+                                                                <td><%=rsHistorico.getString("motivo")%></td>
+                                                                <td><%=rsHistorico.getString("fecha_realizacion")%></td>
+                                                            </tr>
+                                                            <%}%>
+                                                        </tbody>
+                                                    </table>
+
                                                 </div>
                                                 <div id="cambioEstado" class="col s12">
                                                     <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
                                                     <form method="get" action="/aeLita/cambiarEstado">
-                                                        <h4>Cambiar Estado</h4>
                                                         <p>Ya no es posible cambiar el estado de esta tarea, la orden de trabajo se encuentra cerrada.</p>
                                                     </form>
                                                     <%} else {%>
@@ -226,24 +241,20 @@
                                                     <%} else {%>
                                                     <form method="get" action="/aeLita/cambiarEstado">
                                                         <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
-                                                        <div class="modal-content">
-                                                            <h4>Cambiar Estado</h4>
                                                             <p>Selecciona el siguiente estado para la tarea de <%=rsTareaSeleccionada.getString("nombreTipoTarea")%></p>
                                                             <select id="idEstado" name="idEstado">
                                                                 <% while (rsEstados.next()) {%>                                                           
                                                                 <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
                                                                 <% }%>
                                                             </select>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
-                                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                        </div>
+                                                            <input type="submit" class="btn blue-grey darken-4" value="Cambiar Estado"/>
                                                     </form>
                                                     <%}%>
                                                     <%}%>
                                                 </div>
-                                                <div id="suspencion" class="col s12">suspención</div>
+                                                <div id="suspencion" class="col s12">
+                                                    suspension
+                                                </div>
                                                 <div id="cierre" class="col s12">cierre</div>
                                             </div>
                                             <div class="modal-footer">
