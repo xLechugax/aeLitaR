@@ -1,8 +1,7 @@
-<%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
+<%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession,java.util.Random,java.security.SecureRandom"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %>
 <%    
-    
     String idProcedimiento = request.getParameter("idProcedimiento");
 
     ResultSet rsProcedimientoSeleccionado = null;

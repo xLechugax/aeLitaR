@@ -9,7 +9,7 @@
         String hasta = request.getParameter("hasta");
 
         Connection conn = ConexionBD.getConexion();
-        String sql = "select tarea.idTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
+        String sql = "select tarea.idTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, tarea.fecha_fin, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
                 + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
                 + " where tarea.usuario = usuario.idUsuario"
                 + " and tarea.estadoTarea = estado.idEstado"
@@ -31,7 +31,7 @@
                 sql = sql + " and tarea.fecha_inicio BETWEEN '"+desde+"' and CURRENT_DATE()";
             }
         }
-                
+        sql = sql + " order by fecha_fin desc";        
         PreparedStatement pst = conn.prepareStatement(sql);
         rsTareasCerradas = pst.executeQuery();
         

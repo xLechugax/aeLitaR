@@ -32,7 +32,7 @@
     ResultSet rsTareaSeleccionada = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select usuario.nombreUsuario, tarea.idProcedimiento, tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa;
+        String sqlOrdenTrabajo = "select usuario.nombreUsuario, tarea.idProcedimiento, tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, DATE_FORMAT(tarea.fecha_fin, '%d/%m/%Y %T') as fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa;
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsTareaSeleccionada = pstOrdenTrabajo.executeQuery();
         rsTareaSeleccionada.next();
@@ -99,6 +99,68 @@
         out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
         return;
     }
+
+    ResultSet rsHistorico = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlEstados = "select cambio_estado.idCambioEstado, cambio_estado.motivo, DATE_FORMAT(cambio_estado.fecha_realizacion, '%d/%m/%Y %T') as fecha_realizacion, cambio_estado.fecha_realizacion as fecha_realizacionOrdenar from cambio_estado where cambio_estado.idTarea =" + idTareaSeleccionada + " and cambio_estado.idEmpresa =" + idEmpresa + " order by fecha_realizacionOrdenar desc";
+        PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+        rsHistorico = pstEstados.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+
+    double numero = Math.random();
+    String numeroPalabra = Double.toString(numero);
+    String StringEntero = numeroPalabra.replace("0.", "");
+
+    ResultSet rsSuspensiones = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlSuspensiones = "select cambio_estado.idCambioEstado, cambio_estado.idOrdenTrabajo, cambio_estado.idTarea, cambio_estado.idEmpresa, cambio_estado.motivo, DATE_FORMAT(cambio_estado.fecha_realizacion, '%d/%m/%Y %T') as fecha_inicio, cambio_estado.fecha_realizacion, DATE_FORMAT(cambio_estado.fecha_fin, '%d/%m/%Y %T') as fecha_finFix, cambio_estado.fecha_fin, cambio_estado.suspension, cambio_estado.identidad, "
+                + "if(cambio_estado.fecha_fin < NOW(), 'EXPIRADA','VIGENTE') AS ESTADO "
+                + "from cambio_estado "
+                + "where cambio_estado.suspension = 'S' and cambio_estado.idOrdenTrabajo = " + idOrdenTrabajo + " and cambio_estado.idTarea = " + idTareaSeleccionada + " and cambio_estado.idEmpresa = " + idEmpresa + " order by fecha_fin desc";
+        PreparedStatement pstSuspensiones = conn.prepareStatement(sqlSuspensiones);
+        rsSuspensiones = pstSuspensiones.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
+        return;
+    }
+
+    ResultSet rsTiempoTranscurrido = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlEstados = "SELECT FN_DEVOLVERTIEMPO((SELECT TIMESTAMPDIFF(SECOND,(select tarea.fecha_inicio from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea = " + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa + "),(select NOW())))) as tiempo";
+        PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+        rsTiempoTranscurrido = pstEstados.executeQuery();
+        rsTiempoTranscurrido.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsTiempoSuspendida = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlTiempoSuspendida = "SELECT FN_DEVOLVERTIEMPO((select SUM(TIMESTAMPDIFF(SECOND,cambio_estado.fecha_realizacion,cambio_estado.fecha_fin)) from cambio_estado where cambio_estado.idTarea = " + idTareaSeleccionada + " and cambio_estado.suspension = 'S')) as tiempo";
+        PreparedStatement pstTiempoSuspendida = conn.prepareStatement(sqlTiempoSuspendida);
+        rsTiempoSuspendida = pstTiempoSuspendida.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+
+    ResultSet rsTiempoTrabajado = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlTiempoTrabajado = "SELECT FN_DEVOLVERTIEMPO((SELECT TIMESTAMPDIFF(SECOND,(select tarea.fecha_inicio from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea = " + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa + "),(select NOW())))-(select SUM(TIMESTAMPDIFF(SECOND,cambio_estado.fecha_realizacion,cambio_estado.fecha_fin)) from cambio_estado where cambio_estado.idTarea = " + idTareaSeleccionada + " and cambio_estado.suspension = 'S')) as tiempo";
+        PreparedStatement pstTiempoTrabajado = conn.prepareStatement(sqlTiempoTrabajado);
+        rsTiempoTrabajado = pstTiempoTrabajado.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -129,6 +191,19 @@
                                         <td><b>Asignado</b></td> 
                                         <td>
                                             <% if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
+                                            <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
+                                                <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar usuario asignado</h4>
+                                                        <p>Ya no es posible cambiar el asignado de esta tarea, la orden de trabajo se encuentra cerrada.</p>
+                                                    </div> 
+                                                    <div class="modal-footer">
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div> 
+                                            </form>
+                                            <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
                                             <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
                                                 <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
@@ -178,23 +253,16 @@
                                                             <li class="tab"><a href="#cambioEstado">Cambio Estado</a></li>
                                                             <li class="tab"><a href="#suspencion">Suspención</a></li>
                                                             <li class="tab"><a href="#cierre">Cierre</a></li>
+                                                                <%if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {%>
+                                                                <%if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                                            <li class="tab"><a href="#regenerarTarea">Regenerar Tarea</a></li>
+                                                                <%}%>
+                                                                <%}%>
                                                         </ul>
                                                     </div>
                                                 </nav>
                                                 <div id="log" class="col s12">
-                                                    <%
-                                                        ResultSet rsHistorico = null;
-                                                        try {
-                                                            Connection conn = ConexionBD.getConexion();
-                                                            String sqlEstados = "select cambio_estado.idCambioEstado, cambio_estado.motivo, DATE_FORMAT(cambio_estado.fecha_realizacion, '%d/%m/%Y %T') as fecha_realizacion, cambio_estado.fecha_realizacion as fecha_realizacionOrdenar from cambio_estado where cambio_estado.idTarea =" + idTareaSeleccionada + " and cambio_estado.idEmpresa =" + idEmpresa + " order by fecha_realizacionOrdenar desc";
-                                                            PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
-                                                            rsHistorico = pstEstados.executeQuery();
-                                                        } catch (SQLException e) {
-                                                            out.println("Excepción de SQL:" + e);
-                                                            return;
-                                                        }
-                                                    %>
-                                                    <table border="1">
+                                                    <table border="1" class="highlight bordered">
                                                         <thead>
                                                             <tr>
                                                                 <th>ID Log</th>
@@ -212,20 +280,15 @@
                                                             <%}%>
                                                         </tbody>
                                                     </table>
-
                                                 </div>
+                                                <!-- CAMBIO DE ESTADO -->                        
                                                 <div id="cambioEstado" class="col s12">
                                                     <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
-                                                    <form method="get" action="/aeLita/cambiarEstado">
-                                                        <p>Ya no es posible cambiar el estado de esta tarea, la orden de trabajo se encuentra cerrada.</p>
-                                                    </form>
-                                                    <%} else {%>
-                                                    <%if (hs.getAttribute("tipoCuenta").equals("Ejecutor")) {%>
-                                                    <% if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
-                                                    <form method="get" action="/aeLita/cambiarEstado">
-                                                        <h4>Cambiar Estado</h4>
-                                                        <p>Ya no es posible cambiar el estado de esta tarea, se encuentra cerrada.</p>
-                                                    </form>
+                                                    <p>Ya no es posible cambiar el estado de esta tarea, la orden de trabajo se encuentra cerrada...</p>
+                                                    <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                                    <p>Ya no es posible cambiar el estado de esta tarea, se encuentra cerrada...</p>
+                                                    <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("3")) {%> 
+                                                    <p>No es posible cambiar el estado de esta tarea, se encuentra suspendida...</p>
                                                     <%} else {%>
                                                     <form method="get" action="/aeLita/cambiarEstado">
                                                         <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
@@ -237,27 +300,118 @@
                                                         </select>
                                                         <input type="submit" class="btn blue-grey darken-4" value="Cambiar Estado"/>
                                                     </form>
-                                                    <%}%>
-                                                    <%} else {%>
-                                                    <form method="get" action="/aeLita/cambiarEstado">
-                                                        <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
-                                                            <p>Selecciona el siguiente estado para la tarea de <%=rsTareaSeleccionada.getString("nombreTipoTarea")%></p>
-                                                            <select id="idEstado" name="idEstado">
-                                                                <% while (rsEstados.next()) {%>                                                           
-                                                                <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
-                                                                <% }%>
-                                                            </select>
-                                                            <input type="submit" class="btn blue-grey darken-4" value="Cambiar Estado"/>
-                                                    </form>
-                                                    <%}%>
-                                                    <%}%>
+                                                    <%}%>    
                                                 </div>
                                                 <div id="suspencion" class="col s12">
-                                                    suspension
+                                                    <nav class="nav-extended">
+                                                        <div class="nav-content">
+                                                            <ul class="tabs tabs-transparent blue-grey darken-2">
+                                                                <li class="tab"><a class="active" href="#historicoSuspendidas">Historico</a></li>
+                                                                <li class="tab"><a href="#suspenderTarea">Suspender</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </nav>
+                                                    <div id="historicoSuspendidas" class="col s12">
+                                                        <table border="1" class="highlight bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID Suspención</th>
+                                                                    <th>Motivo</th>
+                                                                    <th>Fecha Inicio</th>
+                                                                    <th>Fecha Fin</th>
+                                                                    <th>Estado</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <% while (rsSuspensiones.next()) {%>
+                                                                <tr>
+                                                                    <td><%= rsSuspensiones.getString("idCambioEstado")%></td>
+                                                                    <td><%= rsSuspensiones.getString("motivo")%></td>
+                                                                    <td><%= rsSuspensiones.getString("fecha_inicio")%></td>
+                                                                    <td><%= rsSuspensiones.getString("fecha_finFix")%></td>
+                                                                    <td><%= rsSuspensiones.getString("estado")%></td> 
+                                                                </tr>
+                                                                <%}%>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div id="suspenderTarea" class="col s12">
+                                                        <% if (!rsTareaSeleccionada.getString("estadoTarea").equals("3")) {%>
+                                                        <% if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                                        <p>La tarea ya se encuentra cerrada, no es posible volver a suspenderla...</p>
+                                                        <%} else {%>
+                                                        <form action="/aeLita/suspenderTarea" method="post">
+                                                            <input type="hidden" name="idEmpresa" value="<%= idEmpresa%>">
+                                                            <input type="hidden" name="idOrdenTrabajo" value="<%= idOrdenTrabajo%>">
+                                                            <input type="hidden" name="idTareaSeleccionada" value="<%= idTareaSeleccionada%>">
+                                                            <input type="hidden" name="identidad" value="<%=StringEntero%>">
+                                                            <br/>
+                                                            <br/>
+                                                            <br/>
+                                                            <div class="row">
+                                                                <div class="input-field col s12">
+                                                                    <input class="validate" type="text" name="motivo" required="" id="motivo" placeholder="Motivo de la suspensión">
+                                                                    <label for="motivo">Motivo</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="input-field col s12">
+                                                                    <text class="grey-text darken-4">Fecha de Termino</text>
+                                                                    <input class="validate" type="datetime-local" name="fecha_fin" required="" id="fecha_fin">
+                                                                </div>
+                                                            </div>
+                                                            <input type="submit" class="btn blue-grey darken-3" value="Suspender">
+                                                        </form>
+                                                        <%}%>
+                                                        <%} else {%>
+                                                        <p>No es posible suspender una tarea que ya esta suspendida...</p>
+                                                        <%}%>
+                                                    </div>    
                                                 </div>
-                                                <div id="cierre" class="col s12">cierre</div>
-                                            </div>
-                                            <div class="modal-footer">
+                                                <div id="cierre" class="col s12">
+                                                    <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
+                                                    <p>La orden de trabajo se encuentra cerrada...</p>
+                                                    <%} else if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                                    <p>La tarea se encuentra cerrada...</p>
+                                                    <%} else if (rsTareaSeleccionada.getString("estadoTarea").equals("3")) {%>
+                                                    <p>La tarea se encuentra suspendida...</p>
+                                                    <%} else if (hs.getAttribute("tipoCuenta").equals("Ejecutor")) {%>
+                                                    <br/><br/>
+                                                    <p class="center-align orange-text">Asegúrese que haya terminado todas las actividades solicitadas por su supervisor.</p>
+                                                    <br/>
+                                                    <form name="cerrarTarea" action="/aeLita/cerrarTarea" method="POST">
+                                                        <input type="hidden" name="idEmpresa" value="<%= idEmpresa%>">
+                                                        <input type="hidden" name="idOrdenTrabajo" value="<%= idOrdenTrabajo%>">
+                                                        <input type="hidden" name="idTareaSeleccionada" value="<%= idTareaSeleccionada%>">
+                                                        <center><input type="submit" class="waves-effect waves-light btn red darken-3 center-align" value="Cerrar Tarea"></center>
+                                                    </form>
+                                                    <%} else {%>
+                                                    <br/><br/>
+                                                    <p class="center-align orange-text">Asegúrese que el Ejecutor de la tarea haya terminado todas las actividades que le ha solicitado.</p>
+                                                    <br/>
+                                                    <form name="cerrarTarea" action="/aeLita/cerrarTarea" method="POST">
+                                                        <input type="hidden" name="idEmpresa" value="<%= idEmpresa%>">
+                                                        <input type="hidden" name="idOrdenTrabajo" value="<%= idOrdenTrabajo%>">
+                                                        <input type="hidden" name="idTareaSeleccionada" value="<%= idTareaSeleccionada%>">
+                                                        <center><input type="submit" class="waves-effect waves-light btn red darken-3 center-align" value="Cerrar Tarea"></center>
+                                                    </form>
+                                                    <%}%>
+                                                </div>
+                                                <%if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {%>
+                                                <%if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                                <div id="regenerarTarea" class="col s12">
+                                                    <br/>
+                                                    <p>Al regenerar la tarea, esta aparecerá nuevamente en estado Ejecución y su asignado podrá volver a realizar gestiones en ella.</p>
+                                                    <br/><br/><br/>
+                                                    <form name="cerrarTarea" action="/aeLita/regenerarTarea" method="POST">
+                                                        <input type="hidden" name="idEmpresa" value="<%= idEmpresa%>">
+                                                        <input type="hidden" name="idOrdenTrabajo" value="<%= idOrdenTrabajo%>">
+                                                        <input type="hidden" name="idTareaSeleccionada" value="<%= idTareaSeleccionada%>">
+                                                        <center><input type="submit" class="btn green" value="Regenerar Tarea"></center>
+                                                    </form>
+                                                </div>
+                                                <%}%>
+                                                <%}%>
                                             </div>
                                         </div>
                                     </td>
@@ -271,43 +425,38 @@
                                     </tr>
                                     <tr>
                                         <td><b>Fecha Fin</b></td>
-                                        <td><%if (rsTareaSeleccionada.getString("fecha_fin") == null) {%><p class="green-text">Tarea en proceso...</p><%}%></td>
+                                        <td><%if (rsTareaSeleccionada.getString("fecha_fin") == null) {%>
+                                            <p class="green-text">Tarea en proceso...</p>
+                                            <%} else {%>
+                                            <%= rsTareaSeleccionada.getString("fecha_fin")%>
+                                            <%}%>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <% if (!rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
                                         <td><b>Tiempo Real Transcurrido</b></td>
-                                        <td><%
-                                            ResultSet rsTiempoTranscurrido = null;
-                                            try {
-                                                Connection conn = ConexionBD.getConexion();
-                                                String sqlEstados = "SELECT FN_DEVOLVERTIEMPO((SELECT TIMESTAMPDIFF(SECOND,(select tarea.fecha_inicio from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea = " + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa + "),(select NOW())))) as tiempo";
-                                                PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
-                                                rsTiempoTranscurrido = pstEstados.executeQuery();
-                                                rsTiempoTranscurrido.next();
-                                            } catch (SQLException e) {
-                                                out.println("Excepción de SQL:" + e);
-                                                return;
-                                            }
-                                            out.print(rsTiempoTranscurrido.getString("tiempo"));
-                                            %></td>
-                                            <%} else { %>
+                                        <td><%=rsTiempoTranscurrido.getString("tiempo")%></td>
+                                        <%} else {%>
                                         <td><b>Tiempo Real Transcurrido</b></td>
-                                        <td><%
-                                                ResultSet rsTiempoTranscurrido = null;
-                                                try {
-                                                    Connection conn = ConexionBD.getConexion();
-                                                    String sqlEstados = "SELECT FN_DEVOLVERTIEMPO((SELECT TIMESTAMPDIFF(SECOND,(select tarea.fecha_inicio from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea = " + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa + " ),( select tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea = " + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa + " )))) as tiempo";
-                                                    PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
-                                                    rsTiempoTranscurrido = pstEstados.executeQuery();
-                                                    rsTiempoTranscurrido.next();
-                                                } catch (SQLException e) {
-                                                    out.println("Excepción de SQL:" + e);
-                                                    return;
-                                                }
-                                                out.print(rsTiempoTranscurrido.getString("tiempo"));
-                                            }
-                                            %></td>
+                                        <td><%=rsTiempoTranscurrido.getString("tiempo")%></td>
+                                        <%}%>
                                     </tr>
+                                    <% if (rsTiempoSuspendida.next()) {%>
+                                        <%if (rsTiempoSuspendida.getString("tiempo") != null) {%>
+                                        <tr>
+                                            <td><b>Tiempo Suspendida</b></td>
+                                            <td><%=rsTiempoSuspendida.getString("tiempo")%></td>
+                                        </tr>
+                                        <%}%>
+                                    <%}%>
+                                    <% if (rsTiempoTrabajado.next()) {%>
+                                        <%if (rsTiempoTrabajado.getString("tiempo") != null) {%>
+                                        <tr>
+                                            <td><b>Tiempo Real Trabajado</b></td>
+                                            <td><%=rsTiempoTrabajado.getString("tiempo")%></td>
+                                        </tr>
+                                        <%}%>
+                                    <%}%>
                                 </table>
                                 <form method="get" action="/aeLita/reporteEjecutorTareaCerrada">
                                     <input type="hidden" name="idTarea" value="<%=idTareaSeleccionada%>">
