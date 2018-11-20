@@ -1,8 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%  
-    ResultSet rsEstados = null;
+<%    ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sqlEstados = "select * from estado where estado.idEstado != 5 and estado.idEmpresa = " + hs.getAttribute("idEmpresa") + " or estado.idEmpresa = 0 and estado.idEstado != 5";
@@ -24,7 +23,8 @@
                 + "orden_trabajo.nombreOrdenTrabajo, "
                 + "usuario.nombreUsuario as supervisor,"
                 + "orden_trabajo.fecha_inicio as fecha_inicioOrdenar, "
-                + "DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio "
+                + "DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, "
+                + "TIMESTAMPDIFF(SECOND,orden_trabajo.fecha_inicio,(NOW())) as tiempoRealTranscurrido "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
                 + "and orden_trabajo.estado = estado.idEstado "
@@ -98,8 +98,8 @@
                             <td><b>Estado</b></td>
                             <td class="center-align"><b>Importancia</b></td>
                             <td><b>Orden de Trabajo</b></td>
-                            <td><b>Supervisor</b></td>
                             <td><b>Fecha Inicio</b></td>
+                            <td><b>Tiempo Real Transcurrido</b></td>
                             <td><b>Operaciones</b></td>
                             </thead>
                             <% while (rsOrdenesTrabajo.next()) {%>
@@ -112,8 +112,20 @@
                                 <% if (rsOrdenesTrabajo.getString("importancia").equals("Baja")) {%><p class="green-text center-align"><%=rsOrdenesTrabajo.getString("importancia")%><p> <%}%>
                             </td>
                             <td><%= rsOrdenesTrabajo.getString("nombreOrdenTrabajo")%></td>
-                            <td><%= rsOrdenesTrabajo.getString("supervisor")%></td>
                             <td><%= rsOrdenesTrabajo.getString("fecha_inicio")%></td>
+                            <td><%
+                                ResultSet rsTiempoRealTranscurrido = null;
+                                try {
+                                    Connection conn = ConexionBD.getConexion();
+                                    String sqlTiempo = "select FN_DEVOLVERTIEMPO(" + rsOrdenesTrabajo.getString("tiempoRealTranscurrido") + ") as tiempoRealTranscurrido";
+                                    PreparedStatement pstTiempoRealTranscurrido = conn.prepareStatement(sqlTiempo);
+                                    rsTiempoRealTranscurrido = pstTiempoRealTranscurrido.executeQuery();
+                                    rsTiempoRealTranscurrido.next();
+                                } catch (SQLException e) {
+                                    out.println("Excepción de SQL:" + e);
+                                    return;
+                                }
+                            %><%= rsTiempoRealTranscurrido.getString("tiempoRealTranscurrido") %></td> 
                             <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajo.getString("idOrdenTrabajo")%>" class="btn blue-grey darken-3">Detalle</a></td>
                             </tbody>
                             <%}%>
