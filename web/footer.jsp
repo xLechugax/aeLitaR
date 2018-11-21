@@ -13,7 +13,7 @@
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
-                    <h5 class="white-text">¿Tienes algún problema o sugerencia?</h5> 
+                    <h5 class="white-text">¿Tienes algún problema, sugerencia o comentario?</h5> 
                     <a href="/aeLita/contacto.jsp" class="grey-text text-lighten-4">Contáctanos...</a>
                 </div>
             </div>

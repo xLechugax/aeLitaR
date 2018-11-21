@@ -249,7 +249,7 @@
                                                 <nav class="nav-extended">
                                                     <div class="nav-content">
                                                         <ul class="tabs tabs-transparent  blue-grey darken-1">
-                                                            <li class="tab"><a class="active" href="#log">Historico</a></li>
+                                                            <li class="tab"><a class="active" href="#log">Historial</a></li>
                                                             <li class="tab"><a href="#cambioEstado">Cambio Estado</a></li>
                                                             <li class="tab"><a href="#suspencion">Suspención</a></li>
                                                             <li class="tab"><a href="#cierre">Cierre</a></li>

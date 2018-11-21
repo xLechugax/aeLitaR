@@ -1,7 +1,8 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
+<%    
+    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
     String idTipoTareaAsignar = request.getParameter("idtipoTareaAsignar");
     String idEjecutorAsignar = request.getParameter("idEjecutorAsignar");
     String comentarioOT = request.getParameter("comentarioOT");
@@ -145,6 +146,16 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+    ResultSet rsProcedimientos = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlProcedimientos = "select procedimiento.idProcedimiento, procedimiento.nombreProcedimiento from procedimiento where idEmpresa =" + hs.getAttribute("idEmpresa");
+        PreparedStatement pstProcedimientos = conn.prepareStatement(sqlProcedimientos);
+        rsProcedimientos = pstProcedimientos.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -279,7 +290,7 @@
                                                 <td><b>Ejecutor</b></td>
                                                 <td>
                                                     <select disabled="" name="idEjecutorAsignar" required="">
-                                                        <option value="" selected="" disabled="">Seleccione Tipo de Tarea</option>
+                                                        <option value="" selected="" disabled="">Seleccione Ejecutor</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -313,12 +324,23 @@
                                                 <td><b>Ejecutor</b></td>
                                                 <td>
                                                     <select name="idEjecutorAsignar" required="">
-                                                        <option value="" selected="" disabled="">Seleccione Tipo de Tarea</option>
+                                                        <option value="" selected="" disabled="">Seleccione Ejecutor</option>
                                                         <% while (rsUsuarioEjecutor.next()) {%>                                                            
                                                         <option value="<%= rsUsuarioEjecutor.getString("idUsuario")%>"><%= rsUsuarioEjecutor.getString("nombreUsuario")%></option>
                                                         <%}%>
                                                     </select>
                                                 </td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Procedimiento</b></td>
+                                                <td>
+                                                <select class="icons" name="idProcedimiento">
+                                                    <option value="" disabled selected>Seleccione Procedimiento</option>
+                                                    <% while (rsProcedimientos.next()) {%>                                                  
+                                                    <option value="<%= rsProcedimientos.getString("idProcedimiento")%>"><%= rsProcedimientos.getString("nombreProcedimiento")%></option>
+                                                    <%}%>
+                                                </select>
+                                            </td> 
                                             </tr>
                                         </tbody>
                                     </table>
