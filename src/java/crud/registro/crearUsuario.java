@@ -101,8 +101,28 @@ public class crearUsuario extends HttpServlet {
                 if (!(clave.trim().equals(confirmar_clave.trim()))) {
                     out.print("<meta http-equiv='Refresh' content='2;url=/aeLita/registro/registrarNuevoUsuario.jsp'>");
                 } else if (!(correo.trim().equals(confirmar_correo.trim()))) {
-                    out.print("<meta http-equiv='Refresh' content='2;url=/aeLita/errores/CorreosNoCoinciden.jsp'>");
-                    out.print("<meta http-equiv='Refresh' content='2;url=/aeLita/registro/registrarNuevoUsuario.jsp'>");
+                    out.print("<head>");
+                    out.print("<meta http-equiv='Refresh' content='5;url=/aeLita/gestores/gestorUsuarios.jsp'>");
+                    out.print("<link rel='stylesheet' type='text/css' href='/aeLita/css/materialize.min.css'><link>");
+                    out.print("<meta name='viewport' content='width=device-width, initial-scale=1.0' charset='iso-8859-1'/>");
+                    out.print("</head>");
+                    out.print("<body class='blue-grey lighten-5'>");
+                    out.print("<br /><br /><br /><br /><br /><br /><br /><br />");
+                    out.print("<center>");
+                    out.print("<div class='row'>");
+                    out.print("<div class='col s12 m12'>");
+                    out.print("<div class='card blue-grey darken-1'>");
+                    out.print("<div class='card-content white-text'>");
+                    out.print("<span class='card-title'>¡Oh no!</span>");
+                    out.print("<p>Los correos que ingresaste no coinciden...</p>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</center>");
+                    out.print("</body>");
+                    out.print("</html>");
+                    return;
                 } else {
                     String sql = "INSERT INTO USUARIO (nombre, apellido, nombreUsuario, email, telefono_m, telefono_f, area_departamento, direccion, tipoCuenta, clave, rut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     PreparedStatement pst = conn.prepareStatement(sql);

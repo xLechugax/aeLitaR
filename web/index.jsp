@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%HttpSession hs = request.getSession(false);%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,16 +27,17 @@
                         <a href="#" id="logo-container" class="brand-logo">æLitaSoft</a>
                         <ul class="right hide-on-med-and-down">
                             <li><a href="#quienesSomos">Quiénes somos</a></li>
-                            <li><a href="#suscripciones">Suscripciones</a></li>
                             <li><a href="#misionVision">Misión Visión</a></li>
+                            <li><a href="#suscripciones">Suscripciones</a></li>
                             <li><a href="#contact">Contacto</a></li>
-                            <li><a href="indexSistema.jsp" target="_blank">Ingresar</a></li>
+                            <li><a href="indexSistema.jsp">Ingresar</a></li>
                         </ul>
                         <ul id="nav-mobile" class="side-nav"> 
                             <li><a href="#quienesSomos">Quiénes somos</a></li>
+                            <li><a href="#misionVision">Misión Visión</a></li>
                             <li><a href="#suscripciones">Suscripciones</a></li>
                             <li><a href="#contact">Contacto</a></li>
-                            <li><a href="indexSistema.jsp" target="_blank">Ingresar</a></li>
+                            <li><a href="indexSistema.jsp">Ingresar</a></li>
                         </ul>
                         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
                     </div>
@@ -93,7 +95,7 @@
         <div id="intro" class="section scrollspy">
             <div class="container">
                 <div class="row">
-                    <div  class="col s12 m12 12">
+                    <div  class="col s12 m12 12" id="misionVision">
                         <div class="center promo promo-example">
                             <i class="mdi-action-face-unlock"></i>
                             <h5 class="promo-caption">Misión</h5>
@@ -112,7 +114,7 @@
         </div>
         <!--Team-->
         <div class="section scrollspy" id="team">
-            <div class="container">
+            <div class="container" id="suscripciones">
                 <h2 class="header text_b"> Suscripciones </h2>
                 <div class="row">
                     <div class="col s12 m3">
