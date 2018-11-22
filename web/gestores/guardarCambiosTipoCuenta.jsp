@@ -4,6 +4,7 @@
 <%
     String tipoCuenta = request.getParameter("tipoCuenta");
     String idUsuario = request.getParameter("idUsuario");
+    String idEmpresa = request.getParameter("idEmpresa");
 
     String sql = null;
     try {

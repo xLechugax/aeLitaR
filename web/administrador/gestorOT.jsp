@@ -3,9 +3,10 @@
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
 <%  
     ResultSet rsEstados = null;
+    String idEmpresa = ""+hs.getAttribute("idEmpresa");
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from estado where estado.idEstado != 5 and estado.idEmpresa = " + hs.getAttribute("idEmpresa") + " or estado.idEmpresa = 0 and estado.idEstado != 5"; 
+        String sqlEstados = "select * from estado where estado.idEstado != 5 and estado.idEmpresa = " + idEmpresa + " or estado.idEmpresa = 0 and estado.idEstado != 5"; 
         PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
         rsEstados = pstEstados.executeQuery();
     } catch (SQLException e) {
@@ -15,7 +16,7 @@
     ResultSet rsResponsable = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlResponsable = "select * from usuario where tipoCuenta='Supervisor'";
+        String sqlResponsable = "select usuario.idUsuario, usuario.nombreUsuario, trabaja.tipoCuenta from usuario,trabaja where usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa = "+idEmpresa+" and trabaja.tipoCuenta = 'Supervisor'";
         PreparedStatement pstResponsable = conn.prepareStatement(sqlResponsable);
         rsResponsable = pstResponsable.executeQuery();
     } catch (SQLException e) {
@@ -26,6 +27,7 @@
     String importanciaFiltro = request.getParameter("importanciaFiltro");
     String idUsuarioFiltro = request.getParameter("idUsuarioFiltro");
     ResultSet rsOrdenesTrabajo = null;
+    ResultSet rsOrdenesTrabajoContador = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sqlAsignado = "select orden_trabajo.idOrdenTrabajo, "
@@ -54,8 +56,13 @@
         sqlAsignado = sqlAsignado+" order by fecha_inicioOrdenar desc";
         System.out.println(idEstadoFiltro + " + " + importanciaFiltro);
 
+        String sqlAsignadoContador = sqlAsignado;
+        
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);
         rsOrdenesTrabajo = pstOrdenesTrabajo.executeQuery();
+        
+        PreparedStatement pstOrdenesTrabajoContador = conn.prepareStatement(sqlAsignadoContador);
+        rsOrdenesTrabajoContador = pstOrdenesTrabajoContador.executeQuery();
 
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
@@ -116,6 +123,7 @@
                                 </form>
                             </div>
                         </div>
+                        <% if (rsOrdenesTrabajoContador.next()) { %>                
                         <table class="highlight bordered">
                             <thead>
                             <td class="center-align"><b>ID</b></td>
@@ -142,6 +150,11 @@
                             </tbody>
                             <%}%>
                         </table>
+                        <%} else {%>
+                        <div class="container">
+                            <p class="orange-text">No se encontraron conincidencias en el filtro o no existen Órdenes de Trabajo en curso.</p>
+                        </div>
+                        <%}%>
                     </div>
                 </div>
             </div>

@@ -59,7 +59,7 @@
     ResultSet rsUsuarioEjecutor = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  usuario.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
+        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  trabaja.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pstUsuariosEjecutores = conn.prepareStatement(sqlUsuariosEjecutores);
         rsUsuarioEjecutor = pstUsuariosEjecutores.executeQuery();
     } catch (SQLException e) {
@@ -129,7 +129,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select usuario.tipoCuenta, usuario.nombreUsuario, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenar from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk='" + idOrdenTrabajoSeleccionada + "' order by fecha_publicacionOrdenar desc";
+        String sqlOrdenTrabajo = "select trabaja.tipoCuenta, usuario.nombreUsuario, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenar from avance,usuario,trabaja where usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa = "+hs.getAttribute("idEmpresa")+" and usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk= "+idOrdenTrabajoSeleccionada+" order by fecha_publicacionOrdenar desc";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -195,6 +195,10 @@
                                     <tr>
                                         <td><b>Fecha Inicio</b></td>
                                         <td><%= rsOrdenTrabajo.getString("fecha_inicio")%></td> 
+                                    </tr>
+                                    <tr>
+                                        <td><b>Fecha Fin Compromiso</b></td>
+                                        <td><%= rsOrdenTrabajo.getString("fecha_compromiso")%></td> 
                                     </tr>
                                     <tr>
                                         <td><b>Fecha Fin</b></td>

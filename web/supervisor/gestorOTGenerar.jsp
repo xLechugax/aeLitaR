@@ -1,11 +1,10 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%   
-    ResultSet rsResponsable = null;
+<%    ResultSet rsResponsable = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlResponsable = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  usuario.tipoCuenta= 'Supervisor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
+        String sqlResponsable = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  trabaja.tipoCuenta= 'Supervisor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pstResponsable = conn.prepareStatement(sqlResponsable);
         rsResponsable = pstResponsable.executeQuery();
     } catch (SQLException e) {
@@ -22,7 +21,7 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
-    %>
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -60,8 +59,8 @@
                                         <tr>
                                             <td><b>Nombre Solicitud</b></td>
                                             <td><div class="input-field">
-                                            <input name="nombreOT" type="text" class="validate" required="">
-                                        </div></td>    
+                                                    <input name="nombreOT" type="text" class="validate" required="">
+                                                </div></td>    
                                         </tr>
                                         <tr>
                                             <td><b>Supervisor</b></td> 
@@ -85,6 +84,12 @@
                                                 </select>
                                             </td>    
                                         </tr>
+                                        <tr>
+                                            <td><b>Fecha de compromiso</b></td>
+                                            <td><div class="input-field">
+                                                    <input name="fecha_compromiso" type="datetime-local" class="validate" required="">
+                                                </div></td>    
+                                        </tr>
                                     </table>
                                 </div>
                                 <div class="col m7">
@@ -93,15 +98,15 @@
                                             <div class="input-field">
                                                 <textarea name="detalleOT" style="height: 300px" id="textarea1" required="" class="materialize-textarea" placeholder="Se solicita a todos los participantes de la Orden de Trabajo terminar sus tareas a tiempo.
 
-A continuación se detallan los archivos de apoyo que deben ser modificados:
+                                                          A continuación se detallan los archivos de apoyo que deben ser modificados:
 
-1.- Gestión de Cambios.pdf -- Pablo Flores
-2.- Gestión de Aranceles.xlxs -- Vicente Arriagada
-3.- Informe Técnico PRRT.doc -- David Aravena
-4.- Acta de aceptación.pdf -- Lisa Alfredo
+                                                          1.- Gestión de Cambios.pdf -- Pablo Flores
+                                                          2.- Gestión de Aranceles.xlxs -- Vicente Arriagada
+                                                          3.- Informe Técnico PRRT.doc -- David Aravena
+                                                          4.- Acta de aceptación.pdf -- Lisa Alfredo
 
-Cada uno de ellos debe de ser completado por los participantes en sus respectivas tareas designadas.
-"></textarea>
+                                                          Cada uno de ellos debe de ser completado por los participantes en sus respectivas tareas designadas.
+                                                          "></textarea>
                                                 <label for="textarea1"><b>Detalle de solicitud...</b></label>
                                             </div>
                                         </div>

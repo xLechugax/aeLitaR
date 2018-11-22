@@ -1,13 +1,25 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@ include file="../accesoDenegadoOnlyADM.jsp" %>
-<%    ResultSet rsAreaDepa = null;
+<%    String idEmpresa = "" + hs.getAttribute("idEmpresa");
+    ResultSet rsAreaDepa = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sqlAreaDepa = "select * from area_departamento where area_departamento.idEmpresa=" + hs.getAttribute("idEmpresa");
         PreparedStatement pstAreaDepa = conn.prepareStatement(sqlAreaDepa);
         rsAreaDepa = pstAreaDepa.executeQuery();
 
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+
+    ResultSet rsUsuariosNoPresentesEmpresaActual = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlUsuariosNoPresentesEmpresaActual = "select DISTINCTROW usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa !=" + idEmpresa + " and usuario.idUsuario != 1";
+        PreparedStatement pstUsuariosNoPresentesEmpresaActual = conn.prepareStatement(sqlUsuariosNoPresentesEmpresaActual);
+        rsUsuariosNoPresentesEmpresaActual = pstUsuariosNoPresentesEmpresaActual.executeQuery();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -20,113 +32,26 @@
             // Recuperar el estado actual del registros del usuario.
             Connection conn = ConexionBD.getConexion();
 
-            String sqlConsulta = "select * from usuario where idUsuario=?";
-            PreparedStatement pstConsultaUsuario = conn.prepareStatement(sqlConsulta);
-            pstConsultaUsuario.setLong(1, idUsuario);
-            ResultSet rsUsuarioConsulta = pstConsultaUsuario.executeQuery();
-            rsUsuarioConsulta.next();
+            String sql = "select activo from trabaja where idUsuario=?";
+            PreparedStatement pst1 = conn.prepareStatement(sql);
+            pst1.setLong(1, idUsuario);
+            ResultSet rs1 = pst1.executeQuery();
 
-            if (rsUsuarioConsulta.getString("tipoCuenta").equals("Administrador")) {
-%>
-<html>
-    <head>
-        <meta http-equiv="Refresh" content="5;url=/aeLita/gestores/gestorUsuarios.jsp">
-        <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
-    </head>
-    <body class="blue-grey lighten-5">
-        <br /><br /><br /><br /><br /><br /><br /><br />
-    <center>
-        <div class="row">
-            <div class="col s12 m12">
-                <div class="card blue-grey darken-1">
-                    <div class="card-content white-text">
-                        <span class="card-title">¡Hey, cuidado!</span>
-                        <p>No puedes desactivar la cuenta de un administrador...</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="/aeLita/gestores/gestorUsuarios.jsp">Volver...</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </center>
-</body>
-</html>
-<%      return;
-    }
-
-    String sql = "select activo from trabaja where idUsuario=?";
-    PreparedStatement pst1 = conn.prepareStatement(sql);
-    pst1.setLong(1, idUsuario);
-    ResultSet rs1 = pst1.executeQuery();
-
-    // Leer el estado del usuario, para cambiarlo por el contrario.
-    rs1.next();
-    if (rs1.getString("activo").equals("S")) {
-        String sql2 = "update trabaja set activo=? where idUsuario=?";
-        PreparedStatement pst2 = conn.prepareStatement(sql2);
-        pst2.setString(1, "N");
-        pst2.setLong(2, idUsuario);
-        pst2.execute();
-    } else {
-        String sql2 = "update trabaja set activo=? where idUsuario=?";
-        PreparedStatement pst2 = conn.prepareStatement(sql2);
-
-        pst2.setString(1, "S");
-        pst2.setLong(2, idUsuario);
-        pst2.execute();
-    }
-} else if (accion.equals("2")) {
-    long idUsuario = Long.parseLong(request.getParameter("id"));
-    String idUsuarioSesion = request.getParameter("id");
-    Connection conn = ConexionBD.getConexion();
-
-    String sqlConsulta = "select * from usuario where idUsuario=?";
-    PreparedStatement pstConsultaUsuario = conn.prepareStatement(sqlConsulta);
-    pstConsultaUsuario.setLong(1, idUsuario);
-    ResultSet rsUsuarioConsulta = pstConsultaUsuario.executeQuery();
-    rsUsuarioConsulta.next();
-
-    if (rsUsuarioConsulta.getString("tipoCuenta").equals("Administrador")) {
-%>
-<html>
-    <head>
-        <meta http-equiv="Refresh" content="5;url=/aeLita/gestores/gestorUsuarios.jsp">
-        <link rel="stylesheet" type="text/css" href="/aeLita/css/materialize.min.css"><link>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="iso-8859-1"/>
-    </head>
-    <body class="blue-grey lighten-5">
-        <br /><br /><br /><br /><br /><br /><br /><br />
-    <center>
-        <div class="row">
-            <div class="col s12 m12">
-                <div class="card blue-grey darken-1">
-                    <div class="card-content white-text">
-                        <span class="card-title">¡Hey, cuidado!</span>
-                        <p>No puedes eliminar un administrador...</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="/aeLita/gestores/gestorUsuarios.jsp">Volver...</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </center>
-</body>
-</html>
-<%
-                return;
-                //Impide la eliminacion del Admin actual.
-            } else if (hs.getAttribute("idUsuarioSesion").equals(idUsuarioSesion)) {
-                out.println("Error: no se puede eliminar al administrador en sesion.");
+            // Leer el estado del usuario, para cambiarlo por el contrario.
+            rs1.next();
+            if (rs1.getString("activo").equals("S")) {
+                String sql2 = "update trabaja set activo=? where idUsuario=?";
+                PreparedStatement pst2 = conn.prepareStatement(sql2);
+                pst2.setString(1, "N");
+                pst2.setLong(2, idUsuario);
+                pst2.execute();
             } else {
-                // Recuperar el estado actual del registros del usuario.
-                Connection connDos = ConexionBD.getConexion();
-                String sql = "delete from usuario where idUsuario=?";
-                PreparedStatement pst1 = connDos.prepareStatement(sql);
-                pst1.setLong(1, idUsuario);
-                pst1.execute();
+                String sql2 = "update trabaja set activo=? where idUsuario=?";
+                PreparedStatement pst2 = conn.prepareStatement(sql2);
+
+                pst2.setString(1, "S");
+                pst2.setLong(2, idUsuario);
+                pst2.execute();
             }
         }
     }
@@ -140,7 +65,7 @@
         Connection conn = ConexionBD.getConexion();
         Statement st = conn.createStatement();
 
-        String sql = "select * from usuario,trabaja,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and trabaja.idUsuario = usuario.idUsuario and trabaja.idEmpresa = " + hs.getAttribute("idEmpresa") + " and usuario.idUsuario > 1 ";
+        String sql = "select usuario.idUsuario,usuario.rut,trabaja.activo,usuario.nombreUsuario, usuario.email, area_departamento.nombreAreaDepartamento, trabaja.tipoCuenta from usuario,trabaja,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and trabaja.idUsuario = usuario.idUsuario and trabaja.idEmpresa = " + idEmpresa + " and usuario.idUsuario > 1 ";
 
         // 2.- Aplicar un filtro de búsqueda si es necesario
         if (textobusqueda != null && tipobusqueda != null) {
@@ -160,7 +85,7 @@
             } else if (tipobusqueda.equals("area_departamento")) {
                 sql = sql + " and area_departamento.nombreAreaDepartamento like '%" + textobusqueda + "%' order by usuario.idUsuario";
             } else if (tipobusqueda.equals("rol")) {
-                sql = sql + " and usuario.tipoCuenta like '%" + textobusqueda + "%' order by usuario.idUsuario";
+                sql = sql + " and trabaja.tipoCuenta like '%" + textobusqueda + "%' order by usuario.idUsuario";
             }
         }
 
@@ -218,102 +143,141 @@
             </ul>
             <div class="col m3 m3">
                 <div class="card horizontal">
-                    <div class="card-image">
-                    </div>
                     <div class="card-stacked">
                         <div class="card-content">
                             <a class="btn-floating btn-large waves-effect waves-light red right-aligned modal-trigger" href="#modal1"><i class="material-icons">add</i></a>&nbsp;&nbsp;<b>Agregar Usuario</b>
-
                             <!-- Modal Structure -->
                             <div id="modal1" class="modal">
                                 <div class="modal-content">
-                                    <h4>Agregar Usuario</h4>
-                                    <form class="col s12" action="/aeLita/crearUsuario" method="post">
-                                        <div class="row">
+                                    <nav class="nav-extended">
+                                        <div class="nav-content blue-grey darken-1">
+                                            <ul class="tabs tabs-transparent">
+                                                <li class="tab"><a class="active"href="#test1">Agregar Usuario</a></li>
+                                                <li class="tab"><a href="#test2">Vincular Usuario Existente</a></li>
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                    <div id="test1" class="col s12">
+                                        <form class="col s12" action="/aeLita/crearUsuario" method="post">
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <input id="input_rut" type="text" name="rut" required="required" title="Debe ser un Rut 11222333-4" class="validate"/>
+                                                    <label>Rut</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    <input name="nombre" type="text" class="validate" required="">
+                                                    <label>Nombre</label>
+                                                </div>
+                                                <div class="input-field col s6">
+                                                    <input name="apellido" type="text" class="validate" required="">
+                                                    <label>Apellido</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <input name="correo" type="email" class="validate" required="">
+                                                    <label>Correo</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <input name="confirmar_correo" type="email" class="validate" required="">
+                                                    <label>Confirmar Correo</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    <input placeholder="+569" name="telefono_m" type="number" class="validate" required="">
+                                                    <label>Teléfono Móvil</label>
+                                                </div>
+                                                <div class="input-field col s6">
+                                                    <input name="telefono_f" placeholder="+562" type="number" class="validate" required="">
+                                                    <label>Teléfono Fijo</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <select required name="area_departamento">
+                                                        <option value="">Seleccione Área/Departamento...</option>
+                                                        <% while (rsAreaDepa.next()) {%>
+                                                        <option value="<%= rsAreaDepa.getString("idAreaDepartamento")%>"><%= rsAreaDepa.getString("nombreAreaDepartamento")%></option>
+                                                        <% }%>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    <input name="clave" type="password" class="validate" required="">
+                                                    <label>Contraseña</label>
+                                                </div>
+                                                <div class="input-field col s6">
+                                                    <input name="confirmar_clave" type="password" class="validate" required="">
+                                                    <label>Confirmar Contraseña</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <input name="direccion" type="text" class="validate" required="">
+                                                    <label>Dirección</label>
+                                                </div>
+                                            </div>
+                                            <a>
+                                                Rol
+                                            </a>
+                                            <div class="row">
+                                                <p>
+                                                    <input name="rol" type="radio" id="rolAdministrador" value="Administrador" required=""/>
+                                                    <label for="rolAdministrador">Administrador</label>
+                                                </p>
+                                                <p>
+                                                    <input name="rol" type="radio" id="rolSupervisor" value="Supervisor" required=""/>
+                                                    <label for="rolSupervisor">Supervisor</label>
+                                                </p>
+                                                <p>
+                                                    <input name="rol" type="radio" id="rolEjecutor" value="Ejecutor" required=""/>
+                                                    <label for="rolEjecutor">Ejecutor</label>
+                                                </p> 
+                                            </div>
+                                            <center>
+                                                <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Crear Usuario" />
+                                            </center>
+                                        </form>
+                                    </div>
+                                    <div id="test2" class="col s12" style="height: 400px;">
+                                        <form action="/aeLita/vincularUsuarioEmpresa" method="post">
+                                            <input type="hidden" name="idEmpresa" value="<%= idEmpresa %>">
                                             <div class="input-field col s12">
-                                                <input id="input_rut" type="text" name="rut" required="required" title="Debe ser un Rut 11222333-4" class="validate"/>
-                                                <label>Rut</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s6">
-                                                <input name="nombre" type="text" class="validate" required="">
-                                                <label>Nombre</label>
-                                            </div>
-                                            <div class="input-field col s6">
-                                                <input name="apellido" type="text" class="validate" required="">
-                                                <label>Apellido</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <input name="correo" type="email" class="validate" required="">
-                                                <label>Correo</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <input name="confirmar_correo" type="email" class="validate" required="">
-                                                <label>Confirmar Correo</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s6">
-                                                <input placeholder="+569" name="telefono_m" type="number" class="validate" required="">
-                                                <label>Teléfono Móvil</label>
-                                            </div>
-                                            <div class="input-field col s6">
-                                                <input name="telefono_f" placeholder="+562" type="number" class="validate" required="">
-                                                <label>Teléfono Fijo</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <select required name="area_departamento">
-                                                    <option value="">Seleccione Área/Departamento...</option>
-                                                    <% while (rsAreaDepa.next()) {%>
-                                                    <option value="<%= rsAreaDepa.getString("idAreaDepartamento")%>"><%= rsAreaDepa.getString("nombreAreaDepartamento")%></option>
+                                                <select required name="idUsuario">
+                                                    <option value="">Seleccione usuario a vincular</option>
+                                                    <% while (rsUsuariosNoPresentesEmpresaActual.next()) {%>
+                                                    <option value="<%= rsUsuariosNoPresentesEmpresaActual.getString("idUsuario")%>"><%= rsUsuariosNoPresentesEmpresaActual.getString("nombreUsuario")%></option>
                                                     <% }%>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s6">
-                                                <input name="clave" type="password" class="validate" required="">
-                                                <label>Contraseña</label>
+                                            <a>
+                                                Rol
+                                            </a>
+                                            <div class="row">
+                                                <p>
+                                                    <input name="rolUsuario" type="radio" id="rolAdministradorVincular" value="Administrador" required=""/>
+                                                    <label for="rolAdministradorVincular">Administrador</label>
+                                                </p>
+                                                <p>
+                                                    <input name="rolUsuario" type="radio" id="rolSupervisorVincular" value="Supervisor" required=""/>
+                                                    <label for="rolSupervisorVincular">Supervisor</label>
+                                                </p>
+                                                <p>
+                                                    <input name="rolUsuario" type="radio" id="rolEjecutorVincular" value="Ejecutor" required=""/>
+                                                    <label for="rolEjecutorVincular">Ejecutor</label>
+                                                </p> 
                                             </div>
-                                            <div class="input-field col s6">
-                                                <input name="confirmar_clave" type="password" class="validate" required="">
-                                                <label>Confirmar Contraseña</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="input-field col s12">
-                                                <input name="direccion" type="text" class="validate" required="">
-                                                <label>Dirección</label>
-                                            </div>
-                                        </div>
-                                        <a>
-                                            Rol
-                                        </a>
-                                        <div class="row">
-                                            <p>
-                                                <input name="rol" type="radio" id="rolAdministrador" value="Administrador" required=""/>
-                                                <label for="rolAdministrador">Administrador</label>
-                                            </p>
-                                            <p>
-                                                <input name="rol" type="radio" id="rolSupervisor" value="Supervisor" required=""/>
-                                                <label for="rolSupervisor">Supervisor</label>
-                                            </p>
-                                            <p>
-                                                <input name="rol" type="radio" id="rolEjecutor" value="Ejecutor" required=""/>
-                                                <label for="rolEjecutor">Ejecutor</label>
-                                            </p> 
-                                        </div>
-                                        <center>
-                                            <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Crear Usuario" />
-                                        </center>
-                                    </form>
+                                            <center>
+                                                <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Vincular Usuario" />
+                                            </center> 
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
 
@@ -382,7 +346,7 @@
                                                         </tbody>
                                                     </table> 
                                                     <center>
-                                                        <input class="waves-effect waves-light btn" type="submit" value="Guardar Cambios" />
+                                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Guardar Cambios" />
                                                     </center><br/>
                                                 </form>
                                             </div>
@@ -390,15 +354,16 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td><a href="gestorUsuariosEditarTipoCuenta.jsp?idUsuario="></a>
+                                    <td>
                                         <!-- Modal Trigger -->
                                         <a class="waves-effect waves-light btn modal-trigger blue-grey darken-1" href="#modalEditarTipoCuenta<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("tipoCuenta")%></a>
 
                                         <!-- Modal Structure -->
                                         <div id="modalEditarTipoCuenta<%=rsUsuarios.getLong("idUsuario")%>" class="modal">
                                             <div class="modal-content" style="height: 400px">
-                                                <form action="guardarCambiosTipoCuenta.jsp" method="post">
+                                                <form action="/aeLita/cambiarTipoCuenta" method="post">
                                                     <input type="hidden" name="idUsuario" value="<%=rsUsuarios.getLong("idUsuario")%>">
+                                                    <input type="hidden" name="idEmpresa" value="<%= hs.getAttribute("idEmpresa")%>">
                                                     <table class="">
                                                         <tbody>
                                                             <tr>
@@ -415,7 +380,7 @@
                                                         </tbody>
                                                     </table>
                                                     <center>
-                                                        <input class="waves-effect waves-light btn" type="submit" value="Guardar Cambios" />
+                                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Guardar Cambios" />
                                                     </center><br/>
                                                 </form>
                                             </div>

@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
         <meta name="theme-color" content="#607d8b">
-        <title>æLitaSoft</title>
+        <title>aeLitaSoft</title>
         <link rel="shortcut icon" href="favicon.png" />
         <!-- CSS  -->
         <link href="min/plugin-min.css" type="text/css" rel="stylesheet">
@@ -24,7 +24,7 @@
             <nav id="nav_f" class="blue-grey darken-3" role="navigation">
                 <div class="container">
                     <div class="nav-wrapper">
-                        <a href="#" id="logo-container" class="brand-logo">æLitaSoft</a>
+                        <a href="#" id="logo-container" class="brand-logo">aeLitaSoft</a>
                         <ul class="right hide-on-med-and-down">
                             <li><a href="#quienesSomos">Quiénes somos</a></li>
                             <li><a href="#misionVision">Misión Visión</a></li>
@@ -33,7 +33,7 @@
                             <li><a href="indexSistema.jsp">Ingresar</a></li>
                         </ul>
                         <ul id="nav-mobile" class="side-nav"> 
-                            <li><a href="#quienesSomos">Quiénes somos</a></li>
+                            <li><a href="#quienesSomos">Quiónes somos</a></li>
                             <li><a href="#misionVision">Misión Visión</a></li>
                             <li><a href="#suscripciones">Suscripciones</a></li>
                             <li><a href="#contact">Contacto</a></li>
@@ -48,7 +48,7 @@
         <div class="section no-pad-bot blue-grey " id="index-banner">
             <div class="container">
                 <h1 class="text_h center header cd-headline letters type">
-                    <span>æLita</span> 
+                    <span>aeLita</span> 
                     <span class="cd-words-wrapper waiting ">
                         <b class="is-visible">Soft</b>
                         <b>Simplifica</b>
@@ -75,7 +75,7 @@
                         <div class="center promo promo-example">
                             <i class="mdi-hardware-security"></i>
                             <h5 class="promo-caption">Confianza y seguridad</h5>
-                            <p class="light center">æLita realizará su actividad con transparencia, evitando alardes, facilitando e incrementando la confianza del cliente y aportándole información de forma clara, precisa e inteligible.</p>
+                            <p class="light center">aeLita realizará¡ su actividad con transparencia, evitando alardes, facilitando e incrementando la confianza del cliente y aportándole información de forma clara, precisa e inteligible.</p>
                         </div>
                     </div>
                     <div class="col s12 m4 l4">

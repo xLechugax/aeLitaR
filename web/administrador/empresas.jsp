@@ -114,7 +114,7 @@
                                                     return;
                                                 }
                                                 out.print(rsTiempoTotalContratado.getString("tiempoContratado"));
-                                                
+
                                                 %></td> 
                                         </tr>
                                         <%}%>
@@ -183,7 +183,47 @@
                                             <% while (rsEmpresasSinSuscripcion.next()) {%>
                                         <td><%= rsEmpresasSinSuscripcion.getString("idEmpresa")%></td>
                                         <td><%= rsEmpresasSinSuscripcion.getString("rut")%></td>
-                                        <td><input type="btn" class="btn blue-grey darken-3" value="Suscribir"></td>
+                                        <td><!-- Modal Trigger -->
+                                            <a class="waves-effect waves-light btn modal-trigger blue-grey darken-3" href="#modalsuscribirEmpresa<%= rsEmpresasSinSuscripcion.getString("idEmpresa")%>">Suscribir</a>
+                                            <!-- Modal Structure -->
+                                            <div id="modalsuscribirEmpresa<%= rsEmpresasSinSuscripcion.getString("idEmpresa")%>" class="modal modal-fixed-footer">
+                                                <div class="modal-content">
+                                                    <h4>Suscribir empresa: <%= rsEmpresasSinSuscripcion.getString("nombre")%></h4>
+                                                    <form action="/aeLita/suscribirEmpresa" method="get"> 
+                                                        <input type="hidden" value="<%= rsEmpresasSinSuscripcion.getString("idEmpresa")%>" name="idEmpresa">
+                                                        <h4>Crear Empresa</h4>
+                                                        <div class="row">
+                                                            <div class="row">
+                                                                <div class="input-field col s12">
+                                                                    <input name="nombreSuscripcion" type="text" class="validate" required="">
+                                                                    <label>Nombre Suscripción</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="input-field col s12">
+                                                                    <input name="detalle" type="text" class="validate" required="">
+                                                                    <label>detalle</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="input-field col s12">
+                                                                    <input name="cantidadUsuarios" type="number" class="validate" required="">
+                                                                    <label>Cantidad Usuarios</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="input-field col s12">
+                                                                    <input name="fecha_fin" type="datetime-local" class="validate" required="">
+                                                                </div>
+                                                            </div>
+                                                            <center>
+                                                                <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Suscribir" />
+                                                            </center>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>            
                                         <td><%= rsEmpresasSinSuscripcion.getString("nombre")%></td>
                                         <td>Operaciones</td>
                                         <%}%>
@@ -207,14 +247,6 @@
             $(".dropdown-button").dropdown();
             $('select').material_select();
             $('.collapsible').collapsible();
-        });
-    </script>
-    <script>
-        $('#input_rut').Rut({
-            on_error: function () {
-                alert('Rut incorrecto');
-                $('#input_rut').val('');
-            },
         });
     </script>
 </body>

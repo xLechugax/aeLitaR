@@ -17,18 +17,17 @@
         if (rsActivo.getString("activo").equals("S")) {
 
             conn = ConexionBD.getConexion();
-            String sqlInformacionUsuario = "select * from usuario where idUsuario = " + idUsuario;
+            String sqlInformacionUsuario = "select usuario.nombre, usuario.nombreUsuario, trabaja.tipoCuenta, usuario.idUsuario, usuario.apellido, usuario.nombreUsuario, usuario.email, usuario.telefono_f from usuario,trabaja where usuario.idUsuario = "+idUsuario+" and trabaja.idUsuario = "+idUsuario+" and trabaja.idEmpresa = "+idEmpresa;
             PreparedStatement pstInformacionUsuario = conn.prepareStatement(sqlInformacionUsuario);
             rsUsuario = pstInformacionUsuario.executeQuery();
             rsUsuario.next();
 
             hs.setAttribute("idEmpresa", idEmpresa);
             hs.setAttribute("nombre", rsUsuario.getString("nombre"));
+            hs.setAttribute("apellido", rsUsuario.getString("apellido"));
             hs.setAttribute("nombreUsuario", rsUsuario.getString("nombreUsuario"));
             hs.setAttribute("tipoCuenta", rsUsuario.getString("tipoCuenta"));
             hs.setAttribute("idUsuarioSesion", rsUsuario.getString("idUsuario"));
-            hs.setAttribute("nombre", rsUsuario.getString("nombre"));
-            hs.setAttribute("apellido", rsUsuario.getString("apellido"));
             hs.setAttribute("email", rsUsuario.getString("email"));
             hs.setAttribute("telefono", rsUsuario.getString("telefono_f"));
             String tipoCuenta = rsUsuario.getString("tipoCuenta");
@@ -67,5 +66,6 @@
 <% return;}
 
     } catch (Exception e) {
+        System.out.println(e); 
     }
 %>   
