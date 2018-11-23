@@ -4,7 +4,16 @@
 <%    ResultSet rsTareasAsignadas = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sql = "select tarea.idTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
+        String sql = "select tarea.idTarea, "
+                + "DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, "
+                + "TIMESTAMPDIFF(SECOND,tarea.fecha_inicio,(NOW())) as tiempoRealTranscurrido, "
+                + "TIMESTAMPDIFF(SECOND,(NOW()),tarea.fecha_compromiso) as tiempoRestante, "
+                + "DATE_FORMAT(tarea.fecha_compromiso, '%d/%m/%Y %T') as fecha_compromiso, "
+                + "orden_trabajo.importancia, "
+                + "usuario.nombreUsuario, "
+                + "estado.nombreEstado, "
+                + "tipo_tarea.nombreTipoTarea, "
+                + "orden_trabajo.nombreOrdenTrabajo"
                 + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
                 + " where tarea.usuario = usuario.idUsuario"
                 + " and tarea.estadoTarea = estado.idEstado"
@@ -64,7 +73,9 @@
                                             <th><center>Tarea</center></th>
                                     <th>Orden de Trabajo</th>
                                     <th>Fecha Inicio</th>
-                                    <th>Operaciones</th>
+                                    <th>Fecha Compromiso</th>
+                                    <th>Tempo Real Transcurrido</th>
+                                    <th>Tiempo Restante</th>
                                     </tr>
                                     </thead>
                                     <% while (rsTareasAsignadas.next()) {%>  
@@ -78,6 +89,34 @@
                                             <td><b><center><%= rsTareasAsignadas.getString("nombreTipoTarea")%></center></b></td>
                                             <td><%= rsTareasAsignadas.getString("nombreOrdenTrabajo")%></td>
                                             <td><%= rsTareasAsignadas.getString("fecha_inicio")%></td>
+                                            <td><%= rsTareasAsignadas.getString("fecha_compromiso")%></td>
+                                            <td><%
+                                                ResultSet rsTiempoRealTranscurrido = null;
+                                                try {
+                                                    Connection conn = ConexionBD.getConexion();
+                                                    String sqlTiempo = "select FN_DEVOLVERTIEMPO(" + rsTareasAsignadas.getString("tiempoRealTranscurrido") + ") as tiempoRealTranscurrido";
+                                                    PreparedStatement pstTiempoRealTranscurrido = conn.prepareStatement(sqlTiempo);
+                                                    rsTiempoRealTranscurrido = pstTiempoRealTranscurrido.executeQuery();
+                                                    rsTiempoRealTranscurrido.next();
+                                                } catch (SQLException e) {
+                                                    out.println("Excepción de SQL:" + e);
+                                                    return;
+                                                }
+                                                out.print(rsTiempoRealTranscurrido.getString("tiempoRealTranscurrido"));
+                                                %></td>
+                                            <td><%
+                                                ResultSet rsTiempoRestante = null;
+                                                try {
+                                                    Connection conn = ConexionBD.getConexion();
+                                                    String sqlTiempo = "select FN_DEVOLVERTIEMPO(" + rsTareasAsignadas.getString("tiempoRestante") + ") as tiempoRestante";
+                                                    PreparedStatement pstTiempoRealTranscurrido = conn.prepareStatement(sqlTiempo);
+                                                    rsTiempoRestante = pstTiempoRealTranscurrido.executeQuery();
+                                                    rsTiempoRestante.next();
+                                                } catch (SQLException e) {
+                                                    out.println("Excepción de SQL:" + e);
+                                                    return;
+                                                }
+                                                        out.print(rsTiempoRestante.getString("tiempoRestante")); %></td>
                                             <td><a href="/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=<%= rsTareasAsignadas.getString("idTarea")%>" class="btn blue-grey darken-3">Detalle</a></td>
                                         </tr>
                                         <%}

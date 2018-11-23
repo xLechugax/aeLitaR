@@ -14,7 +14,7 @@ public class ImagenVO {
 
     // public ImagenVO(int id, String name, byte[] archivo) {
     //     this.idEmpresa = id;
-    //     this.nombreFile = name;
+    //     this.nombgetIntreFile = name;
     //     this.archiveByte = archivo;        
     // }
 

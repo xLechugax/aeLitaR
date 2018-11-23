@@ -75,7 +75,7 @@
                         <div class="center promo promo-example">
                             <i class="mdi-hardware-security"></i>
                             <h5 class="promo-caption">Confianza y seguridad</h5>
-                            <p class="light center">aeLita realizará¡ su actividad con transparencia, evitando alardes, facilitando e incrementando la confianza del cliente y aportándole información de forma clara, precisa e inteligible.</p>
+                            <p class="light center">aeLita realizará su actividad con transparencia, evitando alardes, facilitando e incrementando la confianza del cliente y aportándole información de forma clara, precisa e inteligible.</p>
                         </div>
                     </div>
                     <div class="col s12 m4 l4">

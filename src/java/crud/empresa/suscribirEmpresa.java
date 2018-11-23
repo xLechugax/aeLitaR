@@ -48,38 +48,73 @@ public class suscribirEmpresa extends HttpServlet {
             String fecha_fin = request.getParameter("fecha_fin");
 
             try {
+
                 Connection conn = ConexionBD.getConexion();
-                String sql = "INSERT INTO `aelita`.`suscripcion` (`idEmpresa`, `nomreSuscripcion`, `detalleSuscripcion`, `cantidadUsuarios`,  `fecha_fin`, `activo`) VALUES (?, ?, ?, ?, ?,?);";
-                PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, idEmpresa);
-                pst.setString(2, nombreSuscripcion);
-                pst.setString(3, detalle);
-                pst.setString(4, cantidadUsuarios);
-                pst.setString(5, fecha_fin);
-                pst.setString(6, "S");
-                pst.execute();
 
-                ResultSet rsIdSuscripcionCreada = null;
-                String sqlIdSuscripcionCreada = "select last_insert_id() as idSuscripcion";
-                PreparedStatement pstIdSuscripcionCreada = conn.prepareStatement(sqlIdSuscripcionCreada);
-                rsIdSuscripcionCreada = pstIdSuscripcionCreada.executeQuery();
-                rsIdSuscripcionCreada.next();
+                String sqlVerificarAhora = "SELECT IF('" + fecha_fin + "'<now(), 'Y', 'N') as verificador, now() as ahora";
+                PreparedStatement pstVerificarAhora = conn.prepareStatement(sqlVerificarAhora);
+                ResultSet rsVerificarAhora = pstVerificarAhora.executeQuery();
+                rsVerificarAhora.next();
 
-                String sqlAsignarIdEmpresaSuscripcion = "UPDATE aelita.empresa SET idSuscripcion=? WHERE  idEmpresa=?";
-                PreparedStatement pstAsignarIdEmpresaSuscripcion = conn.prepareStatement(sqlAsignarIdEmpresaSuscripcion);
-                pstAsignarIdEmpresaSuscripcion.setString(1, rsIdSuscripcionCreada.getString("idSuscripcion"));
-                pstAsignarIdEmpresaSuscripcion.setString(2, idEmpresa);
-                pstAsignarIdEmpresaSuscripcion.execute();
+                if (rsVerificarAhora.getString("verificador").equals("Y")) {
+                    out.print("<head>");
+                    out.print("<meta http-equiv='Refresh' content='5;url=/aeLita/administrador/empresas.jsp'/>");
+                    out.print("<link rel='stylesheet' type='text/css' href='/aeLita/css/materialize.min.css'><link>");
+                    out.print("<meta name='viewport' content='width=device-width, initial-scale=1.0' charset='iso-8859-1'/>");
+                    out.print("</head>");
+                    out.print("<body class='blue-grey lighten-5'>");
+                    out.print("<br /><br /><br /><br /><br /><br /><br /><br />");
+                    out.print("<center>");
+                    out.print("<div class='row'>");
+                    out.print("<div class='col s12 m12'>");
+                    out.print("<div class='card blue-grey darken-1'>");
+                    out.print("<div class='card-content white-text'>");
+                    out.print("<span class='card-title'>¡Oh no!</span>");
+                    out.print("<p>La fecha que ingresaste es menor a la fecha actual...</p>");
+                    out.print("</div>");
+                    out.print("<div class='card-action'>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</center>");
+                    out.print("</body>");
+                    out.print("</html>");
+                    return;
+                } else {
 
-                String sqlAsignarAdminAEmpresa = "INSERT INTO `aelita`.`trabaja` (`idEmpresa`, `idUsuario`, `activo`, `tipoCuenta`) VALUES (?, ?, ?, ?);";
-                PreparedStatement pstAsignarAdminAEmpresa = conn.prepareStatement(sqlAsignarAdminAEmpresa);
-                pstAsignarAdminAEmpresa.setString(1, idEmpresa);
-                pstAsignarAdminAEmpresa.setString(2, "" + hs.getAttribute("idUsuarioSesion"));
-                pstAsignarAdminAEmpresa.setString(3, "S");
-                pstAsignarAdminAEmpresa.setString(4, "Administrador");
-                pstAsignarAdminAEmpresa.execute();
+                    String sql = "INSERT INTO `aelita`.`suscripcion` (`idEmpresa`, `nomreSuscripcion`, `detalleSuscripcion`, `cantidadUsuarios`,  `fecha_fin`, `activo`) VALUES (?, ?, ?, ?, ?,?);";
+                    PreparedStatement pst = conn.prepareStatement(sql);
+                    pst.setString(1, idEmpresa);
+                    pst.setString(2, nombreSuscripcion);
+                    pst.setString(3, detalle);
+                    pst.setString(4, cantidadUsuarios);
+                    pst.setString(5, fecha_fin);
+                    pst.setString(6, "S");
+                    pst.execute();
 
-                response.sendRedirect("/aeLita/administrador/empresas.jsp");
+                    ResultSet rsIdSuscripcionCreada = null;
+                    String sqlIdSuscripcionCreada = "select last_insert_id() as idSuscripcion";
+                    PreparedStatement pstIdSuscripcionCreada = conn.prepareStatement(sqlIdSuscripcionCreada);
+                    rsIdSuscripcionCreada = pstIdSuscripcionCreada.executeQuery();
+                    rsIdSuscripcionCreada.next();
+
+                    String sqlAsignarIdEmpresaSuscripcion = "UPDATE aelita.empresa SET idSuscripcion=? WHERE  idEmpresa=?";
+                    PreparedStatement pstAsignarIdEmpresaSuscripcion = conn.prepareStatement(sqlAsignarIdEmpresaSuscripcion);
+                    pstAsignarIdEmpresaSuscripcion.setString(1, rsIdSuscripcionCreada.getString("idSuscripcion"));
+                    pstAsignarIdEmpresaSuscripcion.setString(2, idEmpresa);
+                    pstAsignarIdEmpresaSuscripcion.execute();
+
+                    String sqlAsignarAdminAEmpresa = "INSERT INTO `aelita`.`trabaja` (`idEmpresa`, `idUsuario`, `activo`, `tipoCuenta`) VALUES (?, ?, ?, ?);";
+                    PreparedStatement pstAsignarAdminAEmpresa = conn.prepareStatement(sqlAsignarAdminAEmpresa);
+                    pstAsignarAdminAEmpresa.setString(1, idEmpresa);
+                    pstAsignarAdminAEmpresa.setString(2, "" + hs.getAttribute("idUsuarioSesion"));
+                    pstAsignarAdminAEmpresa.setString(3, "S");
+                    pstAsignarAdminAEmpresa.setString(4, "Administrador");
+                    pstAsignarAdminAEmpresa.execute();
+
+                    response.sendRedirect("/aeLita/administrador/empresas.jsp");
+                }
             } catch (Exception e) {
                 out.println("Excepción de SQL (RegistroUsuario.jsp): " + e);
             }

@@ -8,14 +8,13 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 
 <%@ include file="../accesoDenegadoOnlyADM.jsp" %>
-<%    HttpSession hs1 = request.getSession(false);
-
+<%
+    HttpSession hs1 = request.getSession(false);
     // ALTER TABLE `archivo` add type char(20) not null DEFAULT "" AFTER archivo;
     // ALTER TABLE `archivo` add nombre varchar(250) not null DEFAULT "" AFTER type;    
     String detalle = "";
     gestorDataFile gdf = new gestorDataFile();
     ImagenVO dataVO = new ImagenVO();
-
     String nomFile = "";
     String ID = "";
     try {
@@ -27,10 +26,8 @@
         //ok ya veo..
         /*dataVO.setIdArchivo("00000000006");
         gdf.descargar_Archivo(dataVO);
-
         //String nomFile = "Bas.txt";
         //FileInputStream archivo = new FileInputStream("C:\\Users\\David Perez89\\Downloads\\"+nomFile);
-
         nomFile = dataVO.getNombreFile();
         ID = dataVO.getContentType();
         InputStream archivo = new ByteArrayInputStream(dataVO.getArchiveByte());
@@ -45,11 +42,9 @@
         ouputStream.write(datos);
         ouputStream.flush();
         ouputStream.close();*/
-    } catch (Exception e) {
+    } catch(Exception e){
         e.printStackTrace();
-
     }
-
     ArrayList<ImagenVO> listar = gdf.Listar_DataFile();
 %>
 <!DOCTYPE html>
@@ -69,10 +64,23 @@
     <main>
         <body class="blue-grey lighten-5">
             <%@ include file="../barraNav.jsp" %>
-            <!--- 
-                        <!-- <h1><%= "Nombre " + nomFile%></h1>
-                         <h1><%= "ID " + ID%></h1>
-                        <h1><%= hs1.getAttribute("estado")%></h1> --->
+            <div class="row">
+                <div class="col-12" style="padding: 15px 30px !important;">
+                    <!-- <form action="/aeLita/gestorArchivoAgregar" enctype="MULTIPART/FORM-DATA" method="post"> -->
+                    <form action="/aeLita/ControllerImagen" enctype="MULTIPART/FORM-DATA" method="post" id="formfile">
+
+                        <input type="hidden" id="option" />
+                        <input type="hidden" name="idArchivo"  id="idArchivo"/>
+                        <input type="file" name="file" /><br/> <br/>
+                        <input  class="waves-effect waves-light btn right-align" type="submit" value="Cargar" />
+                        <a href="#" class="waves-effect waves-light btn right-align hide" id="cancel">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+
+            <!-- <h1><%= "Nombre "+nomFile %></h1> -->
+             <h1><%= "ID "+ID %></h1>
+            <h1><%= hs1.getAttribute("estado") %></h1>
 
             <div class="row">
                 <div class="col m3">
@@ -123,20 +131,6 @@
                                     </center>
                                 </form>
                             </div>
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12" style="padding: 15px 30px !important;">
-                            <!-- <form action="/aeLita/gestorArchivoAgregar" enctype="MULTIPART/FORM-DATA" method="post"> -->
-                            <form action="/aeLita/ControllerImagen" enctype="MULTIPART/FORM-DATA" method="post" id="formfile">
-
-                                <input type="hidden" id="option" />
-                                <input type="hidden" name="idArchivo"  id="idArchivo"/>
-                                <input type="file" name="file" /><br/> <br/>
-                                <input  class="waves-effect waves-light btn right-align" type="submit" value="Cargar" />
-                                <a href="#" class="waves-effect waves-light btn right-align hide" id="cancel">Cancelar</a>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -160,13 +154,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <%if (listar.size() > 0) {
+                                         <%if (listar.size() > 0) {
                                                 for (ImagenVO listar2 : listar) {
                                                     dataVO = listar2;
                                                     detalle = dataVO.getDetalle();
                                                     //if( detalle == "null" || detalle == null )
-                                                    //  detalle = "nada";
-
+                                                      //  detalle = "nada";
                                         %>
                                         <tr>
                                             <td><%=dataVO.getIdArchivo()%></td>
@@ -188,8 +181,8 @@
                                             </td>
                                         </tr>
                                         <%
-                                                    detalle = "";
-                                                }
+                                            detalle = "";
+                                        }
                                             }
                                         %>
 
@@ -208,25 +201,22 @@
         $(document).ready(function () {
             $(".button-collapse").sideNav();
             $(".dropdown-button").dropdown();
-
-            $(document).on('click', "a.option", function (e) {
+            $(document).on('click',"a.option", function(e) {
                 e.preventDefault();
                 let self = e.target.parentNode;
                 let id = $(self).data("id") || self.getAttribute("data-id");
-
                 $("#formfile").find('input#idArchivo').val(id);
                 $("#formfile").find('input#option').val(self.id);
-                $("#formfile").find('input#option').attr("name", "option");
-                if (self.id === "delete") {
-                    if (confirm("Desea eliminar el archivo"))
+                $("#formfile").find('input#option').attr("name","option");
+                if( self.id === "delete" ) {
+                    if(confirm("Desea eliminar el archivo"))
                         $("form#formfile").submit();
-                } else if (self.id === "update") {
+                } else if(self.id === "update") {
                     $("#formfile").find('input[type=submit]').val("ACTUALIZAR");
                     $("#cancel").removeClass('hide');
                 }
             });
-
-            $("#cancel").on('click', function (e) {
+            $("#cancel").on('click', function(e) {
                 e.preventDefault();
                 $("#formfile").find('input[type=submit]').val("CARGAR");
                 $("#formfile").find('input#idArchivo').val("");
