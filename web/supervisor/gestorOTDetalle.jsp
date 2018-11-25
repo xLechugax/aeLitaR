@@ -1,8 +1,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    
-    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
+<%    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
     String idTipoTareaAsignar = request.getParameter("idtipoTareaAsignar");
     String idEjecutorAsignar = request.getParameter("idEjecutorAsignar");
     String comentarioOT = request.getParameter("comentarioOT");
@@ -129,7 +128,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select trabaja.tipoCuenta, usuario.nombreUsuario, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenar from avance,usuario,trabaja where usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa = "+hs.getAttribute("idEmpresa")+" and usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk= "+idOrdenTrabajoSeleccionada+" order by fecha_publicacionOrdenar desc";
+        String sqlOrdenTrabajo = "select trabaja.tipoCuenta, usuario.nombreUsuario, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenar from avance,usuario,trabaja where usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa = " + hs.getAttribute("idEmpresa") + " and usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk= " + idOrdenTrabajoSeleccionada + " order by fecha_publicacionOrdenar desc";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -139,7 +138,7 @@
     ResultSet rsEstados = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from estado where estado.idEmpresa = 0 or estado.idEmpresa =" + hs.getAttribute("idEmpresa");
+        String sqlEstados = "select * from estado where estado.nombreEstado != 'Suspensión' and estado.nombreEstado != 'Generada' and estado.nombreEstado != 'Ejecutada' and estado.nombreEstado != 'Cerrada'  and estado.idEmpresa = 0 or estado.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
         rsEstados = pstEstados.executeQuery();
     } catch (SQLException e) {
@@ -154,6 +153,36 @@
         rsProcedimientos = pstProcedimientos.executeQuery();
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsHistorico = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlEstados = "select * from cambio_estado where cambio_estado.idOrdenTrabajo = " + idOrdenTrabajoSeleccionada;
+        PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+        rsHistorico = pstEstados.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsHistoricoContador = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlEstados = "select * from cambio_estado where cambio_estado.idOrdenTrabajo = " + idOrdenTrabajoSeleccionada;
+        PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+        rsHistoricoContador = pstEstados.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsSuspensiones = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlSuspensiones = "select * from cambio_estado";
+        PreparedStatement pstSuspensiones = conn.prepareStatement(sqlSuspensiones);
+        rsSuspensiones = pstSuspensiones.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
         return;
     }
 %>
@@ -207,62 +236,71 @@
                                     <tr>
                                         <td><b>Estado</b></td>
                                         <td>
-                                            <!-- Modal Trigger --> 
-                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modal1"><%= rsOrdenTrabajo.getString("nombreEstado")%></a>
+                                            <!-- Modal Trigger -->
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modalGestorEstados"><%= rsOrdenTrabajo.getString("nombreEstado")%></a>
                                             <!-- Modal Structure -->
-                                            <% if (hs.getAttribute("tipoCuenta").equals("Supervisor")) { %>
-                                            <% if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
-                                            <form method="get" action="/aeLita/cambiarEstado">
-                                                <div id="modal1" class="modal modal-fixed-footer">
-                                                    <div class="modal-content">
-                                                        <h4>Cambiar Estado</h4>
-                                                        <p>Ya no es posible cambiar el estado de esta orden de trabajo, se encuentra cerrada.</p>
+                                            <!-- Modal Structure -->
+                                            <div id="modalGestorEstados" class="modal modal-fixed-footer">
+                                                <div class="modal-content">
+                                                    <nav class="nav-extended">
+                                                        <div class="nav-content blue-grey">
+                                                            <ul class="tabs tabs-transparent">
+                                                                <li class="tab"><a class="active" href="#historial">Historial</a></li>
+                                                                <li class="tab"><a href="#cambiarEstado">Cambiar Estado</a></li>
+                                                                <li class="tab"><a href="#suspender">Suspender</a></li>
+                                                                <li class="tab"><a href="#cerrarOT">Cerrar OT</a></li>
+                                                                    <%if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {%>
+                                                                    <%if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
+                                                                <li class="tab"><a href="#regenerarTarea">Regenerar OT</a></li>
+                                                                    <%}%>
+                                                                    <%}%>
+                                                            </ul>
+                                                        </div>
+                                                    </nav>
+                                                    <div id="historial" class="col s12">
+                                                        <% if (rsHistoricoContador.next()) {%>
+                                                        <table border="1" class="highlight bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID Log</th>
+                                                                    <th>Motivo</th>
+                                                                    <th>Relizado</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <% while (rsHistorico.next()) {%>
+                                                                <tr>
+                                                                    <td><%=rsHistorico.getString("idCambioEstado")%></td>
+                                                                    <td><%=rsHistorico.getString("motivo")%></td>
+                                                                    <td><%=rsHistorico.getString("fecha_realizacion")%></td>
+                                                                </tr>
+                                                                <%}%>
+                                                            </tbody>
+                                                        </table>
+                                                        <%} else {%>
+                                                        <p class="orange-text">No existen cambios de estado o suspensiones...</p>
+                                                        <%}%>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    <div id="cambiarEstado" class="col s12" style="height: 400px">
+                                                        <form action="cambiarEstadoOrdenTrabajo" method="post">
+                                                            <input type="hidden" name="idOT" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
+                                                            <select name="idEstado">
+                                                                <%while (rsEstados.next()) {%>
+                                                                <option value="<%= rsEstados.getString("idEstado")%>"><%= rsEstados.getString("nombreEstado")%></option>
+                                                                <%}%>
+                                                            </select>
+                                                            <input type="submit" class="btn blue-grey darken-3" value="Cambiar Estado">
+                                                        </form>
                                                     </div>
+                                                    <div id="suspender" class="col s12">Suspender</div>
+                                                    <div id="cerrarOT" class="col s12">Test 3</div>
+                                                    <%if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {%>
+                                                    <%if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
+                                                    <div id="regenerarTarea" class="col s12">Test 4</div>
+                                                    <%}%>
+                                                    <%}%>
                                                 </div>
-                                            </form>
-                                            <%} else {%> 
-                                            <form method="get" action="/aeLita/cambiarEstadoOrdenesTrabajo">
-                                                <input type="hidden" name="idOrdenTrabajo" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
-                                                <div id="modal1" class="modal modal-fixed-footer">
-                                                    <div class="modal-content">
-                                                        <h4>Cambiar Estado</h4>
-                                                        <p>Selecciona el siguiente estado para la orden de trabajo: <%=rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></p>
-                                                        <select id="idEstado" name="idEstado">
-                                                            <% while (rsEstados.next()) {%>                                                           
-                                                            <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
-                                                            <% }%>
-                                                        </select>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
-                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                    </div>
-                                                </div>
-                                            </form> 
-                                            <%}%>
-                                            <%} else {%>
-                                            <form method="get" action="/aeLita/cambiarEstadoOrdenesTrabajo">
-                                                <input type="hidden" name="idOrdenTrabajo" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
-                                                <div id="modal1" class="modal modal-fixed-footer">
-                                                    <div class="modal-content">
-                                                        <h4>Cambiar Estado</h4>
-                                                        <p>Selecciona el siguiente estado para la orden de trabajo: <%=rsOrdenTrabajo.getString("nombreOrdenTrabajo")%></p>
-                                                        <select id="idEstado" name="idEstado">
-                                                            <% while (rsEstados.next()) {%>                                                           
-                                                            <option value="<%=rsEstados.getString("idEstado")%>" ><%=rsEstados.getString("nombreEstado")%></option>
-                                                            <% }%>
-                                                        </select>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Estado"/>
-                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                    </div>
-                                                </div>
-                                            </form> 
-                                            <%}%>
+                                            </div>
                                         </td>
                                     </tr>
                                 </table>
@@ -338,13 +376,13 @@
                                             <tr>
                                                 <td><b>Procedimiento</b></td>
                                                 <td>
-                                                <select class="icons" name="idProcedimiento">
-                                                    <option value="" disabled selected>Seleccione Procedimiento</option>
-                                                    <% while (rsProcedimientos.next()) {%>                                                  
-                                                    <option value="<%= rsProcedimientos.getString("idProcedimiento")%>"><%= rsProcedimientos.getString("nombreProcedimiento")%></option>
-                                                    <%}%>
-                                                </select>
-                                            </td> 
+                                                    <select class="icons" name="idProcedimiento">
+                                                        <option value="" disabled selected>Seleccione Procedimiento</option>
+                                                        <% while (rsProcedimientos.next()) {%>                                                  
+                                                        <option value="<%= rsProcedimientos.getString("idProcedimiento")%>"><%= rsProcedimientos.getString("nombreProcedimiento")%></option>
+                                                        <%}%>
+                                                    </select>
+                                                </td> 
                                             </tr>
                                         </tbody>
                                     </table>

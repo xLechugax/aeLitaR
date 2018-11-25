@@ -99,8 +99,20 @@
                                                     out.println("Excepción de SQL:" + e);
                                                     return;
                                                 }
-                                                out.print(rsTiempoRestante.getString("tiempoRestante"));
-                                                %></td> 
+                                                int tiempoRestante = Integer.parseInt(rsEmpresasConSuscripcion.getString("tiempoRestante"));
+                                                if (tiempoRestante <= 432000) {
+                                                %>
+                                                <text class="red white-text"><%=rsTiempoRestante.getString("tiempoRestante")%></text>
+                                                <%
+                                                } else if (tiempoRestante <= 864000) {
+                                                %>
+                                                <text class="orange white-text"><%=rsTiempoRestante.getString("tiempoRestante")%></text>
+                                                <%
+                                                } else {%>
+                                                <text class="green white-text"><%=rsTiempoRestante.getString("tiempoRestante")%></text>
+                                                <%    }
+                                                %>
+                                            </td> 
                                             <td><%
                                                 ResultSet rsTiempoTotalContratado = null;
                                                 try {
@@ -116,6 +128,25 @@
                                                 out.print(rsTiempoTotalContratado.getString("tiempoContratado"));
 
                                                 %></td> 
+                                            <td>
+                                                <a class="waves-effect waves-light btn modal-trigger blue-grey darken-3" href="#modal1">+Tiempo</a>
+
+                                                <!-- Modal Structure -->
+                                                <div id="modal1" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>¿Cuanto tiempo desea prolongal la suscripción?</h4>
+                                                        <form action="/aeLita/agregarTiempo" method="POST">
+                                                            <input type="hidden" name="idSuscripcion" value="<%= rsEmpresasConSuscripcion.getString("idSuscripcion") %>">
+                                                            <select name="tiempo">
+                                                                <option value="12">1 año</option>
+                                                                <option value="6">6 meses</option>
+                                                                <option value="1">1 mes</option>
+                                                            </select>
+                                                            <input class="btn blue-grey darken-3" type="submit" value="Agregar">
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <%}%>
                                     </table>
@@ -123,9 +154,9 @@
                                 <div id="empresasSinSuscripcion" class="col s12"><br/>
                                     <a>Gestión Empresas</a> <br/><br/>
                                     <!-- Modal Trigger -->
-                                    <a class="btn-floating btn-large waves-effect waves-light red right-aligned modal-trigger" href="#modal1"><i class="material-icons">add</i></a>&nbsp;&nbsp;<b>Agregar Empresa</b>
+                                    <a class="btn-floating btn-large waves-effect waves-light red right-aligned modal-trigger" href="#modalCrearEmpresa"><i class="material-icons">add</i></a>&nbsp;&nbsp;<b>Agregar Empresa</b>
                                     <!-- Modal Structure -->
-                                    <div id="modal1" class="modal modal-fixed-footer">
+                                    <div id="modalCrearEmpresa" class="modal modal-fixed-footer">
                                         <div class="modal-content">
                                             <form action="/aeLita/crearEmpresa" method="get"> 
                                                 <h4>Crear Empresa</h4>

@@ -1,11 +1,16 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADM.jsp"%>
-<%    
-    if (hs.getAttribute("idEmpresa") == null) { //Setear el HS unicamente si viene null, o sea, recien iniciando la sessión
+<%    if (hs.getAttribute("idEmpresa") == null) { //Setear el HS unicamente si viene null, o sea, recien iniciando la sessión
         String idEmpresa = request.getParameter("idEmpresa"); // Toma el ID de la empresa y lo deja en el HS
         hs.setAttribute("idEmpresa", idEmpresa);
-    } 
+    }
+
+    Connection conn = ConexionBD.getConexion();
+    //Activa de manera global los Eventos
+    String sqlActivarEventosEnMySQL = "SET GLOBAL event_scheduler = ON";
+    PreparedStatement pstActivarEventosEnMySQL = conn.prepareStatement(sqlActivarEventosEnMySQL);
+    pstActivarEventosEnMySQL.execute();
 %>
 <!DOCTYPE html>
 <html>
@@ -22,12 +27,12 @@
         <body class="blue-grey lighten-5">
             <%@ include file="../barraNav.jsp" %>
             <div class="container"> 
-                        <div class="row">
+                <div class="row">
                     <div class="col s12 m12">
-                      <div class="card blue-grey darken-1">
+                        <div class="card blue-grey darken-1">
                             <div class="card-content white-text">
                                 <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>.</p>
-                            <h5 class="white-text">Links de Útilidad</h5>
+                                <h5 class="white-text">Links de Útilidad</h5>
                                 <ul>
                                     <li><a class="grey-text text-lighten-3" href="http://172.17.40.45/plataforma_datos/vis_equipos_datoslist.asp?cmd=resetall" target="_blank"><i class="material-icons">router</i>Equipos Actualizados</a></li>
                                     <li><a class="grey-text text-lighten-3" href="http://despachonacional.cl/despachonacional/siad_pyme/index.php/Login" target="_blank"><i class="material-icons">dashboard</i>SIAD Pyme</a></li>
@@ -37,11 +42,11 @@
                                     <li><a class="grey-text text-lighten-3" href="http://200.27.8.220/acceso.php"  target="_blank"><i class="material-icons">accessibility</i>ID Ingreso a Nodo</a></li>
                                 </ul>
                             </div>
-                      </div>
+                        </div>
                     </div>
                 </div>
-        </div>
-                        
+            </div>
+
     </main>
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>

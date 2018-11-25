@@ -10,6 +10,12 @@
         String idEmpresa = request.getParameter("idEmpresa"); // Toma el ID de la empresa y lo deja en el HS
         hs.setAttribute("idEmpresa", idEmpresa);
     }
+
+    Connection conn = ConexionBD.getConexion();
+    //Activa de manera global los Eventos
+    String sqlActivarEventosEnMySQL = "SET GLOBAL event_scheduler = ON";
+    PreparedStatement pstActivarEventosEnMySQL = conn.prepareStatement(sqlActivarEventosEnMySQL);
+    pstActivarEventosEnMySQL.execute();
 %>
 <html>
     <head>
@@ -34,7 +40,6 @@
                                 <%
                                     ResultSet rsTareasEnAtencion = null;
                                     try {
-                                        Connection conn = ConexionBD.getConexion();
                                         String sqlTareasEnAtencion = "select count(*)  from tarea where tarea.idEmpresa = " + hs.getAttribute("idEmpresa") + " and usuario = " + hs.getAttribute("idUsuarioSesion") + " and tarea.estadoTarea != 5";
                                         PreparedStatement pstTareasEnAtencion = conn.prepareStatement(sqlTareasEnAtencion);
                                         rsTareasEnAtencion = pstTareasEnAtencion.executeQuery();
@@ -45,7 +50,6 @@
                                     }
                                     ResultSet rsTareasCerradas = null;
                                     try {
-                                        Connection conn = ConexionBD.getConexion();
                                         String sqlTareasCerradas = "select count(*) from tarea where tarea.idEmpresa = " + hs.getAttribute("idEmpresa") + " and tarea.usuario = " + hs.getAttribute("idUsuarioSesion") + " and tarea.estadoTarea = 5";
                                         PreparedStatement pstTareasCerradas = conn.prepareStatement(sqlTareasCerradas);
                                         rsTareasCerradas = pstTareasCerradas.executeQuery();
@@ -56,7 +60,6 @@
                                     }
                                     ResultSet rsAvances = null;
                                     try {
-                                        Connection conn = ConexionBD.getConexion();
                                         String sqlAvances = "select count(*) from avance where avance.idEmpresa = " + hs.getAttribute("idEmpresa") + " and avance.usuario = " + hs.getAttribute("idUsuarioSesion");
                                         PreparedStatement pstAvances = conn.prepareStatement(sqlAvances);
                                         rsAvances = pstAvances.executeQuery();

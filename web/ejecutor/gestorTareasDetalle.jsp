@@ -43,7 +43,7 @@
     ResultSet rsComentariosOTContador = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select usuario.nombreUsuario, trabaja.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenarPorFecha from avance,usuario,trabaja where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk= "+idOrdenTrabajo+" and usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa = "+idEmpresa+" order by fecha_publicacionOrdenarPorFecha desc";
+        String sqlOrdenTrabajo = "select usuario.nombreUsuario, trabaja.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenarPorFecha from avance,usuario,trabaja where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk= " + idOrdenTrabajo + " and usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa = " + idEmpresa + " order by fecha_publicacionOrdenarPorFecha desc";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOTContador = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -53,7 +53,7 @@
     ResultSet rsComentariosOT = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select usuario.nombreUsuario, trabaja.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenarPorFecha from avance,usuario,trabaja where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk= "+idOrdenTrabajo+" and usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa = "+idEmpresa+" order by fecha_publicacionOrdenarPorFecha desc";
+        String sqlOrdenTrabajo = "select usuario.nombreUsuario, trabaja.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenarPorFecha from avance,usuario,trabaja where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk= " + idOrdenTrabajo + " and usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa = " + idEmpresa + " order by fecha_publicacionOrdenarPorFecha desc";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsComentariosOT = pstOrdenTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -442,20 +442,20 @@
                                         <%}%>
                                     </tr>
                                     <% if (rsTiempoSuspendida.next()) {%>
-                                        <%if (rsTiempoSuspendida.getString("tiempo") != null) {%>
-                                        <tr>
-                                            <td><b>Tiempo Suspendida</b></td>
-                                            <td><%=rsTiempoSuspendida.getString("tiempo")%></td>
-                                        </tr>
-                                        <%}%>
+                                    <%if (rsTiempoSuspendida.getString("tiempo") != null) {%>
+                                    <tr>
+                                        <td><b>Tiempo Suspendida</b></td>
+                                        <td><%=rsTiempoSuspendida.getString("tiempo")%></td>
+                                    </tr>
+                                    <%}%>
                                     <%}%>
                                     <% if (rsTiempoTrabajado.next()) {%>
-                                        <%if (rsTiempoTrabajado.getString("tiempo") != null) {%>
-                                        <tr>
-                                            <td><b>Tiempo Real Trabajado</b></td>
-                                            <td><%=rsTiempoTrabajado.getString("tiempo")%></td>
-                                        </tr>
-                                        <%}%>
+                                    <%if (rsTiempoTrabajado.getString("tiempo") != null) {%>
+                                    <tr>
+                                        <td><b>Tiempo Real Trabajado</b></td>
+                                        <td><%=rsTiempoTrabajado.getString("tiempo")%></td>
+                                    </tr>
+                                    <%}%>
                                     <%}%>
                                 </table>
                                 <form method="get" action="/aeLita/reporteEjecutorTareaCerrada">
