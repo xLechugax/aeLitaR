@@ -1,3 +1,6 @@
+<%@page import="crud.gestorFiles.gestorDataFile"%>
+<%@page import="crud.getData.ImagenVO"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
@@ -222,6 +225,11 @@
     }
     String tareasRestantes = rsTareasRestantes.getString("tareasRestantes");
 
+    String detalle = "";
+    ImagenVO dataVO = new ImagenVO();
+    gestorDataFile gdf = new gestorDataFile();
+    int idEmpresa = Integer.parseInt((""+hs.getAttribute("idEmpresa")));
+    ArrayList<ImagenVO> listar = gdf.Listar_DataFile_idOT(Integer.parseInt(idOrdenTrabajoSeleccionada), idEmpresa);
 %>
 <!DOCTYPE html>
 <html>
@@ -327,9 +335,9 @@
                                                                 <li class="tab"><a href="#suspender">Suspender</a></li>
                                                                 <li class="tab"><a href="#cerrarOT">Cerrar OT</a></li>
                                                                     <%if (hs.getAttribute("tipoCuenta").equals("Administrador")) {%>
-                                                                        <%if (rsOrdenTrabajo.getString("estado").equals("00000000005")) {%>
-                                                                             <li class="tab"><a href="#regenerarTarea">Regenerar OT</a></li>
-                                                                        <%}%>
+                                                                    <%if (rsOrdenTrabajo.getString("estado").equals("00000000005")) {%>
+                                                                <li class="tab"><a href="#regenerarTarea">Regenerar OT</a></li>
+                                                                    <%}%>
                                                                     <%}%>
                                                             </ul>
                                                         </div>
@@ -581,34 +589,53 @@
                             <div class="collapsible-header"><i class="material-icons">archive</i>Archivos</div>
                             <div class="collapsible-body white">
                                 <table border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Tipo</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
+                                        <%if (listar.size() > 0) {
+                                                for (ImagenVO listar2 : listar) {
+                                                    dataVO = listar2;
+                                                    detalle = dataVO.getDetalle();
+                                                    //if( detalle == "null" || detalle == null )
+                                                    //  detalle = "nada";
+                                        %>
                                         <tr>
-                                            <td><b>idArchivo<b/></td>
-                                            <td><b>Nombre<b/></td>
-                                            <td><b>Fecha Creación<b/></td>
-                                            <td><b>Operaciones<b/></td>
+                                            <td><%=dataVO.getNombreFile()%></td>
+                                            <td><%=dataVO.getTypeFile()%></td>
+                                            <td>
+                                                <a id="descargar" href="http://localhost:8080/aeLita/ControllerImagen?action=donwload&id=<%=dataVO.getIdArchivo()%>"><i class="material-icons green-text">file_download</i></a>
+                                                <a  id="update" class="option" href="#" data-id="<%=dataVO.getIdArchivo()%>"><i class="material-icons orange-text">edit</i></a>
+                                                <a id="delete" class="option" href="#" data-id="<%=dataVO.getIdArchivo()%>"><i class="material-icons red-text">delete</i></a>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td>0000001</td>
-                                            <td>Gestiones.pdf</td>
-                                            <td>2018-10-02 11:41</td>
-                                            <td>Eliminar</td>
-                                        </tr>
+                                        <%
+                                                    detalle = "";
+                                                }
+                                            }
+                                        %>
+
                                     </tbody>
                                 </table>
-                                <form name="subirArchivo" action="#" method="POST">
-                                    <div class="file-field input-field ">
-                                        <div class="btn blue-grey darken-3">
+                                <form action="/aeLita/ControllerImagen" enctype="MULTIPART/FORM-DATA" method="post" id="formfile">
+                                    <input type="hidden" id="option" />
+                                    <input type="hidden" name="idArchivo"  id="idArchivo"/>
+                                    <input type="hidden" name="idOT" value="<%= idOrdenTrabajoSeleccionada %>" id="idOT"/>
+                                    <div class="file-field input-field">
+                                        <div class="btn">
                                             <span>File</span>
-                                            <input type="file" multiple>
+                                            <input type="file" name="file">
                                         </div>
-                                        <div class="file-path-wrapper ">
-                                            <input class="file-path validate " type="text" placeholder="Selecciones los archivos que desea subir...">
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text">
                                         </div>
                                     </div>
-                                    <center>
-                                        <input class="waves-effect waves-light btn right-align blue-grey darken-3" type="submit" value="Subir Archivo" />
-                                    </center>
+                                    <input  class="waves-effect waves-light btn right-align" type="submit" value="Cargar" />
+                                    <a href="#" class="waves-effect waves-light btn right-align hide" id="cancel">Cancelar</a>
                                 </form>
                             </div>
                         </li>
@@ -717,6 +744,34 @@
             $(".dropdown-button").dropdown();
             $('select').material_select();
             $("select[required]").css({display: "block", height: 0, padding: 0, width: 0, position: 'absolute'});
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".button-collapse").sideNav();
+            $(".dropdown-button").dropdown();
+            $(document).on('click', "a.option", function (e) {
+                e.preventDefault();
+                let self = e.target.parentNode;
+                let id = $(self).data("id") || self.getAttribute("data-id");
+                $("#formfile").find('input#idArchivo').val(id);
+                $("#formfile").find('input#option').val(self.id);
+                $("#formfile").find('input#option').attr("name", "option");
+                if (self.id === "delete") {
+                    if (confirm("Desea eliminar el archivo"))
+                        $("form#formfile").submit();
+                } else if (self.id === "update") {
+                    $("#formfile").find('input[type=submit]').val("ACTUALIZAR");
+                    $("#cancel").removeClass('hide');
+                }
+            });
+            $("#cancel").on('click', function (e) {
+                e.preventDefault();
+                $("#formfile").find('input[type=submit]').val("CARGAR");
+                $("#formfile").find('input#idArchivo').val("");
+                $("#formfile").find('input#option').val("");
+                $(e.target).addClass('hide');
+            });
         });
     </script>
 </body>

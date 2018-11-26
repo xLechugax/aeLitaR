@@ -1,4 +1,3 @@
-
 package crud.gestorFiles;
 
 import java.sql.*;
@@ -11,11 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 public class gestorDataFile {
 
-	 /*Metodo listar*/
-   public ArrayList<ImagenVO> Listar_DataFile() {
+    /*Metodo listar*/
+    public ArrayList<ImagenVO> Listar_DataFile() {
         ArrayList<ImagenVO> list = new ArrayList<ImagenVO>();
         Connection conn = ConexionBD.getConexion();
         String sql = "SELECT * FROM archivo";
@@ -26,7 +24,7 @@ public class gestorDataFile {
             rs = ps.executeQuery();
             while (rs.next()) {
                 String[] parts = null;
-            	String nombre = "";
+                String nombre = "";
                 ImagenVO vo = new ImagenVO();
                 vo.setIdArchivo(rs.getString(1));
                 vo.setIdEmpresa(rs.getInt(2));
@@ -40,8 +38,8 @@ public class gestorDataFile {
                 parts = nombre.split("\\.");
 
                 vo.setNombreFile(parts[0]);
-                vo.setTypeFile(parts[1].toLowerCase());                
-                vo.setDetalle(""+rs.getString(11));
+                vo.setTypeFile(parts[1].toLowerCase());
+                vo.setDetalle("" + rs.getString(11));
                 list.add(vo);
             }
         } catch (SQLException ex) {
@@ -57,21 +55,37 @@ public class gestorDataFile {
             }
         }
         return list;
-   }
-
-
-    /*Metodo agregar*/
-    public void agregar_Imagen(ImagenVO dataVO) {
-    	Connection conn = ConexionBD.getConexion();
-        String sql = "INSERT INTO `archivo` (`idEmpresa`, archivo, `nombre`, `type`) VALUES (?,?,?,?)";
+    }
+    
+    public ArrayList<ImagenVO> Listar_DataFile_idOT(int idOT, int idEmpresa) {
+        ArrayList<ImagenVO> list = new ArrayList<ImagenVO>();
+        Connection conn = ConexionBD.getConexion();
+        String sql = "SELECT * FROM archivo where archivo.idOrdenTrabajo="+idOT+" and archivo.idEmpresa="+idEmpresa;
+        ResultSet rs = null;
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, dataVO.getIdEmpresa());
-            ps.setBlob(2, dataVO.getArchivo());
-            ps.setString(3, dataVO.getNombreFile());
-            ps.setString(4, dataVO.getTypeFile());
-            ps.executeUpdate();
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] parts = null;
+                String nombre = "";
+                ImagenVO vo = new ImagenVO();
+                vo.setIdArchivo(rs.getString(1));
+                vo.setIdEmpresa(rs.getInt(2));
+                vo.setidAvance(rs.getInt(3));
+                vo.setidTarea(rs.getInt(4));
+                vo.setidTrabajo(rs.getInt(5));
+                vo.setidProcedimiento(rs.getInt(6));
+                vo.setidPaso(rs.getInt(7));
+
+                nombre = rs.getString(9);
+                parts = nombre.split("\\.");
+
+                vo.setNombreFile(parts[0]);
+                vo.setTypeFile(parts[1].toLowerCase());
+                vo.setDetalle("" + rs.getString(11));
+                list.add(vo);
+            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         } catch (Exception ex) {
@@ -79,12 +93,63 @@ public class gestorDataFile {
         } finally {
             try {
                 ps.close();
+                rs.close();
 
             } catch (Exception ex) {
             }
         }
+        return list;
     }
 
+    /*Metodo agregar*/
+    public void agregar_Imagen(ImagenVO dataVO) {
+        Connection conn = ConexionBD.getConexion();
+        if (dataVO.getidTrabajo() != 0) {
+            String sql = "INSERT INTO `archivo` (`idEmpresa`, archivo, `nombre`, `type`, `idOrdenTrabajo`) VALUES (?,?,?,?,?)";
+            PreparedStatement ps = null;
+            try {
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, dataVO.getIdEmpresa());
+                ps.setBlob(2, dataVO.getArchivo());
+                ps.setString(3, dataVO.getNombreFile());
+                ps.setString(4, dataVO.getTypeFile());
+                ps.setInt(5, dataVO.getidTrabajo());
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            } finally {
+                try {
+                    ps.close();
+
+                } catch (Exception ex) {
+                }
+            }
+        } else {
+            String sql = "INSERT INTO `archivo` (`idEmpresa`, archivo, `nombre`, `type`, `idOrdenTrabajo`) VALUES (?,?,?,?,?)";
+            PreparedStatement ps = null;
+            try {
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, dataVO.getIdEmpresa());
+                ps.setBlob(2, dataVO.getArchivo());
+                ps.setString(3, dataVO.getNombreFile());
+                ps.setString(4, dataVO.getTypeFile());
+                ps.setInt(5, dataVO.getidTrabajo());
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            } finally {
+                try {
+                    ps.close();
+
+                } catch (Exception ex) {
+                }
+            }
+        }
+    }
 
     /*Metodo Modificar Archivo*/
     public void modificar_Imagen(ImagenVO dataVO) {
@@ -112,10 +177,9 @@ public class gestorDataFile {
         }
     }
 
-
     /*Metodo Eliminar*/
     public void eliminar_Imagen(String id) {
-       Connection conn = ConexionBD.getConexion();
+        Connection conn = ConexionBD.getConexion();
         String sql = "DELETE FROM archivo WHERE idArchivo = ?";
         PreparedStatement ps = null;
 
@@ -136,9 +200,8 @@ public class gestorDataFile {
         }
     }
 
-
     public void descargar_Archivo(ImagenVO dataVO) {
-    	Connection conn = ConexionBD.getConexion();
+        Connection conn = ConexionBD.getConexion();
         String sql = "SELECT archivo, type, nombre FROM archivo WHERE idArchivo = ?";
         ResultSet rs = null;
         PreparedStatement ps = null;
@@ -147,14 +210,13 @@ public class gestorDataFile {
         try {
             ps = conn.prepareStatement(sql);
             ps.setString(1, dataVO.getIdArchivo());
-            
-            rs = ps.executeQuery();
-            while (rs.next()) {                
-	            dataVO.setArchiveByte( rs.getBytes("archivo") );
-	            dataVO.setContentType( rs.getString("type") ) ;
-	            dataVO.setNombreFile(rs.getString("nombre") );
-            }
 
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                dataVO.setArchiveByte(rs.getBytes("archivo"));
+                dataVO.setContentType(rs.getString("type"));
+                dataVO.setNombreFile(rs.getString("nombre"));
+            }
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -169,6 +231,5 @@ public class gestorDataFile {
             }
         }
     }
-
 
 }

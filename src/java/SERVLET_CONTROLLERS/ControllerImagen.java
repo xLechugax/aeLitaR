@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 import java.sql.*;
 import bd.*;
 import java.io.File;
+import static java.lang.System.out;
 import javax.servlet.ServletOutputStream;
 
 @WebServlet(name = "ControllerImagen", urlPatterns = {"/ControllerImagen"})
@@ -35,16 +36,14 @@ public class ControllerImagen extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         HttpSession hs = request.getSession(false);
         estado = request.getParameter("action");
-        hs.setAttribute("estado", estado); // Esta varaible session es opcional lo determie para poder mostrar el tipo de ación que realice en la vista gestorArchivo.
-        
+        hs.setAttribute("estado", estado); 
         idArchivo = request.getParameter("id");
 
         ImagenVO dataVO = new ImagenVO();
@@ -74,9 +73,7 @@ public class ControllerImagen extends HttpServlet {
                 System.out.println("fichero: "+ex.getMessage());
             }
         }
-
         response.sendRedirect("/aeLita/gestores/gestorArchivos.jsp");
-
     }
 
      public String getFileName(Part part) {
@@ -91,6 +88,7 @@ public class ControllerImagen extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         HttpSession hs = request.getSession(false);
         String action = request.getParameter("option");
         if( action != null && action !=  "") {
@@ -101,13 +99,16 @@ public class ControllerImagen extends HttpServlet {
         hs.setAttribute("estado", estado);
         ImagenVO dataVO = new ImagenVO();
         int idEmpresa = Integer.parseInt(""+hs.getAttribute("idEmpresa"));
+        int idOT = Integer.parseInt(request.getParameter("idOT"));
+        out.print(idOT);
+        out.print(idEmpresa);
         InputStream inputStream = null;
         String type = "", nombre = "";
+        
         try {
             Part filePart = request.getPart("file");
             if (filePart.getSize() > 0 && !estado.equalsIgnoreCase("delete")) {
-                type = filePart.getContentType();// or  filePart.getHeader("content-type");
-                //getName() => obtiene el nombre del archivo.
+                type = filePart.getContentType();                
                 nombre = getFileName(filePart);
                 inputStream = filePart.getInputStream();
             }
@@ -116,7 +117,6 @@ public class ControllerImagen extends HttpServlet {
         }
 
         try {
-
             if(estado.equalsIgnoreCase("delete")) {
                 fileCtrl.eliminar_Imagen(idArchivo);
             } else {
@@ -124,31 +124,23 @@ public class ControllerImagen extends HttpServlet {
                     dataVO.setArchivo(inputStream);
                     dataVO.setTypeFile(type);
                     dataVO.setNombreFile(nombre);
+                    dataVO.setidTrabajo(idOT);
                 }
                 dataVO.setIdEmpresa(idEmpresa);
                 if (estado.equalsIgnoreCase("insert")) {
-
                     fileCtrl.agregar_Imagen(dataVO);
-
                 } else if (estado.equalsIgnoreCase("update")) {
-
                     dataVO.setIdArchivo(idArchivo);
                     dataVO.setDetalle("Sin detalle");
                     fileCtrl.modificar_Imagen(dataVO);
-
                 } else if(estado.equalsIgnoreCase("donwload")) {
-                    // Aquí lo tengo igual con method Post, pero falta recuperar el nombre del archivo de la variable fileName como lo muestra en método GET, 
-                    // 
                     dataVO.setIdArchivo(idArchivo);
                     fileCtrl.descargar_Archivo(dataVO);
                     response.setContentType(dataVO.getContentType());
-                    // response.setHeader("Content-Disposition","attachment;filename=" + fileName );
 
                     try{
-                        //File fileToDownload = new File( dataVO.getArchivoimg() );
                         inputStream = dataVO.getArchivo();
                         ServletOutputStream outData = response.getOutputStream();
-
                         int i;
                         while ( (i = inputStream.read()) != -1 ) {
                             outData.write(i);
@@ -161,17 +153,16 @@ public class ControllerImagen extends HttpServlet {
                     }
                 }
             }
-
-
         } catch (Exception ex) {
             System.out.println("textos: "+ex.getMessage());
         }
-
-        // RequestDispatcher view = request.getRequestDispatcher("/gestores/gestorArchivos.jsp");
-        // view.forward(request, response);
-        response.sendRedirect("/aeLita/gestores/gestorArchivos.jsp");
+        //
+        if (idOT != 0) {
+            response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT="+idOT);
+        } else {
+            response.sendRedirect("/aeLita/gestores/gestorArchivos.jsp");
+        }
     }
-
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -12,12 +12,6 @@ public class ImagenVO {
     InputStream archivoData;
     private byte[] archiveByte;
 
-    // public ImagenVO(int id, String name, byte[] archivo) {
-    //     this.idEmpresa = id;
-    //     this.nombgetIntreFile = name;
-    //     this.archiveByte = archivo;        
-    // }
-
     public ImagenVO() {}
 
     /*Todo los codigos get*/
