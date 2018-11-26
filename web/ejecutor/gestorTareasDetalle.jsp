@@ -284,11 +284,11 @@
                                                 <!-- CAMBIO DE ESTADO -->                        
                                                 <div id="cambioEstado" class="col s12">
                                                     <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
-                                                    <p>Ya no es posible cambiar el estado de esta tarea, la orden de trabajo se encuentra cerrada...</p>
+                                                    <p class="orange-text">Ya no es posible cambiar el estado de esta tarea, la orden de trabajo se encuentra cerrada...</p>
                                                     <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
-                                                    <p>Ya no es posible cambiar el estado de esta tarea, se encuentra cerrada...</p>
+                                                    <p class="orange-text">Ya no es posible cambiar el estado de esta tarea, se encuentra cerrada...</p>
                                                     <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("3")) {%> 
-                                                    <p>No es posible cambiar el estado de esta tarea, se encuentra suspendida...</p>
+                                                    <p class="orange-text">No es posible cambiar el estado de esta tarea, se encuentra suspendida...</p>
                                                     <%} else {%>
                                                     <form method="get" action="/aeLita/cambiarEstado">
                                                         <input type="hidden" name="idTarea" value="<%= rsTareaSeleccionada.getString("idTarea")%>">
@@ -338,7 +338,7 @@
                                                     <div id="suspenderTarea" class="col s12">
                                                         <% if (!rsTareaSeleccionada.getString("estadoTarea").equals("3")) {%>
                                                         <% if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
-                                                        <p>La tarea ya se encuentra cerrada, no es posible volver a suspenderla...</p>
+                                                        <p class="orange-text">La tarea ya se encuentra cerrada, no es posible volver a suspenderla...</p>
                                                         <%} else {%>
                                                         <form action="/aeLita/suspenderTarea" method="post">
                                                             <input type="hidden" name="idEmpresa" value="<%= idEmpresa%>">
@@ -364,17 +364,17 @@
                                                         </form>
                                                         <%}%>
                                                         <%} else {%>
-                                                        <p>No es posible suspender una tarea que ya esta suspendida...</p>
+                                                        <p class="orange-text">No es posible suspender una tarea que ya esta suspendida...</p>
                                                         <%}%>
                                                     </div>    
                                                 </div>
                                                 <div id="cierre" class="col s12">
                                                     <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
-                                                    <p>La orden de trabajo se encuentra cerrada...</p>
+                                                    <p class="orange-text">La orden de trabajo se encuentra cerrada...</p>
                                                     <%} else if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
-                                                    <p>La tarea se encuentra cerrada...</p>
+                                                    <p class="orange-text">La tarea se encuentra cerrada...</p>
                                                     <%} else if (rsTareaSeleccionada.getString("estadoTarea").equals("3")) {%>
-                                                    <p>La tarea se encuentra suspendida...</p>
+                                                    <p class="orange-text">La tarea se encuentra suspendida...</p>
                                                     <%} else if (hs.getAttribute("tipoCuenta").equals("Ejecutor")) {%>
                                                     <br/><br/>
                                                     <p class="center-align orange-text">Asegúrese que haya terminado todas las actividades solicitadas por su supervisor.</p>

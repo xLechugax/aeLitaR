@@ -5,6 +5,7 @@
     String idTipoTareaAsignar = request.getParameter("idtipoTareaAsignar");
     String idEjecutorAsignar = request.getParameter("idEjecutorAsignar");
     String comentarioOT = request.getParameter("comentarioOT");
+    String fecha_compromiso = request.getParameter("fecha_compromiso");
 
     if (comentarioOT != null) {
         try {
@@ -30,13 +31,14 @@
             int idEmpresa = Integer.parseInt(idEmrpesaString); // Se convierte en Int
 
             Connection conn = ConexionBD.getConexion();
-            String sql = "insert into tarea (idTipoTarea,idOrdenTrabajo,usuario,estadoTarea,idEmpresa) values (?,?,?,?,?)";
+            String sql = "insert into tarea (idTipoTarea,idOrdenTrabajo,fecha_compromiso,usuario,estadoTarea,idEmpresa) values (?,?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, idTipoTareaAsignar);
             pst.setString(2, idOrdenTrabajoSeleccionada);
-            pst.setString(3, idEjecutorAsignar);
-            pst.setInt(4, estadoTareaPorDefecto);
-            pst.setInt(5, idEmpresa);
+            pst.setString(3, fecha_compromiso);
+            pst.setString(4, idEjecutorAsignar);
+            pst.setInt(5, estadoTareaPorDefecto);
+            pst.setInt(6, idEmpresa);
             pst.execute();
             response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT=" + idOrdenTrabajoSeleccionada);
             return;
@@ -47,7 +49,23 @@
     ResultSet rsOrdenTrabajo = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlOrdenTrabajo = "select * from orden_trabajo,usuario,estado where orden_trabajo.idOrdenTrabajo = " + idOrdenTrabajoSeleccionada + " and orden_trabajo.supervisor = usuario.idUsuario and orden_trabajo.estado = estado.idEstado";
+        String sqlOrdenTrabajo = "select orden_trabajo.idOrdenTrabajo, "
+                + "orden_trabajo.idEmpresa, "
+                + "orden_trabajo.supervisor,"
+                + "orden_trabajo.idProcedimiento, "
+                + "orden_trabajo.estado, "
+                + "orden_trabajo.importancia, "
+                + "orden_trabajo.nombreOrdenTrabajo, "
+                + "DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio,"
+                + "DATE_FORMAT(orden_trabajo.fecha_compromiso, '%d/%m/%Y %T') as fecha_compromiso,"
+                + "DATE_FORMAT(orden_trabajo.fecha_fin, '%d/%m/%Y %T') as fecha_fin,"
+                + "orden_trabajo.detalleOrdenTrabajo, "
+                + "estado.nombreEstado, "
+                + "usuario.nombreUsuario "
+                + "from orden_trabajo,usuario,estado "
+                + "where orden_trabajo.idOrdenTrabajo = " + idOrdenTrabajoSeleccionada + " "
+                + "and orden_trabajo.supervisor = usuario.idUsuario "
+                + "and orden_trabajo.estado = estado.idEstado";
         PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
         rsOrdenTrabajo = pstOrdenTrabajo.executeQuery();
         rsOrdenTrabajo.next();
@@ -158,7 +176,7 @@
     ResultSet rsHistorico = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlEstados = "select * from cambio_estado where cambio_estado.idOrdenTrabajo = " + idOrdenTrabajoSeleccionada;
+        String sqlEstados = "select * from cambio_estado where cambio_estado.idOrdenTrabajo = " + idOrdenTrabajoSeleccionada + " order by fecha_realizacion desc";
         PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
         rsHistorico = pstEstados.executeQuery();
     } catch (SQLException e) {
@@ -185,6 +203,22 @@
         out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
         return;
     }
+    double numero = Math.random();
+    String numeroPalabra = Double.toString(numero);
+    String StringEntero = numeroPalabra.replace("0.", "");
+
+    ResultSet rsTareasRestantes = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlEstados = "select count(*) as tareasRestantes from tarea where tarea.idOrdenTrabajo = " + idOrdenTrabajoSeleccionada + " and tarea.estadoTarea != 5";
+        PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+        rsTareasRestantes = pstEstados.executeQuery();
+        rsTareasRestantes.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    String tareasRestantes = rsTareasRestantes.getString("tareasRestantes");
 %>
 <!DOCTYPE html>
 <html>
@@ -239,7 +273,6 @@
                                             <!-- Modal Trigger -->
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#modalGestorEstados"><%= rsOrdenTrabajo.getString("nombreEstado")%></a>
                                             <!-- Modal Structure -->
-                                            <!-- Modal Structure -->
                                             <div id="modalGestorEstados" class="modal modal-fixed-footer">
                                                 <div class="modal-content">
                                                     <nav class="nav-extended">
@@ -281,8 +314,13 @@
                                                         <p class="orange-text">No existen cambios de estado o suspensiones...</p>
                                                         <%}%>
                                                     </div>
-                                                    <div id="cambiarEstado" class="col s12" style="height: 400px">
-                                                        <form action="cambiarEstadoOrdenTrabajo" method="post">
+                                                    <div id="cambiarEstado" class="col s12">
+                                                        <% if (rsOrdenTrabajo.getString("estado").equals("00000000003")) {%>
+                                                        <p class="orange-text">No es posible cambiar el estado de esta orden de trabajo, se encuentra suspendida...</p>
+                                                        <% } else if (rsOrdenTrabajo.getString("estado").equals("00000000005")) {%>
+                                                        <p class="orange-text">No es posible cambiar el estado de esta orden de trabajo, se encuentra cerrada...</p>
+                                                        <% } else {%>
+                                                        <form action="/aeLita/cambiarEstadoOrdenTrabajo" method="post">
                                                             <input type="hidden" name="idOT" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
                                                             <select name="idEstado">
                                                                 <%while (rsEstados.next()) {%>
@@ -291,9 +329,51 @@
                                                             </select>
                                                             <input type="submit" class="btn blue-grey darken-3" value="Cambiar Estado">
                                                         </form>
+                                                        <% } %>
                                                     </div>
-                                                    <div id="suspender" class="col s12">Suspender</div>
-                                                    <div id="cerrarOT" class="col s12">Test 3</div>
+                                                    <div id="suspender" class="col s12">
+                                                        <% if (rsOrdenTrabajo.getString("estado").equals("00000000003")) {%>
+                                                        <p class="orange-text">No es posible supender esta orden de trabajo, se encuentra suspendida...</p>
+                                                        <% } else if (rsOrdenTrabajo.getString("estado").equals("00000000005")) {%>
+                                                        <p class="orange-text">No es posible suspender esta orden de trabajo, se encuentra cerrada...</p>
+                                                        <% } else {%>
+                                                        <form action="/aeLita/suspenderOrdenTrabajo" method="post">
+                                                            <input type="hidden" name="idEmpresa" value="<%= hs.getAttribute("idEmpresa")%>">
+                                                            <input type="hidden" name="idOrdenTrabajo" value="<%= idOrdenTrabajoSeleccionada%>">
+                                                            <input type="hidden" name="identidad" value="<%=StringEntero%>">
+                                                            <br/>
+                                                            <br/>
+                                                            <br/>
+                                                            <div class="row">
+                                                                <div class="input-field col s12">
+                                                                    <input class="validate" type="text" name="motivo" required="" id="motivo" placeholder="Motivo de la suspensión">
+                                                                    <label for="motivo">Motivo</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="input-field col s12">
+                                                                    <text class="grey-text darken-4">Fecha de Termino</text>
+                                                                    <input class="validate" type="datetime-local" name="fecha_fin" required="" id="fecha_fin">
+                                                                </div>
+                                                            </div>
+                                                            <input type="submit" class="btn blue-grey darken-3" value="Suspender">
+                                                        </form>
+                                                        <% } %>
+                                                    </div>
+                                                    <div id="cerrarOT" class="col s12">
+                                                        <% if (tareasRestantes.equals("1")) {%>
+                                                        <p class="orange-text">Aún queda <%=tareasRestantes%> tarea restante en proceso...</p>
+                                                        <%} else if (!tareasRestantes.equals("0")) {%>
+                                                        <p class="orange-text">Aún quedan <%=tareasRestantes%> tareas restantes en proceso...</p>
+                                                        <%} else if (tareasRestantes.equals("0")) {%>
+                                                        <br/><br/>
+                                                        <p class="center-align orange-text">Asegúrese que las actividades no requieren ser regeneradas y que la orden de trabajo a terminado por completo.</p>
+                                                        <br/>
+                                                        <form name="cerrarTarea" action="/aeLita/cerrarOrdenTrabajo" method="POST">
+                                                            <center><input type="submit" class="waves-effect waves-light btn red darken-3 center-align" value="Cerrar Orden de Trabajo"></center>
+                                                        </form>
+                                                        <%}%>
+                                                    </div> 
                                                     <%if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {%>
                                                     <%if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
                                                     <div id="regenerarTarea" class="col s12">Test 4</div>
@@ -313,7 +393,7 @@
                             </div>
                         </li>
                         <li>
-                            <div class="collapsible-header"><i class="material-icons">content_paste</i>Asignación una tarea</div>
+                            <div class="collapsible-header"><i class="material-icons">content_paste</i>Asignar tareas a la Orden de Trabajo</div>
                             <div class="collapsible-body white">
                                 <% if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
                                 <form action="gestorOTDetalle.jsp" method="post">
@@ -383,6 +463,12 @@
                                                         <%}%>
                                                     </select>
                                                 </td> 
+                                            </tr>
+                                            <tr>
+                                                <td><b>Fecha de compromiso</b></td>
+                                                <td><div class="input-field">
+                                                        <input name="fecha_compromiso" type="datetime-local" class="validate" required="">
+                                                    </div></td>    
                                             </tr>
                                         </tbody>
                                     </table>

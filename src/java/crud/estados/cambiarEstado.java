@@ -1,28 +1,28 @@
+package crud.estados;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cierre;
 
-import bd.ConexionBD;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.*;
-import java.time.format.DateTimeFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.*;
+import bd.*;
 import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Games
+ * @author Lechuga
  */
-@WebServlet(name = "cerrarTarea", urlPatterns = {"/cerrarTarea"})
-public class cerrarTarea extends HttpServlet {
+@WebServlet(name = "cambiarEstado", urlPatterns = {"/cambiarEstado"})
+public class cambiarEstado extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,31 +37,38 @@ public class cerrarTarea extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
 
-            HttpSession hs = request.getSession(false); 
-            String idTareaSeleccionada = request.getParameter("idTareaSeleccionada");
-            String idOrdenTrabajo = request.getParameter("idOrdenTrabajo");
-            String idEmpresa = request.getParameter("idEmpresa");
-            out.print(idTareaSeleccionada);
+            HttpSession hs = request.getSession(false);
+
+            String idEstado = request.getParameter("idEstado");
+            String idTarea = request.getParameter("idTarea");
+            String idEmpresa = ""+hs.getAttribute("idEmpresa");
+            
+            ResultSet rsEstadoSeleccionado = null; //Permite conocer el nombre del estado que el usuario seleccionó.
             try {
                 Connection conn = ConexionBD.getConexion();
-                //Se cambia el estado de la tarea a suspendida
-                String sqlCerrarTarea = "UPDATE `aelita`.`tarea` SET `estadoTarea`='5', `fecha_fin`=(select NOW()) WHERE  `idTarea`=?";
-                PreparedStatement pstCerrarTarea = conn.prepareStatement(sqlCerrarTarea);
-                pstCerrarTarea.setString(1, idTareaSeleccionada);
-                pstCerrarTarea.execute();
+                String sqlEstadoSeleccionado = "select estado.nombreEstado from estado where estado.idEstado = "+ idEstado;
+                PreparedStatement pstEstadoSeleccionado = conn.prepareStatement(sqlEstadoSeleccionado);
+                rsEstadoSeleccionado = pstEstadoSeleccionado.executeQuery();
+                rsEstadoSeleccionado.next();
+                String nombreEstado = rsEstadoSeleccionado.getString("nombreEstado");
+                String motivo = ""+hs.getAttribute("nombreUsuario")+" cambió la tarea al estado "+nombreEstado;
+                String sql = "INSERT INTO cambio_estado (`motivo`, `idTarea`, `idEmpresa`) VALUES (?,?,?)";
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, motivo);
+                pst.setString(2, idTarea);
+                pst.setString(3, idEmpresa);
+                pst.execute();
                 
-                String sqlEventoDocumentarReactivar = "INSERT INTO `aelita`.`cambio_estado` (`idOrdenTrabajo`, `idTarea`, `idEmpresa`, `motivo`,  `suspension`) VALUES (?, ?, ?, ?, ?)";
-                PreparedStatement pstEventoDocumentarReactivar = conn.prepareStatement(sqlEventoDocumentarReactivar);
-                pstEventoDocumentarReactivar.setString(1, idOrdenTrabajo);
-                pstEventoDocumentarReactivar.setString(2, idTareaSeleccionada);
-                pstEventoDocumentarReactivar.setString(3, idEmpresa);
-                pstEventoDocumentarReactivar.setString(4, hs.getAttribute("nombreUsuario")+" cerró la tarea.");
-                pstEventoDocumentarReactivar.setString(5, "N");
-                pstEventoDocumentarReactivar.execute();
-                
-            response.sendRedirect("/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=" + idTareaSeleccionada);    
-            } catch (Exception e) {
+                String sqlUpdateTarea = "UPDATE aelita.tarea SET estadoTarea=? WHERE idTarea=?";
+                PreparedStatement pstUpdateTarea = conn.prepareStatement(sqlUpdateTarea);
+                pstUpdateTarea.setString(1, idEstado);
+                pstUpdateTarea.setString(2, idTarea);
+                pstUpdateTarea.execute();
+                response.sendRedirect("/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea="+idTarea);
+            } catch (SQLException e) {
+                out.print(e);
             }
         }
     }
