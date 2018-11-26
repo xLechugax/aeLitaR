@@ -21,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Lechuga
  */
-@WebServlet(name = "cerrarOrdenTrabajo", urlPatterns = {"/cerrarOrdenTrabajo"})
-public class cerrarOrdenTrabajo extends HttpServlet {
+@WebServlet(name = "regenerarOrdenTrabajo", urlPatterns = {"/regenerarOrdenTrabajo"})
+public class regenerarOrdenTrabajo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,25 +37,27 @@ public class cerrarOrdenTrabajo extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
             HttpSession hs = request.getSession(false); 
-            String idOrdenTrabajo = request.getParameter("idOT");
+            String idOrdenTrabajo = request.getParameter("idOrdenTrabajo");
+
             try {
                 Connection conn = ConexionBD.getConexion();
                 //Se cambia el estado de la tarea a suspendida
-                String sqlCerrarTarea = "UPDATE `aelita`.`orden_trabajo` SET `estado`='5', `fecha_fin`=(select NOW()) WHERE  `idOrdenTrabajo`=?";
-                PreparedStatement pstCerrarTarea = conn.prepareStatement(sqlCerrarTarea);
-                pstCerrarTarea.setString(1, idOrdenTrabajo);
-                pstCerrarTarea.execute();
+                String sqlRegenerarTarea = "UPDATE aelita.orden_trabajo SET estado=2, fecha_fin=NULL WHERE idOrdenTrabajo=?";
+                PreparedStatement pstRegenerarTarea = conn.prepareStatement(sqlRegenerarTarea);
+                pstRegenerarTarea.setString(1, idOrdenTrabajo);
+                pstRegenerarTarea.execute();
                 
-                String sqlEventoDocumentarReactivar = "INSERT INTO `aelita`.`cambio_estado` (`idOrdenTrabajo`, `idEmpresa`, `motivo`,  `suspension`) VALUES (?, ?, ?, ?)";
+                String sqlEventoDocumentarReactivar = "INSERT INTO `aelita`.`cambio_estado` (`idOrdenTrabajo`,`idEmpresa`, `motivo`,  `suspension`) VALUES (?, ?, ?, ?)";
                 PreparedStatement pstEventoDocumentarReactivar = conn.prepareStatement(sqlEventoDocumentarReactivar);
                 pstEventoDocumentarReactivar.setString(1, idOrdenTrabajo);
                 pstEventoDocumentarReactivar.setString(2, ""+hs.getAttribute("idEmpresa"));
-                pstEventoDocumentarReactivar.setString(3, hs.getAttribute("nombreUsuario")+" cerró la tarea.");
+                pstEventoDocumentarReactivar.setString(3, hs.getAttribute("nombreUsuario")+" regeneró la orden de trabajo.");
                 pstEventoDocumentarReactivar.setString(4, "N");
                 pstEventoDocumentarReactivar.execute();
-                
-            response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT=" + idOrdenTrabajo);    
+            
+            response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT=" + idOrdenTrabajo);
             } catch (Exception e) {
                 out.print(e);
             }

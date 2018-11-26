@@ -53,7 +53,6 @@ public class reporteEjecutorTareaCerrada extends HttpServlet {
                 rsAux = pstOrdenTrabajo.executeQuery();
                 rsAux.next();
             } catch (SQLException e) {
-                System.out.println(e);
                 return;
             }
             String idOrdenTrabajo = "" + rsAux.getString("idOrdenTrabajo");
@@ -65,39 +64,35 @@ public class reporteEjecutorTareaCerrada extends HttpServlet {
                 rsOrdenTrabajo = pstOrdenTrabajo.executeQuery();
                 rsOrdenTrabajo.next();
             } catch (SQLException e) {
-                System.out.println(e);
                 return;
             }
 
             ResultSet rsTareaSeleccionada = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sqlOrdenTrabajo = "select usuario.nombreUsuario, tarea.idProcedimiento, tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, tarea.fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa;
+                String sqlOrdenTrabajo = "select usuario.nombreUsuario, tarea.idProcedimiento, tarea.idTarea, tarea.estadoTarea, estado.nombreEstado, tipo_tarea.nombreTipoTarea, DATE_FORMAT(tarea.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, DATE_FORMAT(tarea.fecha_fin, '%d/%m/%Y %T') as fecha_fin from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa;
                 PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
                 rsTareaSeleccionada = pstOrdenTrabajo.executeQuery();
                 rsTareaSeleccionada.next();
             } catch (SQLException e) {
-                System.out.println(e);
                 return;
             }
             ResultSet rsComentariosOTContador = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sqlOrdenTrabajo = "select usuario.nombreUsuario, usuario.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajo + " and avance.idEmpresa = " + idEmpresa;
+                String sqlOrdenTrabajo = "select usuario.nombreUsuario, trabaja.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenarPorFecha from avance,usuario,trabaja where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk= " + idOrdenTrabajo + " and usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa = " + idEmpresa + " order by fecha_publicacionOrdenarPorFecha desc";
                 PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
                 rsComentariosOTContador = pstOrdenTrabajo.executeQuery();
             } catch (SQLException e) {
-                System.out.println(e);
                 return;
             }
             ResultSet rsComentariosOT = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sqlOrdenTrabajo = "select usuario.nombreUsuario, usuario.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenarPorFecha from avance,usuario where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk=" + idOrdenTrabajo + " and avance.idEmpresa = " + idEmpresa + " order by fecha_publicacionOrdenarPorFecha asc";
+                String sqlOrdenTrabajo = "select usuario.nombreUsuario, trabaja.tipoCuenta, avance.comentario, DATE_FORMAT(avance.fecha_publicacion, '%d/%m/%Y %T') as fecha_publicacion, avance.fecha_publicacion as fecha_publicacionOrdenarPorFecha from avance,usuario,trabaja where usuario.idUsuario = avance.usuario and avance.idOrdenTrabajo_fk= " + idOrdenTrabajo + " and usuario.idUsuario = trabaja.idUsuario and trabaja.idEmpresa = " + idEmpresa + " order by fecha_publicacionOrdenarPorFecha desc";
                 PreparedStatement pstOrdenTrabajo = conn.prepareStatement(sqlOrdenTrabajo);
                 rsComentariosOT = pstOrdenTrabajo.executeQuery();
             } catch (SQLException e) {
-                System.out.println(e);
                 return;
             }
             if (comentarioOT != null) {
@@ -115,28 +110,82 @@ public class reporteEjecutorTareaCerrada extends HttpServlet {
                     response.sendRedirect("/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=" + idTareaSeleccionada);
                     return;
                 } catch (Exception e) {
-                    System.out.println(e);
                 }
             }
             // Para el DropdownList para cambiar el estado de las tareas
             ResultSet rsEstados = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sqlEstados = "select * from estado where estado.idEmpresa = 0 or estado.idEmpresa =" + idEmpresa;
+                String sqlEstados = "select * from estado where estado.nombreEstado != 'Suspensión' and estado.nombreEstado != 'Generada' and estado.nombreEstado != 'Ejecutada' and estado.nombreEstado != 'Cerrada'  and estado.idEmpresa = 0 or estado.idEmpresa =" + idEmpresa;
                 PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
                 rsEstados = pstEstados.executeQuery();
             } catch (SQLException e) {
-                System.out.println(e);
                 return;
             }
             ResultSet rsUsuarioEjecutor = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  usuario.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + idEmpresa;
+                String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  trabaja.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + idEmpresa;
                 PreparedStatement pstUsuariosEjecutores = conn.prepareStatement(sqlUsuariosEjecutores);
                 rsUsuarioEjecutor = pstUsuariosEjecutores.executeQuery();
             } catch (SQLException e) {
-                System.out.println(e);
+                return;
+            }
+
+            ResultSet rsHistorico = null;
+            try {
+                Connection conn = ConexionBD.getConexion();
+                String sqlEstados = "select cambio_estado.idCambioEstado, cambio_estado.motivo, DATE_FORMAT(cambio_estado.fecha_realizacion, '%d/%m/%Y %T') as fecha_realizacion, cambio_estado.fecha_realizacion as fecha_realizacionOrdenar from cambio_estado where cambio_estado.idTarea =" + idTareaSeleccionada + " and cambio_estado.idEmpresa =" + idEmpresa + " order by fecha_realizacionOrdenar desc";
+                PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+                rsHistorico = pstEstados.executeQuery();
+            } catch (SQLException e) {
+                return;
+            }
+
+            double numero = Math.random();
+            String numeroPalabra = Double.toString(numero);
+            String StringEntero = numeroPalabra.replace("0.", "");
+
+            ResultSet rsSuspensiones = null;
+            try {
+                Connection conn = ConexionBD.getConexion();
+                String sqlSuspensiones = "select cambio_estado.idCambioEstado, cambio_estado.idOrdenTrabajo, cambio_estado.idTarea, cambio_estado.idEmpresa, cambio_estado.motivo, DATE_FORMAT(cambio_estado.fecha_realizacion, '%d/%m/%Y %T') as fecha_inicio, cambio_estado.fecha_realizacion, DATE_FORMAT(cambio_estado.fecha_fin, '%d/%m/%Y %T') as fecha_finFix, cambio_estado.fecha_fin, cambio_estado.suspension, cambio_estado.identidad, "
+                        + "if(cambio_estado.fecha_fin < NOW(), 'EXPIRADA','VIGENTE') AS ESTADO "
+                        + "from cambio_estado "
+                        + "where cambio_estado.suspension = 'S' and cambio_estado.idOrdenTrabajo = " + idOrdenTrabajo + " and cambio_estado.idTarea = " + idTareaSeleccionada + " and cambio_estado.idEmpresa = " + idEmpresa + " order by fecha_fin desc";
+                PreparedStatement pstSuspensiones = conn.prepareStatement(sqlSuspensiones);
+                rsSuspensiones = pstSuspensiones.executeQuery();
+            } catch (SQLException e) {
+                return;
+            }
+
+            ResultSet rsTiempoTranscurrido = null;
+            try {
+                Connection conn = ConexionBD.getConexion();
+                String sqlEstados = "SELECT FN_DEVOLVERTIEMPO((SELECT TIMESTAMPDIFF(SECOND,(select tarea.fecha_inicio from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea = " + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa + "),(select NOW())))) as tiempo";
+                PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+                rsTiempoTranscurrido = pstEstados.executeQuery();
+                rsTiempoTranscurrido.next();
+            } catch (SQLException e) {
+                return;
+            }
+            ResultSet rsTiempoSuspendida = null;
+            try {
+                Connection conn = ConexionBD.getConexion();
+                String sqlTiempoSuspendida = "SELECT FN_DEVOLVERTIEMPO((select SUM(TIMESTAMPDIFF(SECOND,cambio_estado.fecha_realizacion,cambio_estado.fecha_fin)) from cambio_estado where cambio_estado.idTarea = " + idTareaSeleccionada + " and cambio_estado.suspension = 'S')) as tiempo";
+                PreparedStatement pstTiempoSuspendida = conn.prepareStatement(sqlTiempoSuspendida);
+                rsTiempoSuspendida = pstTiempoSuspendida.executeQuery();
+            } catch (SQLException e) {
+                return;
+            }
+
+            ResultSet rsTiempoTrabajado = null;
+            try {
+                Connection conn = ConexionBD.getConexion();  
+                String sqlTiempoTrabajado = "SELECT FN_DEVOLVERTIEMPO((SELECT TIMESTAMPDIFF(SECOND,(select tarea.fecha_inicio from tarea,usuario,estado,tipo_tarea where tarea.usuario = usuario.idUsuario and tarea.estadoTarea = estado.idEstado and tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea = " + idTareaSeleccionada + " and tarea.idEmpresa = " + idEmpresa + "),(select NOW())))-(select SUM(TIMESTAMPDIFF(SECOND,cambio_estado.fecha_realizacion,cambio_estado.fecha_fin)) from cambio_estado where cambio_estado.idTarea = " + idTareaSeleccionada + " and cambio_estado.suspension = 'S')) as tiempo";
+                PreparedStatement pstTiempoTrabajado = conn.prepareStatement(sqlTiempoTrabajado);
+                rsTiempoTrabajado = pstTiempoTrabajado.executeQuery();
+            } catch (SQLException e) {
                 return;
             }
 
@@ -226,20 +275,44 @@ public class reporteEjecutorTareaCerrada extends HttpServlet {
 
             PdfPTable tablaAvances = new PdfPTable(3);
             tablaAvances.setWidthPercentage(100); // Hace que la tabla ocupe todo el espacio a la izquierda y la derecha
-            
+
             PdfPCell celda1Avance = new PdfPCell(new Paragraph("Usuario", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
             PdfPCell celda2Avance = new PdfPCell(new Paragraph("Avance", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
             PdfPCell celda3Avance = new PdfPCell(new Paragraph("Fecha Publicación", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
             tablaAvances.addCell(celda1Avance);
             tablaAvances.addCell(celda2Avance);
             tablaAvances.addCell(celda3Avance);
-            while (rsComentariosOT.next()) {                
+            while (rsComentariosOT.next()) {
                 tablaAvances.addCell(rsComentariosOT.getString("nombreUsuario"));
                 tablaAvances.addCell(rsComentariosOT.getString("comentario"));
                 tablaAvances.addCell(rsComentariosOT.getString("fecha_publicacion"));
             }
             documento.add(tablaAvances);
             
+            Paragraph par6 = new Paragraph();
+            Font FontCambios = new Font(Font.FontFamily.COURIER, 12, Font.BOLD, BaseColor.DARK_GRAY); //Da formato al texto
+            par6.add(new Phrase("\nCambios de estado", FontCambios)); //Da titulo al reporte
+            par6.setAlignment(Element.ALIGN_JUSTIFIED); //Alinea el Texto
+            par6.add(new Phrase(Chunk.NEWLINE));
+            par6.add(new Phrase(Chunk.NEWLINE));
+            documento.add(par6);
+
+            PdfPTable tablaCambiosEstados = new PdfPTable(3);
+            tablaCambiosEstados.setWidthPercentage(100); // Hace que la tabla ocupe todo el espacio a la izquierda y la derecha
+
+            PdfPCell celda1tablaCambiosEstados = new PdfPCell(new Paragraph("ID Log", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
+            PdfPCell celda2tablaCambiosEstados = new PdfPCell(new Paragraph("Motivo", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
+            PdfPCell celda3tablaCambiosEstados = new PdfPCell(new Paragraph("Fecha Realización", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
+            tablaCambiosEstados.addCell(celda1tablaCambiosEstados);
+            tablaCambiosEstados.addCell(celda2tablaCambiosEstados);
+            tablaCambiosEstados.addCell(celda3tablaCambiosEstados);
+            while (rsHistorico.next()) {
+                tablaCambiosEstados.addCell(rsHistorico.getString("idCambioEstado"));
+                tablaCambiosEstados.addCell(rsHistorico.getString("motivo"));
+                tablaCambiosEstados.addCell(rsHistorico.getString("fecha_realizacion"));
+            }
+            documento.add(tablaCambiosEstados);
+
             Paragraph par100 = new Paragraph();
             Font fontDetalle = new Font(Font.FontFamily.COURIER, 12, Font.NORMAL, BaseColor.DARK_GRAY); //Da formato al texto
             par100.add(new Phrase("Documento generado por motor de aeLita. El contenido de este informe es completa responsabilidad de quienes lo emiten. aeLita no es responsable de usos indebidos.", fontDetalle)); //Da titulo al reporte

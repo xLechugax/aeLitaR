@@ -1,7 +1,8 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    String idTareaSeleccionada = request.getParameter("idTarea");
+<%    
+    String idTareaSeleccionada = request.getParameter("idTarea");
     String comentarioOT = request.getParameter("comentarioOT");
     String idEmpresa = "" + hs.getAttribute("idEmpresa");
 
@@ -190,7 +191,7 @@
                                     <tr>
                                         <td><b>Asignado</b></td> 
                                         <td>
-                                            <% if (rsOrdenTrabajo.getString("estado").equals("5")) {%>
+                                            <% if (rsOrdenTrabajo.getString("estado").equals("00000000005")) {%>
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
                                             <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
                                                 <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
@@ -203,7 +204,7 @@
                                                     </div>
                                                 </div> 
                                             </form>
-                                            <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                            <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
                                             <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
                                                 <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
@@ -254,7 +255,7 @@
                                                             <li class="tab"><a href="#suspencion">Suspención</a></li>
                                                             <li class="tab"><a href="#cierre">Cierre</a></li>
                                                                 <%if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {%>
-                                                                <%if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                                                <%if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
                                                             <li class="tab"><a href="#regenerarTarea">Regenerar Tarea</a></li>
                                                                 <%}%>
                                                                 <%}%>
@@ -283,11 +284,11 @@
                                                 </div>
                                                 <!-- CAMBIO DE ESTADO -->                        
                                                 <div id="cambioEstado" class="col s12">
-                                                    <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
+                                                    <% if (rsOrdenTrabajo.getString("estado").equals("00000000005")) { %>
                                                     <p class="orange-text">Ya no es posible cambiar el estado de esta tarea, la orden de trabajo se encuentra cerrada...</p>
-                                                    <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                                    <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
                                                     <p class="orange-text">Ya no es posible cambiar el estado de esta tarea, se encuentra cerrada...</p>
-                                                    <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("3")) {%> 
+                                                    <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000003")) {%> 
                                                     <p class="orange-text">No es posible cambiar el estado de esta tarea, se encuentra suspendida...</p>
                                                     <%} else {%>
                                                     <form method="get" action="/aeLita/cambiarEstado">
@@ -306,8 +307,8 @@
                                                     <nav class="nav-extended">
                                                         <div class="nav-content">
                                                             <ul class="tabs tabs-transparent blue-grey darken-2">
-                                                                <li class="tab"><a class="active" href="#historicoSuspendidas">Historico</a></li>
-                                                                <li class="tab"><a href="#suspenderTarea">Suspender</a></li>
+                                                                <li class="tab"><a class="active" href="#historicoSuspendidas">Historico Suspensiones</a></li>
+                                                                <li class="tab"><a href="#suspenderTarea">Suspender Tarea</a></li>
                                                             </ul>
                                                         </div>
                                                     </nav>
@@ -336,8 +337,8 @@
                                                         </table>
                                                     </div>
                                                     <div id="suspenderTarea" class="col s12">
-                                                        <% if (!rsTareaSeleccionada.getString("estadoTarea").equals("3")) {%>
-                                                        <% if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                                        <% if (!rsTareaSeleccionada.getString("estadoTarea").equals("00000000003")) {%>
+                                                        <% if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
                                                         <p class="orange-text">La tarea ya se encuentra cerrada, no es posible volver a suspenderla...</p>
                                                         <%} else {%>
                                                         <form action="/aeLita/suspenderTarea" method="post">
@@ -369,11 +370,11 @@
                                                     </div>    
                                                 </div>
                                                 <div id="cierre" class="col s12">
-                                                    <% if (rsOrdenTrabajo.getString("estado").equals("5")) { %>
+                                                    <% if (rsOrdenTrabajo.getString("estado").equals("00000000005")) { %>
                                                     <p class="orange-text">La orden de trabajo se encuentra cerrada...</p>
-                                                    <%} else if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                                    <%} else if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
                                                     <p class="orange-text">La tarea se encuentra cerrada...</p>
-                                                    <%} else if (rsTareaSeleccionada.getString("estadoTarea").equals("3")) {%>
+                                                    <%} else if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000003")) {%>
                                                     <p class="orange-text">La tarea se encuentra suspendida...</p>
                                                     <%} else if (hs.getAttribute("tipoCuenta").equals("Ejecutor")) {%>
                                                     <br/><br/>
@@ -398,10 +399,10 @@
                                                     <%}%>
                                                 </div>
                                                 <%if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {%>
-                                                <%if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                                <%if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
                                                 <div id="regenerarTarea" class="col s12">
                                                     <br/>
-                                                    <p>Al regenerar la tarea, esta aparecerá nuevamente en estado Ejecución y su asignado podrá volver a realizar gestiones en ella.</p>
+                                                    <center><p class="orange-text">Al regenerar la tarea, esta aparecerá nuevamente en estado Ejecución y su asignado podrá volver a realizar gestiones en ella.</p></center>
                                                     <br/><br/><br/>
                                                     <form name="cerrarTarea" action="/aeLita/regenerarTarea" method="POST">
                                                         <input type="hidden" name="idEmpresa" value="<%= idEmpresa%>">
@@ -433,7 +434,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <% if (!rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                        <% if (!rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
                                         <td><b>Tiempo Real Transcurrido</b></td>
                                         <td><%=rsTiempoTranscurrido.getString("tiempo")%></td>
                                         <%} else {%>
@@ -552,7 +553,7 @@
                         <li>
                             <div class="collapsible-header"><i class="material-icons">record_voice_over</i>Agregar comentario a la Orden de Trabajo</div>
                             <div class="collapsible-body white">
-                                <% if (rsTareaSeleccionada.getString("estadoTarea").equals("5")) {%>
+                                <% if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
                                 <form action="gestorTareasDetalle.jsp" method="post">
                                     <div class="input-field">
                                         <textarea disabled="" id="textarea1" name="comentarioOT" required="" class="materialize-textarea"></textarea>

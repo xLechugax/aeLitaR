@@ -24,7 +24,8 @@
                 + "usuario.nombreUsuario as supervisor,"
                 + "orden_trabajo.fecha_inicio as fecha_inicioOrdenar, "
                 + "DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, "
-                + "TIMESTAMPDIFF(SECOND,orden_trabajo.fecha_inicio,(NOW())) as tiempoRealTranscurrido "
+                + "TIMESTAMPDIFF(SECOND,orden_trabajo.fecha_inicio,(NOW())) as tiempoRealTranscurrido ,"
+                + "TIMESTAMPDIFF(SECOND,(NOW()),orden_trabajo.fecha_compromiso) as tiempoRestante "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
                 + "and orden_trabajo.estado = estado.idEstado "
@@ -35,7 +36,7 @@
         if (importanciaFiltro != null) {
             sqlAsignado = sqlAsignado + " and orden_trabajo.importancia ='" + importanciaFiltro + "'";
         }
-        sqlAsignado = sqlAsignado + " and orden_trabajo.idEmpresa = " + hs.getAttribute("idEmpresa") + " and orden_trabajo.estado !=5 order by orden_trabajo.fecha_inicio desc";
+        sqlAsignado = sqlAsignado + " and orden_trabajo.idEmpresa = " + hs.getAttribute("idEmpresa") + " and orden_trabajo.estado !=5 order by fecha_inicioOrdenar desc";
         PreparedStatement pstOrdenesTrabajo = conn.prepareStatement(sqlAsignado);
         rsOrdenesTrabajo = pstOrdenesTrabajo.executeQuery();
     } catch (SQLException e) {
@@ -100,6 +101,7 @@
                             <td><b>Orden de Trabajo</b></td>
                             <td><b>Fecha Inicio</b></td>
                             <td><b>Tiempo Real Transcurrido</b></td>
+                            <td><b>Tiempo Restante</b></td>
                             <td><b>Operaciones</b></td>
                             </thead>
                             <% while (rsOrdenesTrabajo.next()) {%>
@@ -125,7 +127,21 @@
                                     out.println("Excepción de SQL:" + e);
                                     return;
                                 }
-                            %><%= rsTiempoRealTranscurrido.getString("tiempoRealTranscurrido") %></td> 
+                                %><%= rsTiempoRealTranscurrido.getString("tiempoRealTranscurrido")%></td> 
+                            <td><%
+                                ResultSet rsTiempoRestante = null;
+                                try {
+                                    Connection conn = ConexionBD.getConexion();
+                                    String sqlTiempo = "select FN_DEVOLVERTIEMPO(" + rsOrdenesTrabajo.getString("tiempoRestante") + ") as tiempoRestante";
+                                    PreparedStatement pstTiempoRestante = conn.prepareStatement(sqlTiempo);
+                                    rsTiempoRestante = pstTiempoRestante.executeQuery();
+                                    rsTiempoRestante.next();
+                                } catch (SQLException e) {
+                                    out.println("Excepción de SQL:" + e);
+                                    return;
+                                }%>
+                                <a class="waves-effect waves-light btn blue-grey darken-1" ><%= rsTiempoRestante.getString("tiempoRestante")%></a>
+                                </td> 
                             <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajo.getString("idOrdenTrabajo")%>" class="btn blue-grey darken-3">Detalle</a></td>
                             </tbody>
                             <%}%>
