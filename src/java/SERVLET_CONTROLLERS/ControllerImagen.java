@@ -100,6 +100,7 @@ public class ControllerImagen extends HttpServlet {
         ImagenVO dataVO = new ImagenVO();
         int idEmpresa = Integer.parseInt(""+hs.getAttribute("idEmpresa"));
         int idOT = Integer.parseInt(request.getParameter("idOT"));
+        int idTarea = Integer.parseInt(request.getParameter("idTarea"));
         out.print(idOT);
         out.print(idEmpresa);
         InputStream inputStream = null;
@@ -125,6 +126,7 @@ public class ControllerImagen extends HttpServlet {
                     dataVO.setTypeFile(type);
                     dataVO.setNombreFile(nombre);
                     dataVO.setidTrabajo(idOT);
+                    dataVO.setidTarea(idTarea);
                 }
                 dataVO.setIdEmpresa(idEmpresa);
                 if (estado.equalsIgnoreCase("insert")) {
@@ -156,12 +158,12 @@ public class ControllerImagen extends HttpServlet {
         } catch (Exception ex) {
             System.out.println("textos: "+ex.getMessage());
         }
-        //
+        /*
         if (idOT != 0) {
             response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT="+idOT);
         } else {
             response.sendRedirect("/aeLita/gestores/gestorArchivos.jsp");
-        }
+        }*/
     }
     @Override
     public String getServletInfo() {

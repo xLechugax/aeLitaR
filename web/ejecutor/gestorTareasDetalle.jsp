@@ -1,8 +1,10 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="crud.gestorFiles.gestorDataFile"%>
+<%@page import="crud.getData.ImagenVO"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    
-    String idTareaSeleccionada = request.getParameter("idTarea");
+<%    String idTareaSeleccionada = request.getParameter("idTarea");
     String comentarioOT = request.getParameter("comentarioOT");
     String idEmpresa = "" + hs.getAttribute("idEmpresa");
 
@@ -162,6 +164,11 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+
+    String detalle = "";
+    ImagenVO dataVO = new ImagenVO();
+    gestorDataFile gdf = new gestorDataFile();
+    ArrayList<ImagenVO> listar = gdf.Listar_DataFile_idTarea(Integer.parseInt(idTareaSeleccionada), Integer.parseInt(idEmpresa));
 %>
 <!DOCTYPE html>
 <html>
@@ -505,34 +512,53 @@
                             <div class="collapsible-header"><i class="material-icons">archive</i>Archivos</div>
                             <div class="collapsible-body white">
                                 <table border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Tipo</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
+                                        <%if (listar.size() > 0) {
+                                                for (ImagenVO listar2 : listar) {
+                                                    dataVO = listar2;
+                                                    detalle = dataVO.getDetalle();
+                                                    //if( detalle == "null" || detalle == null )
+                                                    //  detalle = "nada";
+                                        %>
                                         <tr>
-                                            <td><b>idArchivo<b/></td>
-                                            <td><b>Nombre<b/></td>
-                                            <td><b>Fecha Creación<b/></td>
-                                            <td><b>Operaciones<b/></td>
+                                            <td><%=dataVO.getNombreFile()%></td>
+                                            <td><%=dataVO.getTypeFile()%></td>
+                                            <td>
+                                                <a id="descargar" href="http://localhost:8080/aeLita/ControllerImagen?action=donwload&id=<%=dataVO.getIdArchivo()%>"><i class="material-icons green-text">file_download</i></a>
+                                                <a  id="update" class="option" href="#" data-id="<%=dataVO.getIdArchivo()%>"><i class="material-icons orange-text">edit</i></a>
+                                                <a id="delete" class="option" href="#" data-id="<%=dataVO.getIdArchivo()%>"><i class="material-icons red-text">delete</i></a>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td>0000001</td>
-                                            <td>Gestiones.pdf</td>
-                                            <td>2018-10-02 11:41</td>
-                                            <td>Eliminar</td>
-                                        </tr>
+                                        <%
+                                                    detalle = "";
+                                                }
+                                            }
+                                        %>
+
                                     </tbody>
                                 </table>
-                                <form name="subirArchivo" action="#" method="POST">
+                                <form action="/aeLita/ControllerImagen" enctype="MULTIPART/FORM-DATA" method="post" id="formfile">
+                                    <input type="hidden" id="option" />
+                                    <input type="hidden" name="idArchivo"  id="idArchivo"/>
+                                    <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada %>" id="idTarea"/>
                                     <div class="file-field input-field">
-                                        <div class="btn blue-grey darken-3">
+                                        <div class="btn">
                                             <span>File</span>
-                                            <input type="file" multiple>
+                                            <input type="file" name="file">
                                         </div>
                                         <div class="file-path-wrapper">
-                                            <input class="file-path validate " type="text" placeholder="Selecciones los archivos que desea subir...">
+                                            <input class="file-path validate" type="text">
                                         </div>
                                     </div>
-                                    <center>
-                                        <input class="waves-effect waves-light btn right-align blue-grey darken-3" type="submit" value="Subir Archivo" />
-                                    </center>
+                                    <input  class="waves-effect waves-light btn right-align" type="submit" value="Cargar" />
+                                    <a href="#" class="waves-effect waves-light btn right-align hide" id="cancel">Cancelar</a>
                                 </form>
                             </div>
                         </li>

@@ -100,12 +100,56 @@ public class gestorDataFile {
         }
         return list;
     }
+    
+    public ArrayList<ImagenVO> Listar_DataFile_idTarea(int idTarea, int idEmpresa) {
+        ArrayList<ImagenVO> list = new ArrayList<ImagenVO>();
+        Connection conn = ConexionBD.getConexion();
+        String sql = "SELECT * FROM archivo where archivo.idTarea="+idTarea+" and archivo.idEmpresa="+idEmpresa;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] parts = null;
+                String nombre = "";
+                ImagenVO vo = new ImagenVO();
+                vo.setIdArchivo(rs.getString(1));
+                vo.setIdEmpresa(rs.getInt(2));
+                vo.setidAvance(rs.getInt(3));
+                vo.setidTarea(rs.getInt(4));
+                vo.setidTrabajo(rs.getInt(5));
+                vo.setidProcedimiento(rs.getInt(6));
+                vo.setidPaso(rs.getInt(7));
+
+                nombre = rs.getString(9);
+                parts = nombre.split("\\.");
+
+                vo.setNombreFile(parts[0]);
+                vo.setTypeFile(parts[1].toLowerCase());
+                vo.setDetalle("" + rs.getString(11));
+                list.add(vo);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+
+            } catch (Exception ex) {
+            }
+        }
+        return list;
+    }
 
     /*Metodo agregar*/
     public void agregar_Imagen(ImagenVO dataVO) {
         Connection conn = ConexionBD.getConexion();
         if (dataVO.getidTrabajo() != 0) {
-            String sql = "INSERT INTO `archivo` (`idEmpresa`, archivo, `nombre`, `type`, `idOrdenTrabajo`) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO `archivo` (`idEmpresa`, archivo, `nombre`, `type`, `idOrdenTrabajo`,`idTarea`) VALUES (?,?,?,?,?,?)";
             PreparedStatement ps = null;
             try {
                 ps = conn.prepareStatement(sql);
@@ -114,6 +158,7 @@ public class gestorDataFile {
                 ps.setString(3, dataVO.getNombreFile());
                 ps.setString(4, dataVO.getTypeFile());
                 ps.setInt(5, dataVO.getidTrabajo());
+                ps.setInt(6, dataVO.getidTarea());
                 ps.executeUpdate();
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
