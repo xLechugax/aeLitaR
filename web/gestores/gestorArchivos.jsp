@@ -36,82 +36,11 @@
             <div class="row">
 
             </div>
-
             <!-- <h1><%= "Nombre " + nomFile%></h1> 
              <h1><%= "ID " + ID%></h1>
             <h1><%= hs1.getAttribute("estado")%></h1>-->
-
             <div class="row">
-                <div class="col m3">
-                    <div class="card horizontal">
-                        <div class="card-stacked">
-                            <div class="card-action">
-                                <a>Filtro de Busqueda</a>
-                                <br/>
-                                <form action="#">
-                                    <p>
-                                    <div class="input-field col m12">
-                                        <input id="nombreArchivo" type="text" class="validate">
-                                        <label for="last_name">Nombre de Archivo</label>
-                                    </div>
-                                    </p>
-                                    <p>
-                                    <div>
-                                        <input type="checkbox" id="OrdendeTrabajo">
-                                        <label for="OrdendeTrabajo">Orden de Trabajo</label>
-                                    </div>
-                                    </p>
-                                    <p>
-                                    <div>
-                                        <input type="checkbox" id="Tarea">
-                                        <label for="Tarea">Tarea</label>
-                                    </div>
-                                    </p>
-                                    <p>
-                                    <div>
-                                        <input type="checkbox" id="Avance">
-                                        <label for="Avance">Avance</label>
-                                    </div>
-                                    </p>
-                                    <p>
-                                    <div>
-                                        <input type="checkbox" id="Procedimiento">
-                                        <label for="Procedimiento">Procedimiento</label>
-                                    </div>
-                                    </p>
-                                    <p>
-                                    <div>
-                                        <input type="checkbox" id="Actividad">
-                                        <label for="Actividad">Actividad</label>
-                                    </div>
-                                    </p>
-                                    <center>
-                                        <input class="waves-effect waves-light btn right-align" type="submit" value="buscar" />
-                                    </center>
-                                </form>
-                            </div>
-                        </div>
-                    </div><div class="col-12" style="padding: 15px 30px !important;">
-                        <!-- <form action="/aeLita/gestorArchivoAgregar" enctype="MULTIPART/FORM-DATA" method="post"> -->
-                        <form action="/aeLita/ControllerImagen" enctype="MULTIPART/FORM-DATA" method="post" id="formfile">
-
-                            <input type="hidden" id="option" />
-                            <input type="hidden" name="idArchivo"  id="idArchivo"/>
-                            <div class="file-field input-field">
-                                <div class="btn">
-                                    <span>File</span>
-                                    <input type="file" name="file">
-                                </div>
-                                <div class="file-path-wrapper">
-                                    <input class="file-path validate" type="text">
-                                </div>
-                            </div>
-                            <input  class="waves-effect waves-light btn right-align" type="submit" value="Cargar" />
-                            <a href="#" class="waves-effect waves-light btn right-align hide" id="cancel">Cancelar</a>
-                        </form>
-                    </div>
-                </div>
-                <div class="col m9">
+                <div class="col m12">
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-action">
@@ -120,12 +49,7 @@
                                     <thead>
                                         <tr>
                                             <th>idArchivo</th>
-                                            <th>Avance</th>
-                                            <th>Tarea</th>
-                                            <th>OT</th>
-                                            <th>Procedimiento</th>
                                             <th>Nombre</th>
-                                            <th>Detalle</th>
                                             <th>Archivo</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -140,21 +64,15 @@
                                         %>
                                         <tr>
                                             <td><%=dataVO.getIdArchivo()%></td>
-                                            <td><%=dataVO.getidAvance()%></td>
-                                            <td><%=dataVO.getidTarea()%></td>
-                                            <td><%=dataVO.getidTrabajo()%></td>
-                                            <td><%=dataVO.getidProcedimiento()%></td>
 
                                             <td><%=dataVO.getNombreFile()%></td>
-
-                                            <td><%=detalle%></td>
 
 
                                             <td><%=dataVO.getTypeFile()%></td>
                                             <td>
-                                                <a id="descargar" href="http://localhost:8080/aeLita/ControllerImagen?action=donwload&id=<%=dataVO.getIdArchivo()%>"> <img src="img/download.gif" title="Descargar"/></a>
-                                                <a  id="update" class="option" href="#" data-id="<%=dataVO.getIdArchivo()%>"> <img src="img/modificar.jpg" title="Modificar"/></a>
-                                                <a id="delete" class="option" href="#" data-id="<%=dataVO.getIdArchivo()%>"> <img src="img/eliminar.png" title="Eliminar"/></a>
+                                                <a id="descargar" href="http://localhost:8080/aeLita/ControllerImagen?action=donwload&id=<%=dataVO.getIdArchivo()%>"><i class="material-icons green-text">file_download</i></a>
+                                                <a  id="update" class="option" href="#" data-id="<%=dataVO.getIdArchivo()%>"><i class="material-icons orange-text">edit</i></a>
+                                                <a id="delete" class="option" href="#" data-id="<%=dataVO.getIdArchivo()%>"><i class="material-icons red-text">delete</i></a>
                                             </td>
                                         </tr>
                                         <%
@@ -162,13 +80,35 @@
                                                 }
                                             }
                                         %>
-
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-12" style="padding: 15px 30px !important;">
+                <!-- <form action="/aeLita/gestorArchivoAgregar" enctype="MULTIPART/FORM-DATA" method="post"> -->
+                <form action="/aeLita/ControllerImagen" enctype="MULTIPART/FORM-DATA" method="post" id="formfile">
+
+                    <input type="hidden" id="option" />
+                    <input type="hidden" name="idArchivo"  id="idArchivo"/>
+                    <input type="hidden" name="idArchivo"  id="idArchivo"/>
+                    <input type="hidden" name="idProcedimiento" value="0" id="idProcedimiento"/>
+                    <input type="hidden" name="idTarea" value="0" id="idTarea">
+                    <input type="hidden" name="idOT" value="0" id="idOT"/>
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>File</span>
+                            <input type="file" name="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                    <input  class="waves-effect waves-light btn right-align" type="submit" value="Cargar" />
+                    <a href="#" class="waves-effect waves-light btn right-align hide" id="cancel">Cancelar</a>
+                </form>
             </div>
     </main>
     <%@ include file="/footer.jsp" %>

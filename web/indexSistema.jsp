@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <a class="btn waves-effect waves-teal btn modal-trigger right blue-grey darken-3" href="#RecuperarClave"><i class="material-icons left">face</i>Recuperar Contraseña</a><br/><br/>
+            <!-- <a class="btn waves-effect waves-teal btn modal-trigger right blue-grey darken-3" href="#RecuperarClave"><i class="material-icons left">face</i>Recuperar Contraseña</a><br/><br/> -->
     </main>
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="js/code.jquery.com_jquery-3.2.1.min.js"></script>

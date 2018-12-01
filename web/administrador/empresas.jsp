@@ -280,5 +280,13 @@
             $('.collapsible').collapsible();
         });
     </script>
+    <script>
+        $('#input_rut').Rut({
+            on_error: function () {
+                alert('Rut incorrecto');
+                $('#input_rut').val('');
+            },
+        });
+    </script>
 </body>
 </html>

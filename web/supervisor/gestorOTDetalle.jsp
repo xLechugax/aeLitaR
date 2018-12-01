@@ -624,6 +624,8 @@
                                 <form action="/aeLita/ControllerImagen" enctype="MULTIPART/FORM-DATA" method="post" id="formfile">
                                     <input type="hidden" id="option" />
                                     <input type="hidden" name="idArchivo"  id="idArchivo"/>
+                                    <input type="hidden" name="idProcedimiento" value="0" id="idProcedimiento"/>
+                                    <input type="hidden" name="idTarea" value="0" id="idTarea">
                                     <input type="hidden" name="idOT" value="<%= idOrdenTrabajoSeleccionada %>" id="idOT"/>
                                     <div class="file-field input-field">
                                         <div class="btn">
@@ -695,7 +697,7 @@
                                 </form>
                                 <%} else {%>
                                 <form action="gestorOTDetalle.jsp" method="post">
-                                    <input type="hidden" name="idOT" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>">
+                                    <input type="hidden" name="idOT" value="<%= rsOrdenTrabajo.getString("idOrdenTrabajo")%>" id="idOT">
                                     <div class="input-field">
                                         <textarea id="textarea1" name="comentarioOT" required="" class="materialize-textarea"></textarea>
                                         <label for="textarea1">Comentario</label>

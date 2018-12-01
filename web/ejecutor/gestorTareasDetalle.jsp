@@ -548,6 +548,8 @@
                                     <input type="hidden" id="option" />
                                     <input type="hidden" name="idArchivo"  id="idArchivo"/>
                                     <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada %>" id="idTarea"/>
+                                    <input type="hidden" name="idOT" value="0" id="idOT"/>
+                                    <input type="hidden" name="idProcedimiento" value="0" id="idProcedimiento"/>
                                     <div class="file-field input-field">
                                         <div class="btn">
                                             <span>File</span>
@@ -637,6 +639,34 @@
             $(".dropdown-button").dropdown();
             $('select').material_select();
             $("select[required]").css({display: "block", height: 0, padding: 0, width: 0, position: 'absolute'});
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".button-collapse").sideNav();
+            $(".dropdown-button").dropdown();
+            $(document).on('click', "a.option", function (e) {
+                e.preventDefault();
+                let self = e.target.parentNode;
+                let id = $(self).data("id") || self.getAttribute("data-id");
+                $("#formfile").find('input#idArchivo').val(id);
+                $("#formfile").find('input#option').val(self.id);
+                $("#formfile").find('input#option').attr("name", "option");
+                if (self.id === "delete") {
+                    if (confirm("Desea eliminar el archivo"))
+                        $("form#formfile").submit();
+                } else if (self.id === "update") {
+                    $("#formfile").find('input[type=submit]').val("ACTUALIZAR");
+                    $("#cancel").removeClass('hide');
+                }
+            });
+            $("#cancel").on('click', function (e) {
+                e.preventDefault();
+                $("#formfile").find('input[type=submit]').val("CARGAR");
+                $("#formfile").find('input#idArchivo').val("");
+                $("#formfile").find('input#option').val("");
+                $(e.target).addClass('hide');
+            });
         });
     </script>
 </body>

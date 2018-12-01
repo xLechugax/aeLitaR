@@ -101,8 +101,7 @@ public class ControllerImagen extends HttpServlet {
         int idEmpresa = Integer.parseInt(""+hs.getAttribute("idEmpresa"));
         int idOT = Integer.parseInt(request.getParameter("idOT"));
         int idTarea = Integer.parseInt(request.getParameter("idTarea"));
-        out.print(idOT);
-        out.print(idEmpresa);
+        int idProcedimiento = Integer.parseInt(request.getParameter("idProcedimiento"));
         InputStream inputStream = null;
         String type = "", nombre = "";
         
@@ -127,6 +126,7 @@ public class ControllerImagen extends HttpServlet {
                     dataVO.setNombreFile(nombre);
                     dataVO.setidTrabajo(idOT);
                     dataVO.setidTarea(idTarea);
+                    dataVO.setidProcedimiento(idProcedimiento);
                 }
                 dataVO.setIdEmpresa(idEmpresa);
                 if (estado.equalsIgnoreCase("insert")) {
@@ -158,12 +158,15 @@ public class ControllerImagen extends HttpServlet {
         } catch (Exception ex) {
             System.out.println("textos: "+ex.getMessage());
         }
-        /*
         if (idOT != 0) {
             response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT="+idOT);
+        } else if (idTarea != 0) {
+            response.sendRedirect("/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea="+idTarea);
+        } else if (idProcedimiento != 0) {
+            response.sendRedirect("/aeLita/gestores/gestorProcedimientosDetalle.jsp?idProcedimiento="+idProcedimiento);
         } else {
             response.sendRedirect("/aeLita/gestores/gestorArchivos.jsp");
-        }*/
+        }
     }
     @Override
     public String getServletInfo() {
