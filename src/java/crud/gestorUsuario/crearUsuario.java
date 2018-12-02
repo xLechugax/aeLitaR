@@ -124,7 +124,7 @@ public class crearUsuario extends HttpServlet {
                     out.print("</html>");
                     return;
                 } else {
-                    String sql = "INSERT INTO USUARIO (nombre, apellido, nombreUsuario, email, telefono_m, telefono_f, area_departamento, direccion, tipoCuenta, clave, rut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String sql = "INSERT INTO USUARIO (nombre, apellido, nombreUsuario, email, telefono_m, telefono_f, area_departamento, direccion, clave, rut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     PreparedStatement pst = conn.prepareStatement(sql);
                     pst.setString(1, nombre);
                     pst.setString(2, apellido);
@@ -134,9 +134,8 @@ public class crearUsuario extends HttpServlet {
                     pst.setString(6, telefono_f);
                     pst.setString(7, area_departamento);
                     pst.setString(8, direccion);
-                    pst.setString(9, rol);
-                    pst.setString(10, clave);
-                    pst.setString(11, rut);
+                    pst.setString(9, clave);
+                    pst.setString(10, rut);
                     pst.execute();
                 }
             } catch (SQLException e) {
@@ -153,11 +152,12 @@ public class crearUsuario extends HttpServlet {
 
                 String idUsuario = rsUsuario.getString("idUsuario");
 
-                String sql = "INSERT INTO trabaja (idEmpresa, idUsuario, activo) VALUES (?, ?, ?)";
+                String sql = "INSERT INTO trabaja (idEmpresa, idUsuario, activo, tipoCuenta) VALUES (?, ?, ?, ?)";
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, idEmpresa);
                 pst.setString(2, idUsuario);
                 pst.setString(3, "N");
+                pst.setString(4, rol);
                 pst.execute();
 
             } catch (SQLException e) {

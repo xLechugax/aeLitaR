@@ -64,18 +64,16 @@
                                     <div id="RecuperarClave" class="modal">
                                         <div class="modal-content">
                                             <h4>Recuperar Contraseña</h4>
-                                            <form action="#">
+                                            <form action="/aeLita/recuperarClave" method="post">
 
                                                 <div class="row">
                                                     <div class="input-field col s12">
-                                                        <input name="nombreUsuario" id="nombreUsuario" type="email" class="validate" style="text-transform: uppercase" required="">
+                                                        <input name="correo" id="nombreUsuario" type="email" class="validate" required="">
                                                         <label>Correo Electrónico</label>
                                                     </div>
                                                 </div>
-                                        </div>
-                                        </form>
-                                        <div class="modal-footer">
-                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat blue-grey darken-3 white-text">Recuperar</a>
+                                                <center><input type="submit" class="waves-effect waves-green btn-flat blue-grey darken-3 white-text" value="Recuperar"> </center><br/>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -84,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <a class="btn waves-effect waves-teal btn modal-trigger right blue-grey darken-3" href="#RecuperarClave"><i class="material-icons left">face</i>Recuperar Contraseña</a><br/><br/> -->
+            <a class="btn waves-effect waves-teal btn modal-trigger right blue-grey darken-3" href="#RecuperarClave"><i class="material-icons left">face</i>Recuperar Contraseña</a><br/><br/>
     </main>
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="js/code.jquery.com_jquery-3.2.1.min.js"></script>
