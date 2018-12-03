@@ -48,7 +48,7 @@
                         <div class="card-stacked">
                             <div class="card-action">
                                 <a>Modificar Tipo de Tarea</a> 
-                                <form action="/aeLita/gestorTipoTareasModificar" method="get">
+                                <form action="/aeLita/gestorTipoTareasModificar" method="post">
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table>
                                         <tbody>

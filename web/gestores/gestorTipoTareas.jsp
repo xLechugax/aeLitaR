@@ -42,10 +42,10 @@
                         <div class="card-stacked">
                             <div class="card-action">
                                 <a>Crear Tipo de Tarea</a> 
-                                <form action="/aeLita/gestorTipoTareasAgregar" method="get">
+                                <form action="/aeLita/gestorTipoTareasAgregar" method="post">
                                     <table>
                                         <tbody>
-                                            <tr>
+                                            <tr> 
                                                 <td>Nombre Tipo Tarea:</td>
                                                 <td><input placeholder="Nombre..." name="nombre_tipo_tarea" class="validate" required=""></td>
                                             </tr>
