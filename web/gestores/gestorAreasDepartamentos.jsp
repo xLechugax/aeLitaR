@@ -72,7 +72,7 @@
                                             <td><%= rsAreasDepartamentos.getString("nombreAreaDepartamento")%></td>
                                             <td>
                                                 <%if (rsAreasDepartamentos.getString("idAreaDepartamento").equals("00000000000")) { %>
-                                                <p class="grey-text">Estado Básico      </p>
+                                                <p class="grey-text">Área Departamento Básica      </p>
                                                 <%} else {%>
                                                 <!-- Modal Trigger -->
                                                 <!--<a class=" modal-trigger" href="#modal<%= rsAreasDepartamentos.getString("idAreaDepartamento")%>"><img src="img/eliminar.png" title="Modificar"/></a> -->

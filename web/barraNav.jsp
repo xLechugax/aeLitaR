@@ -1,4 +1,4 @@
-<%  
+<% 
     if (hs == null || hs.getAttribute("tipoCuenta") == null) {
 %>
 <!INICIO - BARRA DE NAVEGACIÓN FIXED>
@@ -28,18 +28,18 @@
     <li><a href="/aeLita/gestores/gestorEstados.jsp">Gestor Estados</a></li>
     <li><a href="/aeLita/administrador/entradaContacto.jsp">Contacto</a></li>
     <li><a href="/aeLita/administrador/reportes.jsp">Reportes</a></li>
-    <li><a href="/aeLita/administrador/empresas.jsp">Empresas</a></li>
+    <% if (hs.getAttribute("idUsuarioSesion").equals("0000000001")) {%><li><a href="/aeLita/administrador/empresas.jsp">Empresas</a></li><%}%>
     <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li>
 </ul>
 <ul id="DropDownGestores" class="dropdown-content">
     <li><a href="/aeLita/administrador/gestorOT.jsp">Órdenes de Trabajo</a></li>
-    <li><a href="/aeLita/gestores/gestorTipoTareas.jsp">Tipo Tareas</a></li>
+    <li><a href="/aeLita/gestores/gestorTipoTareas.jsp">Tipos de Tareas</a></li>
     <li><a href="/aeLita/gestores/gestorUsuarios.jsp"> Usuarios</a></li>
     <li><a href="/aeLita/gestores/gestorEstados.jsp"> Estados</a></li>
-    <li><a href="/aeLita/gestores/gestorAreasDepartamentos.jsp">Area/Departamento</a></li>
+    <li><a href="/aeLita/gestores/gestorAreasDepartamentos.jsp">Área/Departamento</a></li>
     <li><a href="/aeLita/gestores/gestorProcedimientos.jsp">Procedimientos</a></li>
     <li><a href="/aeLita/gestores/gestorArchivos.jsp">Archivos</a></li>
-    <li><a href="/aeLita/administrador/empresas.jsp">Empresas</a></li>
+    <% if (hs.getAttribute("idUsuarioSesion").equals("0000000001")) {%><li><a href="/aeLita/administrador/empresas.jsp">Empresas</a></li><%}%>
 </ul>
 <div class="navbar-fixed">
     <nav>

@@ -5,7 +5,7 @@
     ResultSet rsAreaDepa = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlAreaDepa = "select * from area_departamento where area_departamento.idEmpresa=" + hs.getAttribute("idEmpresa");
+        String sqlAreaDepa = "select * from area_departamento where area_departamento.idAreaDepartamento = 0 or area_departamento.idEmpresa= " + hs.getAttribute("idEmpresa");
         PreparedStatement pstAreaDepa = conn.prepareStatement(sqlAreaDepa);
         rsAreaDepa = pstAreaDepa.executeQuery();
 
