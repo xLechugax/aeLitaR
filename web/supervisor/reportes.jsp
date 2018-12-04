@@ -1,7 +1,4 @@
-<%@page import="java.time.format.DateTimeFormatter"%>
-<%@page import="java.util.Calendar"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.time.*"%>
+<%@page import="java.time.LocalDateTime, java.time.format.DateTimeFormatter"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
 <%  String idOT = request.getParameter("idOT");
@@ -244,7 +241,6 @@
         var canvas = document.getElementById('chartEstadisticas');
         <%
             rsOrdenesTrabajoCerradas.beforeFirst();
-            Calendar cal = Calendar.getInstance();
             LocalDateTime ld = LocalDateTime.now();
             DateTimeFormatter mmyyyy = DateTimeFormatter.ofPattern("MM/yyyy");
             DateTimeFormatter ddmm = DateTimeFormatter.ofPattern("dd/MM");
