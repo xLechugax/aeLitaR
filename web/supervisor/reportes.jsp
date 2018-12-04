@@ -1,9 +1,19 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.time.*"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
-<%    String idOT = request.getParameter("idOT");
+<%  String idOT = request.getParameter("idOT");
     String desde = request.getParameter("desde");
     String hasta = request.getParameter("hasta");
+    /*String desde1 = request.getParameter("desde1");
+    String hasta1 = request.getParameter("hasta1");
+    String desde2 = request.getParameter("desde2");
+    String hasta2 = request.getParameter("hasta2");*/
+    String chart = request.getParameter("chart");
     ResultSet rsOrdenesTrabajoCerradas = null;
+    //ResultSet rsOrdenesTrabajoCerradas2 = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sqlOrdenesTrabajoCerradas = "select orden_trabajo.idOrdenTrabajo, "
@@ -31,9 +41,28 @@
                 sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_inicio BETWEEN '" + desde + "' and CURRENT_DATE()";
             }
         }
+        /*
+        String sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas;
+        if (desde1 != null && hasta1 != null) {
+            if (desde1 != "" && hasta1 != "") {
+                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_inicio BETWEEN '" + desde1 + "' and '" + hasta1 + "'";
+            }
+        }
+        if (desde2 != null && hasta2 != null) {
+            if (desde2 != "" && hasta2 != "") {
+                sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " and fecha_inicio BETWEEN '" + desde2 + "' and '" + hasta2 + "'";
+                
+            }
+        }
+        */
         sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " order by fecha_inicioOrdenar desc";
         PreparedStatement pstOrdenesTrabajoCerradas = conn.prepareStatement(sqlOrdenesTrabajoCerradas);
         rsOrdenesTrabajoCerradas = pstOrdenesTrabajoCerradas.executeQuery();
+        /*
+        sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " order by fecha_inicioOrdenar desc";
+        PreparedStatement pstOrdenesTrabajoCerradas2 = conn.prepareStatement(sqlOrdenesTrabajoCerradas2);
+        rsOrdenesTrabajoCerradas2 = pstOrdenesTrabajoCerradas2.executeQuery();
+        */
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -81,11 +110,11 @@
                 <div class="col s4 m4">
                     <ul class="collapsible">
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por ID de OT</div>
+                            <div class="collapsible-header"><i class="material-icons">filter_list</i>Filtro por ID de OT</div>
                             <div class="collapsible-body white">
                                 <form>
-                                    ID de Tarea
-                                    <input id="idTarea" name="idOT" type="text" >
+                                    ID de OT:
+                                    <input id="idOT" name="idOT" type="text" >
                                     <center>
                                         <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
@@ -93,7 +122,7 @@
                             </div>
                         </li>
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por Fecha</div>
+                            <div class="collapsible-header"><i class="material-icons">filter_list</i>Filtro por Fecha</div>
                             <div class="collapsible-body white">
                                 <form>
                                     Desde
@@ -106,12 +135,53 @@
                                 </form>
                             </div>
                         </li>
+                        <li class="collapsible" />
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">filter_chart</i>Gráfico: Filtro por Fecha</div>
+                            <div class="collapsible-body white">
+                                <form>
+                                    Rango 1: <br/>
+                                    Desde
+                                    <input id="fechaDesde1" type="date" name="desde1" required>
+                                    Hasta
+                                    <input id="fechaHasta1" type="date" name="hasta2" required>
+                                    Rango 2: <br/>
+                                    Desde
+                                    <input id="fechaDesde2" type="date" name="desde1" required>
+                                    Hasta
+                                    <input id="fechaHasta2" type="date" name="hasta2" required>
+                                    <center>
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
+                                    </center>
+                                </form>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="collapsible-header"><i class="material-icons">filter_chart</i>Periodos</div>
+                            <div class="collapsible-body white">
+                                <form>
+                                    Filtrar por los ultimos:
+                                    <center>
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="30 dias" />
+                                    </center> <br/>
+                                    <center>
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="3 meses" />
+                                    </center> <br/>
+                                    <center>
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="6 meses" />
+                                    </center> <br/>
+                                    <center>
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="anual" />
+                                    </center>
+                                </form>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <div class="col s8 m8">
                     <ul class="collapsible">
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">history</i>Ordenes de trabajo cerradas</div>
+                            <div class="collapsible-header"><i class="material-icons">history</i>Ordenes de trabajo cerradas</div>
                             <div class="collapsible-body white">
                                 <% if (rsOrdenesTrabajoCerradasContador.next()) {%>
                                 <table class="highlight bordered">
@@ -147,12 +217,12 @@
                                 </table>
                             </div>
                         </li>
-                        <%--<li>
-                            <div class="collapsible-header"><i class="material-icons">show_chart</i>Estadísticas</div>
+                        <li>
+                            <div class="collapsible-header active"><i class="material-icons">show_chart</i>Estadísticas</div>
                             <div class="collapsible-body white">
                                 <canvas id="chartEstadisticas" width="400" height="200"></canvas>
                             </div>
-                        </li>--%>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -172,20 +242,159 @@
     </script>
     <script>
         var canvas = document.getElementById('chartEstadisticas');
-        var data = {
-            labels: ["January", "<%= hs.getAttribute("nombre")%>", "March", "April", "May", "June", "July", "caca"],
-            datasets: [
-                {
-                    label: "My First dataset",
-                    backgroundColor: "rgba(102,127,153,0.2)",
-                    borderColor: "rgba(255,99,132,1)",
-                    borderWidth: 2,
-                    hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                    hoverBorderColor: "rgba(255,99,132,1)",
-                    data: [65, 59, 30, 81, 56, 55, 40, 100],
+        <%
+            rsOrdenesTrabajoCerradas.beforeFirst();
+            Calendar cal = Calendar.getInstance();
+            LocalDateTime ld = LocalDateTime.now();
+            DateTimeFormatter mmyyyy = DateTimeFormatter.ofPattern("MM/yyyy");
+            DateTimeFormatter ddmm = DateTimeFormatter.ofPattern("dd/MM");
+            DateTimeFormatter datetime = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
+            String date="";
+            String[] registro = null;
+            int[] datos = null;
+            
+            if ((chart == null || chart == "") || chart.equals("30 dias")) {
+                registro = new String[30];
+                datos = new int[30];
+                for(int i=29; i >= 0; i--){
+                    registro[i] = ld.format(ddmm);
+                    while(rsOrdenesTrabajoCerradas.next()){
+                        date = rsOrdenesTrabajoCerradas.getString("fecha_inicio");
+                        date = date.substring(0, 5);
+                        if (ld.format(ddmm).equals(date))
+                            datos[i] = datos[i] + 1;
+                    }
+                    rsOrdenesTrabajoCerradas.beforeFirst();
+                    ld = ld.minusDays(1);
                 }
-            ]
+            } 
+            else if (chart.equals("3 meses")) {
+                registro = new String[90];
+                datos = new int[90];
+                for(int i=89; i >= 0; i--){
+                    registro[i] = ld.format(ddmm);
+                    while(rsOrdenesTrabajoCerradas.next()){
+                        date = rsOrdenesTrabajoCerradas.getString("fecha_inicio");
+                        date = date.substring(0, 5);
+                        if (ld.format(ddmm).equals(date))
+                            datos[i] = datos[i] + 1;
+                    }
+                    rsOrdenesTrabajoCerradas.beforeFirst();
+                    ld = ld.minusDays(1);
+                }
+            }
+            else if (chart.equals("6 meses")) {
+                registro = new String[6];
+                datos = new int[6];
+                for(int i=5; i >= 0; i--){
+                    registro[i] = ld.format(mmyyyy);
+                    while(rsOrdenesTrabajoCerradas.next()){
+                        date = rsOrdenesTrabajoCerradas.getString("fecha_inicio");
+                        date = date.substring(3, 10);
+                        if (ld.format(mmyyyy).equals(date))
+                            datos[i] = datos[i] + 1;
+                    }
+                    rsOrdenesTrabajoCerradas.beforeFirst();
+                    ld = ld.minusMonths(1);
+                }
+            }
+            else if (chart.equals("anual")) {
+                registro = new String[]{"Enero","Febrero","Marzo","Abril","Mayor","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre",};
+                datos = new int[12];
+                for(int i=11; i >= 0; i--){
+                    while(rsOrdenesTrabajoCerradas.next()){
+                        date = rsOrdenesTrabajoCerradas.getString("fecha_inicio");
+                        date = date.substring(3, 10);
+                        if (ld.format(mmyyyy).equals(date))
+                            datos[i] = datos[i] + 1;
+                    }
+                    rsOrdenesTrabajoCerradas.beforeFirst();
+                    ld = ld.minusMonths(1);
+                }
+            }
+        %>
+                
+        var data = {
+            
+            <% if ((chart == null || chart == "") || chart.equals("30 dias")){ %>
+                labels: [ <% for(int i=0; i < 30; i++){ 
+                                out.print("\""+registro[i]+"\",");
+                            } %> ],
+                datasets: [
+                    {
+                        label: "Resumen 30 días",
+                        backgroundColor: "rgba(102,127,153,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                        data: [ <% for(int i=0; i < 30; i++){ 
+                                    out.print("\""+datos[i]+"\",");
+                                } %> ],
+                    }
+                ]
+            <% } 
+            
+            else if (chart.equals("3 meses")){ %>
+                labels: [ <% for(int i=0; i < 90; i++){ 
+                                out.print("\""+registro[i]+"\",");
+                            } %> ],
+                datasets: [
+                    {
+                        label: "Resumen 3 meses",
+                        backgroundColor: "rgba(102,127,153,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                        data: [ <% for(int i=0; i < 90; i++){ 
+                                    out.print("\""+datos[i]+"\",");
+                                } %> ],
+                    }
+                ]
+            <% }
+            
+            else if (chart.equals("6 meses")){ %>
+                labels: [ <% for(int i=0; i < 6; i++){ 
+                                out.print("\""+registro[i]+"\",");
+                            } %> ],
+                datasets: [
+                    {
+                        label: "Resumen 6 meses",
+                        backgroundColor: "rgba(102,127,153,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                        data: [ <% for(int i=0; i < 6; i++){ 
+                                    out.print("\""+datos[i]+"\",");
+                                } %> ],
+                    }
+                ]
+            <% }
+            
+            else if (chart.equals("anual")){ %>
+                labels: [ <% for(int i=0; i < 12; i++){ 
+                                out.print("\""+registro[i]+"\",");
+                            } %> ],
+                datasets: [
+                    {
+                        label: "Resumen anual",
+                        backgroundColor: "rgba(102,127,153,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                        data: [ <% for(int i=0; i < 12; i++){ 
+                                    out.print("\""+datos[i]+"\",");
+                                } %> ],
+                    }
+                ]
+            <% }
+            
+            %>
         };
+        
         var option = {animation: {duration: 5000}};
         var myBarChart = Chart.Bar(canvas, {data: data, options: option});
         $(document).ready(function () {
