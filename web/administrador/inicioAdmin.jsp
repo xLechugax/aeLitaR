@@ -11,6 +11,40 @@
     String sqlActivarEventosEnMySQL = "SET GLOBAL event_scheduler = ON";
     PreparedStatement pstActivarEventosEnMySQL = conn.prepareStatement(sqlActivarEventosEnMySQL);
     pstActivarEventosEnMySQL.execute();
+
+    String idEmpresa = "" + hs.getAttribute("idEmpresa");
+    String idUsuario = "" + hs.getAttribute("idUsuarioSesion");
+
+    ResultSet rsOTAtencion = null;
+    try {
+        String sqlTareasEnAtencion = "select count(*) from orden_trabajo where orden_trabajo.idEmpresa= " + idEmpresa;
+        PreparedStatement pstTareasEnAtencion = conn.prepareStatement(sqlTareasEnAtencion);
+        rsOTAtencion = pstTareasEnAtencion.executeQuery();
+        rsOTAtencion.next();
+    } catch (SQLException e) {
+        out.println("ExcepciÛn de SQL:" + e);
+        return;
+    }
+    ResultSet rsOTCerradas = null;
+    try {
+        String sqlTareasCerradas = "select count(*) from orden_trabajo where orden_trabajo.supervisor = " + idUsuario + " and orden_trabajo.estado = 5 and orden_trabajo.idEmpresa = " + idEmpresa;
+        PreparedStatement pstTareasCerradas = conn.prepareStatement(sqlTareasCerradas);
+        rsOTCerradas = pstTareasCerradas.executeQuery();
+        rsOTCerradas.next();
+    } catch (SQLException e) {
+        out.println("ExcepciÛn de SQL:" + e);
+        return;
+    }
+    ResultSet rsAvances = null;
+    try {
+        String sqlAvances = "select count(*) from avance where avance.idEmpresa = " + idEmpresa + " and avance.usuario = " + idUsuario;
+        PreparedStatement pstAvances = conn.prepareStatement(sqlAvances);
+        rsAvances = pstAvances.executeQuery();
+        rsAvances.next();
+    } catch (SQLException e) {
+        out.println("ExcepciÛn de SQL:" + e);
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -32,13 +66,12 @@
                         <div class="card blue-grey darken-1">
                             <div class="card-content white-text">
                                 <p>Bienvenido a ÊLita <%=hs.getAttribute("nombre")%>.</p>
-                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+        </body>
     </main>
     <%@ include file="/footer.jsp" %>
     <script type="text/javascript" src="/aeLita/js/code.jquery.com_jquery-3.2.1.min.js"></script>

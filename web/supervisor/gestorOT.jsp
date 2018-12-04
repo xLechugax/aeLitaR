@@ -66,7 +66,7 @@
                         <div class="card-content">
                             <div class="row">
                                 <div class="input-field col  m4">
-                                    <a class="btn blue-grey darken-3" href="gestorOTGenerar.jsp">Generar Órden de Trabajo</a> 
+                                    <a class="btn blue-grey darken-3" href="gestorOTGenerar.jsp">Generar Orden de Trabajo</a> 
                                 </div>
                                 <form action="gestorOT.jsp" method="post">
                                     <div class="input-field col  m2">

@@ -7,7 +7,8 @@
 <%@page import="java.io.ByteArrayInputStream"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADM.jsp" %>
-<%    HttpSession hs1 = request.getSession(false);
+<%    
+    HttpSession hs1 = request.getSession(false);
     String detalle = "";
     gestorDataFile gdf = new gestorDataFile();
     ImagenVO dataVO = new ImagenVO();

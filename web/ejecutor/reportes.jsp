@@ -103,7 +103,6 @@
                                 </form>
                             </div>
                         </li>
-                        <li class="collapsible" />
                         <li>
                             <div class="collapsible-header"><i class="material-icons">filter_chart</i>Periodos</div>
                             <div class="collapsible-body white">
