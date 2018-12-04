@@ -84,15 +84,6 @@
                                         <textarea id="detalleActividad" name="detalleActividad" class="materialize-textarea" style="height: 150px;" required=""></textarea>
                                         <label for="detalleActividad">Detalle Actividad</label>
                                     </div>
-                                    <div class="file-field input-field col s12">
-                                        <div class="btn blue-grey darken-3">
-                                            <span>File</span>
-                                            <input type="file" multiple>
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text" placeholder="Selecciones archivos...">
-                                        </div>
-                                    </div>
                                     <center>
                                         <input class="waves-effect waves-light btn right-align blue-grey darken-3" type="submit" value="Agregar Actividad" />
                                     </center>

@@ -75,25 +75,25 @@
                 <div class="col s4 m4">
                     <ul class="collapsible">
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por Fecha</div>
+                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por ID de OT</div>
                             <div class="collapsible-body white">
-                                <form action="reportes.jsp" method="post">
-                                    Desde
-                                    <input id="fechaDesde" type="datetime-local">
-                                    Hasta
-                                    <input id="fechaHasta" type="datetime-local"> 
+                                <form>
+                                    ID de Tarea
+                                    <input id="idTarea" name="idOT" type="text" >
                                     <center>
-                                        <input class="waves-effect waves-light btn" type="submit" value="Filtrar" />
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>
                                 </form>
                             </div>
                         </li>
                         <li>
-                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por ID de Tarea</div>
+                            <div class="collapsible-header active"><i class="material-icons">filter_list</i>Filtro por Fecha</div>
                             <div class="collapsible-body white">
                                 <form>
-                                    ID de Tarea
-                                    <input id="idOrdenTrabajo" type="text" required="">
+                                    Desde
+                                    <input id="fechaDesde" type="date" name="desde" required="">
+                                    Hasta
+                                    <input id="fechaHasta" type="date" name="hasta">
                                     <center>
                                         <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" value="Filtrar" />
                                     </center>

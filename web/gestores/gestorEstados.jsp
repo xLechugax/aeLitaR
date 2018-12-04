@@ -32,7 +32,7 @@
                         <div class="card-stacked">
                             <div class="card-action">
                                 <a>Crear Estados</a> 
-                                <form action="/aeLita/gestorEstadosAgregar" method="get"> <%-- Se hace ahora en un servlet --%>
+                                <form action="/aeLita/gestorEstadosAgregar" method="post"> <%-- Se hace ahora en un servlet --%>
                                     <input name="idUsuario" value="<%= hs.getAttribute("idUsuarioSesion")%>" type="hidden"></td>
                                     <table>
                                         <tbody>
