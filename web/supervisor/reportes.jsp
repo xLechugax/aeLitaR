@@ -46,12 +46,20 @@
         
         if (desde1 != null && hasta1 != null) {
             if (desde1 != "" && hasta1 != "") {
-                sqlOrdenesTrabajoCerradas1 = sqlOrdenesTrabajoCerradas1 + " and fecha_fin BETWEEN '" + desde1 + "' and date('" + hasta1 + "') + 1";
+                String temp = hasta1;
+                if ((hasta1.substring(5, 7) +"-"+ hasta1.substring(8, 10)).equals("12-31")){
+                    temp = hasta1.substring(0, 4) +"-12-30";
+                }              
+                sqlOrdenesTrabajoCerradas1 = sqlOrdenesTrabajoCerradas1 + " and fecha_fin BETWEEN '" + desde1 + "' and date('" + temp + "') + 1";
             }
         }
         if (desde2 != null && hasta2 != null) {
             if (desde2 != "" && hasta2 != "") {
-                sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " and fecha_fin BETWEEN '" + desde2 + "' and date('" + hasta2 + "') + 1";
+                String temp = hasta2;
+                if ((hasta2.substring(5, 7) +"-"+ hasta2.substring(8, 10)).equals("12-31")){
+                    temp = hasta2.substring(0, 4) +"-12-30";
+                }                
+                sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " and fecha_fin BETWEEN '" + desde2 + "' and date('" + temp + "') + 1";
                 
             }
         }
@@ -422,7 +430,7 @@
         };
         
         //var option = {animation: {duration: 5000}};
-        var option = {scales: {yAxes: [{ ticks: {beginAtZero:true}}]}};
+        var option = {scales: {yAxes: [{ ticks: {beginAtZero:true, fixedStepSize: 1}}]}};
         var myBarChart = Chart.Bar(canvas, {data: data, options: option});
         $(document).ready(function () {
             $(".button-collapse").sideNav();
