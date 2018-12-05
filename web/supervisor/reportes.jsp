@@ -160,26 +160,6 @@
                                 </form>
                             </div>
                         </li>
-                        <li>
-                            <div class="collapsible-header"><i class="material-icons">filter_chart</i>Periodos</div>
-                            <div class="collapsible-body white">
-                                <form>
-                                    Filtrar por los ultimos:
-                                    <center>
-                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="30 dias" />
-                                    </center> <br/>
-                                    <center>
-                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="3 meses" />
-                                    </center> <br/>
-                                    <center>
-                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="6 meses" />
-                                    </center> <br/>
-                                    <center>
-                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="anual" />
-                                    </center>
-                                </form>
-                            </div>
-                        </li>
                     </ul>
                 </div>
                 <div class="col s8 m8">
@@ -224,6 +204,18 @@
                         <li>
                             <div class="collapsible-header active"><i class="material-icons">show_chart</i>Estadísticas</div>
                             <div class="collapsible-body white">
+                                <form>
+                                    Filtrar por los ultimos:
+                                    <center>
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="30 dias" />
+                                        &nbsp&nbsp
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="3 meses" />
+                                        &nbsp&nbsp
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="6 meses" />
+                                        &nbsp&nbsp
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="anual" />
+                                    </center> <br />
+                                </form>
                                 <canvas id="chartEstadisticas" width="400" height="200"></canvas>
                             </div>
                         </li>
