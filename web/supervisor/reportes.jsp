@@ -36,7 +36,11 @@
         }
         if (desde != null && hasta != null) {
             if (desde != "" && hasta != "") {
-                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_fin BETWEEN '" + desde + "' and date('" + hasta + "') + 1";
+                String temp = hasta;
+                if ((hasta.substring(5, 7) +"-"+ hasta.substring(8, 10)).equals("12-31")){
+                    temp = hasta.substring(0, 4) +"-12-30";
+                }
+                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_fin BETWEEN '" + desde + "' and date('" + temp + "') + 1";
             }
             if (desde != "") {
                 sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_fin BETWEEN '" + desde + "' and CURRENT_DATE() + 1";
@@ -49,7 +53,7 @@
                 String temp = hasta1;
                 if ((hasta1.substring(5, 7) +"-"+ hasta1.substring(8, 10)).equals("12-31")){
                     temp = hasta1.substring(0, 4) +"-12-30";
-                }              
+                }
                 sqlOrdenesTrabajoCerradas1 = sqlOrdenesTrabajoCerradas1 + " and fecha_fin BETWEEN '" + desde1 + "' and date('" + temp + "') + 1";
             }
         }
@@ -58,7 +62,7 @@
                 String temp = hasta2;
                 if ((hasta2.substring(5, 7) +"-"+ hasta2.substring(8, 10)).equals("12-31")){
                     temp = hasta2.substring(0, 4) +"-12-30";
-                }                
+                }
                 sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " and fecha_fin BETWEEN '" + desde2 + "' and date('" + temp + "') + 1";
                 
             }
