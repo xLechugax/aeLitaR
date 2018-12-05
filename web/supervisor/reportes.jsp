@@ -1,16 +1,18 @@
-<%@page import="java.time.LocalDateTime, java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.*, java.time.format.DateTimeFormatter"%>
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@ include file="../accesoDenegadoOnlyLogged.jsp"%>
-<%  String idOT = request.getParameter("idOT");
+<%  
+    ResultSet rsOrdenesTrabajoCerradas = null;
+    ResultSet rsOrdenesTrabajoCerradas1 = null;
+    ResultSet rsOrdenesTrabajoCerradas2 = null;
+    String idOT = request.getParameter("idOT");
     String desde = request.getParameter("desde");
     String hasta = request.getParameter("hasta");
-    /*String desde1 = request.getParameter("desde1");
+    String desde1 = request.getParameter("desde1");
     String hasta1 = request.getParameter("hasta1");
     String desde2 = request.getParameter("desde2");
-    String hasta2 = request.getParameter("hasta2");*/
+    String hasta2 = request.getParameter("hasta2");
     String chart = request.getParameter("chart");
-    ResultSet rsOrdenesTrabajoCerradas = null;
-    //ResultSet rsOrdenesTrabajoCerradas2 = null;
     try {
         Connection conn = ConexionBD.getConexion();
         String sqlOrdenesTrabajoCerradas = "select orden_trabajo.idOrdenTrabajo, "
@@ -18,13 +20,15 @@
                 + "orden_trabajo.importancia, "
                 + "orden_trabajo.nombreOrdenTrabajo, "
                 + "usuario.nombreUsuario as supervisor,"
-                + "DATE_FORMAT(orden_trabajo.fecha_inicio, '%d/%m/%Y %T') as fecha_inicio, "
-                + "orden_trabajo.fecha_inicio as fecha_inicioOrdenar "
+                + "DATE_FORMAT(orden_trabajo.fecha_fin, '%d/%m/%Y %T') as fecha_fin, "
+                + "orden_trabajo.fecha_fin as fecha_finOrdenar "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
                 + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario=" + hs.getAttribute("idUsuarioSesion") + " "
                 + "and orden_trabajo.estado = 5";
-
+        String sqlOrdenesTrabajoCerradas1 = sqlOrdenesTrabajoCerradas;
+        String sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas;
+        
         if (idOT != null) {
             if (idOT != "") {
                 sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and orden_trabajo.idOrdenTrabajo='" + idOT + "'";
@@ -32,34 +36,38 @@
         }
         if (desde != null && hasta != null) {
             if (desde != "" && hasta != "") {
-                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_inicio BETWEEN '" + desde + "' and '" + hasta + "'";
+                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_fin BETWEEN '" + desde + "' and date('" + hasta + "') + 1";
             }
             if (desde != "") {
-                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_inicio BETWEEN '" + desde + "' and CURRENT_DATE()";
+                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_fin BETWEEN '" + desde + "' and CURRENT_DATE() + 1";
             }
         }
-        /*
-        String sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas;
+        
+        
         if (desde1 != null && hasta1 != null) {
             if (desde1 != "" && hasta1 != "") {
-                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_inicio BETWEEN '" + desde1 + "' and '" + hasta1 + "'";
+                sqlOrdenesTrabajoCerradas1 = sqlOrdenesTrabajoCerradas1 + " and fecha_fin BETWEEN '" + desde1 + "' and date('" + hasta1 + "') + 1";
             }
         }
         if (desde2 != null && hasta2 != null) {
             if (desde2 != "" && hasta2 != "") {
-                sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " and fecha_inicio BETWEEN '" + desde2 + "' and '" + hasta2 + "'";
+                sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " and fecha_fin BETWEEN '" + desde2 + "' and date('" + hasta2 + "') + 1";
                 
             }
         }
-        */
-        sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " order by fecha_inicioOrdenar desc";
+        
+        sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " order by fecha_finOrdenar desc";
         PreparedStatement pstOrdenesTrabajoCerradas = conn.prepareStatement(sqlOrdenesTrabajoCerradas);
         rsOrdenesTrabajoCerradas = pstOrdenesTrabajoCerradas.executeQuery();
-        /*
-        sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " order by fecha_inicioOrdenar desc";
+        
+        sqlOrdenesTrabajoCerradas1 = sqlOrdenesTrabajoCerradas1 + " order by fecha_finOrdenar desc";
+        PreparedStatement pstOrdenesTrabajoCerradas1 = conn.prepareStatement(sqlOrdenesTrabajoCerradas1);
+        rsOrdenesTrabajoCerradas1 = pstOrdenesTrabajoCerradas1.executeQuery();
+        
+        sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " order by fecha_finOrdenar desc";
         PreparedStatement pstOrdenesTrabajoCerradas2 = conn.prepareStatement(sqlOrdenesTrabajoCerradas2);
         rsOrdenesTrabajoCerradas2 = pstOrdenesTrabajoCerradas2.executeQuery();
-        */
+        
     } catch (SQLException e) {
         out.println("Excepción de SQL:" + e);
         return;
@@ -72,13 +80,13 @@
                 + "orden_trabajo.importancia, "
                 + "orden_trabajo.nombreOrdenTrabajo, "
                 + "usuario.nombreUsuario as supervisor,"
-                + "orden_trabajo.fecha_inicio "
+                + "orden_trabajo.fecha_fin "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
                 + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario=" + hs.getAttribute("idUsuarioSesion") + " "
                 + "and orden_trabajo.estado = 5";
 
-        sqlOrdenesTrabajoCerradasContador = sqlOrdenesTrabajoCerradasContador + " order by orden_trabajo.fecha_inicio desc";
+        sqlOrdenesTrabajoCerradasContador = sqlOrdenesTrabajoCerradasContador + " order by orden_trabajo.fecha_fin desc";
         PreparedStatement pstOrdenesTrabajoCerradasContador = conn.prepareStatement(sqlOrdenesTrabajoCerradasContador);
         rsOrdenesTrabajoCerradasContador = pstOrdenesTrabajoCerradasContador.executeQuery();
     } catch (SQLException e) {
@@ -136,14 +144,14 @@
                             <div class="collapsible-header"><i class="material-icons">filter_chart</i>Gráfico: Filtro por Fecha</div>
                             <div class="collapsible-body white">
                                 <form>
-                                    Rango 1: <br/>
+                                    Selección de periodo a camparar: <br/>
                                     Desde
                                     <input id="fechaDesde1" type="date" name="desde1" required>
                                     Hasta
-                                    <input id="fechaHasta1" type="date" name="hasta2" required>
-                                    Rango 2: <br/>
+                                    <input id="fechaHasta1" type="date" name="hasta1" required>
+                                    Segundo periodo a cual comparar: <br/>
                                     Desde
-                                    <input id="fechaDesde2" type="date" name="desde1" required>
+                                    <input id="fechaDesde2" type="date" name="desde2" required>
                                     Hasta
                                     <input id="fechaHasta2" type="date" name="hasta2" required>
                                     <center>
@@ -177,7 +185,7 @@
                 <div class="col s8 m8">
                     <ul class="collapsible">
                         <li>
-                            <div class="collapsible-header"><i class="material-icons">history</i>Ordenes de trabajo cerradas</div>
+                            <div class="collapsible-header <% if(!(idOT == null || idOT == "") || !(desde == null || desde == "")){out.print("active");} %> "><i class="material-icons">history</i>Ordenes de trabajo cerradas</div>
                             <div class="collapsible-body white">
                                 <% if (rsOrdenesTrabajoCerradasContador.next()) {%>
                                 <table class="highlight bordered">
@@ -187,7 +195,7 @@
                                     <td class="center-align"><b>Importancia</b></td>
                                     <td><b>Orden de Trabajo</b></td>
                                     <td><b>Supervisor</b></td>
-                                    <td><b>Fecha Inicio</b></td>
+                                    <td><b>Fecha de Cierre</b></td>
                                     <td><b>Operaciones</b></td>
                                     </thead>
                                     <% while (rsOrdenesTrabajoCerradas.next()) {%>
@@ -201,7 +209,7 @@
                                     </td>
                                     <td><%= rsOrdenesTrabajoCerradas.getString("nombreOrdenTrabajo")%></td>
                                     <td><%= rsOrdenesTrabajoCerradas.getString("supervisor")%></td>
-                                    <td><%= rsOrdenesTrabajoCerradas.getString("fecha_inicio")%></td>
+                                    <td><%= rsOrdenesTrabajoCerradas.getString("fecha_fin")%></td>
                                     <td><a href="/aeLita/supervisor/gestorOTDetalle.jsp?idOT=<%= rsOrdenesTrabajoCerradas.getString("idOrdenTrabajo")%>" class="btn blue-grey darken-3">Detalle</a></td>
                                     </tbody>
                                     <%}%>
@@ -239,22 +247,40 @@
     <script>
         var canvas = document.getElementById('chartEstadisticas');
         <%
-            rsOrdenesTrabajoCerradas.beforeFirst();
             LocalDateTime ld = LocalDateTime.now();
-            DateTimeFormatter mmyyyy = DateTimeFormatter.ofPattern("MM/yyyy");
             DateTimeFormatter ddmm = DateTimeFormatter.ofPattern("dd/MM");
-            DateTimeFormatter datetime = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
-            String date="";
+            DateTimeFormatter mmyyyy = DateTimeFormatter.ofPattern("MM/yyyy");
+            rsOrdenesTrabajoCerradas.beforeFirst();
+            rsOrdenesTrabajoCerradas1.beforeFirst();
+            rsOrdenesTrabajoCerradas2.beforeFirst();
             String[] registro = null;
             int[] datos = null;
+            String date="";
+            String date2="";
+            int count1 = 0;
+            int count2 = 0;
             
-            if ((chart == null || chart == "") || chart.equals("30 dias")) {
+            if(!(desde1 == null || desde1 == "")){
+                while(rsOrdenesTrabajoCerradas1.next()){
+                        count1++;
+                    }
+                desde1 = desde1.substring(8, 10) +"/"+ desde1.substring(5, 7) +"/"+ desde1.substring(0, 4);
+                hasta1 = hasta1.substring(8, 10) +"/"+ hasta1.substring(5, 7) +"/"+ hasta1.substring(0, 4);
+                date = desde1 + " - " + hasta1;
+                while(rsOrdenesTrabajoCerradas2.next()){
+                        count2++;
+                    }
+                desde2 = desde2.substring(8, 10) +"/"+ desde2.substring(5, 7) +"/"+ desde2.substring(0, 4);
+                hasta2 = hasta2.substring(8, 10) +"/"+ hasta2.substring(5, 7) +"/"+ hasta2.substring(0, 4);
+                date2 = desde2 + " - " + hasta2;
+            }            
+            else if ((chart == null || chart == "") || chart.equals("30 dias")) {
                 registro = new String[30];
                 datos = new int[30];
                 for(int i=29; i >= 0; i--){
                     registro[i] = ld.format(ddmm);
                     while(rsOrdenesTrabajoCerradas.next()){
-                        date = rsOrdenesTrabajoCerradas.getString("fecha_inicio");
+                        date = rsOrdenesTrabajoCerradas.getString("fecha_fin");
                         date = date.substring(0, 5);
                         if (ld.format(ddmm).equals(date))
                             datos[i] = datos[i] + 1;
@@ -264,18 +290,18 @@
                 }
             } 
             else if (chart.equals("3 meses")) {
-                registro = new String[90];
-                datos = new int[90];
-                for(int i=89; i >= 0; i--){
-                    registro[i] = ld.format(ddmm);
+                registro = new String[3];
+                datos = new int[3];
+                for(int i=2; i >= 0; i--){
+                    registro[i] = ld.format(mmyyyy);
                     while(rsOrdenesTrabajoCerradas.next()){
-                        date = rsOrdenesTrabajoCerradas.getString("fecha_inicio");
-                        date = date.substring(0, 5);
-                        if (ld.format(ddmm).equals(date))
+                        date = rsOrdenesTrabajoCerradas.getString("fecha_fin");
+                        date = date.substring(3, 10);
+                        if (ld.format(mmyyyy).equals(date))
                             datos[i] = datos[i] + 1;
                     }
                     rsOrdenesTrabajoCerradas.beforeFirst();
-                    ld = ld.minusDays(1);
+                    ld = ld.minusMonths(1);
                 }
             }
             else if (chart.equals("6 meses")) {
@@ -284,7 +310,7 @@
                 for(int i=5; i >= 0; i--){
                     registro[i] = ld.format(mmyyyy);
                     while(rsOrdenesTrabajoCerradas.next()){
-                        date = rsOrdenesTrabajoCerradas.getString("fecha_inicio");
+                        date = rsOrdenesTrabajoCerradas.getString("fecha_fin");
                         date = date.substring(3, 10);
                         if (ld.format(mmyyyy).equals(date))
                             datos[i] = datos[i] + 1;
@@ -298,7 +324,7 @@
                 datos = new int[12];
                 for(int i=11; i >= 0; i--){
                     while(rsOrdenesTrabajoCerradas.next()){
-                        date = rsOrdenesTrabajoCerradas.getString("fecha_inicio");
+                        date = rsOrdenesTrabajoCerradas.getString("fecha_fin");
                         date = date.substring(3, 10);
                         if (ld.format(mmyyyy).equals(date))
                             datos[i] = datos[i] + 1;
@@ -311,7 +337,22 @@
                 
         var data = {
             
-            <% if ((chart == null || chart == "") || chart.equals("30 dias")){ %>
+            <% if (!(desde1 == null || desde1 == "")){ %>
+                labels: [ <%=   "\""+date+"\",\""+date2+"\"," %> ],
+                datasets: [
+                    {
+                        label: "Periodos",
+                        backgroundColor: "rgba(102,127,153,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                        data: [ <%=   "\""+count1+"\",\""+count2+"\"," %> ],
+                    }
+                ]
+            <% }
+
+            else if ((chart == null || chart == "") || chart.equals("30 dias")){ %>
                 labels: [ <% for(int i=0; i < 30; i++){ 
                                 out.print("\""+registro[i]+"\",");
                             } %> ],
@@ -331,7 +372,7 @@
             <% } 
             
             else if (chart.equals("3 meses")){ %>
-                labels: [ <% for(int i=0; i < 90; i++){ 
+                labels: [ <% for(int i=0; i < 3; i++){ 
                                 out.print("\""+registro[i]+"\",");
                             } %> ],
                 datasets: [
@@ -342,7 +383,7 @@
                         borderWidth: 2,
                         hoverBackgroundColor: "rgba(255,99,132,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
-                        data: [ <% for(int i=0; i < 90; i++){ 
+                        data: [ <% for(int i=0; i < 3; i++){ 
                                     out.print("\""+datos[i]+"\",");
                                 } %> ],
                     }
@@ -385,12 +426,11 @@
                                 } %> ],
                     }
                 ]
-            <% }
-            
-            %>
+            <% } %>
         };
         
-        var option = {animation: {duration: 5000}};
+        //var option = {animation: {duration: 5000}};
+        var option = {scales: {yAxes: [{ ticks: {beginAtZero:true}}]}};
         var myBarChart = Chart.Bar(canvas, {data: data, options: option});
         $(document).ready(function () {
             $(".button-collapse").sideNav();
