@@ -39,6 +39,7 @@
                 + "orden_trabajo.fecha_inicio as fecha_inicioOrdenar "
                 + "from orden_trabajo,usuario,estado, empresa "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
+                + "and orden_trabajo.estado != 00000000005 "
                 + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario "
                 + "and orden_trabajo.idEmpresa = empresa.idEmpresa "
                 + "and orden_trabajo.idEmpresa = "+ hs.getAttribute("idEmpresa");

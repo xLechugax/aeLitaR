@@ -283,7 +283,7 @@
                     registro[i] = ld.format(ddmm);
                     while(rsOrdenesTrabajoCerradas.next()){
                         date = rsOrdenesTrabajoCerradas.getString("fecha_fin");
-                        date = date.substring(0, 5);
+                       date = date.substring(0, 5);
                         if (ld.format(ddmm).equals(date))
                             datos[i] = datos[i] + 1;
                     }
