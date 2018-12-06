@@ -36,7 +36,11 @@
         }
         if (desde != null && hasta != null) {
             if (desde != "" && hasta != "") {
-                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_fin BETWEEN '" + desde + "' and date('" + hasta + "') + 1";
+                String temp = hasta;
+                if ((hasta.substring(5, 7) +"-"+ hasta.substring(8, 10)).equals("12-31")){
+                    temp = hasta.substring(0, 4) +"-12-30";
+                }
+                sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_fin BETWEEN '" + desde + "' and date('" + temp + "') + 1";
             }
             if (desde != "") {
                 sqlOrdenesTrabajoCerradas = sqlOrdenesTrabajoCerradas + " and fecha_fin BETWEEN '" + desde + "' and CURRENT_DATE() + 1";
@@ -46,12 +50,20 @@
         
         if (desde1 != null && hasta1 != null) {
             if (desde1 != "" && hasta1 != "") {
-                sqlOrdenesTrabajoCerradas1 = sqlOrdenesTrabajoCerradas1 + " and fecha_fin BETWEEN '" + desde1 + "' and date('" + hasta1 + "') + 1";
+                String temp = hasta1;
+                if ((hasta1.substring(5, 7) +"-"+ hasta1.substring(8, 10)).equals("12-31")){
+                    temp = hasta1.substring(0, 4) +"-12-30";
+                }
+                sqlOrdenesTrabajoCerradas1 = sqlOrdenesTrabajoCerradas1 + " and fecha_fin BETWEEN '" + desde1 + "' and date('" + temp + "') + 1";
             }
         }
         if (desde2 != null && hasta2 != null) {
             if (desde2 != "" && hasta2 != "") {
-                sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " and fecha_fin BETWEEN '" + desde2 + "' and date('" + hasta2 + "') + 1";
+                String temp = hasta2;
+                if ((hasta2.substring(5, 7) +"-"+ hasta2.substring(8, 10)).equals("12-31")){
+                    temp = hasta2.substring(0, 4) +"-12-30";
+                }
+                sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas2 + " and fecha_fin BETWEEN '" + desde2 + "' and date('" + temp + "') + 1";
                 
             }
         }
@@ -160,26 +172,6 @@
                                 </form>
                             </div>
                         </li>
-                        <li>
-                            <div class="collapsible-header"><i class="material-icons">filter_chart</i>Periodos</div>
-                            <div class="collapsible-body white">
-                                <form>
-                                    Filtrar por los ultimos:
-                                    <center>
-                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="30 dias" />
-                                    </center> <br/>
-                                    <center>
-                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="3 meses" />
-                                    </center> <br/>
-                                    <center>
-                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="6 meses" />
-                                    </center> <br/>
-                                    <center>
-                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="anual" />
-                                    </center>
-                                </form>
-                            </div>
-                        </li>
                     </ul>
                 </div>
                 <div class="col s8 m8">
@@ -224,6 +216,18 @@
                         <li>
                             <div class="collapsible-header active"><i class="material-icons">show_chart</i>Estadísticas</div>
                             <div class="collapsible-body white">
+                                <form>
+                                    Filtrar por los ultimos:
+                                    <center>
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="30 dias" />
+                                        &nbsp&nbsp
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="3 meses" />
+                                        &nbsp&nbsp
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="6 meses" />
+                                        &nbsp&nbsp
+                                        <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="anual" />
+                                    </center> <br />
+                                </form>
                                 <canvas id="chartEstadisticas" width="400" height="200"></canvas>
                             </div>
                         </li>
@@ -430,7 +434,7 @@
         };
         
         //var option = {animation: {duration: 5000}};
-        var option = {scales: {yAxes: [{ ticks: {beginAtZero:true}}]}};
+        var option = {scales: {yAxes: [{ ticks: {beginAtZero:true, fixedStepSize: 1}}]}};
         var myBarChart = Chart.Bar(canvas, {data: data, options: option});
         $(document).ready(function () {
             $(".button-collapse").sideNav();
