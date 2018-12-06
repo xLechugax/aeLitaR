@@ -579,7 +579,7 @@
                 <div class="col m7">
                     <ul class="collapsible" data-collapsible="expandible">
                         <li>
-                            <div class="collapsible-header"><i class="material-icons">record_voice_over</i>Agregar comentario a la Orden de Trabajo</div>
+                            <div class="collapsible-header"><i class="material-icons">record_voice_over</i>Agregar comentario a la Tarea</div>
                             <div class="collapsible-body white">
                                 <% if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
                                 <form action="gestorTareasDetalle.jsp" method="post">

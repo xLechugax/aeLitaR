@@ -284,18 +284,18 @@
                 }
             } 
             else if (chart.equals("3 meses")) {
-                registro = new String[90];
-                datos = new int[90];
-                for(int i=89; i >= 0; i--){
-                    registro[i] = ld.format(ddmm);
+                registro = new String[3];
+                datos = new int[3];
+                for(int i=2; i >= 0; i--){
+                    registro[i] = ld.format(mmyyyy);
                     while(rsTareasCerradas.next()){
                         date = rsTareasCerradas.getString("fecha_fin");
-                        date = date.substring(0, 5);
-                        if (ld.format(ddmm).equals(date))
+                        date = date.substring(3, 10);
+                        if (ld.format(mmyyyy).equals(date))
                             datos[i] = datos[i] + 1;
                     }
                     rsTareasCerradas.beforeFirst();
-                    ld = ld.minusDays(1);
+                    ld = ld.minusMonths(1);
                 }
             }
             else if (chart.equals("6 meses")) {
@@ -366,7 +366,7 @@
             <% } 
             
             else if (chart.equals("3 meses")){ %>
-                labels: [ <% for(int i=0; i < 90; i++){ 
+                labels: [ <% for(int i=0; i < 3; i++){ 
                                 out.print("\""+registro[i]+"\",");
                             } %> ],
                 datasets: [
@@ -377,7 +377,7 @@
                         borderWidth: 2,
                         hoverBackgroundColor: "rgba(255,99,132,0.4)",
                         hoverBorderColor: "rgba(255,99,132,1)",
-                        data: [ <% for(int i=0; i < 90; i++){ 
+                        data: [ <% for(int i=0; i < 3; i++){ 
                                     out.print("\""+datos[i]+"\",");
                                 } %> ],
                     }
