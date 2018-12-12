@@ -43,7 +43,7 @@
                             <a>Generar Orden de Trabajo</a> 
                         </div>
                         <div class="row">
-                            <form action="/aeLita/gestorOTGenerar" method="get"> 
+                            <form action="/aeLita/gestorOTGenerar" method="post"> 
                                 <div class="col m5">
                                     <table>
                                         <tr>

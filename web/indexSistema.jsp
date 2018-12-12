@@ -56,6 +56,8 @@
                                             <BR/>
                                             <p>Ejemplo</p>
                                             <p>MARISOL.CARRASCO</p>
+                                            <p></p>
+                                            <p>De igual forma puede ingresar con su correo electrónico.</p>
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#!" class="modal-close waves-effect waves-green btn-flat blue-grey darken-3 white-text">Gracias</a>

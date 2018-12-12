@@ -26,7 +26,7 @@
     <li><a href="/aeLita/gestores/gestorProcedimientos.jsp">Gestor Procedimientos</a></li>
     <li><a href="/aeLita/gestores/gestorUsuarios.jsp">Gestor Usuarios</a></li>
     <li><a href="/aeLita/gestores/gestorEstados.jsp">Gestor Estados</a></li>
-    <li><a href="/aeLita/administrador/entradaContacto.jsp">Contacto</a></li>
+    <% if (hs.getAttribute("idUsuarioSesion").equals("0000000001")) {%><li><a href="/aeLita/administrador/entradaContacto.jsp">Contacto</a></li><%}%>
     <li><a href="/aeLita/administrador/reportes.jsp">Reportes</a></li>
     <% if (hs.getAttribute("idUsuarioSesion").equals("0000000001")) {%><li><a href="/aeLita/administrador/empresas.jsp">Empresas</a></li><%}%>
     <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li>
@@ -49,7 +49,7 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="/aeLita/perfil/miperfil.jsp"><b>¡Hola <%= hs.getAttribute("nombre")%>!</b></a></li>
                 <li><a style="width: 180px" class="dropdown-button" href="#!" data-activates="DropDownGestores">Gestores<i class="material-icons right">arrow_drop_down</i></a></li>
-                <li><a href="/aeLita/administrador/entradaContacto.jsp">Contacto</a></li>
+                <% if (hs.getAttribute("idUsuarioSesion").equals("0000000001")) {%><li><a href="/aeLita/administrador/entradaContacto.jsp">Contacto</a></li><%}%>
                 <li><a href="/aeLita/administrador/reportes.jsp">Reportes</a></li>
                 <li><a href="/aeLita/CerrarSesion.jsp"><i class="material-icons right">exit_to_app</i>Salir</a></li> 
             </ul>

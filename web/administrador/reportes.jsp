@@ -26,6 +26,7 @@
                 + "orden_trabajo.fecha_fin as fecha_finOrdenar "
                 + "from orden_trabajo,usuario,estado "
                 + "where orden_trabajo.supervisor = usuario.idUsuario "
+                + "and orden_trabajo.idEmpresa = '"+ hs.getAttribute("idEmpresa")+"' "
                 + "and orden_trabajo.estado = estado.idEstado "
                 + "and orden_trabajo.estado = 5";
         String sqlOrdenesTrabajoCerradas1 = sqlOrdenesTrabajoCerradas;
@@ -219,7 +220,7 @@
                             <div class="collapsible-header active"><i class="material-icons">show_chart</i>Estadísticas</div>
                             <div class="collapsible-body white">
                                 <form>
-                                    Filtrar por los ultimos:
+                                    Filtrar por los últimos:
                                     <center>
                                         <input class="waves-effect waves-light btn blue-grey darken-3" type="submit" name="chart" value="30 dias" />
                                         &nbsp&nbsp

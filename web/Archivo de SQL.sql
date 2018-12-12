@@ -33,21 +33,21 @@ CREATE TABLE IF NOT EXISTS `actividad` (
 -- Volcando estructura para tabla aelita.archivo
 CREATE TABLE IF NOT EXISTS `archivo` (
   `idArchivo` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `idEmpresa` int(11) DEFAULT NULL,
-  `idAvance` int(11) DEFAULT NULL,
-  `idTarea` int(11) DEFAULT NULL,
-  `idOrdenTrabajo` int(11) DEFAULT NULL,
-  `idProcedimiento` int(11) DEFAULT NULL,
-  `idPaso` int(11) DEFAULT NULL,
+  `idEmpresa` int(11) unsigned zerofill DEFAULT NULL,
+  `idAvance` int(11) unsigned zerofill DEFAULT NULL,
+  `idTarea` int(11) unsigned zerofill DEFAULT NULL,
+  `idOrdenTrabajo` int(11) unsigned zerofill DEFAULT NULL,
+  `idProcedimiento` int(11) unsigned zerofill DEFAULT NULL,
+  `idPaso` int(11) unsigned zerofill DEFAULT NULL,
   `archivo` mediumblob DEFAULT NULL,
   `nombre` varchar(250) NOT NULL DEFAULT '',
   `type` char(20) NOT NULL DEFAULT '',
   `detalleArchivo` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   `fechaCreacion` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idArchivo`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.archivo: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.archivo: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `archivo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `archivo` ENABLE KEYS */;
 
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `area_departamento` (
   PRIMARY KEY (`idAreaDepartamento`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.area_departamento: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.area_departamento: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `area_departamento` DISABLE KEYS */;
 REPLACE INTO `area_departamento` (`idAreaDepartamento`, `idEmpresa`, `nombreAreaDepartamento`, `detalleAreaDepartamento`) VALUES
 	(00000000000, 0, 'SIN ASIGNAR', NULL),
@@ -68,7 +68,7 @@ REPLACE INTO `area_departamento` (`idAreaDepartamento`, `idEmpresa`, `nombreArea
 	(00000000002, 1, 'FRONT', 'Área donde los colaboradores recepcionan llamados. '),
 	(00000000003, 1, 'ATENCIONES TÉCNICAS', 'Personal que realiza la configuraciones de servicio.'),
 	(00000000006, 1, 'MANUTENCIÓN DE DATOS', 'DETALLE DE MANUTENCIÓN DE DATOS'),
-	(00000000012, 2, 'Gestión de combustible', '2'),
+	(00000000012, 2, 'Gestión de combustible', 'Gestión de combustible'),
 	(00000000017, 6, 'Gestión de Flota', 'Gestión de Flota');
 /*!40000 ALTER TABLE `area_departamento` ENABLE KEYS */;
 
@@ -84,14 +84,13 @@ CREATE TABLE IF NOT EXISTS `avance` (
   PRIMARY KEY (`idAvance`)
 ) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.avance: ~75 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.avance: ~58 rows (aproximadamente)
 /*!40000 ALTER TABLE `avance` DISABLE KEYS */;
 REPLACE INTO `avance` (`idAvance`, `idEmpresa`, `idTarea_fk`, `idOrdenTrabajo_fk`, `usuario`, `comentario`, `fecha_publicacion`) VALUES
 	(00000000007, 1, NULL, 1, 40, 'armin, necesito que documentes', '2018-07-24 18:14:23'),
 	(00000000008, 1, 1, 1, 26, 'bueno', '2018-07-24 18:14:39'),
 	(00000000009, 1, NULL, 7, 16, 'Alonso, favor documentar....', '2018-07-24 18:20:03'),
 	(00000000010, 1, 6, 7, 17, 'okey!', '2018-07-24 18:20:35'),
-	(00000000011, 1, 6, 7, 17, 'wena', '2018-07-24 18:27:21'),
 	(00000000012, 1, NULL, 8, 16, 'alonso, favor documentar...', '2018-08-13 20:55:52'),
 	(00000000013, 1, 7, 8, 17, 'ok ningun problema.!!', '2018-08-13 20:56:22'),
 	(00000000014, 1, NULL, 9, 16, 'oye patricio, documente plz.', '2018-08-14 11:13:59'),
@@ -131,28 +130,13 @@ REPLACE INTO `avance` (`idAvance`, `idEmpresa`, `idTarea_fk`, `idOrdenTrabajo_fk
 	(00000000049, 1, 13, 13, 26, 'oka', '2018-10-03 00:19:24'),
 	(00000000050, 1, 14, 14, 26, 'He comenzado la tarea', '2018-10-04 10:32:24'),
 	(00000000051, 1, NULL, 14, 40, 'favor dar avances', '2018-10-04 10:32:43'),
-	(00000000054, 1, 15, 14, 42, 'qwd', '2018-10-21 18:25:11'),
-	(00000000055, 1, 15, 14, 42, 'QWE', '2018-10-31 20:27:24'),
-	(00000000056, 2, NULL, 19, 40, 'qwe', '2018-11-01 22:41:59'),
-	(00000000057, 2, NULL, 20, 40, '123', '2018-11-02 16:38:20'),
 	(00000000058, 2, 21, 20, 17, 'Comienzo de la actividad', '2018-11-02 16:39:10'),
 	(00000000059, 2, 21, 20, 17, 'Se cargan los combustible de acuerdo a lo solicitado. ', '2018-11-02 16:39:39'),
-	(00000000060, 2, 21, 20, 17, '123', '2018-11-02 16:41:57'),
-	(00000000061, 2, NULL, 19, 40, 'werwer', '2018-11-02 16:42:15'),
-	(00000000062, NULL, NULL, 19, 40, '123', '2018-11-02 16:51:04'),
-	(00000000063, NULL, NULL, 19, 40, '456', '2018-11-02 16:51:13'),
-	(00000000064, NULL, NULL, 20, 40, '12123', '2018-11-02 16:52:21'),
-	(00000000065, 2, 21, 20, 17, '456', '2018-11-02 16:53:16'),
-	(00000000066, 2, 21, 20, 40, '789', '2018-11-02 16:53:49'),
-	(00000000067, 2, 21, 20, 17, '101112', '2018-11-02 16:55:05'),
-	(00000000068, NULL, NULL, 20, 40, '131415', '2018-11-02 16:55:17'),
 	(00000000069, 1, 14, 14, 26, 'ahora yo tengo la tarea....', '2018-11-14 16:30:50'),
-	(00000000070, 1, 14, 14, 26, 'sdfsdf', '2018-11-14 16:31:02'),
-	(00000000071, 1, 14, 14, 26, 'ya pero no me critiquen, chanchos cochinos', '2018-11-15 00:42:06'),
-	(00000000072, 1, 3, 4, 40, 'asd', '2018-11-15 23:38:46'),
+	(00000000071, 1, 14, 14, 26, 'ya pero no me apuren', '2018-11-15 00:42:06'),
 	(00000000073, 1, 14, 14, 26, 'voy a cerraaaar la tareaa!', '2018-11-19 19:22:07'),
 	(00000000074, 1, 23, 23, 26, 'Hola', '2018-11-19 20:21:47'),
-	(00000000075, 1, 23, 23, 26, 'fwefwef\r\nwefwef', '2018-11-19 20:21:53'),
+	(00000000075, 1, 23, 23, 26, 'no puede ser', '2018-11-19 20:21:53'),
 	(00000000076, 1, 23, 23, 26, 'Este comentario debe ser realizado por ellos,\r\nEntiendo lo que ocurre\r\n', '2018-11-19 20:22:14'),
 	(00000000077, 1, 23, 23, 26, 'se procederá con el cierre de la tarea.', '2018-11-19 20:39:08'),
 	(00000000078, 1, 28, 32, 40, 'armin! documenta!!', '2018-11-21 18:30:10'),
@@ -160,8 +144,7 @@ REPLACE INTO `avance` (`idAvance`, `idEmpresa`, `idTarea_fk`, `idOrdenTrabajo_fk
 	(00000000080, NULL, NULL, 33, 26, 'Marisol, como te va con lo de la mina?', '2018-11-22 05:39:57'),
 	(00000000081, 6, 29, 33, 90, 'bien, estoy comenzando de a poco', '2018-11-22 05:53:51'),
 	(00000000082, NULL, NULL, 33, 26, 'ok, necesito que me informes cada vez que avances 300 metros, saludos.', '2018-11-22 05:54:30'),
-	(00000000083, NULL, NULL, 33, 26, 'recuerda cambiar el estado de tu tarea', '2018-11-22 05:55:04'),
-	(00000000084, 1, 27, 25, 26, 'rgerg', '2018-11-23 13:46:23');
+	(00000000083, NULL, NULL, 33, 26, 'recuerda cambiar el estado de tu tarea', '2018-11-22 05:55:04');
 /*!40000 ALTER TABLE `avance` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.cambio_estado
@@ -176,9 +159,9 @@ CREATE TABLE IF NOT EXISTS `cambio_estado` (
   `suspension` char(1) DEFAULT 'N',
   `identidad` varchar(18) DEFAULT NULL,
   PRIMARY KEY (`idCambioEstado`)
-) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.cambio_estado: ~86 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.cambio_estado: ~87 rows (aproximadamente)
 /*!40000 ALTER TABLE `cambio_estado` DISABLE KEYS */;
 REPLACE INTO `cambio_estado` (`idCambioEstado`, `idOrdenTrabajo`, `idTarea`, `idEmpresa`, `motivo`, `fecha_realizacion`, `fecha_fin`, `suspension`, `identidad`) VALUES
 	(0000000010, NULL, 0000000014, 0000000001, 'ARMIN.BRUN cambió la tarea al estado Ejecución', '2018-11-18 21:13:36', NULL, 'N', NULL),
@@ -266,7 +249,10 @@ REPLACE INTO `cambio_estado` (`idCambioEstado`, `idOrdenTrabajo`, `idTarea`, `id
 	(0000000144, 0000000032, 0000000028, 0000000001, 'FERNANDO.SANJUAN cerró la tarea.', '2018-11-25 23:35:08', NULL, 'N', NULL),
 	(0000000145, 0000000032, 0000000028, 0000000001, 'FERNANDO.SANJUAN regeneró la tarea.', '2018-11-25 23:43:39', NULL, 'N', NULL),
 	(0000000146, 0000000035, NULL, 0000000001, 'ADMIN regeneró la orden de trabajo.', '2018-11-25 23:44:18', NULL, 'N', NULL),
-	(0000000147, 0000000035, NULL, 0000000001, 'ADMIN cerró la tarea.', '2018-11-25 23:44:23', NULL, 'N', NULL);
+	(0000000147, 0000000035, NULL, 0000000001, 'ADMIN cerró la tarea.', '2018-11-25 23:44:23', NULL, 'N', NULL),
+	(0000000148, 0000000036, NULL, 0000000001, 'ADMIN cerró la tarea.', '2018-12-05 16:59:16', NULL, 'N', NULL),
+	(0000000149, 0000000032, 0000000028, 0000000001, 'FERNANDO.SANJUAN cerró la tarea.', '2018-12-05 17:18:53', NULL, 'N', NULL),
+	(0000000150, 0000000032, NULL, 0000000001, 'FERNANDO.SANJUAN cerró la tarea.', '2018-12-05 17:19:01', NULL, 'N', NULL);
 /*!40000 ALTER TABLE `cambio_estado` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.contacto
@@ -283,17 +269,14 @@ CREATE TABLE IF NOT EXISTS `contacto` (
   PRIMARY KEY (`idContacto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.contacto: ~8 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.contacto: ~5 rows (aproximadamente)
 /*!40000 ALTER TABLE `contacto` DISABLE KEYS */;
 REPLACE INTO `contacto` (`idContacto`, `idEmpresa`, `idUsuario`, `nombre`, `asunto`, `email`, `telefono`, `mensaje`, `fecha`) VALUES
 	(00000000014, NULL, NULL, 'Mauricio Cortazar', 'Problemas en el registro', 'mauricio.cortazar@gmail.com', '569856325654', 'Me sale que la cuenta esta des-habilitada. Favor habilitar.', '2018-07-15 22:58:58'),
 	(00000000017, NULL, NULL, 'Don Hernan', 'Ingreso a la web', 'hernan.coelo@gmail.com', '56986565987', 'Hola, buenas, tengo algunas dudas sobre el sitio, favor contactarme vía correo...', '2018-07-23 08:39:21'),
 	(00000000018, NULL, NULL, 'Matias', 'Pregunta', 'matias@gmail.com', '56989865895', 'Necesito ingresar pero no puedo', '2018-07-23 09:25:00'),
 	(00000000020, NULL, NULL, 'anonimo', 'IP de los nodos', 'jose.rios2@gmail.com', '2123', 'podrías agregar un documento con la IP de todos los nodos!!', '2018-09-21 17:42:18'),
-	(00000000029, NULL, NULL, 'Juanelo', 'No puedo ingresar :(', 'juanelo@micarro.cl', '5698656', 'No puedo ingresar con la cuenta de JUANELO.CARAELO', '2018-11-03 15:23:37'),
-	(00000000030, 00000000001, 00000000001, 'Fernando San Juan', 'Prueba', 'a@a.com', '12341234', 'Prueba\r\n', '2018-11-03 15:24:14'),
-	(00000000031, NULL, NULL, 'werwer', 'werwer', 'asachileno@gmail.com', '3234324', 'ewefwef,l', '2018-11-14 01:33:40'),
-	(00000000032, NULL, NULL, 'iuluil', 'uiluiluil', 'asachileno@gmail.com', '678678678', 'kkyukk676k', '2018-11-21 20:20:43');
+	(00000000029, NULL, NULL, 'Juanelo', 'No puedo ingresar :(', 'juanelo@micarro.cl', '5698656', 'No puedo ingresar con la cuenta de JUANELO.CARAELO', '2018-11-03 15:23:37');
 /*!40000 ALTER TABLE `contacto` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.empresa
@@ -308,19 +291,19 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   PRIMARY KEY (`idEmpresa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.empresa: ~11 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.empresa: ~9 rows (aproximadamente)
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
 REPLACE INTO `empresa` (`idEmpresa`, `idSuscripcion`, `nombre`, `direccion`, `correo`, `rut`, `telefono`) VALUES
 	(00000000001, 00000000001, 'Claro S.A', 'Fanor Velasco 50', 'mantenimientoprimernivel@clarochile.cl', '96.799.250-K', '800 000 171'),
 	(00000000002, 00000000002, 'ENEX LTDA', 'Chiu Chiu 2020', 'administracion@enex.cl', '92.011.000-2', '800 171 544'),
 	(00000000005, 00000000007, 'Telmex LTDA', 'Velasco Fanor 2020', 'administracion@telmex.cl', '12.938.912-5', '56922258456'),
 	(00000000006, 00000000008, 'CODELCO LTA', 'Minera Escondida', 'minera@claseCorop.com', '90.666.666-8', '562532514'),
-	(00000000007, 00000000009, 'SACHICAS MONTINA S.A', 'El Salchichon 2323', 'salchicha@chicas.cl', '10885915-6', '5692598959'),
-	(00000000008, 00000000010, 'GOOGLE SA', 'Juan Santander 50', 'a@a.cl', '11557037-4', '56989595'),
-	(00000000009, 00000000011, 'JACK CUSTO LTDA', 'Juan Santander 50', 'a@a.cl', '20120898-k', '5626292959'),
-	(00000000010, 00000000012, 'EMPRESA LT', 'FANOR 50', 'A@A.CL', '14622462-8', '56959595959'),
-	(00000000011, 00000000013, 'KURISTIAN SRHIANTASH LTDA', 'Clavel Poniente 2416', 'kakashisensei@gmail.com', ' 14559690-4', '56926565326'),
-	(00000000012, 00000000014, 'ADERITOS LTDA', 'Panela 2020', 'cabezagigantecafe@gmail.com', '6969182-k', '56953265656'),
+	(00000000007, 00000000009, 'SACHICAS MONTINA S.A', 'El Salchichon 2323', 'salchicha@chicas.cl', '10.885.915-6', '5692598959'),
+	(00000000008, 00000000010, 'GOOGLE SA', 'Juan Santander 50', 'a@a.cl', '11.557.037-4', '56989595'),
+	(00000000009, 00000000011, 'JACK CUSTO LTDA', 'Juan Santander 50', 'a@a.cl', '20.120.898-k', '5626292959'),
+	(00000000010, 00000000012, 'EMPRESA LT', 'FANOR 50', 'A@A.CL', '14.622.462-8', '56959595959'),
+	(00000000011, 00000000013, 'KURISTIAN SRHIANTASH LTDA', 'Clavel Poniente 2416', 'kakashisensei@gmail.com', '14.559.690-4', '56926565326'),
+	(00000000012, 00000000014, 'ADERITOS LTDA', 'Panela 2020', 'cabezagigantecafe@gmail.com', '6.969.182-k', '56953265656'),
 	(00000000013, 00000000015, 'JORGE SALGADO EIRL', 'Los halcones 1065 - quilicura', 'jorge.salgado.ch@gmail.com', '15.971.438-1', '5696496189');
 /*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 
@@ -333,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `estado` (
   PRIMARY KEY (`idEstado`)
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.estado: ~8 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.estado: ~7 rows (aproximadamente)
 /*!40000 ALTER TABLE `estado` DISABLE KEYS */;
 REPLACE INTO `estado` (`idEstado`, `idEmpresa`, `nombreEstado`, `detalleEstado`) VALUES
 	(00000000001, 0, 'Generada', 'Actividad recién creada'),
@@ -342,7 +325,7 @@ REPLACE INTO `estado` (`idEstado`, `idEmpresa`, `nombreEstado`, `detalleEstado`)
 	(00000000004, 0, 'Ejecutada', 'Actividades realizadas'),
 	(00000000005, 0, 'Cerrada', 'Actividad cerrada'),
 	(00000000051, 1, 'Despachado', 'Despachado'),
-	(00000000059, 2, 'Explotado', '2'),
+	(00000000059, 2, 'Explotado', 'Explotado'),
 	(00000000060, 6, 'Minando', 'Minando Mina');
 /*!40000 ALTER TABLE `estado` ENABLE KEYS */;
 
@@ -384,41 +367,42 @@ CREATE TABLE IF NOT EXISTS `orden_trabajo` (
   `fecha_fin` datetime DEFAULT NULL,
   `detalleOrdenTrabajo` text DEFAULT NULL,
   PRIMARY KEY (`idOrdenTrabajo`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.orden_trabajo: ~30 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.orden_trabajo: ~27 rows (aproximadamente)
 /*!40000 ALTER TABLE `orden_trabajo` DISABLE KEYS */;
 REPLACE INTO `orden_trabajo` (`idOrdenTrabajo`, `idEmpresa`, `supervisor`, `idProcedimiento`, `estado`, `importancia`, `nombreOrdenTrabajo`, `fecha_inicio`, `fecha_compromiso`, `fecha_fin`, `detalleOrdenTrabajo`) VALUES
-	(00000000001, 00000000001, 00000000040, 00000000000, 00000000001, 'Alta', 'Generar informe de servicios', '2018-07-23 15:54:11', '2018-11-27 12:00:00', NULL, 'sdfsdf'),
-	(00000000002, 00000000001, 00000000016, 00000000000, 00000000005, 'Baja', 'Configuración de Servicio', '2018-07-24 14:00:42', '2018-11-27 12:00:00', NULL, 'Congiurar en PE 171 tabla de host'),
-	(00000000003, 00000000001, 00000000024, 00000000000, 00000000001, 'Media', 'Informe de Servicios', '2018-07-24 14:00:50', '2018-11-27 12:00:00', NULL, 'sdf'),
-	(00000000004, 00000000001, 00000000040, 00000000000, 00000000001, 'Baja', 'Informe de Datos', '2018-07-24 14:00:57', '2018-11-27 12:00:00', NULL, 'werwer'),
-	(00000000005, 00000000001, 00000000040, 00000000000, 00000000001, 'Alta', 'Convergencia de Int64', '2018-07-24 14:01:06', '2018-11-27 12:00:00', NULL, 'dfbdfb'),
-	(00000000006, 00000000001, 00000000040, 00000000000, 00000000003, 'Media', 'Coniguración entorno de Prueabas', '2018-07-24 14:01:14', '2018-11-27 12:00:00', NULL, 'fgdfg'),
-	(00000000007, 00000000001, 00000000016, 00000000000, 00000000003, 'Baja', 'Configuración de Equipos', '2018-07-24 18:19:02', '2018-11-27 12:00:00', NULL, 'LOJSDLKFJLKSDJFLKSDJF'),
-	(00000000008, 00000000001, 00000000016, 00000000000, 00000000001, 'Alta', 'Reparación', '2018-08-13 20:54:48', '2018-11-27 12:00:00', NULL, 'Reparar la wea'),
+	(00000000001, 00000000001, 00000000040, 00000000000, 00000000001, 'Alta', 'Generar informe de servicios', '2018-07-23 15:54:11', '2018-11-27 12:00:00', NULL, 'Detalle'),
+	(00000000002, 00000000001, 00000000016, 00000000000, 00000000005, 'Baja', 'Configuración de Servicio', '2018-07-24 14:00:42', '2018-11-27 12:00:00', '2018-11-27 12:00:00', 'Congiurar en PE 171 tabla de host'),
+	(00000000003, 00000000001, 00000000024, 00000000000, 00000000001, 'Media', 'Informe de Servicios', '2018-07-24 14:00:50', '2018-11-27 12:00:00', NULL, 'Detalle'),
+	(00000000004, 00000000001, 00000000040, 00000000000, 00000000001, 'Baja', 'Informe de Datos', '2018-07-24 14:00:57', '2018-11-27 12:00:00', NULL, 'Detalle'),
+	(00000000005, 00000000001, 00000000040, 00000000000, 00000000001, 'Alta', 'Convergencia de Int64', '2018-07-24 14:01:06', '2018-11-27 12:00:00', NULL, 'Detalle'),
+	(00000000006, 00000000001, 00000000040, 00000000000, 00000000003, 'Media', 'Coniguración entorno de Prueabas', '2018-07-24 14:01:14', '2018-11-27 12:00:00', NULL, 'Detalle'),
+	(00000000007, 00000000001, 00000000016, 00000000000, 00000000003, 'Baja', 'Configuración de Equipos', '2018-07-24 18:19:02', '2018-11-27 12:00:00', NULL, ' '),
+	(00000000008, 00000000001, 00000000016, 00000000000, 00000000001, 'Alta', 'Reparación', '2018-08-13 20:54:48', '2018-11-27 12:00:00', NULL, 'Detalle'),
 	(00000000009, 00000000001, 00000000016, 00000000000, 00000000001, 'Media', 'Solicitud de Prueba', '2018-08-14 11:13:18', '2018-11-27 12:00:00', NULL, 'SE NECESITA QUE TODOS TERMINEN SUS TAREAS '),
-	(00000000010, 00000000001, 00000000016, 00000000000, 00000000011, 'Alta', 'Tienda Kayser caida', '2018-09-20 15:00:43', '2018-11-27 12:00:00', NULL, 'Nombre de Quien Reporta: ALEJANDRO SANTIS \r\nProblema Reportado : Problema de internet y estamos presentando problemas con la gran mayoría de los anexos telefónicos del sector Espigon, estos quedan solicitando login y contraseña y luego de ser ingresados levantan pero a los 5 min vuelven a caer y solicitar login y contraseña nuevamente. Favor sus gestiones para solucionar este problema lo antes posible dado que dificulta la gestión de los usuarios al ser el teléfono una herramienta importante para sus labores diarios.\r\nPruebas realizadas por Cliente : ni\r\n'),
-	(00000000011, 00000000001, 00000000016, 00000000000, 00000000001, 'Alta', 'Servicio caido', '2018-09-20 21:11:26', '2018-11-27 12:00:00', NULL, 'jlaksjdlajslkdjalsdjklasjdlkasjdlksajd\r\n\r\nhacer la wea que pido jajaja'),
-	(00000000012, 00000000001, 00000000016, 00000000000, 00000000002, 'Alta', 'Gestión de Gastos', '2018-09-22 14:11:33', '2018-11-27 12:00:00', NULL, 'ghj'),
-	(00000000013, 00000000001, 00000000016, 00000000000, 00000000005, 'Alta', 'Reparar servicio de datos', '2018-09-25 16:31:55', '2018-11-27 12:00:00', NULL, 'favor completar las tareas solicitadas'),
+	(00000000010, 00000000001, 00000000016, 00000000000, 00000000001, 'Alta', 'Tienda Kayser caida', '2018-09-20 15:00:43', '2018-11-27 12:00:00', NULL, 'Nombre de Quien Reporta: ALEJANDRO SANTIS \r\nProblema Reportado : Problema de internet y estamos presentando problemas con la gran mayoría de los anexos telefónicos del sector Espigon, estos quedan solicitando login y contraseña y luego de ser ingresados levantan pero a los 5 min vuelven a caer y solicitar login y contraseña nuevamente. Favor sus gestiones para solucionar este problema lo antes posible dado que dificulta la gestión de los usuarios al ser el teléfono una herramienta importante para sus labores diarios.\r\nPruebas realizadas por Cliente : ni\r\n'),
+	(00000000011, 00000000001, 00000000016, 00000000000, 00000000001, 'Alta', 'Servicio caido', '2018-09-20 21:11:26', '2018-11-27 12:00:00', NULL, 'Detalle'),
+	(00000000012, 00000000001, 00000000016, 00000000000, 00000000002, 'Alta', 'Gestión de Gastos', '2018-09-22 14:11:33', '2018-11-27 12:00:00', NULL, 'Detalle'),
+	(00000000013, 00000000001, 00000000016, 00000000000, 00000000005, 'Alta', 'Reparar servicio de datos', '2018-09-25 16:31:55', '2018-11-27 12:00:00', '2018-11-27 12:00:00', 'favor completar las tareas solicitadas'),
 	(00000000014, 00000000001, 00000000040, 00000000000, 00000000001, 'Alta', 'Solicitud de Prueba', '2018-10-04 10:30:57', '2018-11-27 12:00:00', NULL, 'Detalle de Prueba'),
-	(00000000015, 00000000001, 00000000016, 00000000001, 00000000001, 'Alta', '123', '2018-10-21 17:31:19', '2018-12-07 12:00:00', NULL, '345'),
-	(00000000016, 00000000001, 00000000040, 00000000000, 00000000001, 'Media', 'OT ', '2018-11-01 19:25:00', '2018-11-27 12:00:00', NULL, '123'),
+	(00000000015, 00000000001, 00000000016, 00000000001, 00000000001, 'Alta', 'Generación de Staff Internet', '2018-10-21 17:31:19', '2018-12-07 12:00:00', NULL, 'Detalle'),
+	(00000000016, 00000000001, 00000000040, 00000000000, 00000000001, 'Media', 'OT Prueba PPT', '2018-11-01 19:25:00', '2018-11-27 12:00:00', NULL, 'Detalle'),
 	(00000000019, 00000000002, 00000000040, 00000000000, 00000000001, 'Alta', 'OT Prueba Empresa ENEX', '2018-11-01 22:20:32', '2018-11-27 12:00:00', NULL, 'Detalle'),
-	(00000000020, 00000000002, 00000000040, 00000000000, 00000000001, 'Media', 'OT Prueba', '2018-11-02 01:28:05', '2018-11-27 12:00:00', NULL, 'solas'),
+	(00000000020, 00000000002, 00000000040, 00000000000, 00000000001, 'Media', 'OT Prueba Informe', '2018-11-02 01:28:05', '2018-11-27 12:00:00', NULL, 'Detalle'),
 	(00000000021, 00000000002, 00000000040, 00000000001, 00000000001, 'Alta', 'Carga de Combustible ', '2018-11-03 19:13:50', '2018-12-11 15:30:00', NULL, 'Se requiere realizar la carga de combustible de A1 a A20'),
-	(00000000023, 00000000001, 00000000040, 00000000001, 00000000001, 'Alta', 'aasdasd', '2018-11-14 23:17:42', '2018-12-08 12:00:00', NULL, 'qweqweqwe'),
-	(00000000024, 00000000001, 00000000040, 00000000000, 00000000001, 'Alta', 'asdasd', '2018-11-15 23:35:53', '2018-12-09 12:00:00', NULL, 'asdasd'),
-	(00000000025, 00000000001, 00000000040, 00000000000, 00000000001, 'Alta', 'asdasd', '2018-11-15 23:36:41', '2018-12-10 15:00:00', NULL, 'asdasd'),
+	(00000000023, 00000000001, 00000000040, 00000000001, 00000000001, 'Alta', 'Reparar Servicio de Internet', '2018-11-14 23:17:42', '2018-12-08 12:00:00', NULL, 'Detalle'),
+	(00000000024, 00000000001, 00000000040, 00000000000, 00000000001, 'Alta', 'Reparar Servicio de HFC', '2018-11-15 23:35:53', '2018-12-09 12:00:00', NULL, 'Detalle'),
+	(00000000025, 00000000001, 00000000040, 00000000000, 00000000001, 'Alta', 'Reparar Servicio de Datos', '2018-11-15 23:36:41', '2018-12-10 15:00:00', NULL, 'Detalle'),
 	(00000000026, 00000000001, 00000000040, 00000000002, 00000000001, 'Alta', 'Prueba 20-11-2018', '2018-11-20 01:15:50', '2018-11-27 12:00:00', NULL, 'Se realiza con motivos de estudio. '),
-	(00000000029, 00000000001, 00000000040, 00000000000, 00000000001, 'Baja', '123', '2018-11-20 01:52:51', '2018-12-27 12:00:00', NULL, '123'),
-	(00000000030, 00000000001, 00000000040, 00000000002, 00000000001, 'Alta', '123', '2018-11-20 01:56:03', '2018-12-06 11:00:00', NULL, '123'),
-	(00000000031, 00000000001, 00000000086, 00000000002, 00000000001, 'Media', 'jkkjk', '2018-11-20 14:13:24', '2018-11-27 12:00:00', NULL, 'gjjghjg'),
-	(00000000032, 00000000001, 00000000040, 00000000002, 00000000001, 'Media', 'efwefewf', '2018-11-21 18:29:29', '2018-11-27 12:00:00', NULL, 'wefwefwef\r\nwef\r\new\r\nf\r\nwef\r\n\r\nwef\r\new\r\nf'),
+	(00000000029, 00000000001, 00000000040, 00000000000, 00000000001, 'Baja', 'Gestión de Alta Ocupación', '2018-11-20 01:52:51', '2018-12-27 12:00:00', NULL, 'Detalle'),
+	(00000000030, 00000000001, 00000000040, 00000000002, 00000000001, 'Alta', 'Resolutor Incidentes', '2018-11-20 01:56:03', '2018-12-06 11:00:00', NULL, 'Detalle'),
+	(00000000031, 00000000001, 00000000086, 00000000002, 00000000001, 'Media', 'Reparar Servicio de DTH', '2018-11-20 14:13:24', '2018-11-27 12:00:00', NULL, 'Detalle'),
+	(00000000032, 00000000001, 00000000040, 00000000002, 00000000005, 'Media', 'Reparación Datos e Internet', '2018-11-21 18:29:29', '2018-11-27 12:00:00', '2018-12-05 17:19:01', 'Detalle'),
 	(00000000033, 00000000006, 00000000026, 00000000000, 00000000001, 'Alta', 'Solicitud de Prueba', '2018-11-22 05:37:55', '2018-11-27 12:00:00', NULL, 'Detalle'),
-	(00000000034, 00000000001, 00000000040, 00000000002, 00000000005, 'Alta', 'Prueba', '2018-11-22 07:59:23', '2018-11-27 12:00:00', '2018-11-25 23:18:34', 'faVOR TERMINAR EN PLAZO!'),
-	(00000000035, 00000000001, 00000000040, 00000000002, 00000000005, 'Media', 'PRUEBA DIA 22', '2018-11-22 15:02:52', '2018-11-23 15:00:00', '2018-11-25 23:44:23', 'DELTALLE');
+	(00000000034, 00000000001, 00000000040, 00000000002, 00000000005, 'Alta', 'Prueba', '2018-11-22 07:59:23', '2018-11-27 12:00:00', '2018-11-25 23:18:34', 'Detalle'),
+	(00000000035, 00000000001, 00000000040, 00000000002, 00000000005, 'Media', 'PRUEBA DIA 22', '2018-11-22 15:02:52', '2018-11-23 15:00:00', '2018-11-25 23:44:23', 'Detalle'),
+	(00000000036, 00000000001, 00000000040, 00000000002, 00000000005, 'Alta', 'Solicitud Prueba Para Manual de Usuario', '2018-12-04 17:40:35', '2018-12-05 15:00:00', '2018-12-05 16:59:16', 'Detalle');
 /*!40000 ALTER TABLE `orden_trabajo` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.procedimiento
@@ -452,7 +436,7 @@ CREATE TABLE IF NOT EXISTS `suscripcion` (
   PRIMARY KEY (`idSuscripcion`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.suscripcion: ~12 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.suscripcion: ~11 rows (aproximadamente)
 /*!40000 ALTER TABLE `suscripcion` DISABLE KEYS */;
 REPLACE INTO `suscripcion` (`idSuscripcion`, `idEmpresa`, `nomreSuscripcion`, `detalleSuscripcion`, `cantidadUsuarios`, `fecha_inicio`, `fecha_fin`, `activo`) VALUES
 	(00000000001, 00000000001, 'ClaroX200UsuariosSemestral', 'Claro200', 00000000200, '2018-06-01 08:00:00', '2020-02-01 08:00:00', 'S'),
@@ -460,10 +444,10 @@ REPLACE INTO `suscripcion` (`idSuscripcion`, `idEmpresa`, `nomreSuscripcion`, `d
 	(00000000006, 00000000005, 'TelmexLTDA500User', 'detalleEmpresa', 00000000123, '2018-11-22 03:13:03', '2018-11-22 03:13:00', 'S'),
 	(00000000007, 00000000005, 'TelmexLTDA500User', 'detalleEmpresa', 00000000500, '2018-11-22 03:22:43', '2021-05-22 03:22:00', 'S'),
 	(00000000008, 00000000006, 'Codelco5000Usuario', 'Gran5000Usuarios', 00000005000, '2018-11-22 03:28:29', '2020-07-17 20:00:00', 'S'),
-	(00000000009, 00000000007, 'Salchicas650Semestral', '650 usuarios', 00000000650, '2018-11-22 08:32:50', '2018-12-23 08:32:00', 'S'),
+	(00000000009, 00000000007, 'Salchicas650Semestral', '650 usuarios', 00000000650, '2018-11-22 08:32:50', '2018-12-05 08:32:00', 'S'),
 	(00000000010, 00000000008, 'TelmexLTDA500User', 'detalleEmpresa', 00000034234, '2018-11-22 08:51:03', '2019-05-15 01:00:00', 'S'),
 	(00000000011, 00000000009, 'JACK50USUARIOS', '50USUARIOS ANUAL', 00000000050, '2018-11-22 08:53:20', '2020-11-22 20:00:00', 'S'),
-	(00000000012, 00000000010, 'EMPRESA', 'SEMESTRAL', 00000000500, '2018-11-22 13:36:17', '2018-11-30 13:36:00', 'S'),
+	(00000000012, 00000000010, 'EMPRESA', 'SEMESTRAL', 00000000500, '2018-11-22 13:36:17', '2018-12-30 13:36:00', 'S'),
 	(00000000013, 00000000011, 'Suscripcin', 'Detalle', 00000000050, '2018-11-22 14:17:42', '2019-05-22 10:00:00', 'S'),
 	(00000000014, 00000000012, 'Ederitos', 'SusSemestral', 00000000500, '2018-11-22 14:55:57', '2019-05-22 14:55:00', 'S'),
 	(00000000015, 00000000013, '15', '15', 00000000015, '2018-11-23 19:16:22', '2019-05-23 19:16:00', 'S');
@@ -489,7 +473,7 @@ CREATE TABLE IF NOT EXISTS `tarea` (
 /*!40000 ALTER TABLE `tarea` DISABLE KEYS */;
 REPLACE INTO `tarea` (`idTarea`, `idEmpresa`, `idTipoTarea`, `idOrdenTrabajo`, `idProcedimiento`, `usuario`, `estadoTarea`, `fecha_inicio`, `fecha_compromiso`, `fecha_fin`, `aprobado`) VALUES
 	(00000000001, 00000000001, 00000000001, 00000000001, 00000000000, 00000000026, 00000000005, '2018-07-23 15:54:28', '2018-12-08 10:55:09', '2018-11-22 15:00:22', NULL),
-	(00000000002, 00000000001, 00000000003, 00000000001, 00000000000, 00000000027, 00000000002, '2018-07-24 14:01:33', '2018-12-07 10:55:09', NULL, NULL),
+	(00000000002, 00000000001, 00000000003, 00000000001, 00000000002, 00000000026, 00000000002, '2018-07-24 14:01:33', '2018-12-07 10:55:09', NULL, NULL),
 	(00000000003, 00000000001, 00000000003, 00000000004, 00000000000, 00000000023, 00000000001, '2018-07-24 14:01:40', '2018-12-05 10:55:09', NULL, NULL),
 	(00000000004, 00000000001, 00000000002, 00000000005, 00000000000, 00000000023, 00000000001, '2018-07-24 14:01:58', '2018-12-04 10:55:09', NULL, NULL),
 	(00000000005, 00000000001, 00000000007, 00000000006, 00000000000, 00000000023, 00000000001, '2018-07-24 14:02:09', '2018-12-03 10:55:09', NULL, NULL),
@@ -512,7 +496,7 @@ REPLACE INTO `tarea` (`idTarea`, `idEmpresa`, `idTipoTarea`, `idOrdenTrabajo`, `
 	(00000000024, 00000000002, 00000000025, 00000000021, 00000000000, 00000000017, 00000000001, '2018-11-15 23:43:51', '2019-01-22 10:55:09', NULL, NULL),
 	(00000000025, 00000000001, 00000000001, 00000000025, 00000000000, 00000000023, 00000000005, '2018-11-18 21:37:26', '2018-10-30 10:55:09', '2018-11-19 22:03:29', NULL),
 	(00000000027, 00000000001, 00000000001, 00000000025, 00000000000, 00000000026, 00000000002, '2018-11-19 20:51:09', '2018-12-22 10:55:41', NULL, NULL),
-	(00000000028, 00000000001, 00000000001, 00000000032, 00000000000, 00000000026, 00000000002, '2018-11-21 18:29:59', '2019-01-12 11:02:02', NULL, NULL),
+	(00000000028, 00000000001, 00000000001, 00000000032, 00000000000, 00000000026, 00000000005, '2018-11-21 18:29:59', '2019-01-12 11:02:02', '2018-12-05 17:18:53', NULL),
 	(00000000029, 00000000006, 00000000026, 00000000033, 00000000000, 00000000090, 00000000002, '2018-11-22 05:39:25', '2019-11-22 10:55:09', NULL, NULL),
 	(00000000030, 00000000006, 00000000026, 00000000033, 00000000000, 00000000090, 00000000005, '2018-11-22 13:38:53', NULL, '2018-11-22 14:13:56', NULL),
 	(00000000031, 00000000001, 00000000001, 00000000035, 00000000000, 00000000026, 00000000005, '2018-11-25 16:58:39', '2018-11-25 00:00:00', '2018-11-25 22:13:15', NULL),
@@ -528,10 +512,10 @@ CREATE TABLE IF NOT EXISTS `tipo_tarea` (
   PRIMARY KEY (`idTipoTarea`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.tipo_tarea: ~10 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.tipo_tarea: ~9 rows (aproximadamente)
 /*!40000 ALTER TABLE `tipo_tarea` DISABLE KEYS */;
 REPLACE INTO `tipo_tarea` (`idTipoTarea`, `idEmpresa`, `nombreTipoTarea`, `detalleTipoTarea`) VALUES
-	(00000000001, 1, 'Reparación', 'Reparación para servicio de Datos, Telefonía o Internet. '),
+	(00000000001, 1, 'Chancho', 'Chancho'),
 	(00000000002, 1, 'Atención Técnica', 'Realizar configuraciones sobre servicios de Telefonía, Datos o Internet. '),
 	(00000000003, 1, 'Monitoreo Proactivo', 'Monitorear enlaces solicitados. '),
 	(00000000007, 1, 'Redactar Informe de Servicios', 'Redactar Informe de servicios'),
@@ -552,7 +536,7 @@ CREATE TABLE IF NOT EXISTS `trabaja` (
   `fecha_ingreso` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla aelita.trabaja: ~31 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.trabaja: ~30 rows (aproximadamente)
 /*!40000 ALTER TABLE `trabaja` DISABLE KEYS */;
 REPLACE INTO `trabaja` (`idEmpresa`, `idUsuario`, `activo`, `tipoCuenta`, `fecha_ingreso`) VALUES
 	(00000000001, 00000000016, 'S', 'Supervisor', '2018-11-22 05:28:38'),
@@ -585,7 +569,8 @@ REPLACE INTO `trabaja` (`idEmpresa`, `idUsuario`, `activo`, `tipoCuenta`, `fecha
 	(00000000011, 00000000001, 'S', 'Administrador', '2018-11-22 14:17:42'),
 	(00000000012, 00000000001, 'S', 'Administrador', '2018-11-22 14:55:57'),
 	(00000000009, 00000000026, 'N', 'Supervisor', '2018-11-23 13:45:01'),
-	(00000000013, 00000000001, 'S', 'Administrador', '2018-11-23 19:16:22');
+	(00000000013, 00000000001, 'S', 'Administrador', '2018-11-23 19:16:22'),
+	(00000000001, 00000000091, 'S', 'Administrador', '2018-11-29 10:35:15');
 /*!40000 ALTER TABLE `trabaja` ENABLE KEYS */;
 
 -- Volcando estructura para tabla aelita.usuario
@@ -604,9 +589,9 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `clave` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL DEFAULT '0',
   `fecha_ingreso` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=latin1 COMMENT='19.117.491-7';
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=latin1 COMMENT='19.117.491-7';
 
--- Volcando datos para la tabla aelita.usuario: ~17 rows (aproximadamente)
+-- Volcando datos para la tabla aelita.usuario: ~16 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
 REPLACE INTO `usuario` (`idUsuario`, `rut`, `nombre`, `apellido`, `nombreUsuario`, `email`, `telefono_m`, `telefono_f`, `area_departamento`, `direccion`, `tipoCuenta`, `clave`, `fecha_ingreso`) VALUES
 	(0000000001, '15.765.734-8', 'Administrador', 'San Juan', 'ADMIN', 'adminitrador@aelitasoft.cl', '012341234', '12341234', '1', '0', 'Administrador', 'Teleco123', '2018-11-22 03:32:27'),
@@ -625,7 +610,8 @@ REPLACE INTO `usuario` (`idUsuario`, `rut`, `nombre`, `apellido`, `nombreUsuario
 	(0000000087, '22.333.444-5', 'Manuel', 'Lopez', 'MANUEL.LOPEZ', 'ml@gmail.com', '5693265454', '562456845', '00000000012', 'Javiera Carrera 2413', 'Ejecutor', 'Teleco123', '2018-11-22 03:32:27'),
 	(0000000088, '19.111.555-4', 'Mauricio', 'Pinilla', 'MAURICIO.PINILLA', 'a@a.com', '123123', '123123', '00000000001', 'EL CALVEL PONIENTE 2416, FANOR VELASCO 50', 'Ejecutor', 'Teleco123', '2018-11-22 03:32:27'),
 	(0000000089, '15.971.438-1', 'Jorge', 'Salgado', 'JORGE.SALGADO', 'jorge.salgado.ch@gmail.com', '56954532154', '56225811555', '00000000012', 'Fanor Velasco 56', 'Ejecutor', 'Teleco123', '2018-11-22 03:32:27'),
-	(0000000090, '20.120.898-k', 'Marisol', 'Urrutia', 'MARISOL.URRUTIA', 'msol4@gmail.com', '5698654564', '565212465', '00000000017', 'Juan Santander 50', 'Ejecutor', 'Teleco123', '2018-11-22 04:01:40');
+	(0000000090, '20.120.898-k', 'Marisol', 'Urrutia', 'MARISOL.URRUTIA', 'msol4@gmail.com', '5698654564', '565212465', '00000000017', 'Juan Santander 50', 'Ejecutor', 'Teleco123', '2018-11-22 04:01:40'),
+	(0000000091, '11.882.747-3', 'Chancho', 'Chancho', 'CHANCHO.CHANCHO', 'chancho@chancho.cl', '56911111111', '562222222', '00000000001', 'asdasdasd', 'Administrador', '1234', '2018-11-29 10:35:15');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
