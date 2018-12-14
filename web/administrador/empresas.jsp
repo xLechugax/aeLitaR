@@ -158,7 +158,7 @@
                                     <!-- Modal Structure -->
                                     <div id="modalCrearEmpresa" class="modal modal-fixed-footer">
                                         <div class="modal-content">
-                                            <form action="/aeLita/crearEmpresa" method="get"> 
+                                            <form action="/aeLita/crearEmpresa" method="post"> 
                                                 <h4>Crear Empresa</h4>
                                                 <div class="row">
                                                     <div class="input-field col s12">

@@ -4,11 +4,13 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
+<%    
+    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
     String idTipoTareaAsignar = request.getParameter("idtipoTareaAsignar");
     String idEjecutorAsignar = request.getParameter("idEjecutorAsignar");
     String comentarioOT = request.getParameter("comentarioOT");
     String fecha_compromiso = request.getParameter("fecha_compromiso");
+    String idProcedimiento = request.getParameter("idProcedimiento");
 
     if (comentarioOT != null) {
         try {
@@ -34,7 +36,7 @@
             int idEmpresa = Integer.parseInt(idEmrpesaString); // Se convierte en Int
 
             Connection conn = ConexionBD.getConexion();
-            String sql = "insert into tarea (idTipoTarea,idOrdenTrabajo,fecha_compromiso,usuario,estadoTarea,idEmpresa) values (?,?,?,?,?,?)";
+            String sql = "insert into tarea (idTipoTarea,idOrdenTrabajo,fecha_compromiso,usuario,estadoTarea,idEmpresa,idProcedimiento) values (?,?,?,?,?,?,?)";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, idTipoTareaAsignar);
             pst.setString(2, idOrdenTrabajoSeleccionada);
@@ -42,6 +44,7 @@
             pst.setString(4, idEjecutorAsignar);
             pst.setInt(5, estadoTareaPorDefecto);
             pst.setInt(6, idEmpresa);
+            pst.setString(7, idProcedimiento);
             pst.execute();
             response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT=" + idOrdenTrabajoSeleccionada);
             return;
@@ -349,7 +352,7 @@
                                                                 <tr>
                                                                     <th>ID Log</th>
                                                                     <th>Motivo</th>
-                                                                    <th>Relizado</th>
+                                                                    <th>Realizado</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
