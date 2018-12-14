@@ -65,7 +65,13 @@
                     <div class="col s12 m12">
                         <div class="card blue-grey darken-1">
                             <div class="card-content white-text">
-                                <p>Bienvenido a ÊLita <%=hs.getAttribute("nombre")%>.</p>
+                                <p>Bienvenido a ÊLita <%=hs.getAttribute("nombre")%>, ha ingresado con la empresa <%= hs.getAttribute("nombreEmpresa") %></p>
+                                <div class="collection">
+                                    <a href="#!" class="collection-item"><span class="badge">1</span>Cantidad de Usuarios:</a>
+                                    <a href="#!" class="collection-item"><span class="new badge">4</span>Alan</a>
+                                    <a href="#!" class="collection-item">Alan</a>
+                                    <a href="#!" class="collection-item"><span class="badge">14</span>Alan</a>
+                                </div>
                             </div>
                         </div>
                     </div>

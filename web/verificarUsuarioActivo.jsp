@@ -4,7 +4,19 @@
 
     String idUsuario = request.getParameter("idUsuario");
     String idEmpresa = request.getParameter("idEmpresa");
-
+    
+    ResultSet rsEmpresa = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlNombreEmpresa = "select empresa.nombre from empresa where empresa.idEmpresa = '"+idEmpresa+"'";
+        PreparedStatement pstNombreEmpresa = conn.prepareStatement(sqlNombreEmpresa);
+        rsEmpresa = pstNombreEmpresa.executeQuery();
+        rsEmpresa.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    
     ResultSet rsActivo, rsUsuario = null;
 
     try {
@@ -23,6 +35,7 @@
             rsUsuario.next();
 
             hs.setAttribute("idEmpresa", idEmpresa);
+            hs.setAttribute("nombreEmpresa", rsEmpresa.getString("nombre"));
             hs.setAttribute("nombre", rsUsuario.getString("nombre"));
             hs.setAttribute("apellido", rsUsuario.getString("apellido"));
             hs.setAttribute("nombreUsuario", rsUsuario.getString("nombreUsuario"));

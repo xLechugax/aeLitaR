@@ -330,6 +330,7 @@
                                                 <h4>Editar Área/Departamento</h4>
                                                 <form action="guardarCambiosAreaDepartamento.jsp" method="post">
                                                     <input type="hidden" name="idUsuario" value="<%=rsUsuarios.getLong("idUsuario")%>">
+                                                    <input type="hidden" name="idEmpresa" value="<%= hs.getAttribute("idEmpresa") %>">
                                                     <table>
                                                         <tbody>
                                                             <tr>

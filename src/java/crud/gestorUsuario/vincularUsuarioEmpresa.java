@@ -41,16 +41,18 @@ public class vincularUsuarioEmpresa extends HttpServlet {
             String tipoCuenta = request.getParameter("rolUsuario");
             String idUsuario = request.getParameter("idUsuario");
             String idEmpresa = request.getParameter("idEmpresa");
+            String idAreaDepartamento = "00000000000";
 
             String sql = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                sql = "INSERT INTO aelita.trabaja (idEmpresa, idUsuario, activo, tipoCuenta) VALUES (?, ?, ?, ?);";
+                sql = "INSERT INTO aelita.trabaja (idEmpresa, idUsuario, activo, tipoCuenta, area_departamento) VALUES (?, ?, ?, ?, ?);";
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, idEmpresa);
                 pst.setString(2, idUsuario);
                 pst.setString(3, "N");
                 pst.setString(4, tipoCuenta);
+                pst.setString(5, idAreaDepartamento);
                 pst.execute();
                 response.sendRedirect("/aeLita/gestores/gestorUsuarios.jsp");
             } catch (IOException | SQLException e) {
