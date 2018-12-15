@@ -120,7 +120,7 @@ public class suspenderOrdenTrabajo extends HttpServlet {
                 PreparedStatement pstEventoDocumentarReactivar = conn.prepareStatement(sqlEventoDocumentarReactivar);
                 pstEventoDocumentarReactivar.setString(1, idOrdenTrabajo);
                 pstEventoDocumentarReactivar.setString(2, idEmpresa);
-                pstEventoDocumentarReactivar.setString(3, "Cambio de estado automatico luego de  periodo en suspención");
+                pstEventoDocumentarReactivar.setString(3, "Cambio de estado automático luego de  periodo en suspención");
                 pstEventoDocumentarReactivar.setString(4, "N");
                 pstEventoDocumentarReactivar.execute();
                 response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT="+idOrdenTrabajo);

@@ -45,6 +45,36 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+    ResultSet rsUsuariosRegistrados = null;
+    try {
+        String sqlUsuariosRegistrados = "select count(*) as cantidad from trabaja where trabaja.idEmpresa = "+idEmpresa;
+        PreparedStatement pstUsuariosRegistrados = conn.prepareStatement(sqlUsuariosRegistrados);
+        rsUsuariosRegistrados = pstUsuariosRegistrados.executeQuery();
+        rsUsuariosRegistrados.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsUsuariosRegistradosActivos = null;
+    try {
+        String sqlUsuariosRegistradosActivos = "select count(*) as cantidad from trabaja where trabaja.idEmpresa = "+idEmpresa+" and activo='S'";
+        PreparedStatement pstUsuariosRegistradosActivos = conn.prepareStatement(sqlUsuariosRegistradosActivos);
+        rsUsuariosRegistradosActivos = pstUsuariosRegistradosActivos.executeQuery();
+        rsUsuariosRegistradosActivos.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsUsuariosRegistradosDesactivados = null;
+    try {
+        String sqlUsuariosRegistradosDesactivados = "select count(*) as cantidad from trabaja where trabaja.idEmpresa = "+idEmpresa+" and activo='N'";
+        PreparedStatement pstUsuariosRegistradosDesactivados = conn.prepareStatement(sqlUsuariosRegistradosDesactivados);
+        rsUsuariosRegistradosDesactivados = pstUsuariosRegistradosDesactivados.executeQuery();
+        rsUsuariosRegistradosDesactivados.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -66,11 +96,12 @@
                         <div class="card blue-grey darken-1">
                             <div class="card-content white-text">
                                 <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>, ha ingresado con la empresa <%= hs.getAttribute("nombreEmpresa") %></p>
+                                <br/>
+                                <p>Estadísticas Usuarios</p>
                                 <div class="collection">
-                                    <a href="#!" class="collection-item"><span class="badge">1</span>Cantidad de Usuarios:</a>
-                                    <a href="#!" class="collection-item"><span class="new badge">4</span>Alan</a>
-                                    <a href="#!" class="collection-item">Alan</a>
-                                    <a href="#!" class="collection-item"><span class="badge">14</span>Alan</a>
+                                    <a href="#!" class="collection-item"><span class="blue-grey darken-3 badge white-text"><%= rsUsuariosRegistrados.getString("cantidad") %></span>Usuarios Registrados</a>
+                                    <a href="#!" class="collection-item"><span class="green white-text badge white-text"><%= rsUsuariosRegistradosActivos.getString("cantidad") %></span>Usuarios Activados</a>
+                                    <a href="#!" class="collection-item"><span class="red  white-text badge"><%= rsUsuariosRegistradosDesactivados.getString("cantidad") %></span>Usuarios Desactivados</a>
                                 </div>
                             </div>
                         </div>
