@@ -259,11 +259,11 @@
                                                             <li class="tab"><a href="#suspencion">Suspención</a></li>
                                                             <li class="tab"><a href="#cierre">Cierre</a></li>
                                                                 <%if (hs.getAttribute("tipoCuenta").equals("Supervisor")) {%>
-                                                                <%if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
-                                                            <li class="tab"><a href="#regenerarTarea">Regenerar Tarea</a></li>
+                                                                    <%if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
+                                                                        <li class="tab"><a href="#regenerarTarea">Regenerar Tarea</a></li>
+                                                                    <%}%>
                                                                 <%}%>
-                                                                <%}%>
-                                                        </ul>
+                                                            </ul>
                                                     </div>
                                                 </nav>
                                                 <div id="log" class="col s12">

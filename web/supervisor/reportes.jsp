@@ -23,9 +23,10 @@
                 + "DATE_FORMAT(orden_trabajo.fecha_fin, '%d/%m/%Y %T') as fecha_fin, "
                 + "orden_trabajo.fecha_fin as fecha_finOrdenar "
                 + "from orden_trabajo,usuario,estado "
-                + "where orden_trabajo.supervisor = usuario.idUsuario "
+                + "where orden_trabajo.idEmpresa = "+hs.getAttribute("idEmpresa")+" "
+                + "and orden_trabajo.supervisor = usuario.idUsuario "
                 + "and orden_trabajo.estado = estado.idEstado and usuario.idUsuario=" + hs.getAttribute("idUsuarioSesion") + " "
-                + "and orden_trabajo.estado = 5";
+                + "and orden_trabajo.estado = 5"; 
         String sqlOrdenesTrabajoCerradas1 = sqlOrdenesTrabajoCerradas;
         String sqlOrdenesTrabajoCerradas2 = sqlOrdenesTrabajoCerradas;
         
@@ -324,7 +325,7 @@
                 }
             }
             else if (chart.equals("anual")) {
-                registro = new String[]{"Enero","Febrero","Marzo","Abril","Mayor","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre",};
+                registro = new String[]{"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre",};
                 datos = new int[12];
                 for(int i=11; i >= 0; i--){
                     while(rsOrdenesTrabajoCerradas.next()){
@@ -432,7 +433,6 @@
                 ]
             <% } %>
         };
-        
         //var option = {animation: {duration: 5000}};
         var option = {scales: {yAxes: [{ ticks: {beginAtZero:true, fixedStepSize: 1}}]}};
         var myBarChart = Chart.Bar(canvas, {data: data, options: option});

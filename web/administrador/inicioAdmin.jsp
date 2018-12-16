@@ -137,11 +137,13 @@
                             <div class="card-content white-text">
                                 <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>, ha ingresado con la empresa <%= hs.getAttribute("nombreEmpresa") %></p>
                                 <br/>    
+                                <% if (hs.getAttribute("idUsuarioSesion").equals("0000000001")) {%>
                                 <p>Suscripciones</p>
                                 <div class="collection"> 
                                     <a  class="collection-item"><span class="green white-text badge white-text"><%= rsUsuariosRegistradosActivos.getString("cantidad") %></span>Vigentes</a>
                                     <a  class="collection-item"><span class="red  white-text badge"><%= rsSuscripcionesCaducadas.getString("cantidad") %></span>Expiradas</a>
                                 </div>
+                                <%}%>
                                 <p>Estadísticas Usuarios</p>
                                 <div class="collection">
                                     <a  class="collection-item"><span class="blue-grey darken-3 badge white-text"><%= rsUsuariosRegistrados.getString("cantidad") %></span>Registrados</a>

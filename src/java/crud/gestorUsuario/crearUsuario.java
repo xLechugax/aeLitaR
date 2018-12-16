@@ -152,12 +152,13 @@ public class crearUsuario extends HttpServlet {
 
                 String idUsuario = rsUsuario.getString("idUsuario");
 
-                String sql = "INSERT INTO trabaja (idEmpresa, idUsuario, activo, tipoCuenta) VALUES (?, ?, ?, ?)";
+                String sql = "INSERT INTO trabaja (idEmpresa, idUsuario, activo, tipoCuenta,area_departamento) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, idEmpresa);
                 pst.setString(2, idUsuario);
                 pst.setString(3, "N");
                 pst.setString(4, rol);
+                pst.setString(5, area_departamento);
                 pst.execute();
 
             } catch (SQLException e) {

@@ -18,7 +18,8 @@
         Connection conn = ConexionBD.getConexion();
         String sql = "select tarea.idTarea, DATE_FORMAT(tarea.fecha_fin, '%d/%m/%Y %T') as fecha_fin, tarea.fecha_inicio, orden_trabajo.importancia, usuario.nombreUsuario, estado.nombreEstado,tipo_tarea.nombreTipoTarea, orden_trabajo.nombreOrdenTrabajo"
                 + " from tarea,usuario,estado,orden_trabajo,tipo_tarea"
-                + " where tarea.usuario = usuario.idUsuario"
+                + " where tarea.idEmpresa = "+hs.getAttribute("idEmpresa")
+                + " and tarea.usuario = usuario.idUsuario"
                 + " and tarea.estadoTarea = estado.idEstado"
                 + " and tarea.idOrdenTrabajo = orden_trabajo.idOrdenTrabajo"
                 + " and tarea.idTipoTarea = tipo_tarea.idTipoTarea"
@@ -314,7 +315,7 @@
                 }
             }
             else if (chart.equals("anual")) {
-                registro = new String[]{"Enero","Febrero","Marzo","Abril","Mayor","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre",};
+                registro = new String[]{"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre",};
                 datos = new int[12];
                 for(int i=11; i >= 0; i--){
                     while(rsTareasCerradas.next()){

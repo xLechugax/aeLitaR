@@ -327,7 +327,7 @@
                 }
             }
             else if (chart.equals("anual")) {
-                registro = new String[]{"Enero","Febrero","Marzo","Abril","Mayor","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre",};
+                registro = new String[]{"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre",};
                 datos = new int[12];
                 for(int i=11; i >= 0; i--){
                     while(rsOrdenesTrabajoCerradas.next()){

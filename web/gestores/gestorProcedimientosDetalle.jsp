@@ -65,14 +65,21 @@
                             <div class="collapsible-header active"><i class="material-icons">filter_drama</i>Detalle del Procedimiento</div>
                             <div class="collapsible-body white">
                                 <% rsProcedimientoSeleccionado.next();%>
-                                Nombre:  <%= rsProcedimientoSeleccionado.getString("nombreProcedimiento")%><br/>
-                                Detalle: <%= rsProcedimientoSeleccionado.getString("detalleProcedimiento")%>
-                                Detalle: <%= hs.getAttribute("tipoCuenta")%>
+                                <table>
+                                    <tr>
+                                        <td><b>Nombre:</b></td>
+                                        <td><%= rsProcedimientoSeleccionado.getString("nombreProcedimiento")%></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Detalle:</b></td>
+                                        <td><%= rsProcedimientoSeleccionado.getString("detalleProcedimiento")%></td>
+                                    </tr>
+                                </table>
                             </div> 
                         </li>
                         <% if (hs.getAttribute("tipoCuenta").equals("Supervisor") || hs.getAttribute("tipoCuenta").equals("Administrador")) {%>
                         <li>
-                            <div class="collapsible-header"><i class="material-icons">place</i>Agregar Actividad</div>
+                            <div class="collapsible-header"><i class="material-icons">how_to_vote</i>Agregar Actividad</div>
                             <div class="collapsible-body white">
                                 <form action="/aeLita/gestorProcedimientosAgregarActividad" method="post">
                                     <input type="hidden" name="idProcedimiento" value="<%= idProcedimiento%>">
@@ -156,7 +163,7 @@
                             if (CantidadActividades >= 1) {%>
                         <% while (rsActividades.next()) {%>
                         <li>
-                            <div class="collapsible-header"><i class="material-icons">filter_drama</i><%= rsActividades.getString("nombreActividad")%></div>
+                            <div class="collapsible-header"><i class="material-icons">expand_more</i><%= rsActividades.getString("nombreActividad")%></div>
                             <div class="collapsible-body white"><span><%= rsActividades.getString("detalleActividad")%></span></div>
                         </li>
                         <%}%>

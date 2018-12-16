@@ -9,7 +9,7 @@
     String sql = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        sql = "update trabaja set area_departamento=? where idUsuario=? and idEmpresa=?";
+        sql = "update trabaja set trabaja.area_departamento=? where trabaja.idUsuario=? and trabaja.idEmpresa=?";
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, area_departamento);
         pst.setString(2, idUsuario);

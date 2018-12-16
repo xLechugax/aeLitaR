@@ -65,7 +65,9 @@
         Connection conn = ConexionBD.getConexion();
         Statement st = conn.createStatement();
 
-        String sql = "select usuario.idUsuario,usuario.rut,trabaja.activo,usuario.nombreUsuario, usuario.email, area_departamento.nombreAreaDepartamento, trabaja.tipoCuenta from usuario,trabaja,area_departamento where usuario.area_departamento=area_departamento.idAreaDepartamento and trabaja.idUsuario = usuario.idUsuario and trabaja.idEmpresa = " + idEmpresa + " and usuario.idUsuario > 1 ";
+        String sql = "select usuario.idUsuario,usuario.rut,trabaja.activo,usuario.nombreUsuario, usuario.email, area_departamento.nombreAreaDepartamento, trabaja.tipoCuenta from "
+                + "usuario,trabaja,area_departamento "
+                + "where trabaja.area_departamento=area_departamento.idAreaDepartamento and trabaja.idUsuario = usuario.idUsuario and trabaja.idEmpresa = " + idEmpresa + " and usuario.idUsuario > 1 ";
 
         // 2.- Aplicar un filtro de búsqueda si es necesario
         if (textobusqueda != null && tipobusqueda != null) {
@@ -305,22 +307,21 @@
 
                                             ResultSet rsUsuario = null;
                                             ResultSet rsAreaDepaEditar = null;
+                                            ResultSet rsAreaDepaPertenece = null;
                                             try {
                                                 Connection conn = ConexionBD.getConexion();
-                                                String sql = "select * from usuario where idUsuario=" + idUsuario;
-                                                PreparedStatement pst = conn.prepareStatement(sql);
-                                                rsUsuario = pst.executeQuery();
-                                                rsUsuario.next();
 
                                                 String sqlAreaDepa = "select * from area_departamento where area_departamento.idEmpresa=" + hs.getAttribute("idEmpresa") + " or area_departamento.idEmpresa=0";
                                                 PreparedStatement pstAreaDepa = conn.prepareStatement(sqlAreaDepa);
                                                 rsAreaDepaEditar = pstAreaDepa.executeQuery();
-
+                                                
                                             } catch (SQLException e) {
                                                 out.println("Excepción de SQL:" + e);
                                                 return;
                                             }
                                         %>
+                                        
+                                        
                                         <!-- Modal Trigger -->
                                         <a class="waves-effect waves-light btn modal-trigger blue-grey darken-3" href="#modalAreaDepartamento<%=rsUsuarios.getLong("idUsuario")%>"><%=rsUsuarios.getString("nombreAreaDepartamento")%></a>
 

@@ -90,6 +90,26 @@
         out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
         return;
     }
+    ResultSet rsUsuarioEjecutor2 = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  trabaja.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
+        PreparedStatement pstUsuariosEjecutores = conn.prepareStatement(sqlUsuariosEjecutores);
+        rsUsuarioEjecutor2 = pstUsuariosEjecutores.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
+        return;
+    }
+    ResultSet rsUsuarioEjecutor3 = null;
+    try {
+        Connection conn = ConexionBD.getConexion();
+        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  trabaja.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
+        PreparedStatement pstUsuariosEjecutores = conn.prepareStatement(sqlUsuariosEjecutores);
+        rsUsuarioEjecutor3 = pstUsuariosEjecutores.executeQuery();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
+        return;
+    }
     ResultSet rsTipoTarea = null;
     try {
         Connection conn = ConexionBD.getConexion();
@@ -312,59 +332,6 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><b>Fecha Inicio</b></td>
-                                        <td><%= rsOrdenTrabajo.getString("fecha_inicio")%></td> 
-                                    </tr>
-                                    <tr>
-                                        <td><b>Fecha Fin Compromiso</b></td>
-                                        <td><%= rsOrdenTrabajo.getString("fecha_compromiso")%></td> 
-                                    </tr>
-                                    <%if (!rsOrdenTrabajo.getString("estado").equals("00000000005")) {%>
-                                    <tr>
-                                        <td><b>Tiempo Transcurrido</b></td>
-                                        <td>
-                                            <%
-                                                ResultSet rsRealTranscurrido = null;
-                                                try {
-                                                    Connection conn = ConexionBD.getConexion();
-                                                    String sqlTiempo = "select FN_DEVOLVERTIEMPO(" + rsOrdenTrabajo.getString("tiempoRealTranscurrido") + ") as tiempoRealTranscurrido";
-                                                    PreparedStatement pstTiempoRestante = conn.prepareStatement(sqlTiempo);
-                                                    rsRealTranscurrido = pstTiempoRestante.executeQuery();
-                                                    rsRealTranscurrido.next();
-                                                } catch (SQLException e) {
-                                                    out.println("Excepción de SQL:" + e);
-                                                    return;
-                                                }
-                                            %><%= rsRealTranscurrido.getString("tiempoRealTranscurrido")%></td> 
-                                    </tr>
-                                    <tr>
-                                        <td><b>Tiempo Restante</b></td>
-                                        <td>
-                                            <%
-                                                ResultSet rsTiempoRestante = null;
-                                                try {
-                                                    Connection conn = ConexionBD.getConexion();
-                                                    String sqlTiempo = "select FN_DEVOLVERTIEMPO(" + rsOrdenTrabajo.getString("tiempoRestante") + ") as tiempoRestante";
-                                                    PreparedStatement pstTiempoRestante = conn.prepareStatement(sqlTiempo);
-                                                    rsTiempoRestante = pstTiempoRestante.executeQuery();
-                                                    rsTiempoRestante.next();
-                                                } catch (SQLException e) {
-                                                    out.println("Excepción de SQL:" + e);
-                                                    return;
-                                                }
-                                            %><%= rsTiempoRestante.getString("tiempoRestante")%></td> 
-                                    </tr>
-                                    <%} else {%>
-                                    <tr>
-                                        <td><b>Tiempo Transcurrido</b></td>
-                                        <td></td>
-                                    </tr>
-                                    <%}%>
-                                    <tr>
-                                        <td><b>Fecha Fin</b></td>
-                                        <td><% if (rsOrdenTrabajo.getString("fecha_fin") == null) {%> <p class="green-text">OT en proceso...</p> <%} else {%> <%=rsOrdenTrabajo.getString("fecha_fin")%> <%}%></td>
-                                    </tr>
-                                    <tr>
                                         <td><b>Estado</b></td>
                                         <td>
                                             <!-- Modal Trigger -->
@@ -530,6 +497,59 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td><b>Fecha Inicio</b></td>
+                                        <td><%= rsOrdenTrabajo.getString("fecha_inicio")%></td> 
+                                    </tr>
+                                    <tr>
+                                        <td><b>Fecha Fin Compromiso</b></td>
+                                        <td><%= rsOrdenTrabajo.getString("fecha_compromiso")%></td> 
+                                    </tr>
+                                    <%if (!rsOrdenTrabajo.getString("estado").equals("00000000005")) {%>
+                                    <tr>
+                                        <td><b>Tiempo Transcurrido</b></td>
+                                        <td>
+                                            <%
+                                                ResultSet rsRealTranscurrido = null;
+                                                try {
+                                                    Connection conn = ConexionBD.getConexion();
+                                                    String sqlTiempo = "select FN_DEVOLVERTIEMPO(" + rsOrdenTrabajo.getString("tiempoRealTranscurrido") + ") as tiempoRealTranscurrido";
+                                                    PreparedStatement pstTiempoRestante = conn.prepareStatement(sqlTiempo);
+                                                    rsRealTranscurrido = pstTiempoRestante.executeQuery();
+                                                    rsRealTranscurrido.next();
+                                                } catch (SQLException e) {
+                                                    out.println("Excepción de SQL:" + e);
+                                                    return;
+                                                }
+                                            %><%= rsRealTranscurrido.getString("tiempoRealTranscurrido")%></td> 
+                                    </tr>
+                                    <tr>
+                                        <td><b>Tiempo Restante</b></td>
+                                        <td>
+                                            <%
+                                                ResultSet rsTiempoRestante = null;
+                                                try {
+                                                    Connection conn = ConexionBD.getConexion();
+                                                    String sqlTiempo = "select FN_DEVOLVERTIEMPO(" + rsOrdenTrabajo.getString("tiempoRestante") + ") as tiempoRestante";
+                                                    PreparedStatement pstTiempoRestante = conn.prepareStatement(sqlTiempo);
+                                                    rsTiempoRestante = pstTiempoRestante.executeQuery();
+                                                    rsTiempoRestante.next();
+                                                } catch (SQLException e) {
+                                                    out.println("Excepción de SQL:" + e);
+                                                    return;
+                                                }
+                                            %><%= rsTiempoRestante.getString("tiempoRestante")%></td> 
+                                    </tr>
+                                    <%} else {%>
+                                    <tr>
+                                        <td><b>Tiempo Transcurrido</b></td>
+                                        <td></td>
+                                    </tr>
+                                    <%}%>
+                                    <tr>
+                                        <td><b>Fecha Fin</b></td>
+                                        <td><% if (rsOrdenTrabajo.getString("fecha_fin") == null) {%> <p class="green-text">OT en proceso...</p> <%} else {%> <%=rsOrdenTrabajo.getString("fecha_fin")%> <%}%></td>
+                                    </tr>
                                 </table>
                                 <b>Detalle:</b>
                                 <p><%= rsOrdenTrabajo.getString("detalleOrdenTrabajo")%></p>
@@ -558,8 +578,11 @@
                                             <tr>
                                                 <td><b>Ejecutor</b></td>
                                                 <td>
-                                                    <select disabled="" name="idEjecutorAsignar" required="">
+                                                    <select name="idEjecutorAsignar" required="">
                                                         <option value="" selected="" disabled="">Seleccione Ejecutor</option>
+                                                        <% while (rsUsuarioEjecutor2.next()) {%>                                                            
+                                                        <option value="<%= rsUsuarioEjecutor2.getString("idUsuario")%>"><%= rsUsuarioEjecutor2.getString("nombreUsuario")%></option>
+                                                        <%}%>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -594,8 +617,8 @@
                                                 <td>
                                                     <select name="idEjecutorAsignar" required="">
                                                         <option value="" selected="" disabled="">Seleccione Ejecutor</option>
-                                                        <% while (rsUsuarioEjecutor.next()) {%>                                                            
-                                                        <option value="<%= rsUsuarioEjecutor.getString("idUsuario")%>"><%= rsUsuarioEjecutor.getString("nombreUsuario")%></option>
+                                                        <% while (rsUsuarioEjecutor3.next()) {%>                                                            
+                                                        <option value="<%= rsUsuarioEjecutor3.getString("idUsuario")%>"><%= rsUsuarioEjecutor3.getString("nombreUsuario")%></option>
                                                         <%}%>
                                                     </select>
                                                 </td>
