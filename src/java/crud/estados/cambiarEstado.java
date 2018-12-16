@@ -53,7 +53,7 @@ public class cambiarEstado extends HttpServlet {
                 rsEstadoSeleccionado = pstEstadoSeleccionado.executeQuery();
                 rsEstadoSeleccionado.next();
                 String nombreEstado = rsEstadoSeleccionado.getString("nombreEstado");
-                String motivo = ""+hs.getAttribute("nombreUsuario")+" cambió la tarea al estado "+nombreEstado;
+                String motivo = ""+hs.getAttribute("nombreUsuario")+" cambió la tarea al estado "+nombreEstado+"";
                 String sql = "INSERT INTO cambio_estado (`motivo`, `idTarea`, `idEmpresa`) VALUES (?,?,?)";
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, motivo);

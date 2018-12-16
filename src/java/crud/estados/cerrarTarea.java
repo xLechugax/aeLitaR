@@ -56,7 +56,7 @@ public class cerrarTarea extends HttpServlet {
                 pstEventoDocumentarReactivar.setString(1, idOrdenTrabajo);
                 pstEventoDocumentarReactivar.setString(2, idTareaSeleccionada);
                 pstEventoDocumentarReactivar.setString(3, idEmpresa);
-                pstEventoDocumentarReactivar.setString(4, hs.getAttribute("nombreUsuario")+" cerró la tarea.");
+                pstEventoDocumentarReactivar.setString(4, ""+hs.getAttribute("nombreUsuario")+" cerró la tarea.");
                 pstEventoDocumentarReactivar.setString(5, "N");
                 pstEventoDocumentarReactivar.execute();
                 

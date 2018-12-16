@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crud;
+package crud.gestorOT;
 
 import bd.ConexionBD;
 import java.io.IOException;
@@ -25,8 +25,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Lechuga
  */
-@WebServlet(name = "cambiarUsuarioAsignadoTarea", urlPatterns = {"/cambiarUsuarioAsignadoTarea"})
-public class cambiarUsuarioAsignadoTarea extends HttpServlet {
+@WebServlet(name = "cambiarUsuarioSupervisorOT", urlPatterns = {"/cambiarUsuarioSupervisorOT"})
+public class cambiarUsuarioSupervisorOT extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,6 +36,7 @@ public class cambiarUsuarioAsignadoTarea extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -45,55 +46,52 @@ public class cambiarUsuarioAsignadoTarea extends HttpServlet {
             HttpSession hs = request.getSession(true);
 
             String idOrdenTrabajo = request.getParameter("idOT");
-            String idEmpresa = "" + hs.getAttribute("idEmpresa");
-            String idTarea = request.getParameter("idTarea");
-            String idNuevoUsuarioEjecutor = request.getParameter("idNuevoUsuarioEjecutor");
+            String idEmpresa = ""+hs.getAttribute("idEmpresa");
+            String idNuevoUsuarioSupervisor = request.getParameter("idNuevoUsuarioSupervisor");
 
-            ResultSet rsNombreTarea = null;
+            ResultSet rsNombreOrdenTrabajo = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sql = "select tipo_tarea.nombreTipoTarea from tarea,tipo_tarea where tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTarea;
+                String sql = "select orden_trabajo.nombreOrdenTrabajo from orden_trabajo where orden_trabajo.idOrdenTrabajo = "+idOrdenTrabajo;
                 PreparedStatement pst = conn.prepareStatement(sql);
-                rsNombreTarea = pst.executeQuery();
-                rsNombreTarea.next();
+                rsNombreOrdenTrabajo = pst.executeQuery();
+                rsNombreOrdenTrabajo.next();
             } catch (SQLException e) {
                 out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
                 return;
             }
-            ResultSet rsNombreEjecutor = null;
+            ResultSet rsNombreSupervisor = null;
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sql = "select usuario.nombreUsuario from tarea,usuario where tarea.usuario = usuario.idUsuario and tarea.idTarea = " + idTarea;
+                String sql = "select usuario.nombreUsuario as supervisor from orden_trabajo,usuario where orden_trabajo.supervisor = usuario.idUsuario and orden_trabajo.idOrdenTrabajo ="+idOrdenTrabajo;
                 PreparedStatement pst = conn.prepareStatement(sql);
-                rsNombreEjecutor = pst.executeQuery();
-                rsNombreEjecutor.next();
+                rsNombreSupervisor = pst.executeQuery();
+                rsNombreSupervisor.next();
             } catch (SQLException e) {
                 out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
                 return;
             }
-            String nombreEjecutor = rsNombreEjecutor.getString("nombreUsuario"); 
-            String nombreTarea = rsNombreTarea.getString("nombreTipoTarea");
-            String motivo = "" + hs.getAttribute("nombreUsuario") + " cambió el usuario de la tarea " + nombreTarea + " asignando al Ejecutor " + nombreEjecutor + "";
+            String nombreSupervisor = rsNombreSupervisor.getString("supervisor");
+            String nombreTarea = rsNombreOrdenTrabajo.getString("nombreOrdenTrabajo");
+            String motivo = hs.getAttribute("nombreUsuario") + " cambió el usuario de la Orden de trabajo " + nombreTarea + " asignando al Supervisor "+nombreSupervisor;
 
             try {
                 Connection conn = ConexionBD.getConexion();
-                String sql = "UPDATE aelita.tarea SET usuario=? WHERE  idTarea=?";
+                String sql = "UPDATE aelita.orden_trabajo SET supervisor=? WHERE  idOrdenTrabajo=?";
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, idNuevoUsuarioEjecutor);
-                pst.setString(2, idTarea);
+                pst.setString(1, idNuevoUsuarioSupervisor);
+                pst.setString(2, idOrdenTrabajo);
                 pst.execute();
 
-                String sqlAuditoria = "INSERT INTO cambio_estado (idOrdenTrabajo,idTarea,idEmpresa,motivo) VALUES (?,?,?,?)";
+                String sqlAuditoria = "INSERT INTO cambio_estado (idOrdenTrabajo,idEmpresa,motivo) VALUES (?,?,?)";
                 PreparedStatement pstAuditoria = conn.prepareStatement(sqlAuditoria);
                 pstAuditoria.setString(1, idOrdenTrabajo);
-                pstAuditoria.setString(2, idTarea);
-                pstAuditoria.setString(3, idEmpresa);
-                pstAuditoria.setString(4, motivo);
+                pstAuditoria.setString(2, idEmpresa);
+                pstAuditoria.setString(3, motivo);
                 pstAuditoria.execute();
 
-                response.sendRedirect("/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=" + idTarea);
-                return;
-            } catch (Exception e) {
+                response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT=" + idOrdenTrabajo);
+            } catch (IOException | SQLException e) {
                 out.println("Excepción de SQL:" + e);
             }
         }
@@ -114,7 +112,7 @@ public class cambiarUsuarioAsignadoTarea extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(cambiarUsuarioAsignadoTarea.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cambiarUsuarioSupervisorOT.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -132,7 +130,7 @@ public class cambiarUsuarioAsignadoTarea extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(cambiarUsuarioAsignadoTarea.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cambiarUsuarioSupervisorOT.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

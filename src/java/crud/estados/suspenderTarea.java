@@ -19,7 +19,7 @@ public class suspenderTarea extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession hs = request.getSession(false); 
+            HttpSession hs = request.getSession(false);
             String idEmpresa = request.getParameter("idEmpresa");
             //out.print(idEmpresa);
             //out.println("<br/>");
@@ -41,80 +41,90 @@ public class suspenderTarea extends HttpServlet {
             try {
                 Connection conn = ConexionBD.getConexion();
 
-                String sqlVerificarAhora = "SELECT IF('"+fecha_fin+"'<now(), 'Y', 'N') as verificador, now() as ahora";
+                String sqlVerificarAhora = "SELECT IF('" + fecha_fin + "'<now(), 'Y', 'N') as verificador, now() as ahora";
                 PreparedStatement pstVerificarAhora = conn.prepareStatement(sqlVerificarAhora);
                 ResultSet rsVerificarAhora = pstVerificarAhora.executeQuery();
                 rsVerificarAhora.next();
-                
-                if(rsVerificarAhora.getString("verificador").equals("Y")){
+
+                if (rsVerificarAhora.getString("verificador").equals("Y")) {
                     out.print("<head>");
-                        out.print("<meta http-equiv='Refresh' content='5;url=/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea="+idTareaSeleccionada+"&idEmpresa="+idEmpresa+"'/>");
-                        out.print("<link rel='stylesheet' type='text/css' href='/aeLita/css/materialize.min.css'><link>");
-                        out.print("<meta name='viewport' content='width=device-width, initial-scale=1.0' charset='iso-8859-1'/>");
+                    out.print("<meta http-equiv='Refresh' content='5;url=/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=" + idTareaSeleccionada + "&idEmpresa=" + idEmpresa + "'/>");
+                    out.print("<link rel='stylesheet' type='text/css' href='/aeLita/css/materialize.min.css'><link>");
+                    out.print("<meta name='viewport' content='width=device-width, initial-scale=1.0' charset='iso-8859-1'/>");
                     out.print("</head>");
                     out.print("<body class='blue-grey lighten-5'>");
-                        out.print("<br /><br /><br /><br /><br /><br /><br /><br />");
+                    out.print("<br /><br /><br /><br /><br /><br /><br /><br />");
                     out.print("<center>");
-                        out.print("<div class='row'>");
-                            out.print("<div class='col s12 m12'>");
-                                out.print("<div class='card blue-grey darken-1'>");
-                                    out.print("<div class='card-content white-text'>");
-                                        out.print("<span class='card-title'>¡Oh no!</span>");
-                                        out.print("<p>La fecha que ingresaste es menor a la fecha actual...</p>");
-                                    out.print("</div>");
-                                    out.print("<div class='card-action'>");
-                                    out.print("</div>");
-                                out.print("</div>");
-                            out.print("</div>");
-                        out.print("</div>");
+                    out.print("<div class='row'>");
+                    out.print("<div class='col s12 m12'>");
+                    out.print("<div class='card blue-grey darken-1'>");
+                    out.print("<div class='card-content white-text'>");
+                    out.print("<span class='card-title'>¡Oh no!</span>");
+                    out.print("<p>La fecha que ingresaste es menor a la fecha actual...</p>");
+                    out.print("</div>");
+                    out.print("<div class='card-action'>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</div>");
                     out.print("</center>");
-                out.print("</body>");
-                out.print("</html>");
+                    out.print("</body>");
+                    out.print("</html>");
                     return;
                 } else {
-                
-                int idEmpresaInt = Integer.parseInt(idEmpresa);
-                
-                //Activa de manera global los Eventos
-                String sqlActivarEventosEnMySQL = "SET GLOBAL event_scheduler = ON";
-                PreparedStatement pstActivarEventosEnMySQL = conn.prepareStatement(sqlActivarEventosEnMySQL);
-                pstActivarEventosEnMySQL.execute();
-                
-                //Crea el cambio de estado como suspensión
-                String sql = "INSERT INTO `aelita`.`cambio_estado` (`idOrdenTrabajo`, `idTarea`, `idEmpresa`, `motivo`, `fecha_realizacion`, `fecha_fin`, `suspension`, `identidad`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-                PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, idOrdenTrabajo);
-                pst.setString(2, idTareaSeleccionada);
-                pst.setString(3, idEmpresa);
-                pst.setString(4, "Suspendida: "+motivo);
-                pst.setString(5, "" + rsVerificarAhora.getString("ahora"));
-                pst.setString(6, fecha_fin);
-                pst.setString(7, "S");
-                pst.setString(8, identidad);
-                pst.execute();
-                
-                //Se cambia el estado de la tarea a suspendida
-                String sqlSuspenderTarea = "UPDATE `aelita`.`tarea` SET `estadoTarea`='3' WHERE  `idTarea`=?";
-                PreparedStatement pstSuspenderTarea = conn.prepareStatement(sqlSuspenderTarea);
-                pstSuspenderTarea.setString(1, idTareaSeleccionada);
-                pstSuspenderTarea.execute();
-                
-                //Crea un evento para reactivar la tarea
-                String sqlEventoReactivar = "CREATE EVENT A"+identidad+" ON SCHEDULE AT '"+fecha_fin+"' DO UPDATE tarea SET tarea.estadoTarea=2 WHERE tarea.idTarea="+idTareaSeleccionada;
-                PreparedStatement pstsqlEventoReactivar = conn.prepareStatement(sqlEventoReactivar);
-                pstsqlEventoReactivar.execute();
-                
-                
-                String sqlEventoDocumentarReactivar = "CREATE EVENT B"+identidad+" ON SCHEDULE AT '"+fecha_fin+"' DO INSERT INTO `aelita`.`cambio_estado` (`idOrdenTrabajo`, `idTarea`, `idEmpresa`, `motivo`,  `suspension`) VALUES (?, ?, ?, ?, ?)";
-                PreparedStatement pstEventoDocumentarReactivar = conn.prepareStatement(sqlEventoDocumentarReactivar);
-                pstEventoDocumentarReactivar.setString(1, idOrdenTrabajo);
-                pstEventoDocumentarReactivar.setString(2, idTareaSeleccionada);
-                pstEventoDocumentarReactivar.setString(3, idEmpresa);
-                pstEventoDocumentarReactivar.setString(4, "Cambio de estado automatico luego de Suspención");
-                pstEventoDocumentarReactivar.setString(5, "N");
-                pstEventoDocumentarReactivar.execute();
-                
-                response.sendRedirect("/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=" + idTareaSeleccionada);
+
+                    int idEmpresaInt = Integer.parseInt(idEmpresa);
+
+                    //Activa de manera global los Eventos
+                    String sqlActivarEventosEnMySQL = "SET GLOBAL event_scheduler = ON";
+                    PreparedStatement pstActivarEventosEnMySQL = conn.prepareStatement(sqlActivarEventosEnMySQL);
+                    pstActivarEventosEnMySQL.execute();
+
+                    ResultSet rsNombreTarea = null;
+                    try {
+                        String sql = "select tipo_tarea.nombreTipoTarea from tarea,tipo_tarea where tarea.idTipoTarea = tipo_tarea.idTipoTarea and tarea.idTarea =" + idTareaSeleccionada;
+                        PreparedStatement pst = conn.prepareStatement(sql);
+                        rsNombreTarea = pst.executeQuery();
+                        rsNombreTarea.next();
+                    } catch (SQLException e) {
+                        out.println("Excepción de SQL rsUsuarioEjecutor:" + e);
+                        return;
+                    }
+
+                    //Crea el cambio de estado como suspensión
+                    String sql = "INSERT INTO `aelita`.`cambio_estado` (`idOrdenTrabajo`, `idTarea`, `idEmpresa`, `motivo`, `fecha_realizacion`, `fecha_fin`, `suspension`, `identidad`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                    PreparedStatement pst = conn.prepareStatement(sql);
+                    pst.setString(1, idOrdenTrabajo);
+                    pst.setString(2, idTareaSeleccionada);
+                    pst.setString(3, idEmpresa);
+                    pst.setString(4, "" + hs.getAttribute("nombreUsuario") + " suspendió la tarea "+rsNombreTarea.getString("nombreTipoTarea")+" con el motivo: "+motivo);
+                    pst.setString(5, "" + rsVerificarAhora.getString("ahora"));
+                    pst.setString(6, fecha_fin);
+                    pst.setString(7, "S");
+                    pst.setString(8, identidad);
+                    pst.execute();
+
+                    //Se cambia el estado de la tarea a suspendida
+                    String sqlSuspenderTarea = "UPDATE `aelita`.`tarea` SET `estadoTarea`='3' WHERE  `idTarea`=?";
+                    PreparedStatement pstSuspenderTarea = conn.prepareStatement(sqlSuspenderTarea);
+                    pstSuspenderTarea.setString(1, idTareaSeleccionada);
+                    pstSuspenderTarea.execute();
+
+                    //Crea un evento para reactivar la tarea
+                    String sqlEventoReactivar = "CREATE EVENT A" + identidad + " ON SCHEDULE AT '" + fecha_fin + "' DO UPDATE tarea SET tarea.estadoTarea=2 WHERE tarea.idTarea=" + idTareaSeleccionada;
+                    PreparedStatement pstsqlEventoReactivar = conn.prepareStatement(sqlEventoReactivar);
+                    pstsqlEventoReactivar.execute();
+
+                    String sqlEventoDocumentarReactivar = "CREATE EVENT B" + identidad + " ON SCHEDULE AT '" + fecha_fin + "' DO INSERT INTO `aelita`.`cambio_estado` (`idOrdenTrabajo`, `idTarea`, `idEmpresa`, `motivo`,  `suspension`) VALUES (?, ?, ?, ?, ?)";
+                    PreparedStatement pstEventoDocumentarReactivar = conn.prepareStatement(sqlEventoDocumentarReactivar);
+                    pstEventoDocumentarReactivar.setString(1, idOrdenTrabajo);
+                    pstEventoDocumentarReactivar.setString(2, idTareaSeleccionada);
+                    pstEventoDocumentarReactivar.setString(3, idEmpresa);
+                    pstEventoDocumentarReactivar.setString(4, "Cambio de estado automatico a En Ejecuciónluego de periodo en Suspención");
+                    pstEventoDocumentarReactivar.setString(5, "N");
+                    pstEventoDocumentarReactivar.execute();
+
+                    response.sendRedirect("/aeLita/ejecutor/gestorTareasDetalle.jsp?idTarea=" + idTareaSeleccionada);
                 }
             } catch (Exception e) {
                 out.println("Excepción de SQL:" + e);

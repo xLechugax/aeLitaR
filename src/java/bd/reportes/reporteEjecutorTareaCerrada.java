@@ -291,7 +291,7 @@ public class reporteEjecutorTareaCerrada extends HttpServlet {
             
             Paragraph par6 = new Paragraph();
             Font FontCambios = new Font(Font.FontFamily.COURIER, 12, Font.BOLD, BaseColor.DARK_GRAY); //Da formato al texto
-            par6.add(new Phrase("\nCambios de estado", FontCambios)); //Da titulo al reporte
+            par6.add(new Phrase("\nCambios", FontCambios)); //Da titulo al reporte
             par6.setAlignment(Element.ALIGN_JUSTIFIED); //Alinea el Texto
             par6.add(new Phrase(Chunk.NEWLINE));
             par6.add(new Phrase(Chunk.NEWLINE));

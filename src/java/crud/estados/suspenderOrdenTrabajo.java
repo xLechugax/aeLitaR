@@ -97,7 +97,7 @@ public class suspenderOrdenTrabajo extends HttpServlet {
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, idOrdenTrabajo);
                 pst.setString(2, idEmpresa);
-                pst.setString(3, "Suspendida: "+motivo);
+                pst.setString(3, "" + hs.getAttribute("nombreUsuario") + " suspendió la OT con el motivo: "+motivo);
                 pst.setString(4, "" + rsVerificarAhora.getString("ahora"));
                 pst.setString(5, fecha_fin);
                 pst.setString(6, "S");
@@ -120,7 +120,7 @@ public class suspenderOrdenTrabajo extends HttpServlet {
                 PreparedStatement pstEventoDocumentarReactivar = conn.prepareStatement(sqlEventoDocumentarReactivar);
                 pstEventoDocumentarReactivar.setString(1, idOrdenTrabajo);
                 pstEventoDocumentarReactivar.setString(2, idEmpresa);
-                pstEventoDocumentarReactivar.setString(3, "Cambio de estado automático luego de  periodo en suspención");
+                pstEventoDocumentarReactivar.setString(3, "Cambio de estado automático a en Ejecución luego de  periodo en suspención");
                 pstEventoDocumentarReactivar.setString(4, "N");
                 pstEventoDocumentarReactivar.execute();
                 response.sendRedirect("/aeLita/supervisor/gestorOTDetalle.jsp?idOT="+idOrdenTrabajo);

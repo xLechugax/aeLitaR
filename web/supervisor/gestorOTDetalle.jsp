@@ -4,8 +4,7 @@
 <%@page import="java.sql.*,bd.*,javax.servlet.http.HttpSession"%>
 <%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@ include file="../accesoDenegadoOnlyADMSUPER.jsp" %> <!ACCESO PERMITIDO UNICAMENTE PARA LOS ADMINISTRADORES Y SUPERVISORES>
-<%    
-    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
+<%    String idOrdenTrabajoSeleccionada = request.getParameter("idOT");
     String idTipoTareaAsignar = request.getParameter("idtipoTareaAsignar");
     String idEjecutorAsignar = request.getParameter("idEjecutorAsignar");
     String comentarioOT = request.getParameter("comentarioOT");
@@ -84,7 +83,7 @@
     ResultSet rsUsuarioEjecutor = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  trabaja.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
+        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  trabaja.tipoCuenta= 'Supervisor' and  trabaja.idEmpresa =" + hs.getAttribute("idEmpresa");
         PreparedStatement pstUsuariosEjecutores = conn.prepareStatement(sqlUsuariosEjecutores);
         rsUsuarioEjecutor = pstUsuariosEjecutores.executeQuery();
     } catch (SQLException e) {
@@ -231,7 +230,7 @@
     String detalle = "";
     ImagenVO dataVO = new ImagenVO();
     gestorDataFile gdf = new gestorDataFile();
-    int idEmpresa = Integer.parseInt((""+hs.getAttribute("idEmpresa")));
+    int idEmpresa = Integer.parseInt(("" + hs.getAttribute("idEmpresa")));
     ArrayList<ImagenVO> listar = gdf.Listar_DataFile_idOT(Integer.parseInt(idOrdenTrabajoSeleccionada), idEmpresa);
 %>
 <!DOCTYPE html>
@@ -267,7 +266,50 @@
                                     </tr>    
                                     <tr>
                                         <td><b>Supervisor</b></td>
-                                        <td><%= rsOrdenTrabajo.getString("nombreUsuario")%></td>
+                                        <td><% if (rsOrdenTrabajo.getString("estado").equals("00000000005")) {%>
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsOrdenTrabajo.getString("nombreUsuario")%></a>
+                                            <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
+                                                <div class="modal-content">
+                                                    <h4>Cambiar usuario supervisor</h4>
+                                                    <p>Ya no es posible cambiar el supervisor de esta orden de trabajo, se encuentra cerrada.</p>
+                                                </div> 
+                                                <div class="modal-footer">
+                                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                </div>
+                                            </div> 
+                                            <% } else if (rsOrdenTrabajo.getString("estado").equals("00000000003")) {%>
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsOrdenTrabajo.getString("nombreUsuario")%></a>
+                                            <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
+                                                <div class="modal-content">
+                                                    <h4>Cambiar usuario supervisor</h4>
+                                                    <p>No es posible cambiar el supervisor de esta orden de trabajo, se encuentra cerrada.</p>
+                                                </div> 
+                                                <div class="modal-footer">
+                                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                </div>
+                                            </div> 
+                                            <% } else {%>
+                                            <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsOrdenTrabajo.getString("nombreUsuario")%></a>
+                                            <form method="get" action="/aeLita/cambiarUsuarioSupervisorOT">
+                                                <input type="hidden" name="idOT" value="<%= idOrdenTrabajoSeleccionada%>">
+                                                <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
+                                                    <div class="modal-content">
+                                                        <h4>Cambiar usuario supervisor</h4>
+                                                        <p>Seleccione el nuevo supervisor</p>
+                                                        <select id="idNuevoUsuarioEjecutor" name="idNuevoUsuarioSupervisor">
+                                                            <% while (rsUsuarioEjecutor.next()) {%>
+                                                            <option value="<%= rsUsuarioEjecutor.getString("idUsuario")%>" ><%= rsUsuarioEjecutor.getString("nombreUsuario")%></option>
+                                                            <%}%>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="left modal-close waves-effect waves-green btn-flat" value="Cambiar Supervisor"/>
+                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                    </div>
+                                                </div> 
+                                            </form>
+                                            <% }%>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td><b>Fecha Inicio</b></td>
@@ -366,7 +408,7 @@
                                                             </tbody>
                                                         </table>
                                                         <%} else {%>
-                                                        <p class="orange-text">No existen cambios de estado o suspensiones...</p>
+                                                        <p class="orange-text">No existen cambios o suspensiones...</p>
                                                         <%}%>
                                                     </div>
                                                     <div id="cambiarEstado" class="col s12">
@@ -624,12 +666,15 @@
 
                                     </tbody>
                                 </table>
+                                <% if (rsOrdenTrabajo.getString("estado").equals("00000000005")) {%>
+
+                                <%} else {%>
                                 <form action="/aeLita/ControllerImagen" enctype="MULTIPART/FORM-DATA" method="post" id="formfile">
                                     <input type="hidden" id="option" />
                                     <input type="hidden" name="idArchivo"  id="idArchivo"/>
                                     <input type="hidden" name="idProcedimiento" value="0" id="idProcedimiento"/>
                                     <input type="hidden" name="idTarea" value="0" id="idTarea">
-                                    <input type="hidden" name="idOT" value="<%= idOrdenTrabajoSeleccionada %>" id="idOT"/>
+                                    <input type="hidden" name="idOT" value="<%= idOrdenTrabajoSeleccionada%>" id="idOT"/>
                                     <div class="file-field input-field">
                                         <div class="btn">
                                             <span>File</span>
@@ -642,6 +687,7 @@
                                     <input  class="waves-effect waves-light btn right-align" type="submit" value="Cargar" />
                                     <a href="#" class="waves-effect waves-light btn right-align hide" id="cancel">Cancelar</a>
                                 </form>
+                                <%}%>
                             </div>
                         </li>
                         <li>

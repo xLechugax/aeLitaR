@@ -85,6 +85,16 @@ public class reporteSupervisorOrdenTrabajoCerrada extends HttpServlet {
                 System.out.println(e);
                 return;
             }
+            
+            ResultSet rsHistorico = null;
+            try {
+                Connection conn = ConexionBD.getConexion();
+                String sqlEstados = "select cambio_estado.idCambioEstado, cambio_estado.motivo, DATE_FORMAT(cambio_estado.fecha_realizacion, '%d/%m/%Y %T') as fecha_realizacion, cambio_estado.fecha_realizacion as fecha_realizacionOrdenar from cambio_estado where cambio_estado.idOrdenTrabajo =" + idOrdenTrabajoSeleccionada + " and cambio_estado.idEmpresa =" + idEmpresa + " order by fecha_realizacionOrdenar desc";
+                PreparedStatement pstEstados = conn.prepareStatement(sqlEstados);
+                rsHistorico = pstEstados.executeQuery();
+            } catch (SQLException e) {
+                return;
+            }
 
             Paragraph par1 = new Paragraph();
             Font fontTitulo = new Font(Font.FontFamily.COURIER, 16, Font.BOLD, BaseColor.DARK_GRAY); //Da formato al texto
@@ -164,7 +174,7 @@ public class reporteSupervisorOrdenTrabajoCerrada extends HttpServlet {
 
             Paragraph par4 = new Paragraph();
             Font fontAvances = new Font(Font.FontFamily.COURIER, 12, Font.NORMAL, BaseColor.BLACK); //Da formato al texto
-            par4.add(new Phrase("Tareas bajo la OT - " + rsOrdenTrabajo.getString("nombreOrdenTrabajo"), fontAvances)); //Da titulo al reporte
+            par4.add(new Phrase("Avances", fontAvances)); //Da titulo al reporte
             par4.setAlignment(Element.ALIGN_LEFT); //Alinea el Texto
             par4.add(new Phrase(Chunk.NEWLINE));
             par4.add(new Phrase(Chunk.NEWLINE));
@@ -186,6 +196,30 @@ public class reporteSupervisorOrdenTrabajoCerrada extends HttpServlet {
             }
             documento.add(tablaAvances);
 
+            Paragraph par6 = new Paragraph();
+            Font FontCambios = new Font(Font.FontFamily.COURIER, 12, Font.BOLD, BaseColor.DARK_GRAY); //Da formato al texto
+            par6.add(new Phrase("\nCambios", FontCambios)); //Da titulo al reporte
+            par6.setAlignment(Element.ALIGN_JUSTIFIED); //Alinea el Texto
+            par6.add(new Phrase(Chunk.NEWLINE));
+            par6.add(new Phrase(Chunk.NEWLINE));
+            documento.add(par6);
+
+            PdfPTable tablaCambiosEstados = new PdfPTable(3);
+            tablaCambiosEstados.setWidthPercentage(100); // Hace que la tabla ocupe todo el espacio a la izquierda y la derecha
+
+            PdfPCell celda1tablaCambiosEstados = new PdfPCell(new Paragraph("ID Log", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
+            PdfPCell celda2tablaCambiosEstados = new PdfPCell(new Paragraph("Motivo", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
+            PdfPCell celda3tablaCambiosEstados = new PdfPCell(new Paragraph("Fecha Realización", FontFactory.getFont("Courier", 12, Font.NORMAL, BaseColor.BLACK)));
+            tablaCambiosEstados.addCell(celda1tablaCambiosEstados);
+            tablaCambiosEstados.addCell(celda2tablaCambiosEstados);
+            tablaCambiosEstados.addCell(celda3tablaCambiosEstados);
+            while (rsHistorico.next()) {
+                tablaCambiosEstados.addCell(rsHistorico.getString("idCambioEstado"));
+                tablaCambiosEstados.addCell(rsHistorico.getString("motivo"));
+                tablaCambiosEstados.addCell(rsHistorico.getString("fecha_realizacion"));
+            }
+            documento.add(tablaCambiosEstados);
+            
             Paragraph par100 = new Paragraph();
             Font fontDetalle = new Font(Font.FontFamily.COURIER, 12, Font.NORMAL, BaseColor.DARK_GRAY); //Da formato al texto
             par100.add(new Phrase("Documento generado por motor de aeLita. El contenido de este informe es completa responsabilidad de quienes lo emiten. aeLita no es responsable de usos indebidos.", fontDetalle)); //Da titulo al reporte

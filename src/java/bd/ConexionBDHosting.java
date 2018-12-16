@@ -1,25 +1,22 @@
 package bd;
+
 import java.sql.*;
 
-public class ConexionBDHosting 
-{
-    private static String url = "jdbc:mysql://127.0.0.1:3306/aelita";
-    private static String user= "root";
-    private static String pass= "Teleco123";
+public class ConexionBDHosting {
+
+    private static String user = "soller99_user";
+    private static String pass = "soller99_user";
     private static Connection conn = null;
-    
+
     public static Connection getConexion() {
         try {
-            if(conn==null) {
-                Class.forName("com.mysql.jdbc.Driver");
-                conn = DriverManager.getConnection(url,user,pass);
-            }
-
-            return conn;
-        }
-        catch(Exception e) {
-            System.err.println("Excepción de Conexión de SQL: " + e);
-            return null;
+            Class.forName("com.mysql.jdbc.Driver");
+            String unicode = "useSSL=false&autoReconnect=true&useUnicode=yes&characterEncoding=UTF-8";
+            return DriverManager.getConnection("jdbc:mysql://mysql1005.mochahost.com/soller99_aelita?" + unicode, user, pass);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("couldn't connect!");
+            throw new RuntimeException(ex);
         }
     }
 }

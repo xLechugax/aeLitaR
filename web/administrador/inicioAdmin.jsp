@@ -25,16 +25,6 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
-    ResultSet rsOTCerradas = null;
-    try {
-        String sqlTareasCerradas = "select count(*) from orden_trabajo where orden_trabajo.supervisor = " + idUsuario + " and orden_trabajo.estado = 5 and orden_trabajo.idEmpresa = " + idEmpresa;
-        PreparedStatement pstTareasCerradas = conn.prepareStatement(sqlTareasCerradas);
-        rsOTCerradas = pstTareasCerradas.executeQuery();
-        rsOTCerradas.next();
-    } catch (SQLException e) {
-        out.println("Excepción de SQL:" + e);
-        return;
-    }
     ResultSet rsAvances = null;
     try {
         String sqlAvances = "select count(*) from avance where avance.idEmpresa = " + idEmpresa + " and avance.usuario = " + idUsuario;
@@ -75,6 +65,56 @@
         out.println("Excepción de SQL:" + e);
         return;
     }
+    ResultSet rsOTAbiertas = null;
+    try {
+        String sqlUsuariosRegistradosDesactivados = "select count(*) as cantidad from orden_trabajo where orden_trabajo.estado != 5 and orden_trabajo.idEmpresa = " + idEmpresa;
+        PreparedStatement pstUsuariosRegistradosDesactivados = conn.prepareStatement(sqlUsuariosRegistradosDesactivados);
+        rsOTAbiertas = pstUsuariosRegistradosDesactivados.executeQuery();
+        rsOTAbiertas.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsOTCerradas = null;
+    try {
+        String sqlTareasCerradas = "select count(*) as cantidad from orden_trabajo where orden_trabajo.estado = 5 and orden_trabajo.idEmpresa = " + idEmpresa;
+        PreparedStatement pstTareasCerradas = conn.prepareStatement(sqlTareasCerradas);
+        rsOTCerradas = pstTareasCerradas.executeQuery();
+        rsOTCerradas.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsSuscripciones = null;
+    try {
+        String sqlTareasCerradas = "select count(*) as cantidad from suscripcion";
+        PreparedStatement pstTareasCerradas = conn.prepareStatement(sqlTareasCerradas);
+        rsSuscripciones = pstTareasCerradas.executeQuery();
+        rsSuscripciones.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsSuscripcionesVigentes = null;
+    try {
+        String sqlTareasCerradas = "select count(*) as cantidad from suscripcion where suscripcion.fecha_fin > now()";
+        PreparedStatement pstTareasCerradas = conn.prepareStatement(sqlTareasCerradas);
+        rsSuscripcionesVigentes = pstTareasCerradas.executeQuery();
+        rsSuscripcionesVigentes.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
+    ResultSet rsSuscripcionesCaducadas = null;
+    try {
+        String sqlTareasCerradas = "select count(*) as cantidad from suscripcion where suscripcion.fecha_fin < now()";
+        PreparedStatement pstTareasCerradas = conn.prepareStatement(sqlTareasCerradas);
+        rsSuscripcionesCaducadas = pstTareasCerradas.executeQuery();
+        rsSuscripcionesCaducadas.next();
+    } catch (SQLException e) {
+        out.println("Excepción de SQL:" + e);
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -96,12 +136,22 @@
                         <div class="card blue-grey darken-1">
                             <div class="card-content white-text">
                                 <p>Bienvenido a æLita <%=hs.getAttribute("nombre")%>, ha ingresado con la empresa <%= hs.getAttribute("nombreEmpresa") %></p>
-                                <br/>
+                                <br/>    
+                                <p>Suscripciones</p>
+                                <div class="collection"> 
+                                    <a  class="collection-item"><span class="green white-text badge white-text"><%= rsUsuariosRegistradosActivos.getString("cantidad") %></span>Vigentes</a>
+                                    <a  class="collection-item"><span class="red  white-text badge"><%= rsSuscripcionesCaducadas.getString("cantidad") %></span>Expiradas</a>
+                                </div>
                                 <p>Estadísticas Usuarios</p>
                                 <div class="collection">
-                                    <a href="#!" class="collection-item"><span class="blue-grey darken-3 badge white-text"><%= rsUsuariosRegistrados.getString("cantidad") %></span>Usuarios Registrados</a>
-                                    <a href="#!" class="collection-item"><span class="green white-text badge white-text"><%= rsUsuariosRegistradosActivos.getString("cantidad") %></span>Usuarios Activados</a>
-                                    <a href="#!" class="collection-item"><span class="red  white-text badge"><%= rsUsuariosRegistradosDesactivados.getString("cantidad") %></span>Usuarios Desactivados</a>
+                                    <a  class="collection-item"><span class="blue-grey darken-3 badge white-text"><%= rsUsuariosRegistrados.getString("cantidad") %></span>Registrados</a>
+                                    <a  class="collection-item"><span class="green white-text badge white-text"><%= rsUsuariosRegistradosActivos.getString("cantidad") %></span>Activados</a>
+                                    <a  class="collection-item"><span class="grey  white-text badge"><%= rsUsuariosRegistradosDesactivados.getString("cantidad") %></span>Desactivados</a>
+                                </div>
+                                <p>Órdenes de Trabajo</p>
+                                <div class="collection">
+                                    <a  class="collection-item"><span class="green white-text badge white-text"><%= rsOTAbiertas.getString("cantidad") %></span>En Atención</a>
+                                    <a  class="collection-item"><span class="blue-grey darken-3 badge white-text"><%= rsOTCerradas.getString("cantidad") %></span>Cerradas</a>
                                 </div>
                             </div>
                         </div>

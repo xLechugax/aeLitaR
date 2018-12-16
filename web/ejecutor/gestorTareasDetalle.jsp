@@ -95,7 +95,7 @@
     ResultSet rsUsuarioEjecutor = null;
     try {
         Connection conn = ConexionBD.getConexion();
-        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  trabaja.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + idEmpresa;
+        String sqlUsuariosEjecutores = "select usuario.idUsuario, usuario.nombreUsuario from usuario,trabaja where trabaja.idUsuario = usuario.idUsuario and  trabaja.tipoCuenta= 'Ejecutor' and  trabaja.idEmpresa =" + idEmpresa+" and trabaja.activo = 'S'";
         PreparedStatement pstUsuariosEjecutores = conn.prepareStatement(sqlUsuariosEjecutores);
         rsUsuarioEjecutor = pstUsuariosEjecutores.executeQuery();
     } catch (SQLException e) {
@@ -200,34 +200,31 @@
                                         <td>
                                             <% if (rsOrdenTrabajo.getString("estado").equals("00000000005")) {%>
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
-                                            <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
-                                                <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
-                                                    <div class="modal-content">
-                                                        <h4>Cambiar usuario asignado</h4>
-                                                        <p>Ya no es posible cambiar el asignado de esta tarea, la orden de trabajo se encuentra cerrada.</p>
-                                                    </div> 
-                                                    <div class="modal-footer">
-                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                    </div>
+                                            <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
+                                                <div class="modal-content">
+                                                    <h4>Cambiar usuario asignado</h4>
+                                                    <p>Ya no es posible cambiar el asignado de esta tarea, la orden de trabajo se encuentra cerrada.</p>
                                                 </div> 
-                                            </form>
+                                                <div class="modal-footer">
+                                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                </div>
+                                            </div> 
                                             <% } else if (rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
-                                            <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
-                                                <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
-                                                    <div class="modal-content">
-                                                        <h4>Cambiar usuario asignado</h4>
-                                                        <p>Ya no es posible cambiar el asignado de esta tarea, se encuentra cerrada.</p>
-                                                    </div> 
-                                                    <div class="modal-footer">
-                                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
-                                                    </div>
+                                            <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
+                                                <div class="modal-content">
+                                                    <h4>Cambiar usuario asignado</h4>
+                                                    <p>Ya no es posible cambiar el asignado de esta tarea, se encuentra cerrada.</p>
                                                 </div> 
-                                            </form>
+                                                <div class="modal-footer">
+                                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir...</a>
+                                                </div>
+                                            </div> 
                                             <% } else {%>
                                             <a class="waves-effect waves-light btn-flat modal-trigger  blue-grey darken-1 white-text" href="#ModalCambiarAsignadoTarea"><%= rsTareaSeleccionada.getString("nombreUsuario")%></a>
                                             <form method="get" action="/aeLita/cambiarUsuarioAsignadoTarea">
                                                 <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada%>">
+                                                <input type="hidden" name="idOT" value="<%= idOrdenTrabajo %>">
                                                 <div id="ModalCambiarAsignadoTarea" class="modal modal-fixed-footer">
                                                     <div class="modal-content">
                                                         <h4>Cambiar usuario asignado</h4>
@@ -544,24 +541,29 @@
 
                                     </tbody>
                                 </table>
-                                <form action="/aeLita/ControllerImagen" enctype="MULTIPART/FORM-DATA" method="post" id="formfile">
-                                    <input type="hidden" id="option" />
-                                    <input type="hidden" name="idArchivo"  id="idArchivo"/>
-                                    <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada %>" id="idTarea"/>
-                                    <input type="hidden" name="idOT" value="0" id="idOT"/>
-                                    <input type="hidden" name="idProcedimiento" value="0" id="idProcedimiento"/>
-                                    <div class="file-field input-field">
-                                        <div class="btn">
-                                            <span>File</span>
-                                            <input type="file" name="file">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                    <input  class="waves-effect waves-light btn right-align" type="submit" value="Cargar" />
-                                    <a href="#" class="waves-effect waves-light btn right-align hide" id="cancel">Cancelar</a>
-                                </form>
+                                        <% if(rsTareaSeleccionada.getString("estadoTarea").equals("00000000005")) {%>
+                                            
+                                        <%} else {%>
+
+                                        <form action="/aeLita/ControllerImagen" enctype="MULTIPART/FORM-DATA" method="post" id="formfile">
+                                            <input type="hidden" id="option" />
+                                            <input type="hidden" name="idArchivo"  id="idArchivo"/>
+                                            <input type="hidden" name="idTarea" value="<%= idTareaSeleccionada%>" id="idTarea"/>
+                                            <input type="hidden" name="idOT" value="0" id="idOT"/>
+                                            <input type="hidden" name="idProcedimiento" value="0" id="idProcedimiento"/>
+                                            <div class="file-field input-field">
+                                                <div class="btn">
+                                                    <span>File</span>
+                                                    <input type="file" name="file">
+                                                </div>
+                                                <div class="file-path-wrapper">
+                                                    <input class="file-path validate" type="text">
+                                                </div>
+                                            </div>
+                                            <input  class="waves-effect waves-light btn right-align" type="submit" value="Cargar" />
+                                            <a href="#" class="waves-effect waves-light btn right-align hide" id="cancel">Cancelar</a>
+                                        </form>
+                                        <%}%>
                             </div>
                         </li>
                         <% if (rsTareaSeleccionada.getString("idProcedimiento").equals("0")) {%>
